@@ -15,6 +15,7 @@ namespace THOK.Wms.Repository
 		public AuthorizeContext()
 			: base("Name=AuthorizeContext")
 		{
+                 
 		}
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

@@ -28,9 +28,9 @@ namespace WMS.Controllers.ServerAdmin
         // GET: /City/Details/
         public ActionResult Details(int page, int rows,FormCollection collection)
         {
-            string cityName = collection["CITY_NAME"] ?? "";
-            string description = collection["DESCRIPTION"] ?? "";
-            string isActive = collection["IS_ACTIVE"] ?? "";
+            string cityName = collection["CityName"] ?? "";
+            string description = collection["Description"] ?? "";
+            string isActive = collection["IsActive"] ?? "";
             string username = collection["username"] ?? "";
             var users = CityService.GetDetails(page, rows, cityName, description,isActive);
             return Json(users, "text", JsonRequestBehavior.AllowGet);
