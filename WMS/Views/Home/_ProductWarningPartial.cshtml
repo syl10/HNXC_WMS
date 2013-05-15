@@ -1,0 +1,15 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $.getJSON('/ProductWarning/GetWarningPrompt/', function (data) {
+            if (data > 0) {
+                $.messager.show({
+                    timeout: 0,
+                    width: 300,
+                    height: 130,
+                    title: '预警信息提示',
+                    msg: '有' + '<span style="color:red;">' + data + '</span>' + '条预警信息！请进入产品质量管理页面进行查看！'
+                });
+            }
+        })
+    });
+</script>

@@ -1,0 +1,112 @@
+﻿<script type="text/javascript">
+    var fatherContentID;
+    var S_moduleID;
+    function searchClick() {
+        $('#isActive').combo({
+            editable: false,
+            panelHeight: 65,
+            panelWidth: 130
+        });
+        $('#dlg-search').dialog('open').dialog('setTitle', '帮助目录查询');
+        $("input[type=text]").attr("value", "");
+        $('#nodeType').combo('setValue', "");
+        $('#status').combo('setValue', "");
+        fatherContentID = "";
+        S_moduleID = "";
+    };
+
+    function S_select() {
+        var queryParams = $('#details').datagrid('options').queryParams;
+        queryParams.ContentCode = $('#contentCode').val();
+        queryParams.ContentName = $('#contentName').val();
+        queryParams.NodeType = $('#nodeType').combo('getValue');
+        queryParams.FatherContentID = fatherContentID;
+        queryParams.ModuleID = S_moduleID;
+        queryParams.IsActive = $('#status').combo('getValue');
+        $('#details').datagrid('options').queryParams = queryParams;
+        $('#details').datagrid({
+            pageNumber: 1,
+            pageSize: 50
+        });
+        $("#masters").datagrid('reload');
+        $('#dlg-search').dialog('close');
+    }
+    function helpSelect3() {
+        $('#helpData2').dialog('open').dialog('setTitle', '选择模块信息');
+        $('#helpDetail2').datagrid({ url: '/Module/Details2/' });
+        $("#helpDetail2").datagrid('reload');
+    }
+    function helpSelect4() {
+        $('#helpData1').dialog('open').dialog('setTitle', '选择父结点');
+        $('#helpDetail1').datagrid({ url: '/HelpContent/Details/' });
+        $("#helpDetail1").datagrid('reload');
+    }
+</script>
+<div id="dlg-search" class="easyui-dialog" modal="true" style="width: 280px; height: 290px;
+    padding: 2px 2px" closed="true" buttons="#dlg-buttons-research">
+    <div class="easyui-layout" fit="true">
+        <div region="center" border="false" style="padding: 10px 10px; background: #fff;
+            border: 1px solid #ccc;">
+            <table width="240">
+                <tr>
+                <td width="60">目录编码:</td>
+                <td><input id="contentCode" type="text"></td>
+                </tr>
+                <tr style="padding-top:10px;">
+                   <td width="60">目录名称:</td>
+                   <td align="left">      
+		               <input type="text" id="contentName"/>
+	               </td>
+              </tr>
+              <tr>
+                <td width="60">节点类型:</td>
+                    <td>
+                        <select id="nodeType" class="easyui-combobox">
+                            <option value="">请选择</option>
+                            <option value="1">第一节点</option>
+                            <option value="2">中间节点</option>
+                            <option value="3">末级节点</option>
+                        </select>
+                    </td>
+              </tr>
+              <tr style="padding-top:10px;">
+                <td width="60">父节点:</td>
+                <td>
+                    <input id="father_Content" type="text"/>
+                    <a href="#" id="S_father_ContentSearch" class="easyui-linkbutton" iconcls="icon-search"
+                        plain="true" onclick="helpSelect4()"></a>
+                 </td>
+              </tr>
+                <tr>
+                    <td width="60">
+                        所属模块：
+                    </td>
+                    <td width="168">
+                        <input id="module" type="text"/>
+                        <a href="#" id="S_module_IDSearch" class="easyui-linkbutton" iconcls="icon-search"
+                            plain="true" onclick="helpSelect3()"></a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        是否可用：
+                    </td>
+                    <td>
+                        <select id="status" class="easyui-combobox">
+                            <option value="">请选择</option>
+                            <option value="1">可用</option>
+                            <option value="0">不可用</option>
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="dlg-buttons-research">
+    <a href="#" class="easyui-linkbutton" iconcls="icon-ok" onclick="S_select()">查询</a>
+    <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">
+        取消</a>
+</div>
+@Html.Partial("_helpPartial1") 
+@Html.Partial("_helpPartial2") 

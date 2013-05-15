@@ -1,0 +1,25 @@
+﻿<script type="text/javascript">
+    $(function () {
+
+    });
+</script>
+<div region="center" split="true"  border="false">    
+    <table id="details" class="easyui-datagrid" url="/HelpContent/Details2/" border="false" singleSelect="true" pageSize="50"
+        fit="true" toolbar="#tool"  pagination="true" rownumbers="true" >
+        <thead>
+			<tr>
+                <th field="ID"  width="100" hidden="true">ID</th>
+                <th field="ContentCode" width="100">目录编码</th>
+                <th field="ContentName" width="120">目录名称</th>
+                <th field="ContentPath" width="120">目录路径</th>
+                <th field="NodeType" width="100">节点类型</th>
+                <th field="FatherNodeName" width="120" >上级目录</th>
+                <th field="ModuleID"  width="120" hidden="true">模块ID</th>
+                <th field="ModuleName"  width="100">模块名称</th>
+                <th field="NodeOrder" width="80">节点顺序</th>
+                <th field="IsActive" width="100" >是否可用</th>
+                <th field="UpdateTime" width="140" >更新时间</th>
+            </tr>
+		</thead>
+	</table>
+</div>

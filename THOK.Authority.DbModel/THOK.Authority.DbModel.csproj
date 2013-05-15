@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F7EB9C5D-6082-4DE6-B1C0-740AFF0CFE11}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>THOK.Authority.DbModel</RootNamespace>
+    <AssemblyName>THOK.Authority.DbModel</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Devtalk.EF.CodeFirst, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EFCodeFirst.CreateTablesOnly.1.0.2\lib\Devtalk.EF.CodeFirst.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=4.1.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\EntityFramework.4.1.10715.0\lib\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WebActivator, Version=1.4.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivator.1.4.4\lib\net40\WebActivator.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\DontDropDbJustCreateTablesIfModelChangedStart.cs" />
+    <Compile Include="Models\AUTH_CITY.cs" />
+    <Compile Include="Models\AUTH_EXCEPTIONAL_LOG.cs" />
+    <Compile Include="Models\AUTH_FUNCTION.cs" />
+    <Compile Include="Models\AUTH_HELP_CONTENT.cs" />
+    <Compile Include="Models\AUTH_LOGIN_LOG.cs" />
+    <Compile Include="Models\AUTH_MODULE.cs" />
+    <Compile Include="Models\AUTH_ROLE.cs" />
+    <Compile Include="Models\AUTH_ROLE_FUNCTION.cs" />
+    <Compile Include="Models\AUTH_ROLE_MODULE.cs" />
+    <Compile Include="Models\AUTH_ROLE_SYSTEM.cs" />
+    <Compile Include="Models\AUTH_SERVER.cs" />
+    <Compile Include="Models\AUTH_SYSTEM.cs" />
+    <Compile Include="Models\AUTH_SYSTEM_EVENT_LOG.cs" />
+    <Compile Include="Models\AUTH_SYSTEM_PARAMETER.cs" />
+    <Compile Include="Models\AUTH_USER.cs" />
+    <Compile Include="Models\AUTH_USER_FUNCTION.cs" />
+    <Compile Include="Models\AUTH_USER_MODULE.cs" />
+    <Compile Include="Models\AUTH_USER_ROLE.cs" />
+    <Compile Include="Models\AUTH_USER_SYSTEM.cs" />
+    <Compile Include="Models\Context.cs" />
+    <Compile Include="Models\Mapping\AUTH_CITYMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_EXCEPTIONAL_LOGMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_FUNCTIONMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_HELP_CONTENTMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_LOGIN_LOGMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_MODULEMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_ROLEMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_ROLE_FUNCTIONMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_ROLE_MODULEMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_ROLE_SYSTEMMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_SERVERMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_SYSTEMMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_SYSTEM_EVENT_LOGMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_SYSTEM_PARAMETERMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_USERMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_USER_FUNCTIONMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_USER_MODULEMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_USER_ROLEMap.cs" />
+    <Compile Include="Models\Mapping\AUTH_USER_SYSTEMMap.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\THOK.Common.Ef\THOK.Common.Ef.csproj">
+      <Project>{59FB8EB5-F5B8-4423-8550-A7819C855CDE}</Project>
+      <Name>THOK.Common.Ef</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="CodeTemplates\ReverseEngineerCodeFirst\Context.tt" />
+    <None Include="CodeTemplates\ReverseEngineerCodeFirst\Entity.tt" />
+    <None Include="CodeTemplates\ReverseEngineerCodeFirst\Mapping.tt" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

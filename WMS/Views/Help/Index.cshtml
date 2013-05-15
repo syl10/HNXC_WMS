@@ -1,0 +1,24 @@
+﻿<script type="text/javascript">
+    var Help_Text;
+    window.onload = function () {
+        $('#helpTree').tree({
+            onClick: function (node) {
+                if (node) {
+                    helpID = node.attributes.AttributeId;
+                    $.getJSON("/HelpEdit/GetContentTxt/", { 'helpId': helpID }, function (helpContent) {
+                        Help_Text = helpContent.ContentText;
+                        $('#text').text("");
+                        $(Help_Text).appendTo('#text');
+                    });
+                }
+            }
+        });
+
+    };
+    </script>
+<div id="sidebar" region="west" split="true"  style="width: 220px; overflow: scroll; padding: 1px; margin: 1px">
+    <ul id="helpTree" class="easyui-tree" url='/HelpEdit/GetHelpContent/'></ul>
+</div>
+<div region="center" id="help_content" split="true" border="false" style="border-bottom-style: solid; width: 600px; height:900px border-bottom-width: 1px; border-bottom-color: #99BBE8">
+   <div id="text"></div>
+</div>

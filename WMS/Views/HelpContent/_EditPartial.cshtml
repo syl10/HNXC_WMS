@@ -1,0 +1,24 @@
+﻿<script type="text/javascript">
+    function editClick() {
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            $('#dlg').dialog('open').dialog('setTitle', '编辑目录信息');
+            $('#helpfm.easyui-validatebox').validatebox({
+                required:  true
+            });
+            $('form input').removeAttr("disabled");
+            $('#IsActive').combo({
+                hasDownArrow: true
+            });
+            $('#helpfm').form('load', row);
+            if (row.IsActive == "可用") {
+                $('#H_isActive').combo('setValue', 1).combo('setText', row.IsActive);
+            } else {
+                $('#H_isActive').combo('setValue', 0).combo('setText', row.IsActive);
+            }
+            url = '/HelpContent/Edit/';
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    }
+</script>

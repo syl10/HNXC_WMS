@@ -1,0 +1,32 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $('#details').datagrid({ url: '/ParameterSet/GetSystemParameter/' });
+    })
+</script>
+<div region="center" split="true" border="false">
+    <table id="details" class="easyui-datagrid" border="false" singleselect="true" fit="true"
+        fitcolumns="true" pagination="true" pagesize="50" rownumbers="true" toolbar="#tool">
+        <thead>
+            <tr>
+                <th field="Id" hidden="true">
+                    ID
+                </th>
+                <th field="ParameterName" width="80">
+                    参数名称
+                </th>
+                <th field="ParameterValue" width="80">
+                    参数值
+                </th>
+                <th field="Remark" width="80">
+                    备注
+                </th>
+                <th field="UserName" width="80">
+                    用户名
+                </th>
+                <th field="SystemName" width="80">
+                    系统名称
+                </th>
+            </tr>
+        </thead>
+    </table>
+</div>

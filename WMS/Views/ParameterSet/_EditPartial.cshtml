@@ -1,0 +1,16 @@
+﻿<script type="text/javascript">
+    function editClick() {
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            $('#dlg-add').dialog('open').dialog('setTitle', '编辑');
+            $('#fm').form('load', row);
+            $('#fm .easyui-validatebox').validatebox({
+                required: true
+            });
+            $('form input').removeAttr("disabled");
+            url = '/ParameterSet/SetSystemParameter/';
+        } else {
+            $.messager.alert('错误', '没有选择行！');
+        }
+    }
+</script>

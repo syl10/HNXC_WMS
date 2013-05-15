@@ -1,0 +1,49 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $('#tbSystem').datagrid({
+            //双击赋值
+            onDblClickRow: function () {
+                systemNameSave();
+            }
+        })
+    });
+    function systemNameSave() {
+        var row = $('#tbSystem').datagrid('getSelected');
+        if (row) {
+            $('input[name=SystemID]').val(row.SystemID);
+            $('input[name=SystemName]').val(row.SystemName);
+            $('#dlg-system').dialog('close');
+        }
+        else {
+            $.messager.alert('提示', '没有选择行!', 'info');
+        }
+    }
+</script>
+<div id="dlg-system" class="easyui-dialog" style="width: 500px; height: 420px; padding: 0px 0px"
+    closed="true" modal="true" buttons="#dlg-system-buttons">
+    <div split="true" border="false" style="width: 486px; height: 320px;">
+        <table id="tbSystem" class="easyui-datagrid" border="false" singleselect="true" fit="true"
+            fitcolumns="true" pagination="true" rownumbers="true" toolbar="#btn-query">
+            <thead>
+                <tr>
+                    <th field="SystemID" hidden="true">
+                    </th>
+                    <th field="SystemName" width="200px">
+                        系统名称
+                    </th>
+                    <th field="Description" width="200px">
+                        系统描述
+                    </th>
+                    <th field="Status" width="80px">
+                        是否可用
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+    <div id="dlg-system-buttons" style="float: right; margin-top: 10px; margin-right: 10px;">
+        <a href="#" class="easyui-linkbutton" iconcls="icon-ok" onclick="systemNameSave()">确定</a>
+        <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" onclick="javascript:$('#dlg-system').dialog('close')">
+            取消 </a>
+    </div>
+</div>

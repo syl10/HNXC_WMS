@@ -1,0 +1,117 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $('#changeCity').click(function () {
+            $('#cg-changecity').combogrid('setValue', '').combo('setText', '');
+            $('#dlg-changecity').dialog('open').dialog('setTitle', '切换地市');
+        });
+    })
+    function changeCityClick() {
+        refreshs();
+        init_changecity();
+    }
+    function refresh() {
+        var ipAdress = document.getElementById('ipAdress').value;
+        var userName = document.getElementById('userNames').value;
+        $.getJSON('/User/GetUserIp/?userName=' + userName, function (data) {
+            if (data != ipAdress) {
+                alert('此账户已经在其他地方登录，本处登陆已经失效！');
+                $.messager.show({
+                    timeout: 0,
+                    width: 300,
+                    height: 130,
+                    title: '登陆账号失效！',
+                    msg: '此账户已经在其他地方登录，本处登陆已经失效！'
+                });
+                location.href = '/Account/LogOff';
+            }
+            else {
+                $.getJSON('/User/DeleteUserIp/?userName=' + userName, function (data) {
+                    if (data) {
+                        location.href = '/Account/LogOff';
+                    }
+                })
+            }
+        });
+    }
+  
+    function refreshs() {
+        var ipAdress = document.getElementById('ipAdress').value;
+        var userName = document.getElementById('userNames').value;
+        $.getJSON('/User/GetUserIp/?userName=' + userName, function (data) {
+            if (data != ipAdress) {
+                alert('此账户已经在其他地方登录，本处登陆已经失效！');
+                $.messager.show({
+                    timeout: 0,
+                    width: 300,
+                    height: 130,
+                    title: '登陆账号失效！',
+                    msg: '此账户已经在其他地方登录，本处登陆已经失效！'
+                });
+                location.href = '/Account/LogOff';
+            }
+        })
+    }
+    function init_changecity() {
+        $('#cg-changecity').combogrid({
+            width: 180,
+            panelWidth: 450,
+            url: '/City/GetDetailsCity/',
+            idField: 'CityID',
+            textField: 'CityName',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+					{ field: 'CityID', title: '地市ID', hidden: true, width: 30 },
+					{ field: 'CityName', title: '地市名称', align: 'left', width: 40 },
+					{ field: 'Description', title: '描述', align: 'left', width: 30 },
+					{ field: 'Status', title: '状态', align: 'left', width: 30 }
+				]]
+        });
+    }
+
+    function changeToCity() {
+        $('#fm-changecity').form('submit', {
+            url: '/Account/ChangeServer/?FunID=EEB02601-9BF6-412F-A63E-92857BF38638',
+            onSubmit: function () {
+                return $(this).form('validate');
+            },
+            success: function (result) {
+                var result = eval('(' + result + ')');
+                if (result.success) {
+                    $.messager.show({
+                        title: '系统提示',
+                        msg: result.msg
+                    });
+                    $('#dlg-changecity').dialog('close');
+                    location.href = result.data;
+                    return;
+                } else {
+                    $.messager.confirm('系统提示', result.msg);
+                    return;
+                }
+            }
+        });
+    }
+</script>
+<div id="dlg-changecity" class="easyui-dialog" modal="true" style="width:290px;height:140px;padding:2px 2px"
+		closed="true" buttons="#dlg-buttons-changecity">
+    <div class="easyui-layout" fit="true">
+        <div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >   
+            <form id="fm-changecity" method="post">
+                <table width="250">
+                  <tr>
+				        <td>地市</td>
+				        <td colspan="3"align="left">
+                        <input name="CityID" type="text" id="cg-changecity" />                               
+                        </td>
+                  </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="dlg-buttons-changecity">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="changeToCity()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-changecity').dialog('close')">取消</a>
+</div>

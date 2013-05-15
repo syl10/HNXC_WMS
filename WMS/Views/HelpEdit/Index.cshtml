@@ -1,0 +1,65 @@
+﻿<script type="text/javascript" src="/Content/Scripts/ckeditor/ckeditor.js"></script>
+<script type="text/javascript" src="/Content/Scripts/ckfinder/ckfinder.js"></script>
+
+<script type="text/javascript">
+    this.ValidateRequest = false;
+    var helpID;
+    var aaa;
+    var HelpTxt;
+    window.onload = function () {
+        //var inputs = document.getElementsByTagName("editor01");
+        CKEDITOR.replace('editor01');
+        $('#helpTree').tree({
+            onClick: function (node) {
+                if (node) {
+                    helpID = node.attributes.AttributeId;
+                    $.getJSON("/HelpEdit/GetSingleContentTxt/", { 'helpId': helpID }, function (helpContent) {
+                        $('#helpId').val(helpID);
+                        HelpTxt = helpContent.ContentText;
+                        $('#helpId').val(helpID);
+                        CKEDITOR.instances["editor01"].destroy();
+                        $('#editor01').val(HelpTxt);
+                        CKEDITOR.replace('editor01');
+                    });
+
+                    //                var helpId = node.attributes.AttributeId;
+                    //               // var HelpTxt;
+                    //                //var HelpTxt = $.ajaxSender.send('/HelpEdit/GetContentTxt/', { 'helpId': helpId }).toString();
+                    //                //alert(HelpTxt);
+                    //                var AttributeTxt = node.attributes.AttributeTxt;
+
+                    //                //                window.location.href = "/HelpEdit/GetContentTxt/?helpId=" + helpId;
+                    //                //                var HelpTxt = window.location.href;
+
+                    ////                $.getJSON("/HelpEdit/GetContentTxt/", { 'helpId': helpId }, function (helpContent) {
+                    ////                    HelpTxt = (helpContent.ContentText);
+                    ////                    //alert(helpContent.ContentText);
+                    //                //                });
+                    //                //alert(AttributeTxt);
+                    //                $('#helpId').val(helpID);
+                    //                CKEDITOR.instances["editor01"].destroy();
+                    //                $('#editor01').val(AttributeTxt);
+                    //                CKEDITOR.replace('editor01');
+                }
+            }
+        });
+
+    };
+    function saveHelpEdit() {
+        $.ajaxSender.send('/HelpEdit/SaveHelpEdit/',
+                $('#editorForm').serializeArray());
+    }
+    
+</script>
+<div id="sidebar" region="west" split="true"  style="width: 220px; overflow: scroll; padding: 1px; margin: 1px">
+    <ul id="helpTree" class="easyui-tree" url='/HelpEdit/GetHelpContent/'></ul>
+</div>
+<div region="center" split="true" border="false" style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #99BBE8"> @*buttons="#buttons-save"> *@
+   <form id ="editorForm" action="javascript:saveHelpEdit()" method="post">
+        <input id ="helpId" name = "helpId01" type="hidden"/>
+        <textarea rows="20" cols="40" id ="editor01" name="editor01"></textarea>
+    @*<div id="#buttons-save">
+    <a href="#" class="easyui-linkbutton" iconcls="icon-ok" onclick="S_select()">提交</a>
+    </div>*@
+    </form>
+</div>

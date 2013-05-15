@@ -1,0 +1,182 @@
+﻿<script type="text/javascript">
+    var url;
+    var Add_fatherContentID;
+    var Add_moduleID;
+    $(function () {
+        $.extend($.fn.validatebox.defaults.rules, {
+            maxLength: {
+                validator: function (value, param) {
+                    return value.length <= param[0];
+                },
+                message: '不能超过{0}个字符.'
+            }
+        });
+    })
+    function addClick() {
+        AddLoad();
+        $('#dlg').dialog('open').dialog('setTitle', '新增帮助目录');
+        $('#helpfm').form('clear');
+        $('#helpfm .easyui-validatebox').validatebox({
+            required: true
+        });
+        $('form input').removeAttr("disabled");
+        $('form textarea').removeAttr("disabled");
+        $('#contentCode').attr("readonly", false);
+        $('#Node_type').combo({
+            hasDownArrow: true
+        });
+        $('#isActive_com').combo({
+            hasDownArrow: true
+        });
+        url = '/HelpContent/Create/';
+    };
+
+    function save() {
+        if ($("#Node_type").combo("getValue") == "2" || $("#Node_type").combo("getValue") == "3") {
+            if ($("#fatherNodeID").val() == "") {
+                $.messager.alert("提示", "父结点不能为空!", "info");
+                return false
+            }
+        }
+        if ($("#Node_type").combo("getValue") == "1") {
+            if ($("#fatherNodeID").val() != "") {
+                $.messager.alert("提示", "第一节点没有父节点!", "info");
+                return false
+            }
+        }
+        $('#helpfm').form('submit', {
+            url: url,
+            onSubmit: function () {
+                return $(this).form('validate');
+            },
+            success: function (result) {               
+                var result = eval('(' + result + ')');
+                if (result.success) {
+                    $.messager.alert(g_MsgBoxTitle, result.msg, "info");
+                    $('#dlg').dialog('close');
+                    $('#details').datagrid('reload');
+                } else {
+                    $.messager.alert(g_MsgBoxTitle, result.msg + '<br />' + result.data, "error");
+                    $('#details').datagrid('reload');
+                }
+            }
+        });
+    }
+
+    function AddLoad() {
+        $('#H_isActive').combo({
+            required: true,
+            editable: false,
+            panelHeight: 45,
+            panelWidth: 130
+        });
+
+        $('#Node_type').combo({
+            required: true,
+            editable: false,
+            panelHeight: 65,
+            panelWidth: 130
+        });
+    }
+    function helpSelect1() {
+        $('#helpData1').dialog('open').dialog('setTitle', '选择父结点');
+        $('#helpDetail1').datagrid({ url: '/HelpContent/Details/' });
+        $("#helpDetail1").datagrid('reload');
+    }
+    function helpSelect2() {
+        $('#helpData2').dialog('open').dialog('setTitle', '选择模块信息');
+        $('#helpDetail2').datagrid({ url: '/Module/Details2/'});
+        $("#helpDetail2").datagrid('reload');
+    }
+</script>
+<div id="dlg" class="easyui-dialog" modal="true" style="width: 510px; height: 230px;
+    padding: 2px 2px" closed="true" buttons="#help-buttons">
+    <div class="easyui-layout" fit="true">
+        <div region="center" border="false" style="padding: 10px 10px; background: #fff;
+            border: 1px solid #ccc;">
+            <form id="helpfm" method="post">
+            <table width="480">
+                <tr>
+                    <td width="60">
+                        目录编码:
+                    </td>
+                    <td width="168">
+                        <input name="ContentCode" class="easyui-validatebox" id="contentCode"  validtype="maxLength[8]"
+                            required="true" />
+                        <input name="ID"  style="display: none" />
+                    </td>
+                    
+                    <td width="60">
+                       目录名称:
+                    </td>
+                    <td width="168">
+                        <input name="ContentName" id="contentName" class="easyui-validatebox" validtype="maxLength[50]" required="true" />
+                    </td>
+                </tr>
+                <tr>
+                    <td width="60">
+                        目录路径:
+                    </td>
+                    <td width="168">
+                        <input name="ContentPath" id="contentPath" validtype="maxLength[50]" required="true" />
+                    </td>
+                    <td width="60">
+                       节点顺序:
+                    </td>
+                     <td width="168">
+                        <input name="NodeOrder" id="nodeOrder" class="easyui-validatebox" validtype="maxLength[50]" required="true" />
+                    </td>
+                    
+                </tr>
+                <tr>
+                 <td width="60">
+                       父节点:
+                    </td>
+                     <td width="168">
+                        <input name="FatherNodeID" id="fatherNodeID"/>     
+                        <a href="#" id="FatherNodeIDSearch" class="easyui-linkbutton" iconcls="icon-search"
+                            plain="true" onclick="helpSelect1()"></a>
+                       </td>
+                    <td width="60">
+                        节点类型：
+                    </td>
+                    <td width="168">
+                        <select id="Node_type"  name="NodeType" class="easyui-combobox" required="true"
+                            style="width: 129px">
+                            <option value="1">第一节点</option>
+                            <option value="2">中间节点</option>
+                            <option value="3">末级节点</option>
+                        </select>
+                    </td>
+                    </tr>
+                    <tr>
+                   
+                    <td width="60">
+                       模块名称：
+                    </td>
+                     <td width="168">
+                        <input name="ModuleID" id="moduleID" type="text"/>
+                         <a href="#" id="parentModuleIDSearch" class="easyui-linkbutton" iconcls="icon-search"
+                            plain="true" onclick="helpSelect2()"></a>
+                    </td>      
+                    <td>
+                        状态:
+                    </td>
+                       <td>
+                        <select id="H_isActive"  name="IsActive" class="easyui-combobox" required="true"
+                            style="width: 129px">
+                            <option value="1">可用</option>
+                            <option value="0">不可用</option>
+                        </select>
+                      </td>
+                     </tr>
+            </table>
+            </form>
+        </div>
+    </div>
+</div>
+<div id="help-buttons">
+    <a href="#" class="easyui-linkbutton" iconcls="icon-ok" onclick="save()">确定</a>
+    <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">
+        取消</a>
+</div>

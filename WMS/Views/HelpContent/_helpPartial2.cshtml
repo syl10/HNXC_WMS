@@ -1,0 +1,71 @@
+﻿<script type="text/javascript">
+
+    function helpQueryClick2() {
+        $('#helpDetail2').datagrid({ url: '/Module/Details2/?QueryString=' + $('#queryType2').combobox('getValue') + '&Value=' + $('#helpInfo2').val() });
+        $("#helpDetail2").datagrid('reload');
+    };
+
+    function helpSave2() {
+        var helpRow = $('#helpDetail2').datagrid('getSelected');
+        if (helpRow) {
+            $('#moduleID').val(helpRow.ModuleID);
+            $('#module').val(helpRow.ModuleName);
+            S_moduleID = helpRow.ModuleID;
+            $('#helpData2').dialog('close');
+        }
+    }
+
+    $(function () {
+        $('#queryType').combo({
+            required: true,
+            editable: false,
+            panelHeight: 45,
+            panelWidth: 100
+        });
+        $('#helpDetail2').datagrid({
+            onDblClickRow: function () {
+                helpSave2();
+            }
+        })
+    });
+</script>
+<div id="helpData2" class="easyui-dialog" modal="true" style="width: 500px; height: 500px;
+    padding: 0px 0px" closed="true" buttons="#dlgHelpContent-buttons2">
+    <div split="true" border="false" style="width: 486px; height: 430px">
+        <table id="helpDetail2" class="easyui-datagrid" border="false" 
+        toolbar="#btn-query2" pageSize="50"
+            singleselect="true" fit="true" fitcolumns="true" pagination="true" rownumbers="true">
+            <thead>
+                <tr>
+                    <th field="ModuleName" width="80">
+                        模块名称
+                    </th>
+                    <th field="SystemName" width="120">
+                        所属系统
+                    </th>
+                    <th field="ParentModule" width="80">
+                        上级菜单
+                    </th>
+                    <th field="ModuleURL" width="80">
+                        模块路径
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div id="dlgHelpContent-buttons2">
+    <a href="#" class="easyui-linkbutton" iconcls="icon-ok" onclick="helpSave2()">确定</a> 
+    <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" onclick="javascript:$('#helpData2').dialog('close')">
+        取消</a>
+</div>
+<div id="btn-query2">
+<select id="queryType2" name="QueryString" class="easyui-combobox" style="width: 100px;" readonly="true">
+		                <option value="SystemName">系统名称</option>
+		                <option value="ModuleName">模块名称</option>
+	                </select>
+                    <input id="helpInfo2">
+ <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="helpQueryClick2()" id="helpQuery2">查询</a>
+</div>
+
+

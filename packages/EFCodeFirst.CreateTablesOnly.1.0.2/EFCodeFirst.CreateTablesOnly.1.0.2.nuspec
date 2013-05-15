@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2011/08/nuspec.xsd">
+  <metadata>
+    <id>EFCodeFirst.CreateTablesOnly</id>
+    <version>1.0.2</version>
+    <title>EF Code First (CTP5) IDatabaseIntializer that only recreates tables</title>
+    <authors>Joachim Lykke Andersen</authors>
+    <owners>Joachim Lykke Andersen</owners>
+    <projectUrl>http://devtalk.dk/2011/02/16/Workaround+EF+Code+First+On+AppHabour.aspx</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Adds a IDatabaseInitializer implementation for EF Code First CTP5, as a workaround for situations where you need to update the tables, but can't recreate the database. Works with AppHabor. To use simply set the DontDropDbJustCreateTablesIfModelChanged class as IDatabaseInitializer with DbDatabase.SetInitializer.</description>
+    <summary>Adds a IDatabaseInitializer implementation for EF Code First CTP5, as a workaround for situations where you need to update the tables, but can't recreate the database. Works with AppHabor. To use simply set the DontDropDbJustCreateTablesIfModelChanged class as IDatabaseInitializer with DbDatabase.SetInitializer.</summary>
+    <releaseNotes />
+    <copyright />
+    <language />
+    <dependencies>
+      <dependency id="WebActivator" version="1.4" />
+      <dependency id="EntityFramework" version="4.1.10311.0" />
+    </dependencies>
+    <references>
+      <reference file="Devtalk.EF.CodeFirst.dll" />
+    </references>
+  </metadata>
+</package>

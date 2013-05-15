@@ -1,0 +1,63 @@
+﻿<script type="text/javascript">
+    function searchClick() {
+        $('#dlg-search').dialog('open').dialog('setTitle', '查找');
+    }
+    function select() {
+        var queryParams = $('#details').datagrid('options').queryParams;
+        queryParams.ParameterName = $('#parameterName').val();
+        $('#details').datagrid('options').queryParams = queryParams;
+        $('#details').datagrid({
+            pageNumber: 1,
+            pageSize: 10
+        });
+        $("#details").datagrid('reload');
+        $('#dlg-search').dialog('close');
+    }
+</script>
+<style type="text/css">
+    .layout
+    {
+        padding: 10px 10px;
+        background: #fff;
+        border: 1px solid #ccc;
+    }
+    .tb
+    {
+        width: 280px;
+    }
+    .td1
+    {
+        width: 60px;
+    }
+    .td2
+    {
+        width: 168px;
+    }
+</style>
+<div id="dlg-search" class="easyui-dialog" closed="true" modal="true" style="width: 310px;
+    height: 150px; padding: 2px 2px" buttons="#dlg-search-buttons">
+    <div class="easyui-layout" fit="true">
+        <div region="center" border="false" class="layout">
+            <table class="tb">
+                <tr>
+                    <td>
+                        <input id="id" type="text" style="display: none" />
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td1">
+                        参数名称：
+                    </td>
+                    <td class="td2">
+                        <input id="parameterName" type="text" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="dlg-search-buttons">
+    <a href="#" class="easyui-linkbutton" iconcls="icon-ok" onclick="select()">确定</a>
+    <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">
+        取消</a>
+</div>
