@@ -284,7 +284,7 @@ namespace THOK.Authority.Bll.Service
             string content_text = "";
             //Guid new_ID = new Guid(helpId);
             string new_ID = helpId;
-            var system = SystemRepository.GetQueryable().FirstOrDefault(i => i.SYSTEM_ID.ToString() == new_ID);
+            var system = SystemRepository.GetQueryable().FirstOrDefault(i => i.SYSTEM_ID== new_ID);
             if (system != null)
             {
                var help = HelpContentRepository.GetQueryable().Where(i => i.AUTH_MODULE.SYSTEM_SYSTEM_ID == new_ID).OrderBy(h=>h.CONTENT_CODE);
