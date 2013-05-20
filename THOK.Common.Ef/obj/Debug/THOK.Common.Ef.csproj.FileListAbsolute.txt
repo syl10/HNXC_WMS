@@ -11,16 +11,3 @@ D:\work\WMS\THOK.Common.Ef\bin\Debug\EntityFramework.xml
 D:\work\WMS\THOK.Common.Ef\obj\Debug\ResolveAssemblyReference.cache
 D:\work\WMS\THOK.Common.Ef\obj\Debug\THOK.Common.Ef.dll
 D:\work\WMS\THOK.Common.Ef\obj\Debug\THOK.Common.Ef.pdb
-D:\HNXC\WMS\THOK.Common.Ef\bin\Debug\THOK.Common.Ef.dll.config
-D:\HNXC\WMS\THOK.Common.Ef\bin\Debug\THOK.Common.Ef.dll
-D:\HNXC\WMS\THOK.Common.Ef\bin\Debug\THOK.Common.Ef.pdb
-D:\HNXC\WMS\THOK.Common.Ef\bin\Debug\Devtalk.EF.CodeFirst.dll
-D:\HNXC\WMS\THOK.Common.Ef\bin\Debug\EntityFramework.dll
-D:\HNXC\WMS\THOK.Common.Ef\bin\Debug\Microsoft.Practices.ServiceLocation.dll
-D:\HNXC\WMS\THOK.Common.Ef\bin\Debug\Microsoft.Practices.Unity.dll
-D:\HNXC\WMS\THOK.Common.Ef\bin\Debug\Microsoft.Web.Infrastructure.dll
-D:\HNXC\WMS\THOK.Common.Ef\bin\Debug\WebActivator.dll
-D:\HNXC\WMS\THOK.Common.Ef\bin\Debug\EntityFramework.xml
-D:\HNXC\WMS\THOK.Common.Ef\obj\Debug\ResolveAssemblyReference.cache
-D:\HNXC\WMS\THOK.Common.Ef\obj\Debug\THOK.Common.Ef.dll
-D:\HNXC\WMS\THOK.Common.Ef\obj\Debug\THOK.Common.Ef.pdb
