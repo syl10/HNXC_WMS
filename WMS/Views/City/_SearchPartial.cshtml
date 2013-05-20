@@ -10,9 +10,9 @@
 
     function select() {
         var queryParams = $('#details').datagrid('options').queryParams;
-        queryParams.CITY_NAME = $('#cityname').val();
-        queryParams.DESCRIPTION = $('#description').val();
-        queryParams.IS_ACTIVE = $('#isactive').combobox('getValue');
+        queryParams.CITY_NAME = $('#CITY_NAME').val();
+        queryParams.DESCRIPTION = $('#DESCRIPTION').val();
+        queryParams.IS_ACTIVE = $('#IS_ACTIVE').combobox('getValue');
         $('#details').datagrid('options').queryParams = queryParams;
         $('#details').datagrid({
             pageNumber: 1,

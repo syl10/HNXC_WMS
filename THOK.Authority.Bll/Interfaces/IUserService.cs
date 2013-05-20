@@ -14,11 +14,11 @@ namespace THOK.Authority.Bll.Interfaces
 
         object GetDetails(int page, int rows, string userName, string chineseName, string isLock, string isAdmin, string memo);
 
-        bool Add(string userName, string pwd, string ChineseName, bool isLock, bool isAdmin,string memo);
+        bool Add(string userName, string pwd, string ChineseName, string isLock, string isAdmin,string memo);
 
         bool Delete(string userID);
 
-        bool Save(string userID, string userName, string pwd, string chineseName, bool isLock, bool isAdmin,string memo);
+        bool Save(string userID, string userName, string pwd, string chineseName, string isLock, string isAdmin,string memo);
 
         bool ValidateUser(string userName, string password);
 

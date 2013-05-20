@@ -24,7 +24,7 @@ namespace THOK.Authority.Bll.Service
         {
             IQueryable<AUTH_CITY> query = CityRepository.GetQueryable();
             string isactive;
-            var citys = query.OrderBy(i => i.CITY_ID).Select(i => new { i.CITY_ID, i.CITY_NAME, i.DESCRIPTION, IsActive = i.IS_ACTIVE == "1" ? "启用" : "禁用" });
+            var citys = query.OrderBy(i => i.CITY_ID).Select(i => new { i.CITY_ID, i.CITY_NAME, i.DESCRIPTION, IS_ACTIVE = i.IS_ACTIVE == "1" ? "启用" : "禁用" });
             if (cityName != "" || description != "" || isActive != "")
             {
                 isactive = isActive == "true" ? "1" : "0";
@@ -32,7 +32,7 @@ namespace THOK.Authority.Bll.Service
                 citys = query.Where(i => i.CITY_NAME.Contains(cityName)
                     && i.DESCRIPTION.Contains(description) && i.IS_ACTIVE == isactive)
                     .OrderBy(i => i.CITY_ID)
-                    .Select(i => new { i.CITY_ID, i.CITY_NAME, i.DESCRIPTION, IsActive = i.IS_ACTIVE == "1" ? "启用" : "禁用" });
+                    .Select(i => new { i.CITY_ID, i.CITY_NAME, i.DESCRIPTION, IS_ACTIVE = i.IS_ACTIVE == "1" ? "启用" : "禁用" });
             }
 
             int total = citys.Count();
@@ -44,10 +44,11 @@ namespace THOK.Authority.Bll.Service
         {
             var city = new THOK.Authority.DbModel.AUTH_CITY()
             {
-                CITY_ID = Guid.NewGuid().ToString(),
+                //CITY_ID = Guid.NewGuid().ToString(),
+                CITY_ID=CityRepository.GetNewID("AUTH_CITY","CITY_ID"),
                 CITY_NAME = cityName,
                 DESCRIPTION = description,
-                IS_ACTIVE = isActive.ToString()
+                IS_ACTIVE = isActive.ToString()=="true"?"1":"0"
             };
             CityRepository.Add(city);
             CityRepository.SaveChanges();
@@ -76,7 +77,7 @@ namespace THOK.Authority.Bll.Service
                 .FirstOrDefault(i => i.CITY_ID == cityID);
             city.CITY_NAME = cityName;
             city.DESCRIPTION = description;
-            city.IS_ACTIVE = isActive.ToString();
+            city.IS_ACTIVE = isActive.ToString()=="true"?"1":"0";
             CityRepository.SaveChanges();
             return true;
         }

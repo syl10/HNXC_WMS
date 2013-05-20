@@ -12,9 +12,9 @@
 
     function select() {
         var queryParams = $('#details').datagrid('options').queryParams;
-        queryParams.RoleName = $('#rolename').val();
-        queryParams.Description = $('#description').val();
-        queryParams.Status = $('#status').val();
+        queryParams.ROLE_NAME = $('#ROLE_NAME').val();
+        queryParams.MEMO = $('#MEMO').val();
+        queryParams.IS_LOCK = $('#IS_LOCK').val();
         $('#details').datagrid('options').queryParams = queryParams;
         $('#details').datagrid({
             pageNumber: 1,
@@ -33,18 +33,18 @@
             <table width="250">
               <tr>
                 <td width="60">角色名称</td>
-                <td width="168" align="left"><input id="rolename"></td>
+                <td width="168" align="left"><input id="ROLE_NAME"></td>
               </tr>
               <tr>
                 <td>描述</td>
-                <td align="left"><textarea id="description" style="width: 180px; height: 50px"></textarea></td>
+                <td align="left"><textarea id="MEMO" style="width: 180px; height: 50px"></textarea></td>
               </tr>
               <tr>
                 <td>状态</td>
                 <td align="left">      
-		            <select id="status" name="status" required="true" class="easyui-combobox" style="width: 50px">
-		                <option value="true">启用</option>
-		                <option value="false">禁用</option>
+		            <select id="IS_LOCK" name="IS_LOCK" required="true" class="easyui-combobox" style="width: 50px">
+		                <option value="1">启用</option>
+		                <option value="0">禁用</option>
 	                </select>
 	            </td>
               </tr>

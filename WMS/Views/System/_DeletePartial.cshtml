@@ -12,12 +12,12 @@ function deleteClick() {
             hasDownArrow: false
         });
         $('#fm').form('load', row);
-        if (row.Status == '启用') {
-            $('#cc').combo('setValue', true).combo('setText', row.Status);
+        if (row.STATUS == '1') {
+            $('#cc').combo('setValue', true).combo('setText', row.STATUS);
         } else {
-            $('#cc').combo('setValue', false).combo('setText', row.Status);
+            $('#cc').combo('setValue', false).combo('setText', row.STATUS);
         }
-        url = '/System/Delete/?SystemID=' + row.SystemID;
+        url = '/System/Delete/?SYSTEM_ID=' + row.SYSTEM_ID;
     } else {
         $.messager.confirm('错误', '没有选择行！');
     }

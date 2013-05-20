@@ -11,13 +11,18 @@
     };
 
     function select() {
+        debugger;
         var queryParams = $('#details').datagrid('options').queryParams;
-        queryParams.SystemName = $('#systemname').val();
-        queryParams.Description = $('#description').val();
-        queryParams.Status = $('#status').combobox('getValue');
+        queryParams.SYSTEM_NAME = $('#SYSTEM_NAME').val();
+        queryParams.DESCRIPTION = $('#DESCRIPTION').val();
+        queryParams.STATUS = $('#STATUS').val();
         $('#details').datagrid('options').queryParams = queryParams;
-        $("#details").datagrid('load');
-        $('#dlg-search').dialog('close'); 
+        $('#details').datagrid({
+            pageNumber: 1,
+            pageSize: 10
+        });
+        $("#details").datagrid('reload');
+        $('#dlg-search').dialog('close');
     }
 
 </script>
@@ -29,16 +34,16 @@
             <table width="250">
               <tr>
                 <td width="60">系统信息</td>
-                <td width="168" align="left"><input id="systemname"></td>
+                <td width="168" align="left"><input id="SYSTEM_NAME"></td>
               </tr>
               <tr>
                 <td>系统描述</td>
-                <td align="left"><textarea id="description" style="width: 180px; height: 50px"></textarea></td>
+                <td align="left"><textarea id="DESCRIPTION" style="width: 180px; height: 50px"></textarea></td>
               </tr>
               <tr>
                 <td>系统状态</td>
                 <td align="left">      
-		            <select id="status" name="status" required="true" class="easyui-combobox" style="width: 50px">
+		            <select id="status" name="STATUS" required="true" class="easyui-combobox" style="width: 50px">
 		                <option value="true">启用</option>
 		                <option value="false">禁用</option>
 	                </select>

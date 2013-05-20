@@ -30,19 +30,19 @@ namespace THOK.Authority.Bll.Service
             get { return this.GetType(); }
         }
 
-        public object GetDetails(int page, int rows, string systemName, string description, string status)
+        public object GetDetails(int page, int rows, string system_Name, string description, string status)
         {
             IQueryable<AUTH_SYSTEM> query = SystemRepository.GetQueryable();
-            var systems = query.Where(i => i.SYSTEM_NAME.Contains(systemName) && i.DESCRIPTION.Contains(description))
+            var systems = query.Where(i => i.SYSTEM_NAME.Contains(system_Name) && i.DESCRIPTION.Contains(description))
                 .OrderBy(i => i.SYSTEM_ID)
-                .Select(i => new { i.SYSTEM_ID, i.SYSTEM_NAME, i.DESCRIPTION, Status =i.STATUS=="1" ? "启用" : "禁用" });
+                .Select(i => new { i.SYSTEM_ID, i.SYSTEM_NAME, i.DESCRIPTION, STATUS=i.STATUS == "1" ? "启用" : "禁用" });
             if (status != "")
             {
                // bool bStatus = Convert.ToBoolean(status);
                 string bStatus = status == "true" ? "1" : "0";
-                systems = query.Where(i => i.SYSTEM_NAME.Contains(systemName) && i.DESCRIPTION.Contains(description) && i.STATUS == bStatus)
+                systems = query.Where(i => i.SYSTEM_NAME.Contains(system_Name) && i.DESCRIPTION.Contains(description) && i.STATUS == bStatus)
                     .OrderBy(i => i.SYSTEM_ID)
-                    .Select(i => new { i.SYSTEM_ID, i.SYSTEM_NAME, i.DESCRIPTION, Status = i.STATUS=="1" ? "启用" : "禁用" });
+                    .Select(i => new { i.SYSTEM_ID, i.SYSTEM_NAME, i.DESCRIPTION, STATUS = i.STATUS == "1" ? "启用" : "禁用" });
             }
             int total = systems.Count();
             systems = systems.Skip((page - 1) * rows).Take(rows);
@@ -53,10 +53,11 @@ namespace THOK.Authority.Bll.Service
         {
             var system = new AUTH_SYSTEM()
             {
-                SYSTEM_ID = Guid.NewGuid().ToString(),
+               // SYSTEM_ID = Guid.NewGuid().ToString(),
+               SYSTEM_ID=SystemRepository.GetNewID("AUTH_SYSTEM","SYSTEM_ID"),
                 SYSTEM_NAME = systemName,
                 DESCRIPTION = description,
-                STATUS = status.ToString()
+                STATUS = status==true?"1":"0"
             };
             SystemRepository.Add(system);
             SystemRepository.SaveChanges();
@@ -89,7 +90,7 @@ namespace THOK.Authority.Bll.Service
                 .FirstOrDefault(i => i.SYSTEM_ID == systemId);
             system.SYSTEM_NAME = systemName;
             system.DESCRIPTION = description;
-            system.STATUS = status.ToString();
+            system.STATUS = status==true ? "1" : "0";
             SystemRepository.SaveChanges();
             return true;
         }

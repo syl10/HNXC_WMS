@@ -23,20 +23,20 @@ namespace THOK.Authority.Bll.Service
             get { return this.GetType(); }
         }
 
-        public object GetDetails(int page, int rows, string roleName, string description,string status)
+        public object GetDetails(int page, int rows, string roleName, string memo,string islock)
         {
             IQueryable<AUTH_ROLE> queryRole = RoleRepository.GetQueryable();
-            var roles = queryRole.Where(r => r.ROLE_NAME.Contains(roleName) && r.MEMO.Contains(description))
+            var roles = queryRole.Where(r => r.ROLE_NAME.Contains(roleName) && r.MEMO.Contains(memo))
                     .OrderBy(r => r.ROLE_NAME)
-                    .Select(r => new { r.ROLE_ID, r.ROLE_NAME, Description = r.MEMO, Status =bool.Parse(r.IS_LOCK) ? "启用" : "禁用" });
-            if (!String.IsNullOrEmpty(status))
+                    .Select(r => new { r.ROLE_ID, r.ROLE_NAME, MEMO = r.MEMO, IS_LOCK = r.IS_LOCK == "1" ? "启用" : "禁用" });
+            if (!String.IsNullOrEmpty(islock))
             {
-                bool bStatus = Convert.ToBoolean(status);
+                bool bStatus = Convert.ToBoolean(islock);
                 roles = queryRole.Where(r => r.ROLE_NAME.Contains(roleName)
-                    && r.MEMO.Contains(description)
+                    && r.MEMO.Contains(memo)
                     && bool.Parse(r.IS_LOCK) == bStatus)
                     .OrderBy(r => r.ROLE_NAME)
-                    .Select(r => new { r.ROLE_ID, r.ROLE_NAME, Description = r.MEMO, Status = bool.Parse(r.IS_LOCK) ? "启用" : "禁用" });
+                    .Select(r => new { r.ROLE_ID, r.ROLE_NAME, MEMO = r.MEMO, IS_LOCK = r.IS_LOCK == "1" ? "启用" : "禁用" });
             }              
             int total = roles.Count();
             roles = roles.Skip((page - 1) * rows).Take(rows);
@@ -47,10 +47,11 @@ namespace THOK.Authority.Bll.Service
         {
             var role = new AUTH_ROLE()
             {
-                ROLE_ID = Guid.NewGuid().ToString(),
+                //ROLE_ID = Guid.NewGuid().ToString(),
+                ROLE_ID = RoleRepository.GetNewID("AUTH_ROLE","ROLE_ID"),
                 ROLE_NAME = roleName,
                 MEMO = description,
-                IS_LOCK = status.ToString()
+                IS_LOCK = status==true?"1":"0"
             };
             RoleRepository.Add(role);
             RoleRepository.SaveChanges();
@@ -81,7 +82,7 @@ namespace THOK.Authority.Bll.Service
                 .FirstOrDefault(i => i.ROLE_ID == roleID);
             role.ROLE_NAME = roleName;
             role.MEMO = description;
-            role.IS_LOCK = status.ToString();
+            role.IS_LOCK = status == true ? "1" : "0";
             RoleRepository.SaveChanges();
             return true;
         }
@@ -111,7 +112,7 @@ namespace THOK.Authority.Bll.Service
             var role = queryRole.FirstOrDefault(r => r.ROLE_ID == roleID);
             var userIDs = role.AUTH_USER_ROLE.Select(ru => ru.AUTH_USER.USER_ID);
             var user = queryUser.Where(u => !userIDs.Any(uid => uid == u.USER_ID))
-                .Select(u => new { u.USER_ID, u.USER_NAME, Description = u.MEMO, Status = bool.Parse(u.IS_LOCK) ? "启用" : "禁用" });
+                .Select(u => new { u.USER_ID, u.USER_NAME, MEMO = u.MEMO, IS_LOCK = u.IS_LOCK == "1" ? "启用" : "禁用" });
             return user.ToArray();
         }
 

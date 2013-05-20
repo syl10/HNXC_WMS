@@ -28,36 +28,36 @@ namespace WMS.Controllers.Authority
         // GET: /System/Details/
         public ActionResult Details(int page, int rows,FormCollection collection)
         {
-            string systemName = collection["SystemName"]??"";
-            string description = collection["Description"] ?? "";
-            string status = collection["Status"] ?? "";
-            var systems = SystemService.GetDetails(page, rows, systemName, description, status);
+            string SYSTEM_NAME = collection["SYSTEM_NAME"] ?? "";
+            string DESCRIPTION = collection["DESCRIPTION"] ?? "";
+            string STATUS = collection["STATUS"] ?? "";
+            var systems = SystemService.GetDetails(page, rows, SYSTEM_NAME, DESCRIPTION, STATUS);
             return Json(systems,"text",JsonRequestBehavior.AllowGet);
         }
 
         // POST: /System/Create/
         [HttpPost]
-        public ActionResult Create(string systemName, string description, bool status)
+        public ActionResult Create(string SYSTEM_NAME, string DESCRIPTION, bool STATUS)
         {
-            bool bResult = SystemService.Add(systemName, description, status);
+            bool bResult = SystemService.Add(SYSTEM_NAME, DESCRIPTION, STATUS);
             string msg = bResult ? "新增成功": "新增失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult,msg,null),"text",JsonRequestBehavior.AllowGet);
         }
 
         // POST: /System/Edit/
         [HttpPost]
-        public ActionResult Edit(string systemId, string systemName, string description, bool status)
+        public ActionResult Edit(string SYSTEM_ID, string SYSTEM_NAME, string DESCRIPTION, bool STATUS)
         {
-            bool bResult = SystemService.Save(systemId, systemName, description, status);
+            bool bResult = SystemService.Save(SYSTEM_ID, SYSTEM_NAME, DESCRIPTION, STATUS);
             string msg = bResult ? "修改成功" : "修改失败" ;
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /System/Delete/
         [HttpPost]
-        public ActionResult Delete(string systemId)
+        public ActionResult Delete(string SYSTEM_ID)
         {
-            bool bResult = SystemService.Delete(systemId);
+            bool bResult = SystemService.Delete(SYSTEM_ID);
             string msg = bResult ? "删除成功": "删除失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }

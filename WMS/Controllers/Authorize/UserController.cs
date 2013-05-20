@@ -32,12 +32,12 @@ namespace WMS.Controllers.Authority
         // GET: /User/Details/
         public ActionResult Details(int page, int rows, FormCollection collection)
         {
-            string userName = collection["UserName"] ?? "";
-            string chineseName = collection["ChineseName"] ?? "";
-            string isLock = collection["IsLock"] ?? "";
-            string isAdmin = collection["IsAdmin"] ?? "";
-            string memo = collection["Memo"] ?? "";
-            var users = UserService.GetDetails(page, rows, userName, chineseName, isLock, isAdmin, memo);
+            string USER_NAME = collection["USER_NAME"] ?? "";
+            string CHINESE_NAME = collection["CHINESE_NAME"] ?? "";
+            string IS_LOCK = collection["IS_LOCK"] ?? "";
+            string IS_ADMIN = collection["IS_ADMIN"] ?? "";
+            string MEMO = collection["MEMO"] ?? "";
+            var users = UserService.GetDetails(page, rows, USER_NAME, CHINESE_NAME, IS_LOCK, IS_ADMIN, MEMO);
             return Json(users, "text", JsonRequestBehavior.AllowGet);
         }
 
@@ -51,19 +51,19 @@ namespace WMS.Controllers.Authority
 
         // POST: /User/GetRoleInfo/
         [HttpPost]
-        public ActionResult GetRoleInfo(string UserID)
+        public ActionResult GetRoleInfo(string USER_ID)
         {
-            var users = UserService.GetRoleInfo(UserID);
+            var users = UserService.GetRoleInfo(USER_ID);
             return Json(users, "text", JsonRequestBehavior.AllowGet);
         }
 
 
         // POST: /User/Create/
         [HttpPost]
-        public ActionResult Create(string userName, string pwd, string ChineseName, bool isLock, bool isAdmin, string loginPc, string memo)
+        public ActionResult Create(string USER_NAME, string PWD, string CHINESE_NAME, string IS_LOCK, string IS_ADMIN, string loginPc, string MEMO)
         {
-            pwd = string.IsNullOrEmpty(pwd) || string.IsNullOrEmpty(pwd.Trim()) ? "123456" : pwd;
-            bool bResult = UserService.Add(userName, pwd, ChineseName, isLock, isAdmin, memo);
+            PWD = string.IsNullOrEmpty(PWD) || string.IsNullOrEmpty(PWD.Trim()) ? "123456" : PWD;
+            bool bResult = UserService.Add(USER_NAME, PWD, CHINESE_NAME, IS_LOCK, IS_ADMIN, MEMO);
             string msg = bResult ? "新增成功" : "新增失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }
@@ -79,18 +79,18 @@ namespace WMS.Controllers.Authority
 
         // POST: /User/Edit/
         [HttpPost]
-        public ActionResult Edit(string userID, string userName, string pwd, string chineseName, bool isLock, bool isAdmin, string memo)
+        public ActionResult Edit(string USER_ID, string USER_NAME, string PWD, string CHINESE_NAME, string IS_LOCK, string IS_ADMIN, string MEMO)
         {
-            bool bResult = UserService.Save(userID, userName, pwd, chineseName, isLock, isAdmin, memo);
+            bool bResult = UserService.Save(USER_ID, USER_NAME, PWD, CHINESE_NAME, IS_LOCK, IS_ADMIN, MEMO);
             string msg = bResult ? "修改成功" : "修改失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /User/Delete/
         [HttpPost]
-        public ActionResult Delete(string userID)
+        public ActionResult Delete(string USER_ID)
         {
-            bool bResult = UserService.Delete(userID);
+            bool bResult = UserService.Delete(USER_ID);
             string msg = bResult ? "删除成功" : "删除失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }
@@ -109,7 +109,7 @@ namespace WMS.Controllers.Authority
         {
             if (queryString == null)
             {
-                queryString = "UserName";
+                queryString = "USER_NAME";
             }
             if (value == null)
             {
@@ -118,9 +118,9 @@ namespace WMS.Controllers.Authority
             var user = UserService.GetUser(page, rows, queryString, value);
             return Json(user, "text", JsonRequestBehavior.AllowGet);
         }
-        public ActionResult CheckUserName(string userName)
+        public ActionResult CheckUserName(string USER_NAME)
         {
-            bool bResult = UserService.Check(userName);
+            bool bResult = UserService.Check(USER_NAME);
             return Json(bResult, "text", JsonRequestBehavior.AllowGet);
         }
         // POST: /User/Create/

@@ -19,34 +19,34 @@ namespace THOK.Authority.Bll.Service
             get { return this.GetType(); }
         }
 
-        public object GetDetails(int page, int rows, string serverName, string description, string url, string isActive)
+        public object GetDetails(int page, int rows, string SERVER_NAME, string DESCRIPTION, string URL, string IS_ACTIVE, string CITY_CITY_ID)
         {
             IQueryable<AUTH_SERVER> query = ServerRepository.GetQueryable();
-            var servers = query.OrderBy(i => i.SERVER_ID).Select(i => new { i.SERVER_ID, i.SERVER_NAME, i.AUTH_CITY.CITY_ID, i.AUTH_CITY.CITY_NAME, i.DESCRIPTION, i.URL, IsActive = i.IS_ACTIVE == "1" ? "启用" : "禁用" });
-            if (serverName != "" || description != "" || isActive != "")
+            var servers = query.OrderBy(i => i.SERVER_ID).Select(i => new { i.SERVER_ID, i.SERVER_NAME, i.AUTH_CITY.CITY_ID, i.AUTH_CITY.CITY_NAME, i.DESCRIPTION, i.URL, IS_ACTIVE = i.IS_ACTIVE == "1" ? "启用" : "禁用" });
+            if (SERVER_NAME != "" || DESCRIPTION != "" || IS_ACTIVE != "")
             {
-                servers = query.Where(i => i.SERVER_NAME.Contains(serverName)
-                && i.DESCRIPTION.Contains(description)
-                && i.URL.Contains(url))
+                servers = query.Where(i => i.SERVER_NAME.Contains(SERVER_NAME)
+                && i.DESCRIPTION.Contains(DESCRIPTION)
+                && i.URL.Contains(URL))
                 .OrderBy(i => i.SERVER_ID)
-                .Select(i => new { i.SERVER_ID, i.SERVER_NAME, i.AUTH_CITY.CITY_ID, i.AUTH_CITY.CITY_NAME, i.DESCRIPTION, i.URL, IsActive = i.IS_ACTIVE == "1" ? "启用" : "禁用" });
+                .Select(i => new { i.SERVER_ID, i.SERVER_NAME, i.AUTH_CITY.CITY_ID, i.AUTH_CITY.CITY_NAME, i.DESCRIPTION, i.URL, IS_ACTIVE = i.IS_ACTIVE == "1" ? "启用" : "禁用" });
             }
             int total = servers.Count();
             servers = servers.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = servers.ToArray() };
         }
 
-        public bool Add(string serverName, string description, string url, bool isActive, string cityID)
+        public bool Add(string serverName, string description, string url, bool isActive, string CITY_CITY_ID)
         {
             // Guid gCityID = new Guid(cityID);
-            var city = CityRepository.GetQueryable().Single(c => c.CITY_ID == cityID);
+            var city = CityRepository.GetQueryable().Single(c => c.CITY_ID == CITY_CITY_ID);
             var server = new AUTH_SERVER()
             {
-                SERVER_ID = Guid.NewGuid().ToString(),
+                SERVER_ID =ServerRepository.GetNewID("AUTH_SERVER","SERVER_ID"),
                 SERVER_NAME = serverName,
                 DESCRIPTION = description,
                 URL = url,
-                IS_ACTIVE = isActive.ToString(),
+                IS_ACTIVE = isActive==true? "1" : "0",
                 AUTH_CITY = city
             };
             ServerRepository.Add(server);
@@ -69,18 +69,18 @@ namespace THOK.Authority.Bll.Service
             return true;
         }
 
-        public bool Save(string serverID, string serverName, string description, string url, bool isActive, string cityID)
+        public bool Save(string serverID, string serverName, string description, string url, bool isActive, string CITY_CITY_ID)
         {
             //Guid gServerID = new Guid(serverID);
             //Guid gCityID = new Guid(cityID);
-            var city = CityRepository.GetQueryable().Single(c => c.CITY_ID == cityID);
+            var city = CityRepository.GetQueryable().Single(c => c.CITY_ID == CITY_CITY_ID);
             var server = ServerRepository.GetQueryable()
                 .FirstOrDefault(i => i.SERVER_ID == serverID);
             server.SERVER_NAME = serverName;
             server.DESCRIPTION = description;
             server.URL = url;
-            server.IS_ACTIVE = isActive.ToString();
-            server.AUTH_CITY = city;
+            server.IS_ACTIVE = isActive.ToString() == "true" ? "1" : "0";
+            server.CITY_CITY_ID = city.CITY_ID;
             ServerRepository.SaveChanges();
             return true;
         }
@@ -97,7 +97,7 @@ namespace THOK.Authority.Bll.Service
             //Guid cityid=new Guid(cityID);
             //Guid serverid=new Guid(serverID);
             var server = ServerRepository.GetQueryable().Where(s => s.AUTH_CITY.CITY_ID == cityID && s.SERVER_ID == serverID).Select(s => s.SERVER_ID);
-            var servers = ServerRepository.GetQueryable().Where(s => !server.Any(sv => sv == s.SERVER_ID) && s.AUTH_CITY.CITY_ID == cityID).Select(s => new { s.SERVER_ID, s.SERVER_NAME, s.DESCRIPTION, Status = bool.Parse(s.IS_ACTIVE) ? "启用" : "禁用" });
+            var servers = ServerRepository.GetQueryable().Where(s => !server.Any(sv => sv == s.SERVER_ID) && s.AUTH_CITY.CITY_ID == cityID).Select(s => new { s.SERVER_ID, s.SERVER_NAME, s.DESCRIPTION, IS_ACTIVE = s.IS_ACTIVE=="1" ? "启用" : "禁用" });
             return servers.ToArray();
         }
 

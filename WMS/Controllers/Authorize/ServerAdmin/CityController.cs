@@ -28,37 +28,37 @@ namespace WMS.Controllers.ServerAdmin
         // GET: /City/Details/
         public ActionResult Details(int page, int rows,FormCollection collection)
         {
-            string cityName = collection["CityName"] ?? "";
-            string description = collection["Description"] ?? "";
-            string isActive = collection["IsActive"] ?? "";
-            string username = collection["username"] ?? "";
-            var users = CityService.GetDetails(page, rows, cityName, description,isActive);
+            string CITY_NAME = collection["CITY_NAME"] ?? "";
+            string DESCRIPTION = collection["DESCRIPTION"] ?? "";
+            string IS_ACTIVE = collection["IS_ACTIVE"] ?? "";
+            //string username = collection["username"] ?? "";
+            var users = CityService.GetDetails(page, rows, CITY_NAME, DESCRIPTION, IS_ACTIVE);
             return Json(users, "text", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /City/Create/
         [HttpPost]
-        public ActionResult Create(string cityName, string description, bool isActive)
+        public ActionResult Create(string CITY_NAME, string DESCRIPTION, bool IS_ACTIVE)
         {
-            bool bResult = CityService.Add(cityName, description,isActive);
+            bool bResult = CityService.Add(CITY_NAME, DESCRIPTION, IS_ACTIVE);
             string msg = bResult ? "新增成功" : "新增失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }
        
         // POST: /City/Edit/
         [HttpPost]
-        public ActionResult Edit(string cityID, string cityName, string description, bool isActive)
+        public ActionResult Edit(string CITY_ID, string CITY_NAME, string DESCRIPTION, bool IS_ACTIVE)
         {
-            bool bResult = CityService.Save(cityID, cityName, description, isActive);
+            bool bResult = CityService.Save(CITY_ID, CITY_NAME, DESCRIPTION, IS_ACTIVE);
             string msg = bResult ? "修改成功" : "修改失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /City/Delete/
         [HttpPost]
-        public ActionResult Delete(string cityID)
+        public ActionResult Delete(string CITY_ID)
         {
-            bool bResult = CityService.Delete(cityID);
+            bool bResult = CityService.Delete(CITY_ID);
             string msg = bResult ? "删除成功" : "删除失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }

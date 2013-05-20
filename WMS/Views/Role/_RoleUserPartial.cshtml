@@ -6,11 +6,11 @@
             for (var i = 0; i < row.length; i++) {
                 userString += row[i].UserID + ",";
             }
-            $.post("/Role/AddRoleUser/", { roleId: roleId, userIDstr: userString }, function (json) {
+            $.post("/Role/AddRoleUser/", { ROLE_ID: ROLE_ID, userIDstr: userString }, function (json) {
                 if (json) {
                     $.messager.show({ title: '系统提示', msg: '添加成功！' });
                     $('#RoleAddUser').window('close');
-                    $('#RoleUserDataGrid').datagrid('options').url = '/Role/GetRoleUser/?RoleID=' + roleId;
+                    $('#RoleUserDataGrid').datagrid('options').url = '/Role/GetRoleUser/?ROLE_ID=' + ROLE_ID;
                     $('#RoleUserDataGrid').datagrid('reload');
                 } else {
                     $.messager.show({ title: '系统提示', msg: '添加失败!请检查原因！' });
@@ -29,10 +29,10 @@
                 <thead>
                     <tr>
                         <th field="ck" checkbox="true"></th>
-                        <th field="UserID" width="180" hidden="true">用户编码</th>
-                        <th field="UserName" width="130">用户名称</th>
-                        <th field="Status" width="100">是否可用</th>
-                        <th field="Description" width="135">用户描述</th>
+                        <th field="USER_ID" width="180" hidden="true">用户编码</th>
+                        <th field="USER_NAME" width="130">用户名称</th>
+                        <th field="IS_LOCK" width="100">是否可用</th>
+                        <th field="MEMO" width="135">用户描述</th>
                     </tr>
                 </thead>
             </table>

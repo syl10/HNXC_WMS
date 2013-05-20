@@ -9,11 +9,12 @@
     };
 
     function select() {
+        debugger;
         var queryParams = $('#details').datagrid('options').queryParams;
-        queryParams.ServerName = $('#servername').val();
-        queryParams.Description = $('#description').val();
-        queryParams.Url = $('#url').val();
-        queryParams.IsActive = $('#isactive').val();
+        queryParams.SERVER_NAME = $('#SERVER_NAME').val();
+        queryParams.DESCRIPTION = $('#DESCRIPTION').val();
+        queryParams.URL = $('#URL').val();
+        queryParams.IS_ACTIVE = $('#IS_ACTIVE').val();
         $('#details').datagrid('options').queryParams = queryParams;
         $('#details').datagrid({
             pageNumber: 1,
@@ -32,20 +33,20 @@
             <table>
               <tr>
                 <td width="80">服务器名称</td>
-                <td width="168" align="left"><input id="servername"></td>
+                <td width="168" align="left"><input id="SERVER_NAME"></td>
               </tr>
               <tr>
                 <td width="60">URL</td>
-                <td width="168" align="left"><input id="url"></td>
+                <td width="168" align="left"><input id="URL"></td>
               </tr>
               <tr>
                 <td>描述</td>
-                <td align="left"><textarea id="description" style="width: 180px; height: 50px"></textarea></td>
+                <td align="left"><textarea id="DESCRIPTION" style="width: 180px; height: 50px"></textarea></td>
               </tr>
               <tr>
                 <td>状态</td>
                 <td align="left">      
-		            <select id="isactive" required="true" class="easyui-combobox" style="width: 50px">
+		            <select id="IS_ACTIVE" required="true" class="easyui-combobox" style="width: 50px">
 		                <option value="true">启用</option>
 		                <option value="false">禁用</option>
 	                </select>

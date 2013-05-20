@@ -8,33 +8,33 @@
             width: 120,
             panelWidth: 450,
             url: '/City/Details/?page=1&rows=5',
-            idField: 'CityID',
-            textField: 'CityName',
+            idField: 'CITY_ID',
+            textField: 'CITY_NAME',
             mode: 'local',
             editable: false,
             fitColumns: true,
             columns: [[
-					{ field: 'CityID', title: '城市ID', hidden: true, width: 30 },
-					{ field: 'CityName', title: '城市名称', align: 'left', width: 40 },
-                    { field: 'Description', title: '描述', align: 'left', width: 30 },
-					{ field: 'IsActive', title: '状态', align: 'left', width: 30 }
+					{ field: 'CITY_ID', title: '城市ID', hidden: true, width: 30 },
+					{ field: 'CITY_NAME', title: '城市名称', align: 'left', width: 40 },
+                    { field: 'DESCRIPTION', title: '描述', align: 'left', width: 30 },
+					{ field: 'IS_ACTIVE', title: '状态', align: 'left', width: 30 }
 				]]
         });
 
         $('#cgSystem').combogrid({
             width: 120,
             panelWidth: 450,
-            url: '/System/Details/?page=1&rows=2',
-            idField: 'SystemID',
-            textField: 'SystemName',
+            url: '/System/Details/?page=1&rows=10',
+            idField: 'SYSTEM_ID',
+            textField: 'SYSTEM_NAME',
             mode: 'local',
             editable: false,
             fitColumns: true,
             columns: [[
-					{ field: 'SystemID', title: '系统ID', hidden: true, width: 30 },
-					{ field: 'SystemName', title: '系统名称', align: 'left', width: 40 },
-					{ field: 'Description', title: '描述', align: 'left', width: 30 },
-					{ field: 'Status', title: '状态', align: 'left', width: 30 }
+					{ field: 'SYSTEM_ID', title: '系统ID', hidden: true, width: 30 },
+					{ field: 'SYSTEM_NAME', title: '系统名称', align: 'left', width: 40 },
+					{ field: 'DESCRIPTION', title: '描述', align: 'left', width: 30 },
+					{ field: 'STATUS', title: '状态', align: 'left', width: 30 }
 				]]
         });
     }
@@ -47,14 +47,15 @@
             addLoad();
             $('#cgCity').combogrid('clear');
             $('#cgSystem').combogrid('clear');
-            $('#dlg-permissionadmin').dialog('open').dialog('setTitle', '角色权限编辑：' + row.RoleName);
-            roleID = row.RoleID;
+            $('#dlg-permissionadmin').dialog('open').dialog('setTitle', '角色权限编辑：' + row.ROLE_NAME);
+            roleID = row.ROLE_ID;
         } else {
             $.messager.confirm('系统提示', '没有选择行！');
         }
     };
 
     function query() {
+        debugger;
         var cID = $('#cgCity').combogrid('getValue');
         var sID = $('#cgSystem').combogrid('getValue');
         cityID = cID;
@@ -75,6 +76,7 @@
     }
 
     function update() {
+        debugger;
         var roots = $('#tt').tree('getRoots'), children, i, j, info = "";
         for (i = 0; i < roots.length; i++) {
             info += roots[i].attributes + "^" + roots[i].id + "^" + roots[i].checked + ",";

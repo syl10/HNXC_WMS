@@ -7,17 +7,17 @@ function editClick() {
         $('#fm .easyui-validatebox').validatebox({
             required: true
         });
-        if (row.Status == '启用') {
-            $('#cc').combo('setValue', true).combo('setText', row.Status);
+        if (row.STATUS == '启用') {
+            $('#cc').combo('setValue', true).combo('setText', row.STATUS);
         } else {
-            $('#cc').combo('setValue', false).combo('setText', row.Status);
+            $('#cc').combo('setValue', false).combo('setText', row.STATUS);
         }
         $('form input').removeAttr("disabled");
         $('form textarea').removeAttr("disabled");
         $('#cc').combo({
             hasDownArrow: true
         });
-        url = '/System/Edit/?SystemID=' + row.SystemID;
+        url = '/System/Edit/?SYSTEM_ID=' + row.SYSTEM_ID;
     } else {
         $.messager.confirm('错误', '没有选择行！');
     }

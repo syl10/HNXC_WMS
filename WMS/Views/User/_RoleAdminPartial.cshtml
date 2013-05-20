@@ -1,6 +1,6 @@
 ﻿<script type="text/javascript">
-    var userId;
-    var userName;
+    var USER_ID;
+    var USER_NAME;
     $(function () {
         $('#UserAdminAdd').window({
             width: 500,
@@ -21,11 +21,11 @@
         if (row) {
             $('#UserAdminAdd').window('open');  
             $('#UserRoleDataGrid').datagrid('clearSelections'); //清空所有选择项
-            $('#UserAdminAdd').dialog('open').dialog('setTitle', "用户编辑角色：" + row.UserName);
-            userId = row.UserID;
-            userName = row.UserName;
+            $('#UserAdminAdd').dialog('open').dialog('setTitle', "用户编辑角色：" + row.USER_NAME);
+            USER_ID = row.USER_ID;
+            USER_NAME = row.USER_NAME;
             $('#UserRoleDataGrid').datagrid({
-                url: '/User/GetUserRole/?UserID=' + row.UserID
+                url: '/User/GetUserRole/?USER_ID=' + row.USER_ID
             });
         } else {
             $('#UserAdminAdd').window('close');
@@ -35,9 +35,9 @@
 
     //添加角色
     function UserRoleAddClick() {
-        $('#UserAddRole').dialog('open').dialog('setTitle', "用户添加角色：" + userName);
+        $('#UserAddRole').dialog('open').dialog('setTitle', "用户添加角色：" + USER_NAME);
         $('#UserAddRoleDatagrid').datagrid({
-            url: '/User/GetRoleInfo/?UserID=' + userId
+            url: '/User/GetRoleInfo/?userID=' + USER_ID
         });
         $('#UserAddRoleDatagrid').datagrid('clearSelections'); //清空所有选择项
     }
@@ -53,7 +53,7 @@
             $.post("/User/DeleteUserRole/", { userRoleIdStr: userRoleString }, function (json) {
                 if (json) {
                     $.messager.show({ title: '系统提示', msg: '删除成功！' });
-                    $('#UserRoleDataGrid').datagrid('options').url = '/User/GetUserRole/?UserID=' + userId;
+                    $('#UserRoleDataGrid').datagrid('options').url = '/User/GetUserRole/?USER_ID=' + USER_ID;
                     $('#UserRoleDataGrid').datagrid('reload');
                     $('#UserRoleDataGrid').datagrid('clearSelections'); //清空所有选择项
                 } else {

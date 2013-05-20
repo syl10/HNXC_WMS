@@ -29,28 +29,28 @@ namespace THOK.Authority.Bll.Service
         {
             get { return this.GetType(); }
         }
-        public bool UpdateUserInfo(string userName)
+        public bool UpdateUserInfo(string USER_NAME)
         {
             string ipaddress=System.Net.Dns.Resolve(System.Net.Dns.GetHostName()).AddressList[0].ToString();
-            var user = UserRepository.GetSingle(i => i.USER_NAME == userName);
+            var user = UserRepository.GetSingle(i => i.USER_NAME == USER_NAME);
             if (user != null)
             {
-                user.USER_NAME = userName;
+                user.USER_NAME = USER_NAME;
                 user.LOGIN_PC = ipaddress;
                 UserRepository.SaveChanges();
                 return true;
             }
             else { return false; }
         }
-        public string GetLocalIp(string userName)
+        public string GetLocalIp(string USER_NAME)
         {
             string ipaddress = System.Net.Dns.Resolve(System.Net.Dns.GetHostName()).AddressList[0].ToString();
             return ipaddress;
         }
-        public string GetUserIp(string userName)
+        public string GetUserIp(string USER_NAME)
         {
             string loginPC = "";
-            var user = UserRepository.GetQueryable().Where(i => i.USER_NAME == userName).ToArray();
+            var user = UserRepository.GetQueryable().Where(i => i.USER_NAME == USER_NAME).ToArray();
             if (user.Count() > 0)
             {
                 loginPC = user[0].LOGIN_PC;
@@ -62,9 +62,9 @@ namespace THOK.Authority.Bll.Service
             }
         }
 
-        public bool DeleteUserIp(string userName)
+        public bool DeleteUserIp(string USER_NAME)
         {
-            var user = UserRepository.GetSingle(i => i.USER_NAME == userName);
+            var user = UserRepository.GetSingle(i => i.USER_NAME == USER_NAME);
             if (user != null)
             {
                 user.LOGIN_PC = "";
@@ -74,32 +74,34 @@ namespace THOK.Authority.Bll.Service
             else { return false; }
         }
 
-        public object GetDetails(int page, int rows, string userName, string chineseName, string isLock, string isAdmin, string memo)
+        public object GetDetails(int page, int rows, string USER_NAME, string CHINESE_NAME, string isLock, string isAdmin, string MEMO)
         {
             IQueryable<AUTH_USER> query = UserRepository.GetQueryable();
-            var users = query.Where(i => i.USER_NAME.Contains(userName)
-                && i.CHINESE_NAME.Contains(chineseName)
-                && i.MEMO.Contains(memo))
-                .OrderBy(i => i.USER_ID)
-                .Select(i => new { i.USER_ID, i.USER_NAME, i.CHINESE_NAME, i.MEMO, IsLock =bool.Parse(i.IS_LOCK) ? "是" : "否", IsAdmin = bool.Parse(i.IS_ADMIN) ? "是" : "否" });
-            int total = users.Count();
-            users = users.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = users.ToArray() };
+            var users = query.OrderBy(i => i.USER_ID).Select(i => new { i.USER_ID, i.USER_NAME, i.CHINESE_NAME, i.MEMO, IS_LOCK = i.IS_LOCK == "1" ? "是" : "否", IS_ADMIN = i.IS_ADMIN == "1" ? "是" : "否" }).Skip((page - 1) * rows).Take(rows); 
+            if (!USER_NAME.Trim().Equals("")) { users=users.Where(i=>i.USER_NAME.Contains(USER_NAME)); }
+            if (!CHINESE_NAME.Trim().Equals("")) { users=users.Where(i=>i.CHINESE_NAME.Contains(CHINESE_NAME)); }
+            if (!MEMO.Trim().Equals("")) { users = users.Where(i => i.MEMO.Contains(MEMO)); }
+            //   users.OrderBy(i => i.USER_ID).Select(i => new { i.USER_ID, i.USER_NAME, i.CHINESE_NAME, i.MEMO, IS_LOCK = i.IS_LOCK == "1" ? "是" : "否", IS_ADMIN = i.IS_ADMIN == "1" ? "是" : "否" });
+            //int total = users.Count();
+            //users = users.Skip((page - 1) * rows).Take(rows);
+            //return new { total, rows = users.ToArray() };
+            return users.ToArray();
         }
 
-        public bool Add(string userName, string pwd, string chineseName, bool isLock, bool isAdmin, string memo)
+        public bool Add(string userName, string pwd, string CHINESE_NAME, string IS_LOCK, string IS_ADMIN, string MEMO)
         {
             if (Check(userName))
             {
                 var user = new AUTH_USER()
                 {
-                    USER_ID = Guid.NewGuid().ToString(),
+                  //  USER_ID = Guid.NewGuid().ToString(),
+                  USER_ID=UserRepository.GetNewID("AUTH_USER","USER_ID"),
                     USER_NAME = userName,
                     PWD = EncryptPassword(pwd),
-                    CHINESE_NAME = chineseName,
-                    IS_LOCK = isLock.ToString(),
-                    IS_ADMIN = isAdmin.ToString(),
-                    MEMO = memo
+                  CHINESE_NAME = CHINESE_NAME,
+                  IS_LOCK = IS_LOCK.ToString(),
+                  IS_ADMIN = IS_ADMIN.ToString(),
+                  MEMO = MEMO
                 };
                 UserRepository.Add(user);
                 UserRepository.SaveChanges();
@@ -108,11 +110,11 @@ namespace THOK.Authority.Bll.Service
             else { return false; }
         }
 
-        public bool Delete(string userID)
+        public bool Delete(string USER_ID)
         {
             //Guid gUserID = new Guid(userID);
             var user = UserRepository.GetQueryable()
-                .FirstOrDefault(u => u.USER_ID == userID);
+                .FirstOrDefault(u => u.USER_ID == USER_ID);
             if (user != null)
             {
                 Del(UserRoleRepository, user.AUTH_USER_ROLE);
@@ -125,17 +127,17 @@ namespace THOK.Authority.Bll.Service
             return true;
         }
 
-        public bool Save(string userID, string userName, string pwd, string chineseName, bool isLock, bool isAdmin, string memo)
+        public bool Save(string USER_ID, string USER_NAME, string PWD, string CHINESE_NAME, string IS_LOCK, string IS_ADMIN, string MEMO)
         {
             //Guid gUserID = new Guid(userID);
             var user = UserRepository.GetQueryable()
-                .FirstOrDefault(u => u.USER_ID == userID);
-            user.USER_NAME = userName;
-            user.PWD = !string.IsNullOrEmpty(pwd) ? EncryptPassword(pwd) : user.PWD;
-            user.CHINESE_NAME = chineseName;
-            user.IS_LOCK = isLock.ToString();
-            user.IS_ADMIN = isAdmin.ToString();
-            user.MEMO = memo;
+                .FirstOrDefault(u => u.USER_ID == USER_ID);
+            user.USER_NAME = USER_NAME;
+            user.PWD = !string.IsNullOrEmpty(PWD) ? EncryptPassword(PWD) : user.PWD;
+            user.CHINESE_NAME = CHINESE_NAME;
+            user.IS_LOCK = IS_LOCK.ToString();
+            user.IS_ADMIN = IS_ADMIN.ToString();
+            user.MEMO = MEMO;
             UserRepository.SaveChanges();
             return true;
         }
@@ -221,10 +223,10 @@ namespace THOK.Authority.Bll.Service
         /// </summary>
         /// <param name="userName"></param>
         /// <returns></returns>
-        public bool Check(string userName)
+        public bool Check(string USER_NAME)
         {
             var userNames = UserRepository.GetQueryable().Select(u => u.USER_NAME).ToArray();
-            if(userNames.Contains(userName))
+            if (userNames.Contains(USER_NAME))
             {
                 return false;
             }
@@ -316,7 +318,8 @@ namespace THOK.Authority.Bll.Service
                     string rid = roleIdList[i].ToString();
                     var role = RoleRepository.GetQueryable().FirstOrDefault(r => r.ROLE_ID == rid);
                     var userRole = new AUTH_USER_ROLE();
-                    userRole.USER_ROLE_ID = Guid.NewGuid().ToString();
+                   // userRole.USER_ROLE_ID = Guid.NewGuid().ToString();
+                    userRole.USER_ROLE_ID = UserRepository.GetNewID("AUTH_USER_ROLE", "USER_ROLE_ID");
                     userRole.AUTH_USER = user;
                     userRole.AUTH_ROLE = role;
                     UserRoleRepository.Add(userRole);
@@ -350,7 +353,7 @@ namespace THOK.Authority.Bll.Service
                     i.USER_ID,
                     i.USER_NAME,
                     i.CHINESE_NAME,
-                    IsAdmin = bool.Parse(i.IS_ADMIN) ? "是" : "否"
+                    IsAdmin = i.IS_ADMIN=="1" ? "是" : "否"
                 });
             int total = users.Count();
             users = users.Skip((page - 1) * rows).Take(rows);

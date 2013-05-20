@@ -12,12 +12,12 @@
                 hasDownArrow: false
             });
             $('#fm').form('load', row);
-            if (row.Status == '启用') {
-                $('#cc').combo('setValue', true).combo('setText', row.IsActive);
+            if (row.IS_ACTIVE == '1') {
+                $('#cc').combo('setValue', true).combo('setText', row.IS_ACTIVE);
             } else {
-                $('#cc').combo('setValue', false).combo('setText', row.IsActive);
+                $('#cc').combo('setValue', false).combo('setText', row.IS_ACTIVE);
             }
-            url = '/City/Delete/?CityID=' + row.CityID;
+            url = '/City/Delete/?CITY_ID=' + row.CITY_ID;
         } else {
             $.messager.confirm('错误', '没有选择行！');
         }

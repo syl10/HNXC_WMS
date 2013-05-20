@@ -25,10 +25,10 @@ namespace THOK.Wms.Repository.RepositoryContext
 
         public int SaveChanges()
         {
-            
+            int i = 0;
             try
             {
-             return  this.DbContext.SaveChanges();
+             return i=this.DbContext.SaveChanges();
             }
             catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {

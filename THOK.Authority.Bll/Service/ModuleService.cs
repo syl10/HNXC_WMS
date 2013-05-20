@@ -104,7 +104,7 @@ namespace THOK.Authority.Bll.Service
         {
             IQueryable<AUTH_SYSTEM> querySystem = SystemRepository.GetQueryable();
             IQueryable<AUTH_MODULE> queryModule = ModuleRepository.GetQueryable();
-            moduleID = !String.IsNullOrEmpty(moduleID) ? moduleID : "40DD7298-F410-43F2-840A-7C04F09B5CE2";
+            moduleID = !String.IsNullOrEmpty(moduleID) ? moduleID : "001";
             var system = querySystem.FirstOrDefault(i => i.SYSTEM_ID == systemID);
             var parentModule = queryModule.FirstOrDefault(i => i.MODULE_ID == moduleID);
             var module = new AUTH_MODULE();
@@ -145,10 +145,12 @@ namespace THOK.Authority.Bll.Service
 
         public bool Save(string moduleID, string moduleName, int showOrder, string moduleUrl, string indicateImage, string deskTopImage)
         {
-            IQueryable<AUTH_MODULE> queryModule = ModuleRepository.GetQueryable();
+           // IQueryable<AUTH_MODULE> queryModule = ModuleRepository.GetQueryable();
             //Guid sid = new Guid(moduleID);
             //var module = queryModule.FirstOrDefault(i => i.ModuleID == sid);
-            var module = queryModule.FirstOrDefault(i => i.MODULE_ID == moduleID);
+
+            var module = ModuleRepository.GetQueryable().FirstOrDefault(i => i.MODULE_ID == moduleID);
+            //var module = queryModule.FirstOrDefault(i => i.MODULE_ID == moduleID);
             module.MODULE_NAME = moduleName;
             module.SHOW_ORDER = showOrder;
             module.MODULE_URL = moduleUrl;
@@ -610,7 +612,8 @@ namespace THOK.Authority.Bll.Service
                 var roleFunction = queryRoleFunction.FirstOrDefault(rf => rf.AUTH_FUNCTION.FUNCTION_ID == func.FUNCTION_ID && rf.AUTH_ROLE_MODULE.ROLE_MODULE_ID == roleModules.ROLE_MODULE_ID);
                 funcTree.id = roleFunction.ROLE_FUNCTION_ID.ToString();
                 funcTree.text = "功能：" + func.FUNCTION_NAME;
-                funcTree.@checked = roleFunction == null ? false : bool.Parse(roleFunction.IS_ACTIVE);
+                int a =Convert.ToInt32(roleFunction.IS_ACTIVE);
+                funcTree.@checked = roleFunction == null ? false : Convert.ToBoolean(a);
                 funcTree.attributes = "function";
                 functionTreeSet.Add(funcTree);
             }
@@ -640,7 +643,8 @@ namespace THOK.Authority.Bll.Service
             Tree roleSystemTree = new Tree();
             roleSystemTree.id = roleSystems.ROLE_SYSTEM_ID.ToString();
             roleSystemTree.text = "系统：" + systems.SYSTEM_NAME;
-            roleSystemTree.@checked = bool.Parse(roleSystems.IS_ACTIVE);
+            int a = Convert.ToInt32(roleSystems.IS_ACTIVE);
+            roleSystemTree.@checked = Convert.ToBoolean(a);
             roleSystemTree.attributes = "system";
 
             var modules = queryModule.Where(m => m.AUTH_SYSTEM.SYSTEM_ID == systems.SYSTEM_ID && m.MODULE_ID == m.PARENT_AUTH_MODULE.MODULE_ID)
@@ -655,7 +659,8 @@ namespace THOK.Authority.Bll.Service
                 var roleModules = queryRoleModule.FirstOrDefault(i => i.AUTH_MODULE.MODULE_ID == moduleID && i.AUTH_ROLE_SYSTEM.ROLE_SYSTEM_ID == roleSystems.ROLE_SYSTEM_ID);
                 moduleTree.id = roleModules.ROLE_MODULE_ID.ToString();
                 moduleTree.text = "模块：" + item.MODULE_NAME;
-                moduleTree.@checked = bool.Parse(roleModules.IS_ACTIVE);
+                string b = roleModules.IS_ACTIVE == "1" ? "true" : "false";
+                moduleTree.@checked = bool.Parse(b);
                 moduleTree.attributes = "module";
 
                 moduleTreeSet.Add(moduleTree);
@@ -685,7 +690,8 @@ namespace THOK.Authority.Bll.Service
 
                     childTree.id = roleModules.ROLE_MODULE_ID.ToString();
                     childTree.text = "模块：" + item.MODULE_NAME;
-                    childTree.@checked = roleModules == null ? false : bool.Parse(roleModules.IS_ACTIVE);
+                    int a =Convert.ToInt32(roleModules.IS_ACTIVE);
+                    childTree.@checked = roleModules == null ? false : Convert.ToBoolean(a);
                     childTree.attributes = "module";
                     childTreeSet.Add(childTree);
                     if (item.AUTH_MODULES.Count > 0)
@@ -706,21 +712,21 @@ namespace THOK.Authority.Bll.Service
             string[] rolePermissionList = rolePermissionStr.Split(',');
             string type;
             string id;
-            bool isActive;
+            string isActive;
             bool result = false;
             for (int i = 0; i < rolePermissionList.Length - 1; i++)
             {
                 string[] rolePermission = rolePermissionList[i].Split('^');
                 type = rolePermission[0];
                 id = rolePermission[1];
-                isActive = Convert.ToBoolean(rolePermission[2]);
+                isActive = rolePermission[2]=="true"?"1":"0";
                 UpdateRolePermission(type, id, isActive);
                 result = true;
             }
             return result;
         }
 
-        public bool UpdateRolePermission(string type, string id, bool isActive)
+        public bool UpdateRolePermission(string type, string id, string isActive)
         {
             bool result = false;
             if (type == "system")
@@ -791,7 +797,8 @@ namespace THOK.Authority.Bll.Service
 
                 moduleTree.id = userModules.USER_MODULE_ID.ToString();
                 moduleTree.text = "模块：" + item.MODULE_NAME;
-                moduleTree.@checked = bool.Parse(userModules.IS_ACTIVE);
+                int a = Convert.ToInt32(userModules.IS_ACTIVE);
+                moduleTree.@checked =Convert.ToBoolean(a);
                 moduleTree.attributes = "module";
 
                 moduleTreeSet.Add(moduleTree);
@@ -820,7 +827,8 @@ namespace THOK.Authority.Bll.Service
 
                     childTree.id = userModules.USER_MODULE_ID.ToString();
                     childTree.text = "模块：" + item.MODULE_NAME;
-                    childTree.@checked = userModules == null ? false : bool.Parse(userModules.IS_ACTIVE);
+                    int a = Convert.ToInt32(userModules.IS_ACTIVE);
+                    childTree.@checked = userModules == null ? false : Convert.ToBoolean(a);
                     childTree.attributes = "module";
                     childTreeSet.Add(childTree);
                     if (item.AUTH_MODULES.Count > 0)
@@ -846,7 +854,8 @@ namespace THOK.Authority.Bll.Service
                 var userFunction = UserFunctionRepository.GetQueryable().FirstOrDefault(rf => rf.AUTH_FUNCTION.FUNCTION_ID == func.FUNCTION_ID && rf.AUTH_USER_MODULE.USER_MODULE_ID == userModules.USER_MODULE_ID);
                 funcTree.id = userFunction.USER_FUNCTION_ID.ToString();
                 funcTree.text = "功能：" + func.FUNCTION_NAME;
-                funcTree.@checked = userFunction == null ? false : bool.Parse(userFunction.IS_ACTIVE);
+                int a = Convert.ToInt32(userFunction.IS_ACTIVE);
+                funcTree.@checked = userFunction == null ? false : Convert.ToBoolean(a);
                 funcTree.attributes = "function";
                 functionTreeSet.Add(funcTree);
             }
@@ -858,21 +867,21 @@ namespace THOK.Authority.Bll.Service
             string[] rolePermissionList = userPermissionStr.Split(',');
             string type;
             string id;
-            bool isActive;
+            string isActive;
             bool result = false;
             for (int i = 0; i < rolePermissionList.Length - 1; i++)
             {
                 string[] rolePermission = rolePermissionList[i].Split('^');
                 type = rolePermission[0];
                 id = rolePermission[1];
-                isActive = Convert.ToBoolean(rolePermission[2]);
+                isActive = rolePermission[2]=="true"?"1":"0";
                 UpdateUserPermission(type, id, isActive);
                 result = true;
             }
             return result;
         }
 
-        private bool UpdateUserPermission(string type, string id, bool isActive)
+        private bool UpdateUserPermission(string type, string id, string isActive)
         {
             bool result = false;
             if (type == "system")
@@ -880,7 +889,7 @@ namespace THOK.Authority.Bll.Service
                 IQueryable<AUTH_USER_SYSTEM> queryUserSystem = UserSystemRepository.GetQueryable();
                 //Guid sid = new Guid(id);
                 var system = queryUserSystem.FirstOrDefault(i => i.USER_SYSTEM_ID == id);
-                system.IS_ACTIVE = isActive.ToString();
+                system.IS_ACTIVE = isActive;
                 RoleSystemRepository.SaveChanges();
                 result = true;
             }
@@ -889,7 +898,7 @@ namespace THOK.Authority.Bll.Service
                 IQueryable<AUTH_USER_MODULE> queryUserModule = UserModuleRepository.GetQueryable();
                // Guid mid = new Guid(id);
                 var module = queryUserModule.FirstOrDefault(i => i.USER_MODULE_ID == id);
-                module.IS_ACTIVE = isActive.ToString();
+                module.IS_ACTIVE = isActive;
                 RoleModuleRepository.SaveChanges();
                 result = true;
             }
@@ -898,7 +907,7 @@ namespace THOK.Authority.Bll.Service
                 IQueryable<AUTH_USER_FUNCTION> queryUserFunction = UserFunctionRepository.GetQueryable();
                 //Guid fid = new Guid(id);
                 var system = queryUserFunction.FirstOrDefault(i => i.USER_FUNCTION_ID == id);
-                system.IS_ACTIVE = isActive.ToString();
+                system.IS_ACTIVE = isActive;
                 RoleSystemRepository.SaveChanges();
                 result = true;
             }

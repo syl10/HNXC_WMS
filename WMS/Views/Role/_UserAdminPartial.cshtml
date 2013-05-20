@@ -21,11 +21,11 @@
         if (row) {
             $('#UserAdminAdd').window('open');
             $('#RoleUserDataGrid').datagrid('clearSelections'); //清空所有选择项
-            $('#UserAdminAdd').dialog('open').dialog('setTitle', "角色用户编辑：" + row.RoleName);
-            roleId = row.RoleID;
-            roleName = row.RoleName;
+            $('#UserAdminAdd').dialog('open').dialog('setTitle', "角色用户编辑：" + row.ROLE_NAME);
+            roleId = row.ROLE_ID;
+            roleName = row.ROLE_NAME;
             $('#RoleUserDataGrid').datagrid({
-                url: '/Role/GetRoleUser/?RoleID=' + row.RoleID
+                url: '/Role/GetRoleUser/?ROLE_ID=' + row.ROLE_ID
             });
         } else {
             $('#UserAdminAdd').window('close');
@@ -35,9 +35,10 @@
 
     //添加用户
     function RoleUserAddClick() {
-        $('#RoleAddUser').dialog('open').dialog('setTitle', "角色添加用户：" + roleName);
+        debugger;
+        $('#RoleAddUser').dialog('open').dialog('setTitle', "角色添加用户：" + ROLE_NAME);
         $('#RoleAddUserDatagrid').datagrid({
-            url: '/Role/GetUserInfo/?RoleID=' + roleId
+            url: '/Role/GetUserInfo/?ROLE_ID=' + roleId
         });
         $('#RoleAddUserDatagrid').datagrid('clearSelections'); //清空所有选择项
     }
@@ -55,7 +56,7 @@
             $.post("/Role/DeleteRoleUser/", { roleUserIdStr: roleUserString }, function (json) {
                 if (json) {
                     $.messager.show({ title: '系统提示', msg: '删除成功！' });
-                    $('#RoleUserDataGrid').datagrid('options').url = '/Role/GetRoleUser/?RoleID=' + roleId;
+                    $('#RoleUserDataGrid').datagrid('options').url = '/Role/GetRoleUser/?ROLE_ID=' + ROLE_ID;
                     $('#RoleUserDataGrid').datagrid('reload');
                     $('#RoleUserDataGrid').datagrid('clearSelections'); //清空所有选择项
                 } else {
@@ -74,11 +75,11 @@
         <thead>
             <tr>
                 <th field="ck" checkbox="true"></th>
-                <th field="UserRoleID" width="80" hidden="true">角色用户编码</th>
-                <th field="UserID" width="120" hidden="true">用户编码</th>
-                <th field="RoleID" width="80" hidden="true">角色编码</th>
-                <th field="RoleName" width="150" hidden="true">角色名称</th>
-                <th field="UserName" width="480">用户名称</th>
+                <th field="USER_ROLE_ID" width="80" hidden="true">角色用户编码</th>
+                <th field="USER_ID" width="120" hidden="true">用户编码</th>
+                <th field="ROLE_ID" width="80" hidden="true">角色编码</th>
+                <th field="ROLE_NAME" width="150" hidden="true">角色名称</th>
+                <th field="USER_NAME" width="480">用户名称</th>
             </tr>
         </thead>
     </table>

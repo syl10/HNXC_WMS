@@ -17,17 +17,17 @@
             });
             $('#fm').form('clear');
             $('#fm').form('load', row);
-            if (row.IsLock == '是') {
-                $('#c1').combo('setValue', true).combo('setText', row.IsLock);
+            if (row.IS_LOCK == '是') {
+                $('#c1').combo('setValue', 1).combo('setText', row.IS_LOCK);
             } else {
-                $('#c1').combo('setValue', false).combo('setText', row.IsLock);
+                $('#c1').combo('setValue', 0).combo('setText', row.IS_LOCK);
             }
-            if (row.IsAdmin == '是') {
-                $('#c2').combo('setValue', true).combo('setText', row.IsAdmin);
+            if (row.IS_ADMIN == '是') {
+                $('#c2').combo('setValue', 1).combo('setText', row.IS_ADMIN);
             } else {
-                $('#c2').combo('setValue', false).combo('setText', row.IsAdmin);
+                $('#c2').combo('setValue', 0).combo('setText', row.IS_ADMIN);
             }
-            url = '/User/Delete/?UserID=' + row.UserID;
+            url = '/User/Delete/?USER_ID=' + row.USER_ID;
         } else {
             $.messager.confirm('错误', '没有选择行！');
         }
