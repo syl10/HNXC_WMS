@@ -12,7 +12,7 @@
         $('#loginOut').click(function () {
             $.messager.confirm('系统提示', '您确定要退出本次登录吗?', function (r) {
                 if (r) {
-                    refresh();
+                    location.href = '/Account/LogOff';
                 }
             });
         })
@@ -20,7 +20,7 @@
         $('#changeUser').click(function () {
             $.messager.confirm('系统提示', '您确定要切换用户登录吗?', function (r) {
                 if (r) {
-                    refresh();
+                    location.href = '/Account/LogOff';
                 }
             });
         })

@@ -38,7 +38,7 @@ namespace WMS.Controllers.ServerAdmin
 
         // POST: /City/Create/
         [HttpPost]
-        public ActionResult Create(string CITY_NAME, string DESCRIPTION, bool IS_ACTIVE)
+        public ActionResult Create(string CITY_NAME, string DESCRIPTION, string IS_ACTIVE)
         {
             bool bResult = CityService.Add(CITY_NAME, DESCRIPTION, IS_ACTIVE);
             string msg = bResult ? "新增成功" : "新增失败";
@@ -47,7 +47,7 @@ namespace WMS.Controllers.ServerAdmin
        
         // POST: /City/Edit/
         [HttpPost]
-        public ActionResult Edit(string CITY_ID, string CITY_NAME, string DESCRIPTION, bool IS_ACTIVE)
+        public ActionResult Edit(string CITY_ID, string CITY_NAME, string DESCRIPTION, string IS_ACTIVE)
         {
             bool bResult = CityService.Save(CITY_ID, CITY_NAME, DESCRIPTION, IS_ACTIVE);
             string msg = bResult ? "修改成功" : "修改失败";

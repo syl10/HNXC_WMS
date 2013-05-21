@@ -35,11 +35,11 @@ namespace THOK.Authority.Bll.Service
             IQueryable<AUTH_SYSTEM> query = SystemRepository.GetQueryable();
             var systems = query.Where(i => i.SYSTEM_NAME.Contains(system_Name) && i.DESCRIPTION.Contains(description))
                 .OrderBy(i => i.SYSTEM_ID)
-                .Select(i => new { i.SYSTEM_ID, i.SYSTEM_NAME, i.DESCRIPTION, STATUS=i.STATUS == "1" ? "启用" : "禁用" });
+                .Select(i => new { i.SYSTEM_ID, i.SYSTEM_NAME, i.DESCRIPTION, STATUS = i.STATUS == "1" ? "启用" : "禁用" });
             if (status != "")
             {
                // bool bStatus = Convert.ToBoolean(status);
-                string bStatus = status == "true" ? "1" : "0";
+                string bStatus = status;
                 systems = query.Where(i => i.SYSTEM_NAME.Contains(system_Name) && i.DESCRIPTION.Contains(description) && i.STATUS == bStatus)
                     .OrderBy(i => i.SYSTEM_ID)
                     .Select(i => new { i.SYSTEM_ID, i.SYSTEM_NAME, i.DESCRIPTION, STATUS = i.STATUS == "1" ? "启用" : "禁用" });
@@ -49,7 +49,7 @@ namespace THOK.Authority.Bll.Service
             return new { total, rows = systems.ToArray() };
         }
 
-        public bool Add(string systemName, string description, bool status)
+        public bool Add(string systemName, string description, string status)
         {
             var system = new AUTH_SYSTEM()
             {
@@ -57,7 +57,7 @@ namespace THOK.Authority.Bll.Service
                SYSTEM_ID=SystemRepository.GetNewID("AUTH_SYSTEM","SYSTEM_ID"),
                 SYSTEM_NAME = systemName,
                 DESCRIPTION = description,
-                STATUS = status==true?"1":"0"
+                STATUS = status
             };
             SystemRepository.Add(system);
             SystemRepository.SaveChanges();
@@ -83,14 +83,14 @@ namespace THOK.Authority.Bll.Service
             return true;
         }
 
-        public bool Save(string systemId, string systemName, string description, bool status)
+        public bool Save(string systemId, string systemName, string description, string status)
         {
             //Guid sid = new Guid(systemId);
             var system = SystemRepository.GetQueryable()
                 .FirstOrDefault(i => i.SYSTEM_ID == systemId);
             system.SYSTEM_NAME = systemName;
             system.DESCRIPTION = description;
-            system.STATUS = status==true ? "1" : "0";
+            system.STATUS = status;
             SystemRepository.SaveChanges();
             return true;
         }
@@ -112,8 +112,8 @@ namespace THOK.Authority.Bll.Service
             var userSystems = UserSystemRepository.GetQueryable().Where(us => !userSystemId.Any(uid => uid == us.USER_SYSTEM_ID)
                 && us.USER_USER_ID == user.USER_ID && us.AUTH_CITY.CITY_ID == cityID);
             var userSystem = userSystems.Where(u => userSystems.Any(us => us.AUTH_USER_MODULE.Any(um => um.AUTH_USER_FUNCTION.Any(uf => 
-                uf.USER_MODULE_USER_MODULE_ID.ToString() == um.USER_MODULE_ID && bool.Parse(uf.IS_ACTIVE) == true) || bool.Parse(um.IS_ACTIVE) == true) || bool.Parse(us.IS_ACTIVE) == true))
-                .Select(us => new {us.AUTH_SYSTEM.SYSTEM_ID, us.AUTH_SYSTEM.SYSTEM_NAME, us.AUTH_SYSTEM.DESCRIPTION, Status =bool.Parse(us.AUTH_CITY.IS_ACTIVE) ? "启用" : "禁用" });
+                uf.USER_MODULE_USER_MODULE_ID== um.USER_MODULE_ID && uf.IS_ACTIVE == "1") || um.IS_ACTIVE == "1") || us.IS_ACTIVE == "1"))
+                .Select(us => new {us.AUTH_SYSTEM.SYSTEM_ID, us.AUTH_SYSTEM.SYSTEM_NAME, us.AUTH_SYSTEM.DESCRIPTION, Status =us.AUTH_CITY.IS_ACTIVE=="1" ? "启用" : "禁用" });
             return userSystem.ToArray();
         }
 

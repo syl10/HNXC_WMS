@@ -6,11 +6,11 @@ namespace THOK.Authority.Bll.Interfaces
     {
         object GetDetails(int page, int rows, string cityName, string description, string isActive);
 
-        bool Add(string cityName, string description, bool isActive);        
+        bool Add(string cityName, string description, string isActive);        
 
         bool Delete(string cityID);
 
-        bool Save(string cityID, string cityName, string description, bool isActive);
+        bool Save(string cityID, string cityName, string description, string isActive);
 
         object GetCityByCityID(string cityID);
 

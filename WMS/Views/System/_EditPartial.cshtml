@@ -8,9 +8,9 @@ function editClick() {
             required: true
         });
         if (row.STATUS == '∆Ù”√') {
-            $('#cc').combo('setValue', true).combo('setText', row.STATUS);
+            $('#cc').combo('setValue', 1).combo('setText', row.STATUS);
         } else {
-            $('#cc').combo('setValue', false).combo('setText', row.STATUS);
+            $('#cc').combo('setValue', 0).combo('setText', row.STATUS);
         }
         $('form input').removeAttr("disabled");
         $('form textarea').removeAttr("disabled");

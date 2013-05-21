@@ -6,11 +6,11 @@ namespace THOK.Authority.Bll.Interfaces
     {
         object GetDetails(int page, int rows, string systemName, string description, string status);
 
-        bool Add(string systemName, string description, bool status);
+        bool Add(string systemName, string description, string status);
 
         bool Delete(string systemId);
 
-        bool Save(string systemId, string systemName, string description, bool status);
+        bool Save(string systemId, string systemName, string description, string status);
 
         object GetSystemById(string systemID);
 

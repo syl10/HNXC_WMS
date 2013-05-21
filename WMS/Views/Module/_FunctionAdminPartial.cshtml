@@ -18,6 +18,7 @@
 
     //加载
     function functionadminClick() {
+        debugger;
         var row = $('#details').treegrid('getSelected');
         if (row) {
             $('#module_functionadmin').window('open');
@@ -65,6 +66,7 @@
     }
 
     function current(Parameter) {
+        debugger;
         var row = $('#functiondatagrid').datagrid('getSelected');
         $('#ModuletID').val(moduleId);
         $('#FunctionName').val(row.FunctionName);
