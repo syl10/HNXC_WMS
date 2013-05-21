@@ -36,7 +36,7 @@ namespace THOK.Authority.Bll.Service
             return new { total, rows = servers.ToArray() };
         }
 
-        public bool Add(string serverName, string description, string url, bool isActive, string CITY_CITY_ID)
+        public bool Add(string serverName, string description, string url, string isActive, string CITY_CITY_ID)
         {
             // Guid gCityID = new Guid(cityID);
             var city = CityRepository.GetQueryable().Single(c => c.CITY_ID == CITY_CITY_ID);
@@ -46,7 +46,7 @@ namespace THOK.Authority.Bll.Service
                 SERVER_NAME = serverName,
                 DESCRIPTION = description,
                 URL = url,
-                IS_ACTIVE = isActive==true? "1" : "0",
+                IS_ACTIVE = isActive,
                 AUTH_CITY = city
             };
             ServerRepository.Add(server);
@@ -69,7 +69,7 @@ namespace THOK.Authority.Bll.Service
             return true;
         }
 
-        public bool Save(string serverID, string serverName, string description, string url, bool isActive, string CITY_CITY_ID)
+        public bool Save(string serverID, string serverName, string description, string url, string isActive, string CITY_CITY_ID)
         {
             //Guid gServerID = new Guid(serverID);
             //Guid gCityID = new Guid(cityID);
@@ -79,7 +79,7 @@ namespace THOK.Authority.Bll.Service
             server.SERVER_NAME = serverName;
             server.DESCRIPTION = description;
             server.URL = url;
-            server.IS_ACTIVE = isActive.ToString() == "true" ? "1" : "0";
+            server.IS_ACTIVE = isActive.ToString();
             server.CITY_CITY_ID = city.CITY_ID;
             ServerRepository.SaveChanges();
             return true;

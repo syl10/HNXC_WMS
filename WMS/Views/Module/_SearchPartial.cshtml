@@ -4,16 +4,16 @@
             width: 180,
             panelWidth: 450,
             url: '/System/Details/?page=1&rows=10',
-            idField: 'SystemID',
-            textField: 'SystemName',
+            idField: 'SYSTEM_ID',
+            textField: 'SYSTEM_NAME',
             mode: 'local',
             editable: false,
             fitColumns: true,
             columns: [[
-					{ field: 'SystemID', title: '系统ID', hidden: true, width: 30 },
-					{ field: 'SystemName', title: '系统名称', align: 'left', width: 40 },
-					{ field: 'Description', title: '描述', align: 'left', width: 30 },
-					{ field: 'Status', title: '状态', align: 'left', width: 30 }
+					{ field: 'SYSTEM_ID', title: '系统ID', hidden: true, width: 30 },
+					{ field: 'SYSTEM_NAME', title: '系统名称', align: 'left', width: 40 },
+					{ field: 'DESCRIPTION', title: '描述', align: 'left', width: 30 },
+					{ field: 'STATUS', title: '状态', align: 'left', width: 30 }
 				]]
         });
     }
@@ -25,8 +25,9 @@
     };
 
     function select() {
+        debugger;
         $("#details").treegrid({
-            url: '/Module/Details/' + $('#cg-search').combogrid('getValue')
+            url: '/Module/Details/?SYSTEM_ID=' + $('#cg-search').combogrid('getValue')
         });
         $("#details").treegrid('reload');
         $('#dlg-search').dialog('close'); 
@@ -42,7 +43,7 @@
               <tr>
 				    <td>所属系统</td>
 				    <td colspan="3"align="left">
-                    <input name="SystemId" type="text" id="cg-search" />                               
+                    <input name="SYSTEM_ID" type="text" id="cg-search" />                               
                     </td>
               </tr>
             </table>

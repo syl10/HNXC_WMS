@@ -47,7 +47,7 @@
             addLoad();
             $('#cgCity').combogrid('clear');
             $('#cgSystem').combogrid('clear');
-            $('#dlg-permissionadmin').dialog('open').dialog('setTitle', '用户权限编辑：' + row.UserName);
+            $('#dlg-permissionadmin').dialog('open').dialog('setTitle', '用户权限编辑：' + row.USER_NAME);
             userID = row.USER_ID;
         } else {
             $.messager.confirm('系统提示', '没有选择行！');

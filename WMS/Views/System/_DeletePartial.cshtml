@@ -12,10 +12,10 @@ function deleteClick() {
             hasDownArrow: false
         });
         $('#fm').form('load', row);
-        if (row.STATUS == '1') {
-            $('#cc').combo('setValue', true).combo('setText', row.STATUS);
+        if (row.STATUS == '∆Ù”√') {
+            $('#cc').combo('setValue', 1).combo('setText', row.STATUS);
         } else {
-            $('#cc').combo('setValue', false).combo('setText', row.STATUS);
+            $('#cc').combo('setValue', 0).combo('setText', row.STATUS);
         }
         url = '/System/Delete/?SYSTEM_ID=' + row.SYSTEM_ID;
     } else {

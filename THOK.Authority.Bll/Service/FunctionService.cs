@@ -91,7 +91,9 @@ namespace THOK.Authority.Bll.Service
                 f.FUNCTION_ID,
                 f.FUNCTION_NAME,
                 f.CONTROL_NAME,
-                f.INDICATE_IMAGE
+                f.INDICATE_IMAGE,
+                f.MODULE_MODULE_ID
+
             });
             return function.ToArray();
         }

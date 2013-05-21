@@ -58,7 +58,7 @@ namespace THOK.Authority.Bll.Service
             var systems = querySystem.AsEnumerable();
             if (systemID != null && systemID != string.Empty)
             {
-                Guid gsystemid = new Guid(systemID);
+               // Guid gsystemid = new Guid(systemID);
                 systems = querySystem.Where(i => i.SYSTEM_ID == systemID)
                                      .Select(i => i);
             }
@@ -104,11 +104,12 @@ namespace THOK.Authority.Bll.Service
         {
             IQueryable<AUTH_SYSTEM> querySystem = SystemRepository.GetQueryable();
             IQueryable<AUTH_MODULE> queryModule = ModuleRepository.GetQueryable();
-            moduleID = !String.IsNullOrEmpty(moduleID) ? moduleID : "001";
+            moduleID = !String.IsNullOrEmpty(moduleID) ? moduleID : "000001";
             var system = querySystem.FirstOrDefault(i => i.SYSTEM_ID == systemID);
             var parentModule = queryModule.FirstOrDefault(i => i.MODULE_ID == moduleID);
             var module = new AUTH_MODULE();
-            module.MODULE_ID = moduleID;
+            //module.MODULE_ID = Guid.NewGuid();
+            module.MODULE_ID = ModuleRepository.GetNewID("AUTH_MODULE", "MODULE_ID");
             module.MODULE_NAME = moduleName;
             module.SHOW_ORDER = showOrder;
             module.MODULE_URL = moduleUrl;
@@ -377,7 +378,8 @@ namespace THOK.Authority.Bll.Service
             {
                 AUTH_ROLE_SYSTEM rs = new AUTH_ROLE_SYSTEM()
                 {
-                    ROLE_SYSTEM_ID = Guid.NewGuid().ToString(),
+                    //ROLE_SYSTEM_ID = Guid.NewGuid().ToString(),
+                    ROLE_SYSTEM_ID = RoleSystemRepository.GetNewID("AUTH_ROLE_SYSTEM", "ROLE_SYSTEM_ID"),
                     AUTH_ROLE = role,
                     AUTH_CITY = city,
                     AUTH_SYSTEM = system,
@@ -402,7 +404,8 @@ namespace THOK.Authority.Bll.Service
                 {
                     AUTH_ROLE_MODULE rm = new AUTH_ROLE_MODULE()
                     {
-                        ROLE_MODULE_ID = Guid.NewGuid().ToString(),//之后再修改
+                       // ROLE_MODULE_ID = Guid.NewGuid().ToString(),//之后再修改
+                        ROLE_MODULE_ID = RoleModuleRepository.GetNewID("AUTH_ROLE_MODULE", "ROLE_MODULE_ID"),
                         AUTH_ROLE_SYSTEM = roleSystem,
                         AUTH_MODULE = module,
                         IS_ACTIVE = false.ToString()
@@ -440,10 +443,12 @@ namespace THOK.Authority.Bll.Service
                 {
                     AUTH_ROLE_FUNCTION rf = new AUTH_ROLE_FUNCTION()
                     {
-                        ROLE_FUNCTION_ID = Guid.NewGuid().ToString(),
+                        //ROLE_FUNCTION_ID = Guid.NewGuid().ToString(),
+                        ROLE_FUNCTION_ID = RoleFunctionRepository.GetNewID("AUTH_ROLE_FUNCTION", "ROLE_FUNCTION_ID"),
                         AUTH_ROLE_MODULE = roleModule,
                         AUTH_FUNCTION = function,
-                        IS_ACTIVE = false.ToString()
+                       // IS_ACTIVE = false.ToString()
+                        IS_ACTIVE = "0"
                     };
                     roleModule.AUTH_ROLE_SYSTEM.IS_ACTIVE = false.ToString();
                     SetParentRoleModuleIsActiveFalse(roleModule);
@@ -466,11 +471,12 @@ namespace THOK.Authority.Bll.Service
             {
                 AUTH_USER_SYSTEM us = new AUTH_USER_SYSTEM()
                 {
-                    USER_SYSTEM_ID = Guid.NewGuid().ToString(),
+                    //USER_SYSTEM_ID = Guid.NewGuid().ToString(),
+                    USER_SYSTEM_ID = UserSystemRepository.GetNewID("AUTH_USER_SYSTEM", "USER_SYSTEM_ID"),
                     AUTH_USER = user,
                     AUTH_CITY = city,
                     AUTH_SYSTEM = system,
-                    IS_ACTIVE = (user.USER_NAME == "Admin").ToString()
+                    IS_ACTIVE = user.USER_NAME == "Admin"?"1":"0"
                 };
                 UserSystemRepository.Add(us);
                 UserSystemRepository.SaveChanges();
@@ -493,12 +499,13 @@ namespace THOK.Authority.Bll.Service
                 {
                     AUTH_USER_MODULE um = new AUTH_USER_MODULE()
                     {
-                        USER_MODULE_ID = Guid.NewGuid().ToString(),//之后再修改
+                        //USER_MODULE_ID = Guid.NewGuid().ToString(),//之后再修改
+                        USER_MODULE_ID = UserModuleRepository.GetNewID("AUTH_USER_MODULE", "USER_MODULE_ID"),
                         AUTH_USER_SYSTEM = userSystem,
                         AUTH_MODULE = module,
-                        IS_ACTIVE = (userSystem.AUTH_USER.USER_NAME == "Admin").ToString()
+                        IS_ACTIVE = userSystem.AUTH_USER.USER_NAME == "Admin" ? "1" : "0"
                     };
-                    userSystem.IS_ACTIVE = (userSystem.AUTH_USER.USER_NAME == "Admin").ToString();
+                    userSystem.IS_ACTIVE = userSystem.AUTH_USER.USER_NAME == "Admin" ? "1" : "0";
                     SetParentUserModuleIsActiveFalse(um);
                     UserModuleRepository.Add(um);
                     UserModuleRepository.SaveChanges();
@@ -547,25 +554,6 @@ namespace THOK.Authority.Bll.Service
             }
         }
 
-        //private string GetNewID()
-        //{
-        //    string strNew = "";
-        //    System.Collections.Generic.IList<AUTH_USER_FUNCTION> LUser = UserFunctionRepository.GetAll();
-        //    if (LUser.Count == 0)
-        //    {
-        //        string strSQL = "select data_length as USER_FUNCTION_ID  from  user_tab_cols where table_name='AUTH_USER_FUNCTION' and column_name='USER_FUNCTION_ID'";
-        //        decimal DataLength = UserRepository.RepositoryContext.DbContext.Database.SqlQuery<decimal>(strSQL).ToList()[0];
-        //        strNew = "1".PadLeft((int)DataLength, '0');
-        //    }
-        //    else
-        //    {
-        //        string strValue = UserFunctionRepository.GetAll().Select(i => i.USER_FUNCTION_ID).Max().ToString();
-        //        strNew = (int.Parse(strValue) + 1).ToString().PadLeft(strValue.Length, '0');
-
-        //    }
-        //    return strNew;
-        //}
-
         #endregion
 
         #region
@@ -610,12 +598,16 @@ namespace THOK.Authority.Bll.Service
             {
                 Tree funcTree = new Tree();
                 var roleFunction = queryRoleFunction.FirstOrDefault(rf => rf.AUTH_FUNCTION.FUNCTION_ID == func.FUNCTION_ID && rf.AUTH_ROLE_MODULE.ROLE_MODULE_ID == roleModules.ROLE_MODULE_ID);
-                funcTree.id = roleFunction.ROLE_FUNCTION_ID.ToString();
-                funcTree.text = "功能：" + func.FUNCTION_NAME;
-                int a =Convert.ToInt32(roleFunction.IS_ACTIVE);
-                funcTree.@checked = roleFunction == null ? false : Convert.ToBoolean(a);
-                funcTree.attributes = "function";
-                functionTreeSet.Add(funcTree);
+                if (roleFunction != null)
+                {
+                    funcTree.id = roleFunction.ROLE_FUNCTION_ID.ToString();
+                    funcTree.text = "功能：" + func.FUNCTION_NAME;
+                    int a = Convert.ToInt32(roleFunction.IS_ACTIVE);
+                    funcTree.@checked = roleFunction == null ? false : Convert.ToBoolean(a);
+                    funcTree.attributes = "function";
+                    functionTreeSet.Add(funcTree);
+                }
+              
             }
             childTree.children = functionTreeSet.ToArray();
         }
@@ -781,7 +773,7 @@ namespace THOK.Authority.Bll.Service
             Tree userSystemTree = new Tree();
             userSystemTree.id = userSystems.USER_SYSTEM_ID.ToString();
             userSystemTree.text = "系统：" + systems.SYSTEM_NAME;
-            userSystemTree.@checked = bool.Parse(userSystems.IS_ACTIVE);
+            userSystemTree.@checked = userSystems.IS_ACTIVE=="1"?true:false;
             userSystemTree.attributes = "system";
 
             var modules = queryModule.Where(m => m.AUTH_SYSTEM.SYSTEM_ID == systems.SYSTEM_ID && m.MODULE_ID == m.PARENT_AUTH_MODULE.MODULE_ID)

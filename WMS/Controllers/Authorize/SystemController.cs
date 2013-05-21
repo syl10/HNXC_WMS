@@ -37,7 +37,7 @@ namespace WMS.Controllers.Authority
 
         // POST: /System/Create/
         [HttpPost]
-        public ActionResult Create(string SYSTEM_NAME, string DESCRIPTION, bool STATUS)
+        public ActionResult Create(string SYSTEM_NAME, string DESCRIPTION, string STATUS)
         {
             bool bResult = SystemService.Add(SYSTEM_NAME, DESCRIPTION, STATUS);
             string msg = bResult ? "新增成功": "新增失败";
@@ -46,7 +46,7 @@ namespace WMS.Controllers.Authority
 
         // POST: /System/Edit/
         [HttpPost]
-        public ActionResult Edit(string SYSTEM_ID, string SYSTEM_NAME, string DESCRIPTION, bool STATUS)
+        public ActionResult Edit(string SYSTEM_ID, string SYSTEM_NAME, string DESCRIPTION, string STATUS)
         {
             bool bResult = SystemService.Save(SYSTEM_ID, SYSTEM_NAME, DESCRIPTION, STATUS);
             string msg = bResult ? "修改成功" : "修改失败" ;

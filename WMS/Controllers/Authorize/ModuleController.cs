@@ -28,9 +28,9 @@ namespace WMS.Controllers.Authority
         }
 
         // GET: /Module/Details/
-        public ActionResult Details(string systemId)
+        public ActionResult Details(string SYSTEM_ID)
         {
-            var modules = ModuleService.GetDetails(systemId);
+            var modules = ModuleService.GetDetails(SYSTEM_ID);
             return Json(modules, "text", JsonRequestBehavior.AllowGet);
         }
         public ActionResult Details2(int page, int rows, string QueryString, string Value)
