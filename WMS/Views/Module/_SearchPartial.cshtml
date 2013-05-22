@@ -25,8 +25,9 @@
     };
 
     function select() {
+        debugger;
         $("#details").treegrid({
-            url: '/Module/Details/' + $('#cg-search').combogrid('getValue')
+            url: '/Module/Details/?SYSTEM_ID=' + $('#cg-search').combogrid('getValue')
         });
         $("#details").treegrid('reload');
         $('#dlg-search').dialog('close'); 
@@ -42,7 +43,7 @@
               <tr>
 				    <td>所属系统</td>
 				    <td colspan="3"align="left">
-                    <input name="SystemId" type="text" id="cg-search" />                               
+                    <input name="SYSTEM_ID" type="text" id="cg-search" />                               
                     </td>
               </tr>
             </table>

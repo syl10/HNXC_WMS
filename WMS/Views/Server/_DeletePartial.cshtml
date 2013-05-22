@@ -12,13 +12,13 @@
             });
             $('form input').attr("disabled", "disabled");
             $('#fm').form('load', row);
-            $('#cg').combogrid('setValue', row.CityID).combo('setText', row.CityName);
-            if (row.Status == '启用') {
-                $('#cc').combo('setValue', true).combo('setText', row.IsActive);
+            $('#cg').combogrid('setValue', row.CITY_ID).combo('setText', row.CITY_NAME);
+            if (row.IS_ACTIVE == '启用') {
+                $('#cc').combo('setValue', 1).combo('setText', row.IS_ACTIVE);
             } else {
-                $('#cc').combo('setValue', false).combo('setText', row.IsActive);
+                $('#cc').combo('setValue', 0).combo('setText', row.IS_ACTIVE);
             }
-            url = '/Server/Delete/?ServerID=' + row.ServerID;
+            url = '/Server/Delete/?SERVER_ID=' + row.SERVER_ID;
         } else {
             $.messager.confirm('错误', '没有选择行！');
         }

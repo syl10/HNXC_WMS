@@ -13,10 +13,10 @@
             });
             $('#fm').form('load', row);
             $('#cg').combogrid('setValue', row.CITY_ID).combo('setText', row.CITY_NAME);
-            if (row.IS_ACTIVE == '1') {
-                $('#cc').combo('setValue', true).combo('setText', row.IS_ACTIVE);
+            if (row.IS_ACTIVE == '∆Ù”√') {
+                $('#cc').combo('setValue', 1).combo('setText', row.IS_ACTIVE);
             } else {
-                $('#cc').combo('setValue', false).combo('setText', row.IS_ACTIVE);
+                $('#cc').combo('setValue', 0).combo('setText', row.IS_ACTIVE);
             }
             url = '/Server/Edit/?SERVER_ID=' + row.SERVER_ID;            
         } else {

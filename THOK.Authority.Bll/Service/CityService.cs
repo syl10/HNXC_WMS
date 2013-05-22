@@ -27,7 +27,7 @@ namespace THOK.Authority.Bll.Service
             var citys = query.OrderBy(i => i.CITY_ID).Select(i => new { i.CITY_ID, i.CITY_NAME, i.DESCRIPTION, IS_ACTIVE = i.IS_ACTIVE == "1" ? "启用" : "禁用" });
             if (cityName != "" || description != "" || isActive != "")
             {
-                isactive = isActive == "true" ? "1" : "0";
+                isactive = isActive;
 
                 citys = query.Where(i => i.CITY_NAME.Contains(cityName)
                     && i.DESCRIPTION.Contains(description) && i.IS_ACTIVE == isactive)
@@ -40,7 +40,7 @@ namespace THOK.Authority.Bll.Service
             return new { total, rows = citys.ToArray() };
         }
 
-        public bool Add(string cityName, string description, bool isActive)
+        public bool Add(string cityName, string description, string isActive)
         {
             var city = new THOK.Authority.DbModel.AUTH_CITY()
             {
@@ -48,7 +48,7 @@ namespace THOK.Authority.Bll.Service
                 CITY_ID=CityRepository.GetNewID("AUTH_CITY","CITY_ID"),
                 CITY_NAME = cityName,
                 DESCRIPTION = description,
-                IS_ACTIVE = isActive.ToString()=="true"?"1":"0"
+                IS_ACTIVE = isActive
             };
             CityRepository.Add(city);
             CityRepository.SaveChanges();
@@ -70,14 +70,14 @@ namespace THOK.Authority.Bll.Service
             return true;
         }
 
-        public bool Save(string cityID, string cityName, string description, bool isActive)
+        public bool Save(string cityID, string cityName, string description, string isActive)
         {
             //Guid gCityID = new Guid(cityID);
             var city = CityRepository.GetQueryable()
                 .FirstOrDefault(i => i.CITY_ID == cityID);
             city.CITY_NAME = cityName;
             city.DESCRIPTION = description;
-            city.IS_ACTIVE = isActive.ToString()=="true"?"1":"0";
+            city.IS_ACTIVE = isActive;
             CityRepository.SaveChanges();
             return true;
         }
@@ -98,11 +98,11 @@ namespace THOK.Authority.Bll.Service
 
         public object GetDetails(string userName, string cityID, string systemID)
         {
-            Guid cityid = new Guid(cityID);
-            Guid systemid = new Guid(systemID);
+            //Guid cityid = new Guid(cityID);
+            //Guid systemid = new Guid(systemID);
             var user = UserRepository.GetQueryable().FirstOrDefault(u => u.USER_NAME == userName);
             var userSystem = UserSystemRepository.GetQueryable().Where(us => us.USER_USER_ID == user.USER_ID && us.SYSTEM_SYSTEM_ID == systemID && us.CITY_CITY_ID == cityID).Select(us => us.USER_SYSTEM_ID);
-            var usersystems = UserSystemRepository.GetQueryable().Where(us => !userSystem.Any(uid => uid == us.USER_SYSTEM_ID) && us.USER_USER_ID == user.USER_ID && us.SYSTEM_SYSTEM_ID == systemID).Select(us => new { us.AUTH_CITY.CITY_ID, us.AUTH_CITY.CITY_NAME, us.AUTH_CITY.DESCRIPTION, Status = bool.Parse(us.AUTH_CITY.IS_ACTIVE) ? "启用" : "禁用" });
+            var usersystems = UserSystemRepository.GetQueryable().Where(us => !userSystem.Any(uid => uid == us.USER_SYSTEM_ID) && us.USER_USER_ID == user.USER_ID && us.SYSTEM_SYSTEM_ID == systemID).Select(us => new { us.AUTH_CITY.CITY_ID, us.AUTH_CITY.CITY_NAME, us.AUTH_CITY.DESCRIPTION, IS_ACTIVE = us.AUTH_CITY.IS_ACTIVE == "1" ? "启用" : "禁用" });
             return usersystems.ToArray();
         }
     }

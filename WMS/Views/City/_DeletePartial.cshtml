@@ -12,7 +12,7 @@
                 hasDownArrow: false
             });
             $('#fm').form('load', row);
-            if (row.IS_ACTIVE == '1') {
+            if (row.IS_ACTIVE == '启用') {
                 $('#cc').combo('setValue', true).combo('setText', row.IS_ACTIVE);
             } else {
                 $('#cc').combo('setValue', false).combo('setText', row.IS_ACTIVE);
