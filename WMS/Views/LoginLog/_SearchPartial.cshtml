@@ -1,25 +1,51 @@
 ﻿<script type="text/javascript">
-    $(function () {
-        $('#status').combo({
-            editable: false,
-            panelHeight: 45
-        });
-    })
-
+    
     function searchClick() {
         $('#dlg-search').dialog('open').dialog('setTitle', '查询');
     };
-
+    $(function () {
+        $('#cg-logon-changeSystem').combogrid({
+            required: true,
+            width: 180,
+            panelWidth: 450,
+            url: '/System/Details/?page=1&rows=1000',
+            idField: 'SYSTEM_ID',
+            textField: 'SYSTEM_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+					{ field: 'SYSTEM_ID', title: '系统ID', hidden: true, width: 30 },
+					{ field: 'SYSTEM_NAME', title: '系统名称', align: 'left', width: 40 },
+					{ field: 'DESCRIPTION', title: '描述', align: 'left', width: 30 }
+				]]
+        });
+        $('#cg-logon-changeUser').combogrid({
+            required: true,
+            width: 180,
+            panelWidth: 450,
+            url: '/User/Details/?page=1&rows=100',
+            idField: 'USER_ID',
+            textField: 'USER_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+					{ field: 'USER_ID', title: '用户ID', hidden: true, width: 30 },
+					{ field: 'USER_NAME', title: '用户名称', align: 'left', width: 40 },
+					{ field: 'CHINESE_NAME', title: '中文名称', align: 'left', width: 30 },
+                    { field: 'MEMO', title: '备注', align: 'left', width: 30 }
+				]]
+        });
+    });
     function select() {
+        debugger
         var queryParams = $('#details').datagrid('options').queryParams;
-        queryParams.SystemName = $('#systemname').val();
-        queryParams.Description = $('#description').val();
-        queryParams.Status = $('#status').val();
+        queryParams.SystemID = $('#cg-logon-changeSystem').combogrid('getValue');
+        queryParams.UserID = $('#cg-logon-changeUser').combogrid('getValue');
+        queryParams.LoginPC = $('#LoginPC').val();
+        queryParams.LoginTime = $('#LoginTime').val();
         $('#details').datagrid('options').queryParams = queryParams;
-        $('#details').datagrid({
-            pageNumber: 1,
-            pageSize: 10
-        }); 
         $("#details").datagrid('reload');
         $('#dlg-search').dialog('close'); 
     }
@@ -33,20 +59,19 @@
             <table width="250">
               <tr>
                 <td width="60">系统信息</td>
-                <td width="168" align="left"><input id="systemname"></td>
+                <td width="168" align="left"><input id="cg-logon-changeSystem"></td>
               </tr>
               <tr>
-                <td>系统描述</td>
-                <td align="left"><textarea id="description" style="width: 180px; height: 50px"></textarea></td>
+                <td>用户信息</td>
+                <td align="left" width="168"><input id="cg-logon-changeUser" ></td>
               </tr>
               <tr>
-                <td>系统状态</td>
-                <td align="left">      
-		            <select id="status" name="status" required="true" class="easyui-combobox" style="width: 50px">
-		                <option value="true">启用</option>
-		                <option value="false">禁用</option>
-	                </select>
-	            </td>
+                <td>登陆IP</td>
+                <td align="left" width="168"><input id="LoginPC" style=" width:98%"></td>
+              </tr>
+                <tr>
+                <td>登陆时间</td>
+                <td align="left" width="168"><input id="LoginTime" style=" width:98%" ></td>
               </tr>
             </table>
         </div>

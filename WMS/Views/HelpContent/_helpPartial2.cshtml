@@ -8,9 +8,9 @@
     function helpSave2() {
         var helpRow = $('#helpDetail2').datagrid('getSelected');
         if (helpRow) {
-            $('#moduleID').val(helpRow.ModuleID);
-            $('#module').val(helpRow.ModuleName);
-            S_moduleID = helpRow.ModuleID;
+            $('#moduleID').val(helpRow.MODULE_ID);
+            $('#module').val(helpRow.MODULE_NAME);
+            S_moduleID = helpRow.MODULE_ID;
             $('#helpData2').dialog('close');
         }
     }
@@ -37,16 +37,16 @@
             singleselect="true" fit="true" fitcolumns="true" pagination="true" rownumbers="true">
             <thead>
                 <tr>
-                    <th field="ModuleName" width="80">
+                    <th field="MODULE_NAME" width="80">
                         模块名称
                     </th>
-                    <th field="SystemName" width="120">
+                    <th field="SYSTEM_NAME" width="120">
                         所属系统
                     </th>
                     <th field="ParentModule" width="80">
                         上级菜单
                     </th>
-                    <th field="ModuleURL" width="80">
+                    <th field="MODULE_URL" width="80">
                         模块路径
                     </th>
                 </tr>
@@ -61,8 +61,8 @@
 </div>
 <div id="btn-query2">
 <select id="queryType2" name="QueryString" class="easyui-combobox" style="width: 100px;" readonly="true">
-		                <option value="SystemName">系统名称</option>
-		                <option value="ModuleName">模块名称</option>
+		                <option value="SYSTEM_NAME">系统名称</option>
+		                <option value="MODULE_NAME">模块名称</option>
 	                </select>
                     <input id="helpInfo2">
  <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="helpQueryClick2()" id="helpQuery2">查询</a>

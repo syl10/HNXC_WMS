@@ -3,11 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.Practices.Unity;
+using THOK.WebUtil;
+using THOK.Authority.Bll.Interfaces;
 
 namespace WMS.Controllers.Authority
 {
     public class LoginLogController : Controller
     {
+        [Dependency]
+        public ILoginLogService LoginLogService { get; set; }
         //
         // GET: /LoginLog/
 
@@ -19,13 +24,17 @@ namespace WMS.Controllers.Authority
             ViewBag.ModuleID = moduleID;
             return View();
         }
+        
+         //GET: /LoginLog/Details/
 
-        //
-        // GET: /LoginLog/Details/5
-
-        public ActionResult Details(int id)
+        public ActionResult Details(int page, int rows, FormCollection collection)
         {
-            return View();
+            string SystemID = collection["SystemID"] ?? "";
+            string UserID = collection["UserID"] ?? "";
+            string LoginPC = collection["LoginPC"] ?? "";
+            string LoginTime = collection["LoginTime"] ?? "";
+            var users = LoginLogService.GetDetails(page, rows, SystemID, UserID, LoginPC,LoginTime);
+            return Json(users, "text", JsonRequestBehavior.AllowGet);
         }
 
         //

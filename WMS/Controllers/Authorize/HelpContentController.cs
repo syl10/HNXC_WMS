@@ -28,17 +28,26 @@ namespace WMS.Controllers.Authority
             ViewBag.ModuleID = moduleID;
             return View();
         }
+        ////
+        //// POST: /HelpContent/Create
+        //[HttpPost]
+        //public ActionResult Create(AUTH_HELP_CONTENT helpContent)
+        //{
+        //    string strResult = string.Empty;
+        //    bool bResult = HelpContentService.Add(helpContent, out strResult);
+        //    string msg = bResult ? "新增成功" : "新增失败";
+        //    return Json(JsonMessageHelper.getJsonMessage(bResult, msg, strResult), "text", JsonRequestBehavior.AllowGet);
+        //}
         //
         // POST: /HelpContent/Create
         [HttpPost]
-        public ActionResult Create(AUTH_HELP_CONTENT helpContent)
+        public ActionResult Create(string ID, string ContentCode, string ContentName, string ContentPath, string NodeType, string FatherNodeID, string ModuleID, int NodeOrder, string IsActive)
         {
             string strResult = string.Empty;
-            bool bResult = HelpContentService.Add(helpContent, out strResult);
+            bool bResult = HelpContentService.Add(ID, ContentCode, ContentName, ContentPath,NodeType, FatherNodeID, ModuleID, NodeOrder, IsActive, out strResult);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, strResult), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }
-
         //
         // GET: /HelpContent/Details/
 

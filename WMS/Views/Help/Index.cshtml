@@ -6,7 +6,7 @@
                 if (node) {
                     helpID = node.attributes.AttributeId;
                     $.getJSON("/HelpEdit/GetContentTxt/", { 'helpId': helpID }, function (helpContent) {
-                        Help_Text = helpContent.ContentText;
+                        Help_Text = helpContent.CONTENT_TEXT;
                         $('#text').text("");
                         $(Help_Text).appendTo('#text');
                     });
