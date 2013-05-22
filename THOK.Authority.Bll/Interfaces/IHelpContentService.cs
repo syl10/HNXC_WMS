@@ -5,7 +5,7 @@ namespace THOK.Authority.Bll.Interfaces
     public interface IHelpContentService : IService<AUTH_HELP_CONTENT>
     {
         bool Add(AUTH_HELP_CONTENT helpContent, out string strResult);
-
+        bool Add(string ID, string ContentCode, string ContentName, string ContentPath, string NODETYPE, string FatherNodeID, string ModuleID, int NodeOrder, string IsActive, out string strResult);
         bool Save(string ID, string ContentCode, string ContentName, string ContentPath, string FatherNodeID, string ModuleID, int NodeOrder, string IsActive, out string strResult);
 
         bool Delete(string ID);

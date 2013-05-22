@@ -15,7 +15,7 @@
                     helpID = node.attributes.AttributeId;
                     $.getJSON("/HelpEdit/GetSingleContentTxt/", { 'helpId': helpID }, function (helpContent) {
                         $('#helpId').val(helpID);
-                        HelpTxt = helpContent.ContentText;
+                        HelpTxt = helpContent.CONTENT_TEXT;
                         $('#helpId').val(helpID);
                         CKEDITOR.instances["editor01"].destroy();
                         $('#editor01').val(HelpTxt);
@@ -47,7 +47,7 @@
     };
     function saveHelpEdit() {
         $.ajaxSender.send('/HelpEdit/SaveHelpEdit/',
-                $('#editorForm').serializeArray());
+                $('#editorForm').serializeArray(), function (){ });
     }
     
 </script>

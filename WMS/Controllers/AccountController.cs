@@ -18,6 +18,8 @@ namespace WMS.Controllers
         public IFormsAuthenticationService FormsService { get; set; }
         [Dependency]
         public IUserService UserService { get; set; }
+        [Dependency]
+        public ILoginLogService LoginLogService { get; set; }
 
         [HttpPost]
         public ActionResult LogOn(string userName, string password, string cityId, string systemId, string serverId)
@@ -61,6 +63,7 @@ namespace WMS.Controllers
                 this.AddCookie("systemid", systemId);
                 this.AddCookie("serverid", serverId);
                 this.AddCookie("username", userName);
+                LoginLogService.Add(userName, systemId);
             }
             return new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Home" } });
         }

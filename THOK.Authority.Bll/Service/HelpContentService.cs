@@ -56,6 +56,36 @@ namespace THOK.Authority.Bll.Service
             return result;
         }
 
+        public bool Add(string ID, string ContentCode, string ContentName, string ContentPath,string NODETYPE, string FatherNodeID, string ModuleID, int NodeOrder, string IsActive, out string strResult)
+        {
+            strResult = string.Empty;
+            bool result = false;
+            var help = new AUTH_HELP_CONTENT();
+            try
+            {
+                help.ID = HelpContentRepository.GetNewID("AUTH_HELP_CONTENT", "ID");
+                help.CONTENT_CODE = ContentCode;
+                help.CONTENT_NAME = ContentName;
+                help.CONTENT_PATH = ContentPath;
+                help.NODE_TYPE = NODETYPE;
+                help.FATHER_NODE_ID = string.IsNullOrEmpty(FatherNodeID) ? help.ID : FatherNodeID;
+                help.MODULE_ID = ModuleID;
+                help.NODE_ORDER = NodeOrder;
+                help.IS_ACTIVE = IsActive;
+                help.UPDATE_TIME = DateTime.Now;
+
+                HelpContentRepository.Add(help);
+                HelpContentRepository.SaveChanges();
+                result = true;
+            }
+            catch (Exception ex)
+            {
+                strResult = "原因：" + ex.Message;
+            }
+            return result;
+        }
+           
+
         public string WhatType(string nodeType)
         {
             string typeStr = "";
@@ -120,8 +150,8 @@ namespace THOK.Authority.Bll.Service
                 help.CONTENT_CODE = ContentCode;
                 help.CONTENT_NAME = ContentName;
                 help.CONTENT_PATH = ContentPath;
-                help.FATHER_NODE_ID = new Guid(FatherNodeID).ToString();
-                help.MODULE_ID = new Guid(ModuleID).ToString();
+                help.FATHER_NODE_ID = FatherNodeID;
+                help.MODULE_ID = ModuleID;
                 help.NODE_ORDER = NodeOrder;
                 help.IS_ACTIVE = IsActive;
                 HelpContentRepository.SaveChanges();               
@@ -159,7 +189,7 @@ namespace THOK.Authority.Bll.Service
             {
                ID=c.ID,
                ContentCode= c.CONTENT_CODE,
-               ContentName= c.CONTENT_CODE,
+               ContentName= c.CONTENT_NAME,
                ContentPath= c.CONTENT_PATH,
                FatherNodeName =c.ID ==c.FATHER_NODE_ID? "": c.FATHER_NODE.CONTENT_NAME,
                ModuleID= c.MODULE_ID,
@@ -204,14 +234,14 @@ namespace THOK.Authority.Bll.Service
             foreach (var system in systems)
             {
                 Tree systemTree = new Tree();
-                systemTree.id = system.SYSTEM_ID.ToString();
+                systemTree.id = int.Parse(system.SYSTEM_ID).ToString();
                 systemTree.text = system.SYSTEM_NAME;
                 var helpContent = queryHelpContent.Where(m => m.AUTH_MODULE.SYSTEM_SYSTEM_ID == system.SYSTEM_ID && m.ID == m.FATHER_NODE_ID)
                                          .OrderBy(m => m.NODE_ORDER)
                                          .Select(m => m);
                 var systemAttribute = new
                 {
-                    AttributeId =system.SYSTEM_ID,
+                    AttributeId =int.Parse(system.SYSTEM_ID).ToString(),
                     AttributeTxt =system.SYSTEM_NAME
                 };
                 systemTree.attributes = systemAttribute;
@@ -283,22 +313,24 @@ namespace THOK.Authority.Bll.Service
         {
             string content_text = "";
             //Guid new_ID = new Guid(helpId);
-            string new_ID = helpId;
-            var system = SystemRepository.GetQueryable().FirstOrDefault(i => i.SYSTEM_ID== new_ID);
-            if (system != null)
+            string new_ID = helpId.PadLeft(3,'0');
+            var help = HelpContentRepository.GetQueryable().FirstOrDefault(i => i.ID == helpId);
+            if (help == null)
             {
-               var help = HelpContentRepository.GetQueryable().Where(i => i.AUTH_MODULE.SYSTEM_SYSTEM_ID == new_ID).OrderBy(h=>h.CONTENT_CODE);
-               foreach (var text in help)
-               {
-                   content_text = content_text + text.CONTENT_TEXT;
-               }
-               var helper = HelpContentRepository.GetQueryable().FirstOrDefault(h => h.AUTH_MODULE.SYSTEM_SYSTEM_ID == new_ID);
-               helper.CONTENT_TEXT = content_text;
-               return new { helper.CONTENT_TEXT };
+                var system = SystemRepository.GetQueryable().FirstOrDefault(i => i.SYSTEM_ID == new_ID);
+                var Systemhelp = HelpContentRepository.GetQueryable().Where(i => i.AUTH_MODULE.SYSTEM_SYSTEM_ID == new_ID).OrderBy(h => h.CONTENT_CODE);
+                foreach (var text in Systemhelp)
+                {
+                    content_text = content_text + text.CONTENT_TEXT;
+                }
+                var helper = HelpContentRepository.GetQueryable().FirstOrDefault(h => h.AUTH_MODULE.SYSTEM_SYSTEM_ID == new_ID);
+                if (helper == null)
+                    helper = new AUTH_HELP_CONTENT();
+                helper.CONTENT_TEXT = content_text;
+                return new { helper.CONTENT_TEXT };
             }
             else
             {
-                var help = HelpContentRepository.GetQueryable().FirstOrDefault(i => i.ID.ToString() == new_ID);
                 if (help.NODE_TYPE == "1")
                 {
                     var helpChild = HelpContentRepository.GetQueryable().Where(i => i.FATHER_NODE_ID == help.FATHER_NODE_ID).OrderBy(h => h.CONTENT_CODE);
@@ -320,6 +352,10 @@ namespace THOK.Authority.Bll.Service
         {
             //Guid new_ID = new Guid(helpId);
             var help = HelpContentRepository.GetQueryable().FirstOrDefault(i => i.MODULE_ID == helpId);
+            if (help == null)
+            {
+                help = new AUTH_HELP_CONTENT();
+            }
             return new { help.CONTENT_TEXT };
         }
 
@@ -327,14 +363,22 @@ namespace THOK.Authority.Bll.Service
         public object GetSingleContentTxt(string helpId)
         {
             //Guid newId = new Guid(helpId);
-            string newId = helpId;
-            var system=SystemRepository.GetQueryable().FirstOrDefault(i=>i.SYSTEM_ID.ToString()==newId);
-            var help = HelpContentRepository.GetQueryable().FirstOrDefault(i => i.ID.ToString() == newId);
-            if (system!= null)
+            string newId = helpId.PadLeft(3,'0');
+            var help = HelpContentRepository.GetQueryable().FirstOrDefault(i => i.ID == helpId);
+            if (help == null)
             {
-                help = HelpContentRepository.GetQueryable().FirstOrDefault(i => i.AUTH_MODULE.SYSTEM_SYSTEM_ID == newId);
+                var system = SystemRepository.GetQueryable().FirstOrDefault(i => i.SYSTEM_ID == newId);
+                if (system != null)
+                {
+                    help = HelpContentRepository.GetQueryable().FirstOrDefault(i => i.AUTH_MODULE.SYSTEM_SYSTEM_ID == newId);
+                }
+            }
+            if (help == null)
+            {
+                help = new AUTH_HELP_CONTENT();
             }
             return new { help.CONTENT_TEXT };
+            
         }
     }
 }
