@@ -68,8 +68,7 @@ namespace THOK.Authority.Bll.Service
             var help = new AUTH_HELP_CONTENT();
             try
             {
-                //help.ID = HelpContentRepository.GetNewID("AUTH_HELP_CONTENT", "ID");
-                help.ID = new Guid().ToString();
+                help.ID = HelpContentRepository.GetNewID("AUTH_HELP_CONTENT", "ID");
                 help.CONTENT_CODE = ContentCode;
                 help.CONTENT_NAME = ContentName;
                 help.CONTENT_PATH = ContentPath;
