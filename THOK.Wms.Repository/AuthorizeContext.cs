@@ -40,6 +40,7 @@ namespace THOK.Wms.Repository
             modelBuilder.Configurations.Add(new AUTH_USER_ROLEMap());
             modelBuilder.Configurations.Add(new AUTH_USER_SYSTEMMap());
             modelBuilder.Configurations.Add(new AUTH_HELP_CONTENTMap());
+            modelBuilder.Configurations.Add(new AUTH_EXCEPTIONAL_LOGMap());
             #endregion
 
             #region wms

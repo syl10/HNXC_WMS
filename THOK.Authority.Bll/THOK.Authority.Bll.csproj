@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\DontDropDbJustCreateTablesIfModelChangedStart.cs" />
+    <Compile Include="Interfaces\IExceptionalLogService.cs" />
     <Compile Include="Interfaces\IFunctionService.cs" />
     <Compile Include="Interfaces\IHelpContentService.cs" />
     <Compile Include="Interfaces\ILoginLogService.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Models\UserLoginInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\CityService.cs" />
+    <Compile Include="Service\ExceptionalLogService.cs" />
     <Compile Include="Service\FunctionService.cs" />
     <Compile Include="Service\HelpContentService.cs" />
     <Compile Include="Service\LoginLogService.cs" />

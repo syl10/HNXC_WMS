@@ -18,6 +18,9 @@ namespace THOK.Authority.Bll.Service
         [Dependency]
         public IHelpContentRepository HelpContentRepository { get; set; }
 
+        [Dependency]
+        public IExceptionalLogService ExceptionalLogService { get; set; }
+
         protected override Type LogPrefix
         {
             get { return this.GetType(); }
@@ -26,14 +29,14 @@ namespace THOK.Authority.Bll.Service
 
         public bool Add(AUTH_HELP_CONTENT helpContent, out string strResult)
         {
-            strResult = string.Empty;
-            bool result = false;
-            var help = new AUTH_HELP_CONTENT();
+                strResult = string.Empty;
+                bool result = false;
+                var help = new AUTH_HELP_CONTENT();
                 if (helpContent != null)
                 {
                     try
                     {
-                        help.ID = Guid.NewGuid().ToString();
+                        help.ID = HelpContentRepository.GetNewID("AUTH_HELP_CONTENT", "ID");
                         help.CONTENT_CODE = helpContent.CONTENT_CODE;
                         help.CONTENT_NAME = helpContent.CONTENT_NAME;
                         help.CONTENT_PATH = helpContent.CONTENT_PATH;
@@ -51,8 +54,10 @@ namespace THOK.Authority.Bll.Service
                     catch (Exception ex)
                     {
                         strResult = "原因：" + ex.Message;
+                       
                     }
                 }
+        
             return result;
         }
 
@@ -63,7 +68,8 @@ namespace THOK.Authority.Bll.Service
             var help = new AUTH_HELP_CONTENT();
             try
             {
-                help.ID = HelpContentRepository.GetNewID("AUTH_HELP_CONTENT", "ID");
+                //help.ID = HelpContentRepository.GetNewID("AUTH_HELP_CONTENT", "ID");
+                help.ID = new Guid().ToString();
                 help.CONTENT_CODE = ContentCode;
                 help.CONTENT_NAME = ContentName;
                 help.CONTENT_PATH = ContentPath;
@@ -80,8 +86,11 @@ namespace THOK.Authority.Bll.Service
             }
             catch (Exception ex)
             {
+                HelpContentRepository.Detach(help);
                 strResult = "原因：" + ex.Message;
+                ExceptionalLogService.Add(this.GetType().ToString(), "Add", ex);
             }
+           
             return result;
         }
            
