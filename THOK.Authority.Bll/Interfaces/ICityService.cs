@@ -15,5 +15,7 @@ namespace THOK.Authority.Bll.Interfaces
         object GetCityByCityID(string cityID);
 
         object GetDetails(string userID, string cityID, string systemID);
+
+       System.Data.DataTable GetCityExcel(int page,int rows,string CITY_NAME,string DESCRIPTION,string IS_ACTIVE);
     }
 }

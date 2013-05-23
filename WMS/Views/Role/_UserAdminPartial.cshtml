@@ -35,7 +35,7 @@
 
     //添加用户
     function RoleUserAddClick() {
-        debugger;
+        
         $('#RoleAddUser').dialog('open').dialog('setTitle', "角色添加用户：" + ROLE_NAME);
         $('#RoleAddUserDatagrid').datagrid({
             url: '/Role/GetUserInfo/?ROLE_ID=' + roleId
