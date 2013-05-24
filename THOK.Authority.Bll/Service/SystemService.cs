@@ -123,7 +123,7 @@ namespace THOK.Authority.Bll.Service
             var qq=from a in system 
                    from b in userSystem 
                    where (a.SYSTEM_ID==b.SYSTEM_SYSTEM_ID)
-                   select new{a.SYSTEM_NAME,a.DESCRIPTION,STATUS=a.STATUS=="1"?"启用":"未启用",b.CITY_CITY_ID,b.SYSTEM_SYSTEM_ID,b.USER_USER_ID,b.IS_ACTIVE};
+                   select new{a.SYSTEM_ID, a.SYSTEM_NAME,a.DESCRIPTION,STATUS=a.STATUS=="1"?"启用":"未启用",b.CITY_CITY_ID,b.SYSTEM_SYSTEM_ID,b.USER_USER_ID,b.IS_ACTIVE};
             var userUseSysem = qq.Where(p => p.CITY_CITY_ID == cityID && !p.SYSTEM_SYSTEM_ID.Contains(systemID)  && p.IS_ACTIVE=="1"  && p.USER_USER_ID == user.USER_ID);
             return userUseSysem.Distinct().ToArray();
         }
