@@ -45,6 +45,14 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Packages\THOK.Util.dll</HintPath>
     </Reference>
+    <Reference Include="THOK.Wms.Dal, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\THOK.Wms.Dal.dll</HintPath>
+    </Reference>
+    <Reference Include="THOK.Wms.DbModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>bin\Debug\THOK.Wms.DbModel.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bll\DownCustomerBll.cs" />
@@ -89,14 +97,6 @@
     <Compile Include="UtinString.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\THOK.Wms.Dal\THOK.Wms.Dal.csproj">
-      <Project>{DB6CC091-9BC6-415C-A0D2-E34289669102}</Project>
-      <Name>THOK.Wms.Dal</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\THOK.Wms.DbModel\THOK.Wms.DbModel.csproj">
-      <Project>{E243AB76-351D-4C97-BFE3-D55E0BA0DECF}</Project>
-      <Name>THOK.Wms.DbModel</Name>
-    </ProjectReference>
     <ProjectReference Include="..\THOK.Wms.Upload\THOK.Wms.Upload.csproj">
       <Project>{D0A12011-ED6A-4B13-A6C7-2D42D9F3ED67}</Project>
       <Name>THOK.Wms.Upload</Name>
