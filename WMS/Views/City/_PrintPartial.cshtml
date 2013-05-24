@@ -1,0 +1,13 @@
+﻿<script type="text/javascript">
+    function printClick() {
+        var CITY_NAME = null, DESCRIPTION = null, IS_ACTIVE = null;
+        if ($('#CITY_NAME').val() == null) { loginPC = ""; } else { CITY_NAME = $('#CITY_NAME').val() }
+        if ($('#DESCRIPTION').val() == null) { loginTime = ""; } else { DESCRIPTION = $('#DESCRIPTION').val() }
+        if ($('#IS_ACTIVE').val() == null) { logoutTime = ""; } else { IS_ACTIVE = $('#IS_ACTIVE').val() }
+
+        window.location.href = "/City/CreateExcelToClient/"
+                                + "?CITY_NAME=" + CITY_NAME
+                                + "&DESCRIPTION=" + DESCRIPTION
+                                + "&IS_ACTIVE=" + IS_ACTIVE;
+    }
+</script>

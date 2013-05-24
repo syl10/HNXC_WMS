@@ -14,7 +14,7 @@
         });
     })
     function check() {
-        debugger;
+        
         var USER_NAME = document.getElementById('USER_NAME').value
         if (USER_NAME == "" || USER_NAME == null) {
             document.getElementById("userNameError").innerText = "请输入用户名!";
@@ -33,7 +33,7 @@
         });
     };
     function addClick() {
-        debugger;
+        
         document.getElementById("userNameError").innerText = "";
         $('#dlg').dialog('open').dialog('setTitle', '新增');
         $('#fm .easyui-validatebox').validatebox({
@@ -52,7 +52,7 @@
     };
 
     function save() {
-        debugger;
+        
         $('#fm').form('submit', {
             url: url,
             onSubmit: function () {

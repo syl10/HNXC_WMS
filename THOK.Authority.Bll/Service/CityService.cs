@@ -105,5 +105,25 @@ namespace THOK.Authority.Bll.Service
             var usersystems = UserSystemRepository.GetQueryable().Where(us => !userSystem.Any(uid => uid == us.USER_SYSTEM_ID) && us.USER_USER_ID == user.USER_ID && us.SYSTEM_SYSTEM_ID == systemID).Select(us => new { us.AUTH_CITY.CITY_ID, us.AUTH_CITY.CITY_NAME, us.AUTH_CITY.DESCRIPTION, IS_ACTIVE = us.AUTH_CITY.IS_ACTIVE == "1" ? "启用" : "禁用" });
             return usersystems.ToArray();
         }
+
+         public System.Data.DataTable GetCityExcel(int page,int rows,string CITY_NAME,string DESCRIPTION,string IS_ACTIVE)
+        {
+            IQueryable<AUTH_CITY> Cityquery = CityRepository.GetQueryable();
+            System.Data.DataTable dt = new System.Data.DataTable();
+            dt.Columns.Add("城市名称", typeof(string));
+            dt.Columns.Add("描述", typeof(string));
+            dt.Columns.Add("是否启用", typeof(string));
+            foreach (var item in Cityquery)
+            {
+                dt.Rows.Add
+                    (
+                        item.CITY_NAME,
+                        item.DESCRIPTION,
+                        item.IS_ACTIVE=="1"?"启用":"禁用"
+                    );
+            }
+            return dt;
+        }
+        
     }
 }

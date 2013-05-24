@@ -4,6 +4,8 @@ using System.Text;
 using Microsoft.Practices.Unity;
 using THOK.WebUtil;
 using THOK.Authority.Bll.Interfaces;
+using System;
+using THOK.Security;
 
 namespace WMS.Controllers.ServerAdmin
 {
@@ -72,6 +74,24 @@ namespace WMS.Controllers.ServerAdmin
             var users = CityService.GetDetails(userName, cityId, systemId);
             return Json(users, "text", JsonRequestBehavior.AllowGet);
         }
+
+        //  /LoginLog/CreateExcelToClient/
+        public FileStreamResult CreateExcelToClient()
+        {
+            int page = 0, rows = 0;
+            string CITY_NAME = Request.QueryString["CITY_NAME"];
+            string DESCRIPTION = Request.QueryString["DESCRIPTION"];
+            string IS_ACTIVE = Request.QueryString["IS_ACTIVE"];
+
+            THOK.NPOI.Models.ExportParam ep = new THOK.NPOI.Models.ExportParam();
+            ep.DT1 = CityService.GetCityExcel(page, rows, CITY_NAME, DESCRIPTION, IS_ACTIVE);
+            ep.HeadTitle1 = "城市信息";
+            ep.BigHeadColor = NPOI.HSSF.Util.HSSFColor.BLACK.index;
+            ep.ColHeadColor = NPOI.HSSF.Util.HSSFColor.BLACK.index;
+            ep.ContentColor = NPOI.HSSF.Util.HSSFColor.BLACK.index;
+            System.IO.MemoryStream ms = THOK.NPOI.Service.ExportExcel.ExportDT(ep);
+            return new FileStreamResult(ms, "application/ms-excel");
+        } 
         
     }
 }

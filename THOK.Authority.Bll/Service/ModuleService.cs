@@ -383,7 +383,7 @@ namespace THOK.Authority.Bll.Service
                     AUTH_ROLE = role,
                     AUTH_CITY = city,
                     AUTH_SYSTEM = system,
-                    IS_ACTIVE = false.ToString()
+                    IS_ACTIVE = "0"
                 };
                 RoleSystemRepository.Add(rs);
                 RoleSystemRepository.SaveChanges();
@@ -408,9 +408,9 @@ namespace THOK.Authority.Bll.Service
                         ROLE_MODULE_ID = RoleModuleRepository.GetNewID("AUTH_ROLE_MODULE", "ROLE_MODULE_ID"),
                         AUTH_ROLE_SYSTEM = roleSystem,
                         AUTH_MODULE = module,
-                        IS_ACTIVE = false.ToString()
+                        IS_ACTIVE = "0"
                     };
-                    roleSystem.IS_ACTIVE = false.ToString();
+                    roleSystem.IS_ACTIVE ="0";
                     SetParentRoleModuleIsActiveFalse(rm);
                     RoleModuleRepository.Add(rm);
                     RoleModuleRepository.SaveChanges();
@@ -426,7 +426,7 @@ namespace THOK.Authority.Bll.Service
             var parentRoleModule = roleModule.AUTH_MODULE.PARENT_AUTH_MODULE.AUTH_ROLE_MODULE.FirstOrDefault(prm => prm.AUTH_ROLE_SYSTEM.AUTH_ROLE.ROLE_ID == roleModule.AUTH_ROLE_SYSTEM.AUTH_ROLE.ROLE_ID);
             if (parentRoleModule != null)
             {
-                parentRoleModule.IS_ACTIVE = false.ToString();
+                parentRoleModule.IS_ACTIVE ="0";
                 if (parentRoleModule.AUTH_MODULE.MODULE_ID != parentRoleModule.AUTH_MODULE.PARENT_AUTH_MODULE.MODULE_ID)
                 {
                     SetParentRoleModuleIsActiveFalse(parentRoleModule);
@@ -450,9 +450,9 @@ namespace THOK.Authority.Bll.Service
                        // IS_ACTIVE = false.ToString()
                         IS_ACTIVE = "0"
                     };
-                    roleModule.AUTH_ROLE_SYSTEM.IS_ACTIVE = false.ToString();
+                    roleModule.AUTH_ROLE_SYSTEM.IS_ACTIVE ="0";
                     SetParentRoleModuleIsActiveFalse(roleModule);
-                    roleModule.IS_ACTIVE = false.ToString();
+                    roleModule.IS_ACTIVE ="0";
                     RoleFunctionRepository.Add(rf);
                     RoleFunctionRepository.SaveChanges();
                 }
@@ -521,7 +521,7 @@ namespace THOK.Authority.Bll.Service
             var parentUserModule = userModule.AUTH_MODULE.PARENT_AUTH_MODULE.AUTH_USER_MODULE.FirstOrDefault(pum => pum.AUTH_USER_SYSTEM.AUTH_USER.USER_ID == userModule.AUTH_USER_SYSTEM.AUTH_USER.USER_ID);
             if (parentUserModule != null)
             {
-                //parentUserModule.IS_ACTIVE = false.ToString();
+                //parentUserModule.IS_ACTIVE ="0";
                 parentUserModule.IS_ACTIVE ="0";
                 if (parentUserModule.AUTH_MODULE.MODULE_ID != parentUserModule.AUTH_MODULE.PARENT_AUTH_MODULE.MODULE_ID)
                 {
@@ -631,39 +631,38 @@ namespace THOK.Authority.Bll.Service
             IQueryable<AUTH_ROLE_MODULE> queryRoleModule = RoleModuleRepository.GetQueryable();
             var systems = querySystem.Single(i => i.SYSTEM_ID == systemID);
             var roleSystems = queryRoleSystem.FirstOrDefault(i => i.AUTH_SYSTEM.SYSTEM_ID == systemID && i.AUTH_ROLE.ROLE_ID == roleID && i.AUTH_CITY.CITY_ID == cityID);
-            HashSet<Tree> RolesystemTreeSet = new HashSet<Tree>();
-            Tree roleSystemTree = new Tree();
-            roleSystemTree.id = roleSystems.ROLE_SYSTEM_ID.ToString();
-            roleSystemTree.text = "系统：" + systems.SYSTEM_NAME;
-            int a = Convert.ToInt32(roleSystems.IS_ACTIVE);
-            roleSystemTree.@checked = Convert.ToBoolean(a);
-            roleSystemTree.attributes = "system";
+                HashSet<Tree> RolesystemTreeSet = new HashSet<Tree>();
+                Tree roleSystemTree = new Tree();
+                roleSystemTree.id = roleSystems.ROLE_SYSTEM_ID.ToString();
+                roleSystemTree.text = "系统：" + systems.SYSTEM_NAME;
+                int a = Convert.ToInt32(roleSystems.IS_ACTIVE);
+                roleSystemTree.@checked = Convert.ToBoolean(a);
+                roleSystemTree.attributes = "system";
 
-            var modules = queryModule.Where(m => m.AUTH_SYSTEM.SYSTEM_ID == systems.SYSTEM_ID && m.MODULE_ID == m.PARENT_AUTH_MODULE.MODULE_ID)
-                                     .OrderBy(m => m.SHOW_ORDER)
-                                     .Select(m => m);
-            HashSet<Tree> moduleTreeSet = new HashSet<Tree>();
-            foreach (var item in modules)
-            {
-                Tree moduleTree = new Tree();
-                string moduleID = item.MODULE_ID.ToString();
-                //var roleModules = queryRoleModule.FirstOrDefault(i => i.Module.ModuleID == new Guid(moduleID) && i.RoleSystem.RoleSystemID == roleSystems.RoleSystemID);
-                var roleModules = queryRoleModule.FirstOrDefault(i => i.AUTH_MODULE.MODULE_ID == moduleID && i.AUTH_ROLE_SYSTEM.ROLE_SYSTEM_ID == roleSystems.ROLE_SYSTEM_ID);
-                moduleTree.id = roleModules.ROLE_MODULE_ID.ToString();
-                moduleTree.text = "模块：" + item.MODULE_NAME;
-                string b = roleModules.IS_ACTIVE == "1" ? "true" : "false";
-                moduleTree.@checked = bool.Parse(b);
-                moduleTree.attributes = "module";
+                var modules = queryModule.Where(m => m.AUTH_SYSTEM.SYSTEM_ID == systems.SYSTEM_ID && m.MODULE_ID == m.PARENT_AUTH_MODULE.MODULE_ID)
+                                         .OrderBy(m => m.SHOW_ORDER)
+                                         .Select(m => m);
+                HashSet<Tree> moduleTreeSet = new HashSet<Tree>();
+                foreach (var item in modules)
+                {
+                    Tree moduleTree = new Tree();
+                    string moduleID = item.MODULE_ID.ToString();
+                    //var roleModules = queryRoleModule.FirstOrDefault(i => i.Module.ModuleID == new Guid(moduleID) && i.RoleSystem.RoleSystemID == roleSystems.RoleSystemID);
+                    var roleModules = queryRoleModule.FirstOrDefault(i => i.AUTH_MODULE.MODULE_ID == moduleID && i.AUTH_ROLE_SYSTEM.ROLE_SYSTEM_ID == roleSystems.ROLE_SYSTEM_ID);
+                    moduleTree.id = roleModules.ROLE_MODULE_ID.ToString();
+                    moduleTree.text = "模块：" + item.MODULE_NAME;
+                    string b = roleModules.IS_ACTIVE == "1" ? "true" : "false";
+                    moduleTree.@checked = bool.Parse(b);
+                    moduleTree.attributes = "module";
 
-                moduleTreeSet.Add(moduleTree);
-                SetTree(moduleTree, item, roleSystems);
-                moduleTreeSet.Add(moduleTree);
-            }
-            roleSystemTree.children = moduleTreeSet.ToArray();
-            RolesystemTreeSet.Add(roleSystemTree);
-            return RolesystemTreeSet.ToArray();
+                    moduleTreeSet.Add(moduleTree);
+                    SetTree(moduleTree, item, roleSystems);
+                    moduleTreeSet.Add(moduleTree);
+                }
+                roleSystemTree.children = moduleTreeSet.ToArray();
+                RolesystemTreeSet.Add(roleSystemTree);
+                return RolesystemTreeSet.ToArray();
         }
-
         private void SetTree(Tree tree, AUTH_MODULE module,AUTH_ROLE_SYSTEM roleSystems)
         {
             IQueryable<AUTH_ROLE_MODULE> queryRoleModule = RoleModuleRepository.GetQueryable();

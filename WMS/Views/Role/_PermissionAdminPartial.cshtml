@@ -55,7 +55,7 @@
     };
 
     function query() {
-        debugger;
+        
         var cID = $('#cgCity').combogrid('getValue');
         var sID = $('#cgSystem').combogrid('getValue');
         cityID = cID;
@@ -76,7 +76,7 @@
     }
 
     function update() {
-        debugger;
+        
         var roots = $('#tt').tree('getRoots'), children, i, j, info = "";
         for (i = 0; i < roots.length; i++) {
             info += roots[i].attributes + "^" + roots[i].id + "^" + roots[i].checked + ",";
