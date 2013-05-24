@@ -49,14 +49,12 @@
     <Compile Include="Interfaces\IDeliverLineDownService.cs" />
     <Compile Include="Interfaces\IInBillMasterDownService.cs" />
     <Compile Include="Interfaces\IOutBillMasterDownService.cs" />
-    <Compile Include="Interfaces\IProductDownService.cs" />
     <Compile Include="Interfaces\ISortingDownService.cs" />
     <Compile Include="Interfaces\IUnitDownService.cs" />
     <Compile Include="Service\CustomerDownService.cs" />
     <Compile Include="Service\DeliverLineDownService.cs" />
     <Compile Include="Service\InBillMasterDownService.cs" />
     <Compile Include="Service\OutBillMasterDownService.cs" />
-    <Compile Include="Service\ProductDownService.cs" />
     <Compile Include="Service\SortingDownService.cs" />
     <Compile Include="Service\UnitDownService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

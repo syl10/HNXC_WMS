@@ -97,9 +97,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="THOK.Common.NPOI">
-      <HintPath>..\THOK.Common.NPOI\bin\Debug\THOK.Common.NPOI.dll</HintPath>
-    </Reference>
     <Reference Include="WebActivator, Version=1.4.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WebActivator.1.4.4\lib\net40\WebActivator.dll</HintPath>
     </Reference>
@@ -1556,6 +1553,10 @@
     <ProjectReference Include="..\THOK.Common.Ef\THOK.Common.Ef.csproj">
       <Project>{59FB8EB5-F5B8-4423-8550-A7819C855CDE}</Project>
       <Name>THOK.Common.Ef</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\THOK.Common.NPOI\THOK.Common.NPOI.csproj">
+      <Project>{F13B4CEE-A865-4815-B5DA-65D579FF008F}</Project>
+      <Name>THOK.Common.NPOI</Name>
     </ProjectReference>
     <ProjectReference Include="..\THOK.Common.WEBUtil\THOK.Common.WebUtil.csproj">
       <Project>{EC6DCF36-B010-4E48-88FC-BABC33EBCCFB}</Project>

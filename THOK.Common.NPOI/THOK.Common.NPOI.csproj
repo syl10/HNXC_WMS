@@ -32,10 +32,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ionic.Zip">
-      <HintPath>..\packages\npoi.1.2.5\.net 4.0\Ionic.Zip.dll</HintPath>
+      <HintPath>..\THOK.Common\dll\Ionic.Zip.dll</HintPath>
     </Reference>
     <Reference Include="NPOI">
-      <HintPath>..\packages\npoi.1.2.5\.net 4.0\NPOI.dll</HintPath>
+      <HintPath>..\THOK.Common\dll\NPOI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -54,7 +54,6 @@
     <Compile Include="Models\ExportParam.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
