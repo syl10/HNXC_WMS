@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\DontDropDbJustCreateTablesIfModelChangedStart.cs" />
+    <Compile Include="EntityRepository\ExceptionalLogRepository.cs" />
     <Compile Include="EntityRepository\HelpContentRepository.cs" />
     <Compile Include="EntityRepository\SystemEventLogRepository.cs" />
     <Compile Include="EntityRepository\SystemParameterRepository.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="EntityRepository\RoleFunctionRepository.cs" />
     <Compile Include="EntityRepository\UserRoleRepository.cs" />
     <Compile Include="Interfaces\ICityRepository.cs" />
+    <Compile Include="Interfaces\IExceptionalLogRepository.cs" />
     <Compile Include="Interfaces\IFunctionRepository.cs" />
     <Compile Include="Interfaces\IHelpContentRepository.cs" />
     <Compile Include="Interfaces\ILoginLogRepository.cs" />

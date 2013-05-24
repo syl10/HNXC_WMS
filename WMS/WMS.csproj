@@ -105,6 +105,7 @@
     <Compile Include="App_Start\DontDropDbJustCreateTablesIfModelChangedStart.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\Authorize\AuthorizeController.cs" />
+    <Compile Include="Controllers\Authorize\ExceptionalLogController.cs" />
     <Compile Include="Controllers\Authorize\FunctionController.cs" />
     <Compile Include="Controllers\Authorize\HelpContentController.cs" />
     <Compile Include="Controllers\Authorize\HelpController.cs" />
@@ -1708,6 +1709,8 @@
     <None Include="Content\Scripts\ckfinder\plugins\fileeditor\codemirror\LICENSE" />
     <None Include="Content\Scripts\ckfinder\userfiles\.htaccess" />
     <Content Include="Views\Home\_ProductWarningPartial.cshtml" />
+    <Content Include="Views\ExceptionalLog\Index.cshtml" />
+    <Content Include="Views\ExceptionalLog\_SearchPartial.cshtml" />
     <Content Include="Views\City\_PrintPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
