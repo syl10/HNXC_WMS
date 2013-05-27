@@ -309,12 +309,13 @@ namespace THOK.Authority.Bll.Service
                     .FirstOrDefault(i => i.ID == helpId);
                 help.CONTENT_TEXT = contentText;
                 HelpContentRepository.SaveChanges();
+                return true;
             }
             catch (Exception ex)
             {
                 strResult = "原因：" + ex.Message;
+                return false;
             }
-            return true;
         }
 
         public object GetContentTxt(string helpId)

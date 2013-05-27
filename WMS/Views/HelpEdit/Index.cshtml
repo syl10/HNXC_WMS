@@ -46,6 +46,10 @@
 
     };
     function saveHelpEdit() {
+        if ($("#editor01").val().length > 4000) {
+            alert("内容过长，超过4000");
+            return;
+        }
         $.ajaxSender.send('/HelpEdit/SaveHelpEdit/',
                 $('#editorForm').serializeArray(), function (){ });
     }
@@ -57,7 +61,7 @@
 <div region="center" split="true" border="false" style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #99BBE8"> @*buttons="#buttons-save"> *@
    <form id ="editorForm" action="javascript:saveHelpEdit()" method="post">
         <input id ="helpId" name = "helpId01" type="hidden"/>
-        <textarea rows="20" cols="40" id ="editor01" name="editor01"></textarea>
+        <textarea rows="20" cols="40" id ="editor01" name="editor01" validtype="maxLength[4000]"></textarea>
     @*<div id="#buttons-save">
     <a href="#" class="easyui-linkbutton" iconcls="icon-ok" onclick="S_select()">提交</a>
     </div>*@

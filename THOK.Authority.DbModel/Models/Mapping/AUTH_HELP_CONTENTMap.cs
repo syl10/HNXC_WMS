@@ -25,7 +25,7 @@ namespace THOK.Authority.DbModel.Mapping
                 .HasMaxLength(50);
 
             this.Property(t => t.CONTENT_TEXT)
-                .HasMaxLength(1000);
+                .HasMaxLength(4000);
 
             this.Property(t => t.CONTENT_PATH)
                 .IsRequired()

@@ -40,8 +40,8 @@ namespace THOK.Authority.Bll.Service
                                                           c.USER_USER_ID.Contains(UserID) &&
                                                           c.LOGIN_PC.Contains(LoginPC) &&
                                                           c.LOGIN_TIME.Contains(LoginTime));
-        
-            HelpContent = HelpContent.OrderBy(h => h.LOG_ID);
+
+            HelpContent = HelpContent.OrderByDescending(h => h.LOG_ID);
             int total = HelpContent.Count();
             HelpContent = HelpContent.Skip((page - 1) * rows).Take(rows);
 
