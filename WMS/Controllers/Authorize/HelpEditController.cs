@@ -39,7 +39,7 @@ namespace WMS.Controllers.Authority
             string strResult = string.Empty;
             bool bResult = HelpContentService.EditSave(helpId01, editor01, out strResult);
             string msg = bResult ? "更新成功" : "更新失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, strResult), "text", JsonRequestBehavior.AllowGet);
         }
         //依据ID获取帮助文档内容
         // GET: /HelpEdit/GetContentTxt/
