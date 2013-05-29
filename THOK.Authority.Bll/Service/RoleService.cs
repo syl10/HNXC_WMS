@@ -145,7 +145,7 @@ namespace THOK.Authority.Bll.Service
                     string uid = userIdList[i].ToString();
                     var user = UserRepository.GetQueryable().FirstOrDefault(u => u.USER_ID == uid);
                     var roleUser = new AUTH_USER_ROLE();
-                    roleUser.USER_ROLE_ID = Guid.NewGuid().ToString();
+                    roleUser.USER_ROLE_ID = UserRoleRepository.GetNewID("AUTH_USER_ROLE", "USER_ROLE_ID");
                     roleUser.AUTH_USER = user;
                     roleUser.AUTH_ROLE = role;
                     UserRoleRepository.Add(roleUser);

@@ -48,15 +48,15 @@
         var row = $('#RoleUserDataGrid').datagrid('getSelections');
         if (row.length > 0) {
         $.messager.confirm('确认','你确认要删除这个用户吗？',function(r){
-        if(r){
+            if (r) {
             var roleUserString = "";
             for (var i = 0; i < row.length; i++) {
-                roleUserString += row[i].UserRoleID + ",";
+                roleUserString += row[i].USER_ROLE_ID + ",";
             }
             $.post("/Role/DeleteRoleUser/", { roleUserIdStr: roleUserString }, function (json) {
                 if (json) {
                     $.messager.show({ title: '系统提示', msg: '删除成功！' });
-                    $('#RoleUserDataGrid').datagrid('options').url = '/Role/GetRoleUser/?ROLE_ID=' + ROLE_ID;
+                    $('#RoleUserDataGrid').datagrid('options').url = '/Role/GetRoleUser/?ROLE_ID=' + roleId;
                     $('#RoleUserDataGrid').datagrid('reload');
                     $('#RoleUserDataGrid').datagrid('clearSelections'); //清空所有选择项
                 } else {
@@ -71,7 +71,7 @@
     }
 </script>
 <div id="UserAdminAdd" split="true">
-    <table id="RoleUserDataGrid" class="easyui-datagrid" border="0px" fit="true" idfield="UserRoleID" toolbar="#tb" rownumbers="true" fitColumns="true">
+    <table id="RoleUserDataGrid" class="easyui-datagrid" border="0px" fit="true" idfield="USER_ROLE_ID" toolbar="#tb" rownumbers="true" fitColumns="true">
         <thead>
             <tr>
                 <th field="ck" checkbox="true"></th>

@@ -4,13 +4,13 @@
         if (row.length > 0) {
             var roleString = "";
             for (var i = 0; i < row.length; i++) {
-                roleString += row[i].RoleID + ",";
+                roleString += row[i].ROLE_ID + ",";
             }
-            $.post("/User/AddUserRole/", { userId: userId, roleIDstr: roleString }, function (json) {
+            $.post("/User/AddUserRole/", { userId: USER_ID, roleIDstr: roleString }, function (json) {
                 if (json) {
                     $.messager.show({ title: '系统提示', msg: '添加成功！' });
                     $('#UserAddRole').window('close');
-                    $('#UserRoleDataGrid').datagrid('options').url = '/User/GetUserRole/?UserID=' + userId;
+                    $('#UserRoleDataGrid').datagrid('options').url = '/User/GetUserRole/?UserID=' + USER_ID;
                     $('#UserRoleDataGrid').datagrid('reload');
                 } else {
                     $.messager.show({ title: '系统提示', msg: '添加失败!请检查原因！' });
@@ -29,8 +29,8 @@
                 <thead>
                     <tr>
                         <th field="ck" checkbox="true"></th>
-                        <th field="RoleID" width="180" hidden="true">角色编码</th>
-                        <th field="RoleName" width="130">角色名称</th>
+                        <th field="ROLE_ID" width="180" hidden="true">角色编码</th>
+                        <th field="ROLE_NAME" width="130">角色名称</th>
                         <th field="Status" width="100">是否可用</th>
                         <th field="Description" width="135">角色描述</th>
                     </tr>
