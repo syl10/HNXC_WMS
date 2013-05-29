@@ -2,15 +2,16 @@
     function RoleUserSaveClick() {
         var row = $('#RoleAddUserDatagrid').datagrid('getSelections');
         if (row.length > 0) {
+            debugger
             var userString = "";
             for (var i = 0; i < row.length; i++) {
-                userString += row[i].UserID + ",";
+                userString += row[i].USER_ID + ",";
             }
-            $.post("/Role/AddRoleUser/", { ROLE_ID: ROLE_ID, userIDstr: userString }, function (json) {
+            $.post("/Role/AddRoleUser/", { ROLE_ID: roleId, userIDstr: userString }, function (json) {
                 if (json) {
                     $.messager.show({ title: '系统提示', msg: '添加成功！' });
                     $('#RoleAddUser').window('close');
-                    $('#RoleUserDataGrid').datagrid('options').url = '/Role/GetRoleUser/?ROLE_ID=' + ROLE_ID;
+                    $('#RoleUserDataGrid').datagrid('options').url = '/Role/GetRoleUser/?ROLE_ID=' + roleId;
                     $('#RoleUserDataGrid').datagrid('reload');
                 } else {
                     $.messager.show({ title: '系统提示', msg: '添加失败!请检查原因！' });
@@ -25,7 +26,7 @@
     padding: 1px 1px" closed="true" buttons="#dlg-buttons">
     <div class="easyui-layout" fit="true">
         <div region="center" style="background: #fff; border: 1px solid #ccc;">
-            <table id="RoleAddUserDatagrid" class="easyui-datagrid" idfield="UserID" border="0px" fit="true">
+            <table id="RoleAddUserDatagrid" class="easyui-datagrid" idfield="USER_ID" border="0px" fit="true">
                 <thead>
                     <tr>
                         <th field="ck" checkbox="true"></th>
