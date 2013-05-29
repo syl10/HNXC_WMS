@@ -205,13 +205,14 @@ namespace THOK.Authority.Bll.Service
             IQueryable<AUTH_CITY> queryCity = CityRepository.GetQueryable();
             IQueryable<AUTH_SYSTEM> querySystem = SystemRepository.GetQueryable();
             IQueryable<AUTH_ROLE_MODULE> queryRoleModule = RoleModuleRepository.GetQueryable();
+            IQueryable<AUTH_MODULE> QueryModule=ModuleRepository.GetQueryable();
 
             //Guid gSystemID = new Guid(systemID);
             //Guid gCityID = new Guid(cityID);
             var user = queryUser.Single(u => u.USER_NAME == userName);
             var city = queryCity.Single(c => c.CITY_ID.Trim() == cityID);
             var system = querySystem.Single(s => s.SYSTEM_ID.Trim() == systemID);
-            InitUserSystem(user, city, system);
+            //InitUserSystem(user, city, system);
 
             var userSystem = (from us in user.AUTH_USER_SYSTEM
                               where us.AUTH_USER.USER_ID == user.USER_ID
@@ -226,19 +227,39 @@ namespace THOK.Authority.Bll.Service
             systemMenu.SystemID = userSystem.AUTH_SYSTEM.SYSTEM_ID;
             systemMenu.SystemName = userSystem.AUTH_SYSTEM.SYSTEM_NAME;
 
-            var userModules = from um in userSystem.AUTH_USER_MODULE
-                              where um.AUTH_MODULE.MODULE_ID == um.AUTH_MODULE.PARENT_AUTH_MODULE.MODULE_ID
-                              orderby um.AUTH_MODULE.SHOW_ORDER
+            //var userModules = from um in userSystem.AUTH_USER_MODULE
+            //                  where um.AUTH_MODULE.MODULE_ID == um.AUTH_MODULE.PARENT_AUTH_MODULE.MODULE_ID
+            //                  orderby um.AUTH_MODULE.SHOW_ORDER
+            //                  select um;
+
+            var userModules = from um in QueryModule
+                              where um.SYSTEM_SYSTEM_ID == userSystem.SYSTEM_SYSTEM_ID && um.MODULE_ID == um.PARENT_MODULE_MODULE_ID
                               select um;
 
+
+            //var userModules = (from um in userSystem.AUTH_USER_MODULE
+            //                   from um2 in userSystem.AUTH_USER_MODULE
+            //                   where (um.AUTH_MODULE.MODULE_ID == um2.AUTH_MODULE.PARENT_AUTH_MODULE.MODULE_ID && um2.IS_ACTIVE == "1")
+            //                   orderby um.AUTH_MODULE.SHOW_ORDER
+            //                   select um).Distinct();
+            string str1 = System.DateTime.Now.ToString();
+
             HashSet<Menu> moduleMenuSet = new HashSet<Menu>();
-            foreach (var userModule in userModules)
+            string str3 = System.DateTime.Now.ToString();
+            foreach (var module in userModules)
             {
-                var roles = user.AUTH_USER_ROLE.Select(ur => ur.AUTH_ROLE);
-                foreach (var role in roles)
-                {
-                    InitRoleSystem(role, city, system);
-                }
+                string str4 = System.DateTime.Now.ToString();
+                var roles = user.AUTH_USER_ROLE.Select(ur => ur.AUTH_ROLE);  //shj 2013/05/28 屏蔽
+                //foreach (var role in roles)
+                //{
+                //    InitRoleSystem(role, city, system);
+                //}
+
+                var userModule = (from um in userSystem.AUTH_USER_MODULE
+                                  where um.AUTH_MODULE.MODULE_ID == module.MODULE_ID
+                                  select um).Single();
+                
+
 
                 if (userModule.IS_ACTIVE == "1" ||
                     userModule.AUTH_MODULE.AUTH_ROLE_MODULE.Any(rm => roles.Any(r => r.ROLE_ID == rm.AUTH_ROLE_SYSTEM.AUTH_ROLE.ROLE_ID
@@ -249,10 +270,10 @@ namespace THOK.Authority.Bll.Service
                     userModule.AUTH_MODULE.AUTH_MODULES
                         .Any(m => m.AUTH_ROLE_MODULE.Any(rm => roles.Any(r => r.ROLE_ID == rm.AUTH_ROLE_SYSTEM.AUTH_ROLE.ROLE_ID
                             && (rm.IS_ACTIVE == "1" || rm.AUTH_ROLE_FUNCTION.Any(rf => rf.IS_ACTIVE == "1"))))) ||
-                    user.USER_NAME == "Admin"
+                    user.USER_NAME == "admin"
                     )
                 {
-                    var module = userModule.AUTH_MODULE;
+                    
                     Menu moduleMenu = new Menu();
                     moduleMenu.ModuleID = module.MODULE_ID.ToString();
                     moduleMenu.ModuleName = module.MODULE_NAME;
@@ -265,10 +286,11 @@ namespace THOK.Authority.Bll.Service
                     moduleMenu.ShowOrder =Convert.ToInt32(module.SHOW_ORDER);
                     GetChildMenu(moduleMenu, userSystem, module);
                     moduleMenuSet.Add(moduleMenu);
-                }
+                } 
             }
             systemMenu.children = moduleMenuSet.ToArray();
             systemMenuSet.Add(systemMenu);
+            string str2 = System.DateTime.Now.ToString();
             return systemMenuSet.ToArray();
         }
 
@@ -324,7 +346,7 @@ namespace THOK.Authority.Bll.Service
             IQueryable<AUTH_ROLE_MODULE> queryRoleModule = RoleModuleRepository.GetQueryable();
             HashSet<Menu> childMenuSet = new HashSet<Menu>();
             var userModules = from um in userSystem.AUTH_USER_MODULE
-                              where um.AUTH_MODULE.PARENT_AUTH_MODULE == module
+                              where um.AUTH_MODULE.PARENT_AUTH_MODULE == module && um.AUTH_MODULE!=module
                               orderby um.AUTH_MODULE.SHOW_ORDER
                               select um;
             foreach (var userModule in userModules)
@@ -342,7 +364,7 @@ namespace THOK.Authority.Bll.Service
                         userModule.AUTH_MODULE.AUTH_MODULES
                             .Any(m => m.AUTH_ROLE_MODULE.Any(rm => roles.Any(r => r.ROLE_ID == rm.AUTH_ROLE_SYSTEM.AUTH_ROLE.ROLE_ID
                                 && (rm.IS_ACTIVE == "1" || rm.AUTH_ROLE_FUNCTION.Any(rf => rf.IS_ACTIVE == "1"))))) ||
-                        userModule.AUTH_USER_SYSTEM.AUTH_USER.USER_NAME == "Admin"
+                        userModule.AUTH_USER_SYSTEM.AUTH_USER.USER_NAME == "admin"
                         )
                     {
                         Menu childMenu = new Menu();
