@@ -1,46 +1,37 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using THOK.Authority.Bll.Interfaces;
-using Microsoft.Practices.Unity;
 using System.Web.Security;
-using System.Web.Routing;
+using THOK.Authority.Bll.Interfaces;
 
 namespace THOK.Security
 {
-    [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
-    public class TokenAclAuthorizeAttribute : AuthorizeAttribute
+    [AttributeUsage(AttributeTargets.All,AllowMultiple = false, Inherited = true)]
+    public class TokenAclAuthorizeAttribute :AuthorizeAttribute
     {
-        [Dependency]
-        public  IUserService UserService { get; set; }
-
+        ServiceFactory UserFactory = new ServiceFactory();
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
             bool result = true;
-            if (httpContext.Session["username"] != null && httpContext.Session["username"].ToString() != "")
+            if (httpContext.Request.Cookies["username"] != null)
             {
-                string user = httpContext.Session["username"].ToString();
-                string ipAdress = UserService.GetUserIp(user);
-                string localip = UserService.GetLocalIp(user);
+                string user = httpContext.Request.Cookies["username"].Value;
+                string ipAdress = UserFactory.GetService<IUserService>().GetUserIp(user);
+                //string localip = httpContext.Request.UserHostAddress;
+                string localip = System.Net.Dns.Resolve(System.Net.Dns.GetHostName()).AddressList[0].ToString();
                 if (ipAdress != localip)
                 {
                     result = false;
                 }
             }
-            if (!result)
-            {
-                httpContext.Response.StatusCode = 403;
-            } 
             return result;
         }
         public override void OnAuthorization(AuthorizationContext filterContext)
-        {
-            base.OnAuthorization(filterContext);
-            if (filterContext.HttpContext.Response.StatusCode == 403)
+        {            
+            if (!AuthorizeCore(filterContext.HttpContext))
             {
-                filterContext.Result = new RedirectResult("/Home/Index");
+                FormsAuthentication.SignOut();
+                throw new UnauthorizedAccessException("该账户在别的地方已登录，您可以尝试重新登陆或退出！");
             }
         }
     }

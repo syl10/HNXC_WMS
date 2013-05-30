@@ -1,0 +1,24 @@
+﻿@{
+    Layout = null;
+}
+<div class="easyui-layout" fit="true" border="false">
+	<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >   
+        <table width="280">
+                    <tr>
+                    <td width="60" align="right">区域名称：</td>
+                    <td width="168"><input id="RegionName" type="text"/>
+                    <input name="ID"  style="display:none" /></td>
+                    </tr> 
+                                         
+                    <tr>
+                    <td width="60" align="right">状　　态：</td>
+                    <td><select id="SearchState" class="easyui-combobox" style="width: 130px">
+                            <option value="">请选择</option>
+		                    <option value="01">可用</option>
+		                    <option value="02">不可用</option>
+	                    </select>
+	                </td>
+                    </tr>
+                </table>
+    </div>
+</div>

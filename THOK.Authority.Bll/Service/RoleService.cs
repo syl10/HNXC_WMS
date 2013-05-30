@@ -31,10 +31,10 @@ namespace THOK.Authority.Bll.Service
                     .Select(r => new { r.ROLE_ID, r.ROLE_NAME, MEMO = r.MEMO, IS_LOCK = r.IS_LOCK == "1" ? "启用" : "禁用" });
             if (!String.IsNullOrEmpty(islock))
             {
-                bool bStatus = Convert.ToBoolean(islock);
+               // bool bStatus = Convert.ToBoolean(islock);
                 roles = queryRole.Where(r => r.ROLE_NAME.Contains(roleName)
                     && r.MEMO.Contains(memo)
-                    && bool.Parse(r.IS_LOCK) == bStatus)
+                    && r.IS_LOCK == islock)
                     .OrderBy(r => r.ROLE_NAME)
                     .Select(r => new { r.ROLE_ID, r.ROLE_NAME, MEMO = r.MEMO, IS_LOCK = r.IS_LOCK == "1" ? "启用" : "禁用" });
             }              
@@ -145,7 +145,7 @@ namespace THOK.Authority.Bll.Service
                     string uid = userIdList[i].ToString();
                     var user = UserRepository.GetQueryable().FirstOrDefault(u => u.USER_ID == uid);
                     var roleUser = new AUTH_USER_ROLE();
-                    roleUser.USER_ROLE_ID = Guid.NewGuid().ToString();
+                    roleUser.USER_ROLE_ID = UserRepository.GetNewID("AUTH_USER_ROLE", "USER_ROLE_ID");
                     roleUser.AUTH_USER = user;
                     roleUser.AUTH_ROLE = role;
                     UserRoleRepository.Add(roleUser);

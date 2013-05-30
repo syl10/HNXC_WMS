@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using System.Web.Routing;
 using System.Security.Principal;
+using THOK.Wms.Bll.Interfaces;
 using Microsoft.Practices.Unity;
 using THOK.Authority.Bll.Interfaces;
 
@@ -13,16 +14,15 @@ namespace THOK.Security
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
     public class FormsAuthorizeAttribute : AuthorizeAttribute
     {
-        [Dependency]
         private IUserService UserService { get; set; }
-        [Dependency]
         private IRoleService RoleService { get; set; }
 
         public override void OnAuthorization(AuthorizationContext filterContext)
         {
             if (filterContext.HttpContext.User == null || !(filterContext.HttpContext.User.Identity is FormsIdentity) || !filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
-                filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Home" }, { "action", "LogOn" }, { "returnUrl", filterContext.HttpContext.Request.Url.PathAndQuery } });
+                FormsAuthentication.SignOut();
+                throw new UnauthorizedAccessException("该账户在别的地方已登录，您可以尝试重新登陆或退出！");
             }
             else
             {
@@ -33,7 +33,8 @@ namespace THOK.Security
                 base.OnAuthorization(filterContext);
                 if (filterContext.Result is HttpUnauthorizedResult)
                 {
-                    filterContext.Result = new RedirectResult("/Home/Unauthorized");
+                    FormsAuthentication.SignOut();
+                    throw new UnauthorizedAccessException("该账户在别的地方已登录，您可以尝试重新登陆或退出！");
                 }
             }
         }

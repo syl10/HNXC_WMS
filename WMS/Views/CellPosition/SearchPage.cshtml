@@ -1,0 +1,36 @@
+﻿@{
+    Layout = null;
+}
+<div class="easyui-layout" fit="true" border="false">
+	<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >   
+      <form id ="cfm">
+        <table width="280">
+                    <tr>
+                    <td width="75" align="right">货位代码：</td>
+                    <td width="168"><input id="CellCode" type="text"/>
+                    </td>
+                    </tr> 
+
+                    <tr>
+                    <td width="75" align="right">入库位置：</td>
+                    <td width="168">
+                        <input id="StockInPosition" type="text" />
+                        <a href="#" id="StockInPositionSearch" class="easyui-linkbutton" iconcls="icon-search"
+                            plain="true" onclick="CellPositionSearchClick(1)"></a>
+                    </td>
+                    </tr> 
+
+                    <tr>
+                    <td width="75" align="right">出库位置：</td>
+                    <td width="168">
+                        <input id="StockOutPosition" type="text" />
+                        <a href="#" id="StockOutPositionSearch" class="easyui-linkbutton" iconcls="icon-search"
+                            plain="true" onclick="CellPositionSearchClick(2)"></a>
+                    </td>
+                    </tr> 
+
+                </table>
+        </form>
+    </div>
+</div>
+@Html.Partial("_CellPositionNamePartial");

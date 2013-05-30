@@ -1,0 +1,29 @@
+﻿<script type="text/javascript">
+    function deleteClick() {
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            url = '/Region/Delete/?regionId=' + row.ID;
+            showDialog('删除');
+            deleteKey = true;
+            addDialog.dialog('open');
+            $('form input').removeAttr("disabled");
+            $('form textarea').removeAttr("disabled");
+            $('#fm').form('load', row);
+            $('#fm .easyui-validatebox').validatebox({
+                required: false
+            });
+            $('#State').combo({
+                hasDownArrow: true
+            });
+            if (row.State == '可用') {
+                $('#State').combo('setValue', '01').combo('setText', row.State);
+            } else {
+                $('#State').combo('setValue', '02').combo('setText', row.State);
+            }
+            $('form input').attr("disabled", "disabled");
+            $('form textarea').attr("disabled", "disabled");
+        } else {
+            $.messager.alert('错误', '没有选择行！', 'info');
+        }
+    };
+</script>

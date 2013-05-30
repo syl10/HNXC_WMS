@@ -2,7 +2,7 @@
 using THOK.Common.Ef.Infrastructure;
 using THOK.Common.Ef.Interfaces;
 using THOK.Wms.Repository.Interfaces;
-
+using System;
 
 namespace THOK.Wms.Repository.RepositoryContext
 {
@@ -25,7 +25,14 @@ namespace THOK.Wms.Repository.RepositoryContext
 
         public int SaveChanges()
         {
-            return  this.DbContext.SaveChanges();
+
+            try
+            {
+                return this.DbContext.SaveChanges();
+            }catch(System.Data.Entity.Validation.DbEntityValidationException ex)
+            {
+                return -1;
+            }
         }
 
         public void Terminate()

@@ -63,7 +63,8 @@ namespace THOK.Authority.Bll.Service
                 //var module = ModuleRepository.GetQueryable().FirstOrDefault(m => m.ModuleID == new Guid(ModuleId));
                 var module = ModuleRepository.GetQueryable().FirstOrDefault(m => m.MODULE_ID == ModuleId);
                 var function = new AUTH_FUNCTION();
-                function.FUNCTION_ID = Guid.NewGuid().ToString();
+                //function.FUNCTION_ID = Guid.NewGuid().ToString();
+                function.FUNCTION_ID = FunctionRepository.GetNewID("AUTH_FUNCTION", "FUNCTION_ID");
                 function.FUNCTION_NAME = FunctionName;
                 function.CONTROL_NAME = ControlName;
                 function.AUTH_MODULE = module;

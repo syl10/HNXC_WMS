@@ -1,0 +1,36 @@
+﻿@{
+    Layout = null;
+}
+<div class="easyui-layout" fit="true" border="false">
+	<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " > 
+      <form id="fm" method="post" >  
+        <table width="280">
+                    <tr>
+                    <td width="60" align="right">区域编号：</td>
+                    <td width="168">
+                    <input name="ID" id="inputID" type="text" readonly="readonly" value="自动增长"/>
+                    <input name="ID"  style="display:none" /></td>
+
+                    <tr>
+                    <td width="60" align="right">区域名称：</td>
+                    <td width="168">
+                    <input name="RegionName" id="inputRegionName" class="easyui-validatebox" required="true" type="text"/>
+                    <input name="ID"  style="display:none" /></td>
+                        
+                    </tr>
+                    <tr>
+                    <td width="60" align="right">描　　述：</td>
+                    <td width="168"><textarea name="Description" id="Description"  style="width: 127px;height: 80px"></textarea></td>
+                    </tr>                      
+                    <tr>
+                    <td width="60" align="right">状　　态：</td>
+                    <td><select id="State" class="easyui-combobox" name="State" class="easyui-combobox" style="width: 130px" required="true">
+		                    <option value="01">可用</option>
+		                    <option value="02">不可用</option>
+	                    </select>
+	                </td>
+                    </tr>
+                </table>
+            </form>
+    </div>
+</div>

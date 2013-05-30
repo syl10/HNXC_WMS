@@ -1,0 +1,100 @@
+﻿<script type="text/javascript">
+    var url;
+    var addDialog;
+    function AddLoad() {
+        $('#State').combo({
+            required: true,
+            editable: false,
+            panelHeight: 45,
+            panelWidth: 130
+        });
+    }
+    //加载新增、编辑和删除窗体
+    function showDialog(title) {
+        if (addDialog == null) {
+            addDialog = $('<div></div>').dialog({
+                title: title,
+                width: 310,
+                height: 290,
+                closed: true,
+                cache: false,
+                modal: true,
+                href: '/Region/AddPage/',
+                buttons: [{
+                    text: '确定',
+                    iconCls: 'icon-ok',
+                    handler: function () {
+                        save();
+                    }
+                }, {
+                    text: '取消',
+                    iconCls: 'icon-cancel',
+                    handler: function () {
+                        addDialog.dialog('close');
+                    }
+                }],
+                onLoad: function () {
+                    if (title == '编辑') {
+                        var erow = $('#details').datagrid('getSelected');
+                        $('#fm').form('load', erow);
+                        if (erow.State == '可用') {
+                            $('#State').combo('setValue', '01').combo('setText', erow.State);
+                        } else {
+                            $('#State').combo('setValue', '02').combo('setText', erow.State);
+                        }
+                    }
+                    else if (title == '删除') {
+                        var drow = $('#details').datagrid('getSelected');
+                        $('#fm').form('load', drow);
+                        $('form input').attr("disabled", "disabled");
+                        $('form textarea').attr("disabled", "disabled");
+                    }
+                    AddLoad();
+                }
+            });
+        }
+        else {
+            addDialog.dialog({ title: title });
+        }
+    }
+
+    function addClick() {
+        showDialog('新增');
+        addKey = true;
+        addDialog.dialog('open');
+        $('form input').removeAttr("disabled"); //removeAttr() 方法从被选元素中移除属性。
+        $('form textarea').removeAttr("disabled");
+        $('#fm').form('clear');
+        $('#fm .easyui-validatebox').validatebox({
+            required: true
+        });
+        $('input#inputID').attr("value", "自动增长");
+        url = '/Region/Create/';
+    };
+
+    function save() {
+        $('form input').removeAttr("disabled");
+        $('form textarea').removeAttr("disabled");
+        $('#fm').form('submit', {
+            url: url,
+            onSubmit: function () {
+                return $(this).form('validate');
+            },
+            success: function (result) {
+                var result = eval('(' + result + ')');
+                if (result.success) {
+                    $.messager.alert(g_MsgBoxTitle, result.msg, "info");
+                    addKey = false;
+                    editKey = false;
+                    addDialog.dialog('close');
+                    $('#details').datagrid('reload');
+                } else {
+                    $.messager.alert(g_MsgBoxTitle, result.msg + '<br />' + result.data, "error");
+                    addKey = false;
+                    editKey = false;
+                    $('#details').datagrid('reload');
+                }
+            }
+        });
+    }
+</script>

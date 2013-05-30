@@ -1,0 +1,72 @@
+﻿<script type="text/javascript">
+    function deleteClick() {
+        var treeObj = $.fn.zTree.getZTreeObj("warehouseTree");
+        var row = treeObj.getSelectedNodes();
+        if (row) {
+            $('form input').attr("disabled", "disabled");
+            var divid;
+            var laod;
+            var deleteName;
+            if (row[0].type == "ware") {
+                divid = "ware";
+                Load("/Warehouse2/FindWarehouse", row[0].id, divid);
+                url = "/Warehouse2/Delete/?warehouseCode=" + row[0].id;
+                deleteName = "仓库";
+            } else if (row[0].type == "area") {
+                divid = "area";
+                Load("/Area/FindArea", row[0].id, divid);
+                addClass("wareArea", "");
+                url = "/Area/Delete/?areaCode=" + row[0].id;
+                deleteName = "库区";
+            } else if (row[0].type == "shelf") {
+                divid = "shelf";
+                Load("/Shelf/FindShelf", row[0].id, divid);
+                addClass("wareShelf", "areaShelf");
+                url = "/Shelf/Delete/?shelfCode=" + row[0].id;
+                deleteName = "货架";
+            } else if (row[0].type == "cell") {
+                divid = "cell";
+                Load("/Cell/FindCell", row[0].id, divid);
+                addClass("wareCell", "areaCell")
+                url = "/Cell/Delete/?cellCode=" + row[0].id;
+                deleteName = "货位";
+            }
+            fm = divid + "fm";
+            $('#dlg').dialog('open').dialog('setTitle', '删除：' + deleteName);
+            deleteKey = true;
+            AddShowDiv(divid); //显示页面
+            $('#' + divid + ' .easyui-validatebox').validatebox({
+                required: false
+            });
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    };
+
+    function DeleteSelect() {
+        $('#warehouse-add').combogrid({
+            hasDownArrow: false
+        });
+        $('#area-add').combogrid({
+            hasDownArrow: false
+        });
+        $('#shelf-add').combogrid({
+            hasDownArrow: false
+        });
+        $('#product-add').combogrid({
+            hasDownArrow: false
+        });
+        $('#isLayer').combo({
+            hasDownArrow: false
+        });
+        $('#isVirtual').combo({
+            hasDownArrow: false
+        });
+        $('#isCellType').combo({
+            hasDownArrow: false
+        });
+        $('#cellIsActive').combo({
+            hasDownArrow: false
+        });
+    }
+</script>

@@ -1,0 +1,19 @@
+﻿<script type="text/javascript">
+    $(function () {
+
+    });
+</script>
+<div region="center" split="true" border="false" >    
+    <table id="details" class="easyui-datagrid" url="/CellPosition/Details/"  border="false" singleSelect="true" fit="true" toolbar="#tool"  pagination="true" rownumbers="true" >
+        <thead>
+            <tr>
+                <th field="ID" width="100" >货位位置ID</th>
+                <th field="CellCode" width="180" >货位代码</th>
+                <th field="StockInPositionID" width="180" hidden="true">入库位置ID</th>
+                <th field="InName" width="180">入库位置</th> 
+                <th field="StockOutPositionID" width="180" hidden="true">出库位置ID</th>  
+                <th field="OutName" width="180">出库位置</th>   
+            </tr>
+        </thead>
+    </table>
+</div>

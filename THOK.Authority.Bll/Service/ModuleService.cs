@@ -211,7 +211,7 @@ namespace THOK.Authority.Bll.Service
             var user = queryUser.Single(u => u.USER_NAME == userName);
             var city = queryCity.Single(c => c.CITY_ID.Trim() == cityID);
             var system = querySystem.Single(s => s.SYSTEM_ID.Trim() == systemID);
-            InitUserSystem(user, city, system);
+           // InitUserSystem(user, city, system);
 
             var userSystem = (from us in user.AUTH_USER_SYSTEM
                               where us.AUTH_USER.USER_ID == user.USER_ID
@@ -235,10 +235,10 @@ namespace THOK.Authority.Bll.Service
             foreach (var userModule in userModules)
             {
                 var roles = user.AUTH_USER_ROLE.Select(ur => ur.AUTH_ROLE);
-                foreach (var role in roles)
-                {
-                    InitRoleSystem(role, city, system);
-                }
+                //foreach (var role in roles)
+                //{
+                //   InitRoleSystem(role, city, system);
+                //}
 
                 if (userModule.IS_ACTIVE == "1" ||
                     userModule.AUTH_MODULE.AUTH_ROLE_MODULE.Any(rm => roles.Any(r => r.ROLE_ID == rm.AUTH_ROLE_SYSTEM.AUTH_ROLE.ROLE_ID

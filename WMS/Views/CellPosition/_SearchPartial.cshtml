@@ -1,0 +1,79 @@
+﻿<script type="text/javascript">
+    var searchDialog;
+    var module = "Size";
+    var searchKey = false;
+    var addKey = false;
+    var editKey = false;
+    var deleteKey = false;
+    var parentComNameKey = false;
+    var s = -1;
+    function searchClick() {
+        $('#cfm').form('clear');
+        if (searchDialog == null) {
+            searchDialog = $('<div></div>').dialog({
+                title: '查询',
+                width: 310,
+                height: 200,
+                closed: true,
+                cache: false,
+                modal: true,
+                href: '/CellPosition/SearchPage/',
+                buttons: [{
+                    text: '查询',
+                    iconCls: 'icon-ok',
+                    handler: function () {
+                        GetQueryParams();
+                    }
+                }, {
+                    text: '取消',
+                    iconCls: 'icon-cancel',
+                    handler: function () {
+                        searchDialog.dialog('close');
+                    }
+                }],
+                onLoad: function () {
+                }
+            });
+        }
+        searchKey = true;
+        searchDialog.dialog('open');
+    };
+    function GetQueryParams() {
+        var queryParams = $('#details').datagrid('options').queryParams;
+        queryParams.CellCode = $('#CellCode').val();
+        queryParams.StockInPosition = $('#StockInPosition').val();
+        queryParams.StockOutPosition = $('#StockOutPosition').val();
+        $('#details').datagrid('options').queryParams = queryParams;
+        $("#details").datagrid('load');
+        searchDialog.dialog('close');
+    }
+    function CellPositionSearchClick(k) {
+        addKey = false;
+        editKey = false;
+        if (k == 1) {
+            $('#cellPositionNameData').dialog('open').dialog('setTitle', '选择入库位置名称');
+            s = 1;
+        }
+        else if (k == 2) {
+            $('#cellPositionNameData').dialog('open').dialog('setTitle', '选择出库位置名称');
+            s = 2;
+        }
+        else if (k == 3) {
+            $('#cellPositionNameData').dialog('open').dialog('setTitle', '选择入库位置名称');
+            s = 3;
+        }
+        else if (k == 4) {
+            $('#cellPositionNameData').dialog('open').dialog('setTitle', '选择出库位置名称');
+            s = 4;
+        }
+        parentComNameKey = true;
+        $('#CellPositionNameDetail').datagrid({ url: '/Position/GetPosition/' });
+        $("#CellPositionNameDetail").datagrid('reload');
+        $("#queryType").combo({
+            editable: false,
+            panelHeight: 45,
+            panelWith: 130
+        });
+    }
+</script>
+<script type="text/javascript" src="../../Scripts/mykeyboardshortcuts.js"></script>

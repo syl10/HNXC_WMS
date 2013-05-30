@@ -1,5 +1,5 @@
 using System.Data.Entity;
-using Devtalk.EF.CodeFirst;
+//using Devtalk.EF.CodeFirst;
 
 [assembly: WebActivator.PreApplicationStartMethod(typeof(THOK.Common.App_Start.DontDropDbJustCreateTablesIfModelChangedStart), "Start")]
 

@@ -1,0 +1,50 @@
+using System.ComponentModel.DataAnnotations;
+using System.Data.Entity.ModelConfiguration;
+
+namespace THOK.Wms.DbModel.Mapping
+{
+    public class CMD_PRODUCTMap : EntityTypeConfiguration<CMD_PRODUCT>
+    {
+        public CMD_PRODUCTMap()
+        {
+            // Primary Key
+            this.HasKey(t => t.PRODUCT_CODE);
+
+            // Properties
+            this.Property(t => t.PRODUCT_CODE)
+                .IsRequired()
+                .HasMaxLength(40);
+
+            this.Property(t => t.PRODUCT_NAME)
+                .IsRequired()
+                .HasMaxLength(50);
+
+            this.Property(t => t.ORIGINAL)
+                .HasMaxLength(50);
+
+            this.Property(t => t.YEARS)
+                .IsFixedLength()
+                .HasMaxLength(4);
+
+            this.Property(t => t.GRADE)
+                .HasMaxLength(50);
+
+            this.Property(t => t.STYLE)
+                .HasMaxLength(50);
+
+            this.Property(t => t.MEMO)
+                .HasMaxLength(200);
+
+            // Table & Column Mappings
+            this.ToTable("CMD_PRODUCT", "THOK");
+            this.Property(t => t.PRODUCT_CODE).HasColumnName("PRODUCT_CODE");
+            this.Property(t => t.PRODUCT_NAME).HasColumnName("PRODUCT_NAME");
+            this.Property(t => t.ORIGINAL).HasColumnName("ORIGINAL");
+            this.Property(t => t.YEARS).HasColumnName("YEARS");
+            this.Property(t => t.GRADE).HasColumnName("GRADE");
+            this.Property(t => t.STYLE).HasColumnName("STYLE");
+            this.Property(t => t.WEIGHT).HasColumnName("WEIGHT");
+            this.Property(t => t.MEMO).HasColumnName("MEMO");
+        }
+    }
+}
