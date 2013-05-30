@@ -1,0 +1,12 @@
+﻿<script type="text/javascript">
+    function printClick() {
+        var regionName = null, state = null;
+        // if ($('#ID').val() == null) { id = ""; } else { id=$('#ID').val()}
+        if ($('#RegionName').val() == null) { regionName = ""; } else { regionName = $('#RegionName').val() }
+        if (document.getElementById('#State') == null) { state = ""; } else { state = $('#State').combo('getValue') }
+
+        window.location.href = "/Region/CreateExcelToClient/"
+                                + "?regionName=" + regionName
+                                + "&state=" + state;
+    }
+</script>

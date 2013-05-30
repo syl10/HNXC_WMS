@@ -5,11 +5,11 @@
 
     function select() {
         var queryParams = $('#details').datagrid('options').queryParams;
-        queryParams.UserName = $('#userName').val();
-        queryParams.ChineseName = $('#chineseName').val();
+        queryParams.USER_NAME = $('#USER_NAME').val();
+        queryParams.CHINESE_NAME = $('#CHINESE_NAME').val();
         queryParams.IsLock = $('#isLock').val();
         queryParams.IsAdmin = $('#isAdmin').val();
-        queryParams.Memo = $('#memo').val();
+        queryParams.MEMO = $('#MEMO').val();
         $('#details').datagrid('options').queryParams = queryParams;
         $('#details').datagrid({
             pageNumber: 1,

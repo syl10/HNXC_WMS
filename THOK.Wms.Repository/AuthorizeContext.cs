@@ -2,6 +2,7 @@ using System.Data.Entity;
 using THOK.Wms.Repository.Migrations;
 using THOK.Authority.DbModel.Mapping;
 using THOK.Authority.DbModel;
+using THOK.Wms.DbModel.Mapping;
 
 namespace THOK.Wms.Repository
 {
@@ -22,7 +23,6 @@ namespace THOK.Wms.Repository
         {
             #region auth
             modelBuilder.Configurations.Add(new AUTH_MODULEMap());
-
             modelBuilder.Configurations.Add(new AUTH_CITYMap());
             modelBuilder.Configurations.Add(new AUTH_FUNCTIONMap());
             modelBuilder.Configurations.Add(new AUTH_LOGIN_LOGMap());
@@ -44,6 +44,12 @@ namespace THOK.Wms.Repository
             #endregion
 
             #region wms
+            modelBuilder.Configurations.Add(new CMD_AREAMap());
+            modelBuilder.Configurations.Add(new CMD_CELLMap());
+            modelBuilder.Configurations.Add(new CMD_PRODUCTMap());
+            modelBuilder.Configurations.Add(new CMD_SHELFMap());
+            modelBuilder.Configurations.Add(new CMD_WAREHOUSEMap());
+
 
             #endregion
 

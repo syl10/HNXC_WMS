@@ -1,0 +1,8 @@
+﻿<script type="text/javascript">
+    function printClick() {
+        var cellCode = null;
+        if ($('#CellCode').val() == null) { cellCode = ""; } else { cellCode = $('#CellCode').val() }
+        window.location.href = "/CellPosition/CreateExcelToClient/"
+                                + "?cellCode=" + cellCode;
+    }
+</script>

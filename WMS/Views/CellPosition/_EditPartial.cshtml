@@ -1,0 +1,18 @@
+﻿<script type="text/javascript">
+    function editClick() {
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            showDialog('编辑');
+            editKey = true;
+            addDialog.dialog('open');
+            url = '/CellPosition/Edit/';
+            $('form input').removeAttr("disabled");
+            $('#fm').form('load', row);
+            $('#fm .easyui-validatebox').validatebox({
+                required: true
+            });
+        } else {
+            $.messager.alert('错误', '没有选择行！', 'info');
+        }
+    };
+</script>

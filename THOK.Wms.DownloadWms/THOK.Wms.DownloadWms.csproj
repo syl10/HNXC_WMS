@@ -45,14 +45,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Packages\THOK.Util.dll</HintPath>
     </Reference>
-    <Reference Include="THOK.Wms.Dal, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\THOK.Wms.Dal.dll</HintPath>
-    </Reference>
-    <Reference Include="THOK.Wms.DbModel, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>bin\Debug\THOK.Wms.DbModel.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bll\DownCustomerBll.cs" />

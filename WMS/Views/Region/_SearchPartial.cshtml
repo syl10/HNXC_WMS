@@ -1,0 +1,58 @@
+﻿<script type="text/javascript">
+    var searchDialog;
+    var module = "Region";
+    var searchKey = false;
+    var addKey = false;
+    var editKey = false;
+    var deleteKey = false;
+    var parentComNameKey = false;
+    function SearchLoad() {
+        $("#SearchState").combo({
+            editable:false,
+            panelHeight:65,
+            panelWith:130
+            })
+    }
+    function searchClick() {
+        $("input[type=text]").attr("value", "");
+        $('#SearchState').combo('setValue', "");
+        if (searchDialog == null) {
+            searchDialog = $('<div></div>').dialog({
+                title: '查询',
+                width: 310,
+                height: 180,
+                closed: true,
+                cache: false,
+                modal: true,
+                href: '/Region/SearchPage/',
+                buttons: [{
+                    text: '查询',
+                    iconCls: 'icon-ok',
+                    handler: function () {
+                        GetQueryParams();
+                    }
+                }, {
+                    text: '取消',
+                    iconCls: 'icon-cancel',
+                    handler: function () {
+                        searchDialog.dialog('close');
+                    }
+                }],
+                onLoad: function () {
+                    SearchLoad();
+                }
+            });
+        }
+        searchKey = true;
+        searchDialog.dialog('open');
+    };
+    function GetQueryParams() {
+        var queryParams = $('#details').datagrid('options').queryParams;
+        queryParams.RegionName = $('#RegionName').val();
+        queryParams.State = $('#SearchState').combo('getValue');
+        $('#details').datagrid('options').queryParams = queryParams;
+        $("#details").datagrid('load');
+        searchDialog.dialog('close');
+    }
+</script>
+<script type="text/javascript" src="../../Scripts/mykeyboardshortcuts.js"></script>

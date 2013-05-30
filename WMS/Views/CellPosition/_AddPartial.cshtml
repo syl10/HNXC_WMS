@@ -1,0 +1,95 @@
+﻿<script type="text/javascript">
+    var url;
+    var addDialog;
+
+    $(function () {
+        $.extend($.fn.validatebox.defaults.rules, {
+            maxLength: {
+                validator: function (value, param) {
+                    return value.length <= param[0];
+                },
+                message: '不能超过{0}个字符.'
+            }
+        });
+    })
+
+    //加载新增和编辑窗体
+    function showDialog(title) {
+        if (addDialog == null) {
+            addDialog = $('<div></div>').dialog({
+                title: title,
+                width: 310,
+                height: 220,
+                closed: true,
+                cache: false,
+                modal: true,
+                href: '/CellPosition/AddPage/',
+                buttons: [{
+                    text: '确定',
+                    iconCls: 'icon-ok',
+                    handler: function () {
+                        save();
+                    }
+                }, {
+                    text: '取消',
+                    iconCls: 'icon-cancel',
+                    handler: function () {
+                        addDialog.dialog('close');
+                    }
+                }],
+                onLoad: function () {
+                    if (title == '编辑') {
+                        var erow = $('#details').datagrid('getSelected');
+                        $('#fm').form('load', erow);
+                    }
+                    else if (title == '删除') {
+                        var drow = $('#details').datagrid('getSelected');
+                        $('#fm').form('load', drow);
+                        $('form input').attr("disabled", "disabled");
+                    }
+                }
+            });
+        }
+        else {
+            addDialog.dialog({ title: title });
+        }
+    }
+
+    function addClick() {
+        showDialog('新增');
+        addKey = true;
+        addDialog.dialog('open');
+
+        $('#companyfm .easyui-validatebox').validatebox({
+            required: true
+        });
+        $('form input').removeAttr("disabled");
+        $('#fm').form('clear');
+        $('#inputID').attr("value", "自动增长");
+        url = '/CellPosition/Create/';
+    };
+    function save() {
+        $('form input').removeAttr("disabled");
+        $('#fm').form('submit', {
+            url: url,
+            onSubmit: function () {
+                return $(this).form('validate');
+            },
+            success: function (result) {
+                var result = eval('(' + result + ')');
+                if (result.success) {
+                    $.messager.alert(g_MsgBoxTitle, result.msg, "info");
+                    addKey = false;
+                    editKey = false;
+                    addDialog.dialog('close');
+                    $('#details').datagrid('reload');
+                } else {
+                    $.messager.alert(g_MsgBoxTitle, result.msg + '<br />' + result.data, "error");
+                    addKey = false;
+                    editKey = false;
+                    $('#details').datagrid('reload');
+                }
+            }
+        });
+    }
+</script>

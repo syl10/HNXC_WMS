@@ -1,0 +1,28 @@
+﻿<script type="text/javascript">
+    function editClick() {
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            AddLoad();
+            showDialog('编辑');
+            editKey = true;
+            addDialog.dialog('open');
+            url = '/Region/Edit/';
+            $('form input').removeAttr("disabled");
+            $('form textarea').removeAttr("disabled");
+            $('#fm').form('load', row);
+            $('#fm .easyui-validatebox').validatebox({
+                required: true
+            });
+            $('#State').combo({
+                hasDownArrow: true
+            });
+            if (row.State == '可用') {
+                $('#State').combo('setValue', '01').combo('setText', row.State);
+            } else {
+                $('#State').combo('setValue', '02').combo('setText', row.State);
+            }
+        } else {
+            $.messager.alert('错误', '没有选择行！', 'info');
+        }
+    };
+</script>

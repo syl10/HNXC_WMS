@@ -1,0 +1,42 @@
+﻿@{
+    Layout = null;
+}
+<div class="easyui-layout" fit="true" border="false">
+	<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " > 
+      <form id="fm" method="post" >  
+        <table width="280">
+                    <tr>
+                        <td width="75">货位ID：</td>
+                        <td width="168"><input name ="ID" id="inputID" readonly="readonly" value="自动增长" type="text" /></td>
+                    </tr>
+                    <tr>
+                    <td width="75" align="right">货位代码：</td>
+                    <td width="168">
+                    <input name="CellCode" id="CellCode" class="easyui-validatebox" required="true" type="text"/>
+                    </td>
+                    </tr>
+
+                    <tr>
+                    <td width="75" align="right">入库位置：</td>
+                    <td width="168">
+                        <input name="StockInPositionID" type="text" id="StockInPositionID" style="display: none;" />
+                        <input name="InName" id="inputInName" class="easyui-validatebox" required="true" readonly="readonly" type="text"/>
+                        <a href="#" id="StockInPositionSearch" class="easyui-linkbutton" iconcls="icon-search"
+                            plain="true" onclick="CellPositionSearchClick(3)"></a>
+                    </td>    
+                    </tr>
+
+                    <tr>
+                    <td width="75" align="right">出库位置：</td>
+                    <td width="168">
+                        <input name="StockOutPositionID" type="text" id="StockOutPositionID" style="display: none;" />
+                        <input name="OutName" id="inputOutName" class="easyui-validatebox" required="true" readonly="readonly" type="text"/>
+                        <a href="#" id="StockOutPositionSearch" class="easyui-linkbutton" iconcls="icon-search"
+                            plain="true" onclick="CellPositionSearchClick(4)"></a>  
+                    </tr>
+
+                </table>
+            </form>
+    </div>
+</div>
+@Html.Partial("_CellPositionNamePartial")

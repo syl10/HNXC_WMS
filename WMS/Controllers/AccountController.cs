@@ -63,7 +63,7 @@ namespace WMS.Controllers
                 this.AddCookie("systemid", systemId);
                 this.AddCookie("serverid", serverId);
                 this.AddCookie("username", userName);
-                LoginLogService.Add(userName, systemId);
+               // LoginLogService.Add(userName, systemId);
             }
             return new RedirectToRouteResult(new RouteValueDictionary { { "controller", "Home" } });
         }
