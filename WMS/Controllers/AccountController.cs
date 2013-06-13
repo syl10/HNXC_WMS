@@ -25,6 +25,8 @@ namespace WMS.Controllers
         public ActionResult LogOn(string userName, string password, string cityId, string systemId, string serverId)
         {
             bool bResult = false;
+            if (string.IsNullOrEmpty(cityId)) //默认城市为001，shj 2013/06/13
+                cityId = "001";
             string msg = "";
             if(UserService.ValidateUser(userName, password))
             {

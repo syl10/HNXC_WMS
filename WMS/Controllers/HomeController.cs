@@ -36,14 +36,15 @@ namespace WMS.Controllers
             //string systemId = "0003";
             //string ipAdress = "";
             //string localip = "";
-            if (!cityId.Equals(string.Empty) && !serverId.Equals(string.Empty) && !systemId.Equals(string.Empty))
+            if (!string.IsNullOrEmpty(cityId) && !string.IsNullOrEmpty(serverId) && ! string.IsNullOrEmpty(systemId))
             {
 
                 ViewBag.CityName = CityService.GetCityByCityID(cityId.ToString()).ToString();
                 ViewBag.ServerName = ServerService.GetServerById(serverId).ToString();
                 ViewBag.SystemName = SystemService.GetSystemById(systemId).ToString();
                 ViewBag.userName = userName;
-                if (!cityId.Equals(string.Empty) && !serverId.Equals(string.Empty) && !systemId.Equals(string.Empty) && !ipAdress.Equals(string.Empty))
+                
+                if (!string.IsNullOrEmpty(ipAdress))
                 {
                     ViewBag.ipAdress = ipAdress;
                     ViewBag.localip = localip;

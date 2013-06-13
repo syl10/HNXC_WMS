@@ -49,7 +49,24 @@
                     $.messager.confirm('系统提示', result.msg);
                 }
             }
-        });          
+        });
+    }
+    function refreshs() {
+        var ipAdress = document.getElementById('ipAdress').value;
+        var userName = document.getElementById('userNames').value;
+        $.getJSON('/User/GetUserIp/?userName=' + userName, function (data) {
+            if (data != ipAdress) {
+                alert('此账户已经在其他地方登录，本处登陆已经失效！');
+                $.messager.show({
+                    timeout: 0,
+                    width: 300,
+                    height: 130,
+                    title: '登陆账号失效！',
+                    msg: '此账户已经在其他地方登录，本处登陆已经失效！'
+                });
+                location.href = '/Account/LogOff';
+            }
+        })
     }
 </script>
 
