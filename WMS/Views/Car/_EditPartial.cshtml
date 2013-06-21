@@ -1,0 +1,27 @@
+﻿<script type="text/javascript">
+    function editClick() {
+
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            $('#dlg').dialog('open').dialog('setTitle', '编辑');
+            $('#fm').form('load', row);
+            $('#fm .easyui-validatebox').validatebox({
+                required: true
+            });
+            if (row.IS_ACTIVE == '启用') {
+                $('#cc').combo('setValue', true).combo('setText', row.IS_ACTIVE);
+            } else {
+                $('#cc').combo('setValue', false).combo('setText', row.IS_ACTIVE);
+            }
+            $('form input').removeAttr("disabled");
+            $('form textarea').removeAttr("disabled");
+            $('#cc').combo({
+                hasDownArrow: true
+            });
+            url = '/Car/Edit/?CAR_NO=' + row.CAR_NO;
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    };
+</script>
+   

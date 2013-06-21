@@ -113,7 +113,7 @@ namespace THOK.Wms.Bll.Service
         public object FindArea(string areaCode)
         {
             IQueryable<CMD_AREA> areaQuery =CMDAreaRepository.GetQueryable();
-            var area = areaQuery.Where(a => a.AREA_CODE == areaCode).OrderBy(b => b.AREA_CODE).AsEnumerable().Select(b => new { b.AREA_CODE, b.AREA_NAME, b.WAREHOUSE_CODE, b.MEMO });
+            var area = areaQuery.Where(a => a.AREA_CODE == areaCode).OrderBy(b => b.AREA_CODE).AsEnumerable().Select(b => new { b.AREA_CODE, b.AREA_NAME, b.WAREHOUSE_CODE,b.CMD_WAREHOUSE.WAREHOUSE_NAME, b.MEMO });
             return area.First(a => a.AREA_CODE == areaCode);
         }
 

@@ -29,8 +29,15 @@ namespace THOK.Wms.Repository.RepositoryContext
             try
             {
                 return this.DbContext.SaveChanges();
-            }catch(System.Data.Entity.Validation.DbEntityValidationException ex)
+            }
+            
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
+                return -1;
+            }
+            catch (System.Exception ex2)
+            {
+                string str = ex2.ToString();
                 return -1;
             }
         }

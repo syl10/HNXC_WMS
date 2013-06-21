@@ -23,5 +23,6 @@ namespace  THOK.Wms.DbModel
         public virtual CMD_AREA CMD_AREA { get; set; }
         public virtual ICollection<CMD_CELL> CMD_CELL { get; set; }
         public virtual CMD_WAREHOUSE CMD_WAREHOUSE { get; set; }
+        public virtual CMD_CRANE CMD_CRANE { get; set; }
     }
 }

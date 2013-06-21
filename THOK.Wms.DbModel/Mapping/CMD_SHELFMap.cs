@@ -63,9 +63,13 @@ namespace  THOK.Wms.DbModel.Mapping
             this.HasRequired(t => t.CMD_AREA)
                 .WithMany(t => t.CMD_SHELF)
                 .HasForeignKey(d => d.AREA_CODE);
+            this.HasRequired(t => t.CMD_CRANE)
+                .WithMany(t => t.CMD_SHELF)
+                .HasForeignKey(d => d.CRANE_NO);
             this.HasRequired(t => t.CMD_WAREHOUSE)
                 .WithMany(t => t.CMD_SHELF)
                 .HasForeignKey(d => d.WAREHOUSE_CODE);
+
         }
     }
 }

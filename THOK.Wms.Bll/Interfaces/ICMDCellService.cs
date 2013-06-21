@@ -11,6 +11,13 @@ namespace THOK.Wms.Bll.Interfaces
         object GetDetails(int page, int rows, string cellCode);
 
         object  GetDetail(int page, int rows, string type, string id);
+        /// <summary>
+        /// 点击获取单个信息
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        object GetSingleDetail(string type, string id);
 
         bool Add(CMD_CELL cell, out string errorInfo);
 

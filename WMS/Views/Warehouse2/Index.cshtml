@@ -13,9 +13,59 @@
         }
     };
     function onclick(event, treeId, treeNode) {
-        debugger;
-        $('#details').datagrid('options').url = '/Warehouse2/Details/?type=' + treeNode.type + '&id=' + treeNode.id;
-        $('#details').datagrid('reload');
+        $.getJSON('/Warehouse2/GetSingleDetail/?type=' + treeNode.type + '&id=' + treeNode.id, function (data) {
+            if (treeNode.type == "area") {
+                $("#ShowDiv")[0].innerHTML = $("#divAREA")[0].innerHTML;
+                SetAreaValue(data);
+            }
+
+            if (treeNode.type == "shelf") {
+                $("#ShowDiv")[0].innerHTML = $("#divSHELF")[0].innerHTML;
+                SetShelfValue(data);
+            }
+            if (treeNode.type == "ware") {
+                $("#ShowDiv")[0].innerHTML = $("#divWAREHOUSE")[0].innerHTML;
+                SetWareValue(data);
+            }
+            if (treeNode.type == "cell") {
+                $("#ShowDiv")[0].innerHTML = $("#divCELL")[0].innerHTML;
+                SetCellValue(data);
+            }
+        });
+    }
+    //显示仓库信息
+    function SetWareValue(data) {
+        $("#WAREHOUSE_CODE").val(data[0].CODE);
+        $("#WAREHOUSE_NAME").val(data[0].WAREHOUSE_NAME);
+        $("#WAREHOUSE_MEMO").val(data[0].MEMO);
+    }
+    //显示库区
+    function SetAreaValue(data) {
+        $("#AREA_CODE").val(data[0].CODE);
+        $("#AREA_NAME").val(data[0].AREA_NAME);
+        $("#AREA_WAREHOUSE_NAME").val(data[0].WAREHOUSE_NAME);
+        $("#AREA_MEMO").val(data[0].MEMO);
+    }
+    //显示货架
+    function SetShelfValue(data) {
+        $("#SHELF_CODE").val(data[0].CODE);
+        $("#SHELF_NAME").val(data[0].SHELF_NAME);
+        $("#COLUMN_COUNT").val(data[0].COLUMN_COUNT);
+        $("#ROW_COUNT").val(data[0].ROW_COUNT);
+        $("#SHELF_WAREHOUSE_NAME").val(data[0].WAREHOUSE_NAME);
+        $("#SHELF_AREA_NAME").val(data[0].AREA_NAME);
+        $("#CRANE_NO").val(data[0].CRANE_NO);
+        $("#SHELF_MEMO").val(data[0].MEMO);
+    }
+    function SetCellValue(data) {
+        $("#CELL_CODE").val(data[0].CODE);
+        $("#CELL_NAME").val(data[0].CELL_NAME);
+        $("#CELL_COLUMN_COUNT").val(data[0].COLUMN_COUNT);
+        $("#CELL_ROW_COUNT").val(data[0].ROW_COUNT);
+        $("#CELL_AREA_NAME").val(data[0].AREA_NAME);
+        $("#CELL_SHELF_NAME").val(data[0].SHELF_NAME);
+        $("#CELL_ISACTIVE").val(data[0].IS_ACTIVE);
+        $("#SHELF_MEMO").val(data[0].MEMO);
     }
     $(document).ready(function () {
         $.ajaxSender.send('/DefaultProductSet/CellCodeSet/', ///Cell/GetCheckDetails/  /DefaultProductSet/CellCodeSet/
@@ -30,57 +80,219 @@
 <div id="sidebar" region="west" split="true"  style="width: 220px; overflow: scroll; padding: 1px; margin: 1px">
     <ul id="warehouseTree" class="ztree"></ul>
 </div>
-<div region="center" split="true" border="false" style="border-left-style: solid; border-left-width: 1px; border-left-color: #99BBE8">    
-    <table id="details" class="easyui-datagrid" url="/Warehouse2/Details/" border="false" singleSelect="true" pageSize="50"
-        fit="true" pagination="true" rownumbers="true">
-        <thead>
-                <tr>
-@*                 <th field="Code" hidden="true" width="50">编码</th>
-				<th field="Name" width="200" align="left" iconCls="icon">名称</th>
-				<th field="ShortName" width="120">简称</th>
-                <th field="Type" width="65">类型</th>         
-                <th field="Description" width="100">描述</th>
-                <th field="IsActive" width="65">是否可用</th>
-                <th field="ProductName" width="150">预设卷烟名称</th>
-                <th field="Layer" width="80">货位层号</th>
-                <th field="MaxQuantity" width="65">货位最大量</th>
-                <th field="UpdateTime" width="140">时间</th>
-                <th field="AllotInOrder" width="65">入库顺序</th>
-                <th field="AllotOutOrder" width="65">出库顺序</th>
-                <th field="WarehouseCode" hidden="true" width="50">仓库编码</th>
-				<th field="WarehouseName" hidden="true" width="200" align="left" iconCls="icon">仓库名称</th>
-                <th field="AreaCode" hidden="true" width="50">库区编码</th>
-				<th field="AreaName" hidden="true" width="200" align="left" iconCls="icon">库区名称</th>
-                <th field="ShelfCode" hidden="true" width="50">货架编码</th>
-				<th field="ShelfName" hidden="true" width="200" align="left" iconCls="icon">货架名称</th>
-                <th field="CellCode" hidden="true" width="50">货位编码</th>
-				<th field="CellName" hidden="true" width="200" align="left" iconCls="icon">货位名称</th>
-                <th field="attributes" hidden="true" width="200" align="left" iconCls="icon">判断节点类型</th>*@
 
-                <th field="WAREHOUSE_CODE" hidden="true" width="50">编码</th>
-				<th field="WAREHOUSE_NAME" width="200" align="left">名称</th>
-                <th field="MEMO" width="200" align="left">备注</th>
-
-@*				<th field="ShortName" width="120">简称</th>
-                <th field="Type" width="65">类型</th>         
-                <th field="Description" width="100">描述</th>
-                <th field="IsActive" width="65">是否可用</th>
-                <th field="ProductName" width="150">预设卷烟名称</th>
-                <th field="Layer" width="80">货位层号</th>
-                <th field="MaxQuantity" width="65">货位最大量</th>
-                <th field="UpdateTime" width="140">时间</th>
-                <th field="AllotInOrder" width="65">入库顺序</th>
-                <th field="AllotOutOrder" width="65">出库顺序</th>
-                <th field="WarehouseCode" hidden="true" width="50">仓库编码</th>
-				<th field="WarehouseName" hidden="true" width="200" align="left" iconCls="icon">仓库名称</th>
-                <th field="AreaCode" hidden="true" width="50">库区编码</th>
-				<th field="AreaName" hidden="true" width="200" align="left" iconCls="icon">库区名称</th>
-                <th field="ShelfCode" hidden="true" width="50">货架编码</th>
-				<th field="ShelfName" hidden="true" width="200" align="left" iconCls="icon">货架名称</th>
-                <th field="CellCode" hidden="true" width="50">货位编码</th>
-				<th field="CellName" hidden="true" width="200" align="left" iconCls="icon">货位名称</th>
-                <th field="attributes" hidden="true" width="200" align="left" iconCls="icon">判断节点类型</th>*@
-            </tr>
-        </thead>
+<div id="ShowDiv" region="center" split="true" style="width:auto; overflow: scroll; border-left-style: solid; border-left-width: 1px; border-left-color: #99BBE8;">  
+</div>
+<div id="divWAREHOUSE" style="width:auto; overflow: scroll; padding: 1px; margin: 1px; display:none">
+    <div  class="easyui-panel" title="仓库信息" style="width:auto; height:412px">
+    <table>
+        <tr>
+            <td>
+              仓库代码&nbsp;
+            </td>
+            <td>
+               <input type="text" id="WAREHOUSE_CODE" style="width: 133px;" readonly="true" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+               仓库名称&nbsp;
+            </td>
+            <td>
+                 <input type="text" id="WAREHOUSE_NAME" readonly="true" style=" width: 218px;" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注</td>
+            <td>
+                <textarea id="WAREHOUSE_MEMO" readonly="true" wrap="hard" cols="5" rows="5"  style=" height: 146px;width: 219px;" > 
+                </textarea>
+            </td>
+        </tr>
     </table>
+    </div>
+</div>
+<div id="divAREA" split="true" style="width: 220px; overflow: scroll; padding: 1px; margin: 1px; display:none ">
+   <div  class="easyui-panel" title="库区信息" style="width:auto; height:412px">
+    <table >
+        <tr>
+            <td>
+              区域代码&nbsp;
+            </td>
+            <td>
+               <input type="text" id="AREA_CODE" style="width: 133px;" readonly="true" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+               区域名称&nbsp;
+            </td>
+            <td>
+                 <input type="text" id="AREA_NAME"  readonly="true" style=" width: 218px;" />
+            </td>
+        </tr>
+         <tr>
+            <td>
+               仓库名称&nbsp;
+            </td>
+            <td>
+                 <input type="text" id="AREA_WAREHOUSE_NAME"  readonly="true" style=" width: 218px;" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+               备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注&nbsp;
+            </td>
+            <td>
+                <textarea id="AREA_MEMO" readonly="true" wrap="hard" cols="5" rows="5"  style=" height: 146px;width: 219px;" > 
+                </textarea>
+            </td>
+        </tr>
+    </table>
+    </div>
+</div>
+<div id="divSHELF" split="true"  style="width: 220px; overflow: scroll; padding: 1px; margin: 1px; display:none ">
+<div  class="easyui-panel" title="货架信息" style="width:auto; height:412px">
+    <table >
+        <tr>
+            <td>
+              货架代码&nbsp;
+            </td>
+            <td>
+               <input type="text" id="SHELF_CODE" style="width: 133px;" readonly="true" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+               货架名称&nbsp;
+            </td>
+            <td>
+                 <input type="text" id="SHELF_NAME"  readonly="true" style=" width: 218px;" />
+            </td>
+        </tr>
+         <tr>
+            <td>
+               列&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数&nbsp;
+            </td>
+            <td>
+                 <input type="text" id="COLUMN_COUNT"  readonly="true" style=" width: 218px;" />
+            </td>
+        </tr>
+         <tr>
+            <td>
+               层&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;数&nbsp;
+            </td>
+            <td>
+                 <input type="text" id="ROW_COUNT"  readonly="true" style=" width: 218px;" />
+            </td>
+        </tr>
+         <tr>
+            <td>
+               仓库名称&nbsp;
+            </td>
+            <td>
+                 <input type="text" id="SHELF_WAREHOUSE_NAME"  readonly="true" style=" width: 218px;" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+               库区名称&nbsp;
+            </td>
+            <td>
+                 <input type="text" id="SHELF_AREA_NAME"  readonly="true" style=" width: 218px;" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+               堆垛机号&nbsp;
+            </td>
+            <td>
+                 <input type="text" id="CRANE_NO"  readonly="true" style=" width: 218px;" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+               备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注&nbsp;
+            </td>
+            <td>
+                <textarea id="SHELF_MEMO" readonly="true" wrap="hard" cols="5" rows="5"  style=" height: 146px;width: 219px;" > 
+                </textarea>
+            </td>
+        </tr>
+    </table>
+    </div>
+
+</div>
+<div id="divCELL" split="true"   style="width: 220px; overflow: scroll; padding: 1px; margin: 1px; display:none">
+    <div  class="easyui-panel" title="货位信息" style="width:auto; height:412px">
+    <table >
+        <tr>
+            <td>
+              货架代码&nbsp;
+            </td>
+            <td>
+               <input type="text" id="CELL_CODE" style="width: 133px;" readonly="true" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+               货架名称&nbsp;
+            </td>
+            <td>
+                 <input type="text" id="CELL_NAME"  readonly="true" style=" width: 218px;" />
+            </td>
+        </tr>
+         <tr>
+            <td>
+               所&nbsp;&nbsp;在&nbsp;&nbsp;列&nbsp;
+            </td>
+            <td>
+                 <input type="text" id="CELL_COLUMN_COUNT"  readonly="true" style=" width: 218px;" />
+            </td>
+        </tr>
+         <tr>
+            <td>
+               所&nbsp;&nbsp;在&nbsp;&nbsp;层&nbsp;
+            </td>
+            <td>
+                 <input type="text" id="CELL_ROW_COUNT"  readonly="true" style=" width: 218px;" />
+            </td>
+        </tr>
+         <tr>
+            <td>
+               库区名称&nbsp;
+            </td>
+            <td>
+                 <input type="text" id="CELL_AREA_NAME"  readonly="true" style=" width: 218px;" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+               货架名称&nbsp;
+            </td>
+            <td>
+                 <input type="text" id="CELL_SHELF_NAME"  readonly="true" style=" width: 218px;" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+               状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态&nbsp;
+            </td>
+            <td>
+                 <input type="text" id="CELL_ISACTIVE"  readonly="true" style=" width: 218px;" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+               备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注&nbsp;
+            </td>
+            <td>
+                <textarea id="CELL_MEMO" readonly="true" wrap="hard" cols="5" rows="5"  style=" height: 146px;width: 219px;" > 
+                </textarea>
+            </td>
+        </tr>
+    </table>
+    </div>
+
 </div>

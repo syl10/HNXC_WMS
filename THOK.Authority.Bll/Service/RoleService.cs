@@ -17,6 +17,11 @@ namespace THOK.Authority.Bll.Service
         public IUserRoleRepository UserRoleRepository { get; set; }
         [Dependency]
         public IUserRepository UserRepository { get; set; }
+        [Dependency]
+        public IRoleFunctionRepository RoleFunctionRepository { get; set; }
+        [Dependency]
+        public IRoleModuleRepository RoleModuleRepository { get; set; }
+        
         
         protected override Type LogPrefix
         {
@@ -65,8 +70,34 @@ namespace THOK.Authority.Bll.Service
                 .FirstOrDefault(i => i.ROLE_ID == roleID);
             if (role != null)
             {
-                Del(RoleSystemRepository, role.AUTH_ROLE_SYSTEM);
-                Del(UserRoleRepository, role.AUTH_USER_ROLE);
+                while (role.AUTH_ROLE_SYSTEM.Count > 0)
+                {
+                    AUTH_ROLE_SYSTEM roleSystem = role.AUTH_ROLE_SYSTEM.First();
+                    while (roleSystem.AUTH_ROLE_MODULE.Count > 0)
+                    {
+                        AUTH_ROLE_MODULE roleModule = roleSystem.AUTH_ROLE_MODULE.First();
+                        while (roleModule.AUTH_ROLE_FUNCTION.Count > 0)
+                        {
+                            AUTH_ROLE_FUNCTION rolefunction = roleModule.AUTH_ROLE_FUNCTION.First();
+                            RoleFunctionRepository.Delete(rolefunction);
+                            RoleFunctionRepository.SaveChanges();
+                        }
+                        RoleModuleRepository.Delete(roleModule);
+                        RoleModuleRepository.SaveChanges();
+                    }
+                    RoleSystemRepository.Delete(roleSystem);
+                    RoleSystemRepository.SaveChanges();
+                }
+
+                while ( role.AUTH_USER_ROLE.Count>0)
+                {
+                    AUTH_USER_ROLE UserRole = role.AUTH_USER_ROLE.First();
+                    UserRoleRepository.Delete(UserRole);
+                    UserRoleRepository.SaveChanges();
+                }
+
+                //Del(RoleSystemRepository, role.AUTH_ROLE_SYSTEM);
+                //Del(UserRoleRepository, role.AUTH_USER_ROLE);
                 RoleRepository.Delete(role);
                 RoleRepository.SaveChanges();
             }

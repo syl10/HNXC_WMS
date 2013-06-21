@@ -29,6 +29,7 @@ namespace THOK.Wms.Bll.Service
         [Dependency]
         public ICMDProuductRepository CMDProductRepository { get; set; }
 
+        
 
         //[Dependency]
         //public IStorageRepository StorageRepository { get; set; }
@@ -176,6 +177,114 @@ namespace THOK.Wms.Bll.Service
             int total = set.Count();
             var sets = set.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = sets.ToArray() };
+        }
+
+        public object GetSingleDetail(string type, string id)
+        {
+            var warehouses = CMDWarehouseRepository.GetQueryable();
+            var areas = CMDAreaRepository.GetQueryable();
+            var shelfs = CMDShelfRepository.GetQueryable();
+            var cells = CMDCellRepository.GetQueryable();
+            
+            HashSet<NewWareTree> wareSet = new HashSet<NewWareTree>();
+            HashSet<NewWareTree> areaSet = new HashSet<NewWareTree>();
+            HashSet<NewWareTree> shelfSet = new HashSet<NewWareTree>();
+            HashSet<NewWareTree> cellSet = new HashSet<NewWareTree>();
+            var set = wareSet;
+            if (type == "area")
+            {
+                areas = areas.Where(a => a.AREA_CODE == id).OrderBy(a => a.AREA_CODE).Select(a => a);
+                foreach (var area in areas)//库区
+                {
+                    NewWareTree areaTree = new NewWareTree();
+                    areaTree.CODE = area.AREA_CODE;
+                    areaTree.NAME = "库区：" + area.AREA_NAME;
+                    areaTree.AREA_CODE = area.AREA_CODE;
+                    areaTree.AREA_NAME = area.AREA_NAME;
+                    areaTree.WAREHOUSE_CODE = area.WAREHOUSE_CODE;
+                    areaTree.WAREHOUSE_NAME = area.CMD_WAREHOUSE.WAREHOUSE_NAME;
+                    areaTree.MEMO = area.MEMO;
+
+                    areaTree.ATTRIBUTES = "area";
+                    areaSet.Add(areaTree);
+                }
+                set = areaSet;
+            }
+            else if (type == "shelf")
+            {
+                shelfs = shelfs.Where(a => a.SHELF_CODE == id).OrderBy(a => a.SHELF_CODE).Select(a => a);
+                foreach (var shelf in shelfs)//货架
+                {
+                    NewWareTree shelfTree = new NewWareTree();
+                    shelfTree.CODE = shelf.AREA_CODE;
+                    shelfTree.NAME = "库区：" + shelf.SHELF_NAME;
+                    shelfTree.AREA_CODE = shelf.AREA_CODE;
+                    shelfTree.AREA_NAME = shelf.CMD_AREA.AREA_NAME;
+                    shelfTree.WAREHOUSE_CODE = shelf.WAREHOUSE_CODE;
+                    shelfTree.WAREHOUSE_NAME = shelf.CMD_WAREHOUSE.WAREHOUSE_NAME;
+                    shelfTree.ROW_COUNT = shelf.ROW_COUNT.ToString();
+                    shelfTree.COLUMN_COUNT = shelf.COLUMN_COUNT.ToString();
+                    shelfTree.SHELF_NAME = shelf.SHELF_NAME;
+                    shelfTree.CRANE_NO = shelf.CMD_CRANE.CRANE_NAME;
+                    shelfTree.MEMO = shelf.MEMO;
+                    shelfTree.ATTRIBUTES = "shelf";
+                   
+                    shelfSet.Add(shelfTree);
+                }
+                set = shelfSet;
+            }
+            else if (type == "cell")
+            {
+                cells = cells.Where(a => a.CELL_CODE == id).OrderBy(a => a.CELL_CODE).Select(a => a);
+                foreach (var cell in cells)//货位
+                {
+                    NewWareTree cellTree = new NewWareTree();
+                    cellTree.CODE = cell.CELL_CODE;
+                    cellTree.NAME = "货位：" + cell.CELL_NAME;
+                    cellTree.CELL_CODE = cell.CELL_CODE;
+                    cellTree.CELL_NAME = cell.CELL_NAME;
+                    cellTree.WAREHOUSE_CODE = cell.CMD_WAREHOUSE.WAREHOUSE_CODE;
+                    cellTree.WAREHOUSE_NAME = cell.CMD_WAREHOUSE.WAREHOUSE_NAME;
+                    cellTree.AREA_CODE = cell.CMD_AREA.AREA_CODE;
+                    cellTree.AREA_NAME = cell.CMD_AREA.AREA_NAME;
+                    cellTree.SHELF_CODE = cell.CMD_SHELF.SHELF_CODE;
+                    cellTree.SHELF_NAME = cell.CMD_SHELF.SHELF_NAME;
+                    cellTree.ROW_COUNT = cell.CELL_ROW.ToString();
+                    cellTree.COLUMN_COUNT = cell.CELL_COLUMN.ToString();
+                    cellTree.MEMO = cell.MEMO;
+                    cellTree.IS_ACTIVE = cell.IS_ACTIVE == "1" ? "可用" : "不可用";
+                    //cellTree.UpdateTime = cell.UpdateTime.ToString("yyyy-MM-dd hh:mm:ss");
+                    //cellTree.ShortName = cell.ShortName;
+                    //cellTree.Layer = cell.Layer;
+                    //cellTree.MaxQuantity = cell.MaxQuantity;
+                    //cellTree.PRODUCT_NAME = cell.CMD_PRODUCT == null ? string.Empty : cell.CMD_PRODUCT.ProductName;
+                    cellTree.ATTRIBUTES = "cell";
+                    cellSet.Add(cellTree);
+                }
+                set = cellSet;
+            }
+            else if (type == "ware")
+            {
+                warehouses = warehouses.Where(w => w.WAREHOUSE_CODE == id).OrderBy(w => w.WAREHOUSE_CODE).Select(w => w);
+                foreach (var warehouse in warehouses)//仓库
+                {
+                    NewWareTree NewWareTree = new NewWareTree();
+                    NewWareTree.CODE = warehouse.WAREHOUSE_CODE;
+                    NewWareTree.NAME = "仓库：" + warehouse.WAREHOUSE_NAME;
+                    NewWareTree.WAREHOUSE_CODE = warehouse.WAREHOUSE_NAME;
+                    NewWareTree.WAREHOUSE_NAME = warehouse.WAREHOUSE_NAME;
+                    //NewWareTree.Type = warehouse.WarehouseType;
+                    NewWareTree.MEMO = warehouse.MEMO;
+                    //NewWareTree.IS_ACTIVE = warehouse.IsActive == "1" ? "可用" : "不可用";
+                    //NewWareTree.UpdateTime = warehouse.UpdateTime.ToString("yyyy-MM-dd hh:mm:ss");
+                    //NewWareTree.ShortName = warehouse.ShortName;
+                    NewWareTree.ATTRIBUTES = "ware";
+                    warehouses = warehouses.Where(w => w.WAREHOUSE_CODE == id);
+                    wareSet.Add(NewWareTree);
+                }
+                set = wareSet;
+            }
+            return set.ToArray();
         }
         public bool Add(CMD_CELL cell, out string errorInfo)
         {
@@ -527,6 +636,7 @@ namespace THOK.Wms.Bll.Service
                                                                                      open = false,
                                                                                      children = ""
                                                                                  })
+                                                                                 .OrderBy(c=>c.id)
                                                                  })
                                                  })
                                  }).ToArray();
@@ -609,7 +719,7 @@ namespace THOK.Wms.Bll.Service
         {
             IQueryable<CMD_CELL> cellQuery = CMDCellRepository.GetQueryable();
             var cell = cellQuery.Where(c => c.CELL_CODE == cellCode).OrderBy(b => b.CELL_CODE).AsEnumerable()
-                                .Select(b => new { b.CELL_CODE, b.CELL_NAME, b.MEMO, b.CMD_WAREHOUSE.WAREHOUSE_NAME, b.CMD_WAREHOUSE.WAREHOUSE_CODE, b.CMD_AREA.AREA_CODE, b.CMD_AREA.AREA_NAME, b.CMD_SHELF.SHELF_CODE, b.CMD_SHELF.SHELF_NAME, DefaultProductCode = b.CMD_PRODUCT == null ? string.Empty : b.CMD_PRODUCT.PRODUCT_CODE , ProductName = b.CMD_PRODUCT == null ? string.Empty : b.CMD_PRODUCT.PRODUCT_NAME, IsActive = b.IS_ACTIVE == "1" ? "可用" : "不可用" });
+                                .Select(b => new { b.CELL_CODE, b.CELL_NAME, b.MEMO, b.CMD_WAREHOUSE.WAREHOUSE_NAME, b.CMD_WAREHOUSE.WAREHOUSE_CODE, b.CMD_AREA.AREA_CODE, b.CMD_AREA.AREA_NAME, b.CMD_SHELF.SHELF_CODE, b.CMD_SHELF.SHELF_NAME,b.CELL_ROW,b.CELL_COLUMN, DefaultProductCode = b.CMD_PRODUCT == null ? string.Empty : b.CMD_PRODUCT.PRODUCT_CODE , ProductName = b.CMD_PRODUCT == null ? string.Empty : b.CMD_PRODUCT.PRODUCT_NAME, IsActive = b.IS_ACTIVE == "1" ? "可用" : "不可用" });
             return cell.First(c => c.CELL_CODE == cellCode);
         }
 
@@ -966,24 +1076,11 @@ namespace THOK.Wms.Bll.Service
             var cellCode = cellQuery.Where(c => c.SHELF_CODE == shelfCode).Max(c => c.CELL_CODE);
             if (cellCode == string.Empty || cellCode == null)
             {
-                cellCodeStr = shelfCode + "-01";
+                cellCodeStr = CMDCellRepository.GetNewID("CMD_CELL", "CELL_CODE");
             }
             else
             {
-                int i = Convert.ToInt32(cellCode.ToString().Substring(shelfCode.Length + 1, 2));
-                if (cellCode.ToString().Substring(cellCode.Length - 1, 1) == "3")
-                {
-                    i++;
-                }
-                string newcode = i.ToString();
-                if (newcode.Length <= 2)
-                {
-                    for (int j = 0; j < 2 - i.ToString().Length; j++)
-                    {
-                        newcode = "0" + newcode;
-                    }
-                    cellCodeStr = shelfCode + "-" + newcode;
-                }
+              
             }
             return cellCodeStr;
         }

@@ -46,13 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\ITaskService.cs" />
     <Compile Include="Models\BillDetail.cs" />
     <Compile Include="Models\BillMaster.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="Models\TaskParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\TaskService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\THOK.Common.Ef\THOK.Common.Ef.csproj">
@@ -79,6 +77,10 @@
       <Project>{04A2C9B1-0F35-42CF-A6A7-4319D7C6E95F}</Project>
       <Name>THOK.Wms.SignalR</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Service\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

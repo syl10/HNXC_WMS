@@ -2,6 +2,7 @@
     var url;
     var fm;
     function addClick() {
+        debugger
         var treeObj = $.fn.zTree.getZTreeObj("warehouseTree");
         var row = treeObj.getSelectedNodes();
         var divid;
@@ -19,8 +20,8 @@
             });
         } else if (row[0].type == "cell") {
             $('#dlg').dialog('close');
-            $.messager.alert(g_MsgBoxTitle,"货位下不能新增", "error");
-            $('#details').ztree('reload');
+            $.messager.alert(g_MsgBoxTitle, "货位下不能新增", "error");
+            return false;
         } else if (row[0].type == "ware") {
             divid = "area";
             url = '/Area/AreaCreate/';
@@ -52,7 +53,7 @@
                 if (json) {
                     $('#cellID').attr("readonly", true);
                     $('#cellID').val(json);
-                    $('#cellCol').val(json.substr(row[0].ShelfCode.length + 1, 2));
+                  
                 }
             });
         }
@@ -133,7 +134,7 @@
             panelHeight: 45,
             panelWidth: 140
         });
-        $('#cellIsActive').combo({
+        $('#CELL_IsActive').combo({
             required: true,
             editable: false,
             panelHeight: 45,
@@ -158,31 +159,12 @@
             panelHeight: 65,
             panelWidth: 140
         });
-
-        $('#company-add').combogrid({
-            disabled: false,
-            width: 140,
-            panelWidth: 340,
-            url: '/Company/Details/?page=1&rows=50',
-            idField: 'CompanyCode',
-            textField: 'CompanyName',
-            mode: 'local',
-            editable: false,
-            fitColumns: true,
-            columns: [[
-					{ field: 'ID', title: '公司ID', hidden: true, width: 30 },
-					{ field: 'CompanyCode', title: '公司编码', align: 'left', width: 40 },
-					{ field: 'CompanyName', title: '公司名称', align: 'left', width: 30 },
-					{ field: 'IsActive', title: '是否可用', align: 'left', width: 30 }
-				]]
-        });
-
         $('#warehouse-add').combogrid({
             required: true,
             disabled: false,
             width: 140,
             panelWidth: 340,
-            url: '/Warehouse/Detail/?page=1&rows=50&type=' + row.attributes + '&id=' + row.id,
+            url: '/Warehouse/Detail/?page=1&rows=50&type=' + row.attributes + '&id=' + row[0].id,
             idField: 'WarehouseCode',
             textField: 'WarehouseName',
             mode: 'local',
@@ -197,43 +179,41 @@
 				]]
         });
 
-        $('#area-add').combogrid({
+        $('#CELL_AREA_ADD').combogrid({
             required: true,
             disabled: false,
             width: 140,
             panelWidth: 340,
-            url: '/Area/Detail/?type=' + row.attributes + '&id=' + row.id,
-            idField: 'AreaCode',
-            textField: 'AreaName',
+            url: '/Area/Detail/?type=' + row[0].type + '&id=' + row[0].id,
+            idField: 'AREA_CODE',
+            textField: 'AREA_NAME',
             mode: 'local',
             editable: false,
-            fitColumns: true,
+            fitColumns: true,     
             columns: [[
-					{ field: 'AreaCode', title: '库区编码', align: 'left', width: 40 },
-					{ field: 'AreaName', title: '库区名称', align: 'left', width: 40 },
-                    { field: 'AreaType', title: '库区类型', align: 'left', width: 20 },
-					{ field: 'IsActive', title: '是否可用', align: 'left', width: 20 },
-                    { field: 'UpdateTime', title: '时间', align: 'left', width: 30 }
+					{ field: 'AREA_CODE', title: '库区编码', align: 'left', width: 40 },
+					{ field: 'AREA_NAME', title: '库区名称', align: 'left', width: 40 },
+                    { field: 'MEMO', title: '备注', align: 'left', width: 50 }
 				]]
         });
 
-        $('#shelf-add').combogrid({
+        $('#CELL_SHELF_ADD').combogrid({
             required: true,
             disabled: false,
             width: 140,
             panelWidth: 340,
-            url: '/Shelf/Detail/?type=' + row.attributes + '&id=' + row.id,
-            idField: 'ShelfCode',
-            textField: 'ShelfName',
+            url: '/Shelf/Detail/?type=' + row[0].type + '&id=' + row[0].id,
+            idField: 'SHELF_CODE',
+            textField: 'SHELF_NAME',
             mode: 'local',
             editable: false,
             fitColumns: true,
             columns: [[
-					{ field: 'ShelfCode', title: '货架编码', align: 'left', width: 40 },
-					{ field: 'ShelfName', title: '货架名称', align: 'left', width: 40 },
-                    { field: 'ShelfType', title: '货架类型', align: 'left', width: 20 },
-					{ field: 'IsActive', title: '是否可用', align: 'left', width: 20 },
-                    { field: 'UpdateTime', title: '时间', align: 'left', width: 30 }
+					{ field: 'SHELF_CODE', title: '货架编码', align: 'left', width: 40 },
+					{ field: 'SHELF_NAME', title: '货架名称', align: 'left', width: 40 },
+                    { field: 'ROW_COUNT', title: '总层数', align: 'left', width: 20 },
+					{ field: 'COLUMN_COUNT', title: '总列数', align: 'left', width: 20 },
+                    { field: 'MOMO', title: '备注', align: 'left', width: 30 }
 				]]
         });
 
@@ -526,140 +506,70 @@
             <form id="cellfm"  method="post">
             <label>
                 当前新增页面：货位</label>
-            <table>
+            <table width="271">
                 <tr style="height: 20px">
-                    <td style=" text-align:right">
-                        货位编码:
-                    </td>
-                    <td align="left">
-                        <input name="CellCode" type="text" id="cellID" class="easyui-validatebox" style="width: 140px;"/>
-                    </td>
-                    <td style=" text-align:right">
+                    <td width="70" style=" text-align:right">
+                        货位编码:                    </td>
+                    <td width="189" align="left">
+                        <input name="CELL_CODE" type="text" id="cellID" readonly="true" class="easyui-validatebox" style="width: 100px;"/>
+                  </td>
+                </tr>
+                <tr style="height: 20px">
+                     <td style=" text-align:right">
                         货位名称:
                     </td>
                     <td align="left">
-                        <input name="CellName" type="text" class="easyui-validatebox" style="width: 140px;"/>
+                        <input name="CELL_NAME" type="text" class="easyui-validatebox" style="width: 175px;"/>
+                    </td>
+              </tr>
+                <tr style="height: 20px">
+                   <td style=" text-align:right">
+                        所在列:
+                  </td>
+                    <td align="left">
+                        <input name="CELL_COLUMN" type="text" required="true" id="CELL_COLUMN" class="easyui-numberbox" missingmessage="请输入最大值（必须为数字）"style="width: 175px;"/>
                     </td>
                 </tr>
                 <tr style="height: 20px">
-                    <td style=" text-align:right">
-                        货位简称:
-                    </td>
-                    <td align="left">
-                        <input name="ShortName" type="text"class="easyui-validatebox" style="width: 140px;"/>
-                    </td>
-                    <td style=" text-align:right">
-                        RFID:
-                    </td>
-                    <td colspan="3" style="text-align: left">
-                        <input name="Rfid" type="text"style="width: 140px;"/>
-                    </td>
-                 </tr>
-                <tr style="height: 20px">
                    <td style=" text-align:right">
-                        预设最大储量:
-                    </td>
+                        所在层:                    </td>
                     <td align="left">
-                        <input name="MaxQuantity" type="text" required="true" id="txtUnitCode" class="easyui-numberbox" missingmessage="请输入最大值（必须为数字）"style="width: 140px;"/>
-                    </td>
-                     <td style=" text-align:right">
-                        储位列号:
-                    </td>
-                    <td colspan="3" style="text-align: left">
-                        <input name="Col" type="text" id="cellCol" class="easyui-validatebox" style="width: 140px;"/>
+                        <input name="CELL_ROW" type="text" required="true" id="CELL_ROW" class="easyui-numberbox" missingmessage="请输入最大值（必须为数字）"style="width: 175px;"/>
                     </td>
                 </tr>
                 <tr>
                     <td style=" text-align:right">
-                        货位图X位置:
+                        区域:
                     </td>
-                    <td align="left">
-                        <input name="ImgX" class="ImgX" id="" style="width: 140px;"/>
-                           
-                    </td>
-                    <td style=" text-align:right">
-                        货位图Y位置:
-                    </td>
-                    <td align="left">
-                       <input name="ImgY" type="text" class="ImgY" id="" style="width: 140px;"/>
+                     <td align="left">
+                       <input name="AREA_CODE" type="text" missingmessage="请选择区域编码" id="CELL_AREA_ADD" style="width: 175px;"/>
                     </td>
                 </tr>
                  <tr>
                     <td style=" text-align:right">
-                        仓库名称:
+                        货架:
                     </td>
                     <td align="left">
-                        <input name="WarehouseCode" missingmessage="请选择仓库编码" class="wareCellClass"  id="" style="width: 140px;"/>
-                           
-                    </td>
-                    <td style=" text-align:right">
-                        库区名称:
-                    </td>
-                    <td align="left">
-                       <input name="AreaCode" type="text" missingmessage="请选择库区编码" class="areaCellClass" id="" style="width: 140px;"/>
+                        <input name="SHELF_CODE" missingmessage="请选择货架编码" id="CELL_SHELF_ADD" style="width: 175px;"/>
                     </td>
                 </tr>
                 <tr style="height: 20px">
                 <td style=" text-align:right">
-                        货架名称:
-                    </td>
-                    <td align="left">
-                       <input name="ShelfCode" type="text" missingmessage="请选择货架编码" id="shelf-add" style="width: 140px;"/>
-                    </td>
-                    <td style=" text-align:right">
-                        指定卷烟:
-                    </td>
-                    <td align="left">
-                        <input name="DefaultProductCode" type="text" id="product-add" style="width: 140px;"/>
-                    </td>
-                </tr>
-                <tr style="height: 20px">
-                    <td style=" text-align:right">
-                        货层位置:
-                    </td>
-                    <td align="left">
-                        <select name="Layer" id="isLayer" class="easyui-combobox" required="true" style="width: 140px">
-                            <option value="1">一层</option>
-                            <option value="2">二层</option>
-                            <option value="3">三层</option>
-                        </select>
-                    </td>                    
-                    <td style=" text-align:right">
-                        是否单一货位:
-                    </td>
-                    <td align="left">
-                        <select name="IsSingle" id="isVirtual" class="easyui-combobox" required="true" style="width: 140px">
-                            <option value="1">是</option>
-                            <option value="0">否</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr style="height: 20px">
-                    <td style=" text-align:right">
-                        货位类别:
-                    </td>
-                    <td align="left">
-                        <select name="CellType" id="isCellType" style="width: 140px;" class="easyui-combobox" required="true">
-                            <option value="0">标准货位</option>
-                            <option value="1">异型货位</option>
-                        </select>
-                    </td>
-                    <td style=" text-align:right">
-                        是否可用:
-                    </td>
-                    <td align="left"  colspan="3">
-                        <select name="IsActive" id="cellIsActive" class="easyui-combobox" required="true" style="width: 140px">
+                        状态:
+                  </td>
+                     <td align="left" style="text-align: left" colspan="3">
+                        <select name="IsActive" id="CELL_IsActive" class="easyui-combobox" required="true" style="width: 140px">
                             <option selected="selected" value="1">可用</option>
                             <option value="0">不可用</option>
                         </select>
                     </td>
                 </tr>
                 <tr style="height: 20px">
-                  <td style=" text-align:right">
-                        描述:
-                    </td>
-                    <td colspan="3" style="text-align: left">
-                        <textarea name="Description" style="width: 360px; height: 50px"></textarea>
+                   <td style=" text-align:right">
+                        备注:
+                  </td>
+                    <td style="text-align: left">
+                        <textarea name="MEMO" style="width: 175px; height: 50px"></textarea>
                     </td>
                 </tr>
             </table>

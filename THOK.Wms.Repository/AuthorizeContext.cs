@@ -49,8 +49,11 @@ namespace THOK.Wms.Repository
             modelBuilder.Configurations.Add(new CMD_PRODUCTMap());
             modelBuilder.Configurations.Add(new CMD_SHELFMap());
             modelBuilder.Configurations.Add(new CMD_WAREHOUSEMap());
-
-
+            modelBuilder.Configurations.Add(new CMD_CRANEMap());
+            modelBuilder.Configurations.Add(new CMD_CIGARETTEMap());
+            modelBuilder.Configurations.Add(new CMD_CARMap());
+            modelBuilder.Configurations.Add(new SYS_TABLE_STATEMap());
+            modelBuilder.Configurations.Add(new CMD_BILL_TYPEMap());
             #endregion
 
             #region wcs

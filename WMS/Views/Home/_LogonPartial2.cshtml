@@ -36,23 +36,23 @@
             $('#dlg-logon').dialog('open');
         });
 
-        $('#cg-logon-changecity').combogrid({
-            required: true,
-            width: 180,
-            panelWidth: 450,
-            url: '/City/Details/?page=1&rows=1000',
-            idField: 'CITY_ID',
-            textField: 'CITY_NAME',
-            mode: 'local',
-            editable: false,
-            fitColumns: true,
-            columns: [[
-					{ field: 'CITY_ID', title: '地市ID', hidden: true, width: 30 },
-					{ field: 'CITY_NAME', title: '地市名称', align: 'left', width: 40 },
-					{ field: 'DESCRIPTION', title: '描述', align: 'left', width: 30 },
-					{ field: 'IS_ACTIVE', title: '状态', align: 'left', width: 30 }
-				]]
-        });
+        //        $('#cg-logon-changecity').combogrid({
+        //            required: true,
+        //            width: 180,
+        //            panelWidth: 450,
+        //            url: '/City/Details/?page=1&rows=1000',
+        //            idField: 'CITY_ID',
+        //            textField: 'CITY_NAME',
+        //            mode: 'local',
+        //            editable: false,
+        //            fitColumns: true,
+        //            columns: [[
+        //					{ field: 'CITY_ID', title: '地市ID', hidden: true, width: 30 },
+        //					{ field: 'CITY_NAME', title: '地市名称', align: 'left', width: 40 },
+        //					{ field: 'DESCRIPTION', title: '描述', align: 'left', width: 30 },
+        //					{ field: 'IS_ACTIVE', title: '状态', align: 'left', width: 30 }
+        //				]]
+        //        });
 
         $('#cg-logon-changesystem').combogrid({
             required: true,
@@ -71,23 +71,23 @@
 					{ field: 'STATUS', title: '状态', align: 'left', width: 30 }
 				]]
         });
-
-        $('#cg-logon-changeserver').combogrid({
-            width: 180,
-            panelWidth: 450,
-            url: '/Server/Details/?page=1&rows=1000',
-            idField: 'SERVER_ID',
-            textField: 'SERVER_NAME',
-            mode: 'local',
-            editable: false,
-            fitColumns: true,
-            columns: [[
-					{ field: 'SERVER_ID', title: '服务器ID', hidden: true, width: 30 },
-					{ field: 'SERVER_NAME', title: '服务器名称', align: 'left', width: 40 },
-					{ field: 'DESCRIPTION', title: '描述', align: 'left', width: 30 },
-					{ field: 'IS_ACTIVE', title: '状态', align: 'left', width: 30 }
-				]]
-        });
+        $('#cg-logon-changesystem').combogrid('setValue', '001');
+        //        $('#cg-logon-changeserver').combogrid({
+        //            width: 180,
+        //            panelWidth: 450,
+        //            url: '/Server/Details/?page=1&rows=1000',
+        //            idField: 'SERVER_ID',
+        //            textField: 'SERVER_NAME',
+        //            mode: 'local',
+        //            editable: false,
+        //            fitColumns: true,
+        //            columns: [[
+        //					{ field: 'SERVER_ID', title: '服务器ID', hidden: true, width: 30 },
+        //					{ field: 'SERVER_NAME', title: '服务器名称', align: 'left', width: 40 },
+        //					{ field: 'DESCRIPTION', title: '描述', align: 'left', width: 30 },
+        //					{ field: 'IS_ACTIVE', title: '状态', align: 'left', width: 30 }
+        //				]]
+        //        });
     });
     function islogin(data2) {
         var userName = document.getElementById('username').value;

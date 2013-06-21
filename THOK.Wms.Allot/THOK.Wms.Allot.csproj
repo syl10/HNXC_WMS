@@ -50,12 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\IInBillAllotService.cs" />
-    <Compile Include="Interfaces\IOutBillAllotService.cs" />
     <Compile Include="Interfaces\IService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\InBillAllotService.cs" />
-    <Compile Include="Service\OutBillAllotService.cs" />
     <Compile Include="Service\ServiceBase.cs" />
   </ItemGroup>
   <ItemGroup>

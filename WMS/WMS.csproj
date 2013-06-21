@@ -97,9 +97,6 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
-    <Reference Include="THOK.Wms.Bll">
-      <HintPath>..\THOK.Wms.Bll\bin\Debug\THOK.Wms.Bll.dll</HintPath>
-    </Reference>
     <Reference Include="THOK.Wms.DbModel">
       <HintPath>..\THOK.Wms.DbModel\bin\Debug\THOK.Wms.DbModel.dll</HintPath>
     </Reference>
@@ -128,13 +125,15 @@
     <Compile Include="Controllers\Authorize\UserController.cs" />
     <Compile Include="Controllers\Authorize\UserPermissionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\Wms\ProductQuality\ProductWarningController.cs" />
+    <Compile Include="Controllers\Wms\Base\BillTypeController.cs" />
+    <Compile Include="Controllers\Wms\Base\CarController.cs" />
+    <Compile Include="Controllers\Wms\Base\CigaretteController.cs" />
+    <Compile Include="Controllers\Wms\Base\CraneController.cs" />
+    <Compile Include="Controllers\Wms\Base\SysTableStateController.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\AreaController.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\CellController.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\DefaultProductSetController.cs" />
-    <Compile Include="Controllers\Wms\WarehouseInfo\ExportExcelController.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\ShelfController.cs" />
-    <Compile Include="Controllers\Wms\WarehouseInfo\StorageController.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\Warehouse2Controller.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\WarehouseController.cs" />
     <Compile Include="Global.asax.cs">
@@ -1589,6 +1588,10 @@
       <Project>{2F9C4207-F8A0-4E55-A2CB-3514ADC0A437}</Project>
       <Name>THOK.Common</Name>
     </ProjectReference>
+    <ProjectReference Include="..\THOK.Wms.Bll\THOK.Wms.Bll.csproj">
+      <Project>{2B8E7C92-13CA-426C-94DA-7D021EBD504C}</Project>
+      <Name>THOK.Wms.Bll</Name>
+    </ProjectReference>
     <ProjectReference Include="..\THOK.Wms.Repository\THOK.Wms.Repository.csproj">
       <Project>{259E5E16-41D8-420F-A11C-72BEE784B5CB}</Project>
       <Name>THOK.Wms.Repository</Name>
@@ -1741,6 +1744,28 @@
     <Content Include="Views\Warehouse2\_PrintPartial.cshtml" />
     <Content Include="Views\Warehouse2\_SearchPartial.cshtml" />
     <Content Include="Views\Home\_LogonPartial2.cshtml" />
+    <Content Include="Views\WareHouse\Index.cshtml" />
+    <Content Include="Views\Cigarette\Index.cshtml" />
+    <Content Include="Views\Cigarette\_AddPartial.cshtml" />
+    <Content Include="Views\Cigarette\_EditPartial.cshtml" />
+    <Content Include="Views\Cigarette\_SearchPartial.cshtml" />
+    <Content Include="Views\Cigarette\_PrintPartial.cshtml" />
+    <Content Include="Views\Cigarette\_DeletePartial.cshtml" />
+    <Content Include="Views\Crane\Index.cshtml" />
+    <Content Include="Views\Crane\_AddPartial.cshtml" />
+    <Content Include="Views\Crane\_EditPartial.cshtml" />
+    <Content Include="Views\Crane\_DeletePartial.cshtml" />
+    <Content Include="Views\Crane\_SearchPartial.cshtml" />
+    <Content Include="Views\Car\Index.cshtml" />
+    <Content Include="Views\Car\_AddPartial.cshtml" />
+    <Content Include="Views\Car\_DeletePartial.cshtml" />
+    <Content Include="Views\Car\_EditPartial.cshtml" />
+    <Content Include="Views\Car\_SearchPartial.cshtml" />
+    <Content Include="Views\BillType\Index.cshtml" />
+    <Content Include="Views\BillType\_AddPartial.cshtml" />
+    <Content Include="Views\BillType\_DeletePartial.cshtml" />
+    <Content Include="Views\BillType\_EditPartial.cshtml" />
+    <Content Include="Views\BillType\_SearchPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

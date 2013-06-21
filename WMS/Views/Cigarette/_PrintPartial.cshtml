@@ -1,0 +1,11 @@
+﻿<script type="text/javascript">
+    function printClick() {
+        var CIGARETTE_NAME = null, CIGARETTE_MEMO = null;
+        if ($('#CIGARETTE_NAME').val() == null) { loginPC = ""; } else { CITY_NAME = $('#CIGARETTE_NAME').val() }
+        if ($('#CIGARETTE_MEMO').val() == null) { loginTime = ""; } else { DESCRIPTION = $('#CIGARETTE_MEMO').val() }
+
+        window.location.href = "/Cigarette/CreateExcelToClient/"
+                                + "?CIGARETTE_NAME=" + CIGARETTE_NAME
+                                + "&CIGARETTE_MEMO=" + CIGARETTE_MEMO;
+    }
+</script>

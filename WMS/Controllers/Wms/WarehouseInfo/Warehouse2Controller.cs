@@ -23,9 +23,9 @@ namespace Wms.Controllers.Wms.WarehouseInfo
         public ActionResult Index(string moduleID)
         {
             ViewBag.hasSearch = true;
-            ViewBag.hasAdd = true;
+            //ViewBag.hasAdd = true;
             ViewBag.hasEdit = true;
-            ViewBag.hasDelete = true;
+            //ViewBag.hasDelete = true;
             ViewBag.hasPrint = true;
             ViewBag.hasHelp = true;
             ViewBag.ModuleID = moduleID;
@@ -38,6 +38,19 @@ namespace Wms.Controllers.Wms.WarehouseInfo
         public ActionResult Details(int page, int rows, string type, string id)
         {
             var warehouse = CellService.GetDetail(page, rows, type, id);
+            return Json(warehouse, "text", JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="rows"></param>
+        /// <param name="type"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult GetSingleDetail(string type, string id)
+        {
+            var warehouse = CellService.GetSingleDetail(type, id);
             return Json(warehouse, "text", JsonRequestBehavior.AllowGet);
         }
         //查询仓库信息表

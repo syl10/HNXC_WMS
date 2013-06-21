@@ -38,6 +38,8 @@ namespace THOK.Wms.Bll.Models
         public string MEMO { get; set; }
 
         public string AREA_CODE { get; set; }
+        public string ROW_COUNT { get; set; }
+        public string COLUMN_COUNT { get; set; }
         public string AREA_NAME { get; set; }
         //public string WAREHOUSE_CODE { get; set; }
         //public string MEMO { get; set; }
@@ -48,7 +50,7 @@ namespace THOK.Wms.Bll.Models
         //public string COLUMN_COUNT { get; set; }
         //public string WAREHOUSE_CODE { get; set; }
         //public string AREA_CODE { get; set; }
-        //public string CRANE_NO { get; set; }
+        public string CRANE_NO { get; set; }
         //public string STATION_NO { get; set; }
         //public string MEMO { get; set; }
 
