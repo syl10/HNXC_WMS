@@ -129,6 +129,8 @@
     <Compile Include="Controllers\Wms\Base\CarController.cs" />
     <Compile Include="Controllers\Wms\Base\CigaretteController.cs" />
     <Compile Include="Controllers\Wms\Base\CraneController.cs" />
+    <Compile Include="Controllers\Wms\Base\ProductCategoryController.cs" />
+    <Compile Include="Controllers\Wms\Base\SysBillTargetController.cs" />
     <Compile Include="Controllers\Wms\Base\SysTableStateController.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\AreaController.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\CellController.cs" />
@@ -1744,7 +1746,6 @@
     <Content Include="Views\Warehouse2\_PrintPartial.cshtml" />
     <Content Include="Views\Warehouse2\_SearchPartial.cshtml" />
     <Content Include="Views\Home\_LogonPartial2.cshtml" />
-    <Content Include="Views\WareHouse\Index.cshtml" />
     <Content Include="Views\Cigarette\Index.cshtml" />
     <Content Include="Views\Cigarette\_AddPartial.cshtml" />
     <Content Include="Views\Cigarette\_EditPartial.cshtml" />
@@ -1766,6 +1767,12 @@
     <Content Include="Views\BillType\_DeletePartial.cshtml" />
     <Content Include="Views\BillType\_EditPartial.cshtml" />
     <Content Include="Views\BillType\_SearchPartial.cshtml" />
+    <Content Include="Views\ProductCategory\Index.cshtml" />
+    <Content Include="Views\ProductCategory\_AddPartial.cshtml" />
+    <Content Include="Views\ProductCategory\_DeletePartial.cshtml" />
+    <Content Include="Views\ProductCategory\_EditPartial.cshtml" />
+    <Content Include="Views\ProductCategory\_PrintPartial.cshtml" />
+    <Content Include="Views\ProductCategory\_SearchPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

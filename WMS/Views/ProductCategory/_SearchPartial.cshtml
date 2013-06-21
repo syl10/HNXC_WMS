@@ -10,8 +10,8 @@
 
     function select() {
         var queryParams = $('#details').datagrid('options').queryParams;
-        queryParams.CIGARETTE_NAME = $('#search_CIGARETTE_NAME').val();
-        queryParams.CIGARETTE_MEMO = $('#search_CIGARETTE_MEMO').val();
+        queryParams.CATEGORY_NAME = $('#CATEGORY_NAME').val();
+        queryParams.MEMO = $('#MEMO').val();
         $('#details').datagrid('options').queryParams = queryParams;
         $('#details').datagrid({
             pageNumber: 1,
@@ -28,12 +28,12 @@
 			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
                 <table width="250">
                     <tr>
-                    <td width="60">牌号名称</td>
-                    <td width="168"><input id="search_CIGARETTE_NAME" ></td>
+                    <td width="60">类别名称</td>
+                    <td width="168"><input id="CATEGORY_NAME"></td>
                     </tr>
                     <tr>
-                    <td>描述</td>
-                    <td><textarea id="search_CIGARETTE_MEMO" style="width: 180px; height: 50px"></textarea></td>
+                    <td>备注</td>
+                    <td><textarea id="MEMO" style="width: 180px; height: 50px"></textarea></td>
                     </tr>
                 </table>
             </div>

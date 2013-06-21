@@ -55,6 +55,7 @@
     <Compile Include="CMD_CIGARETTE.cs" />
     <Compile Include="CMD_CRANE.cs" />
     <Compile Include="CMD_PRODUCT.cs" />
+    <Compile Include="CMD_PRODUCT_CATEGORY.cs" />
     <Compile Include="CMD_SHELF.cs" />
     <Compile Include="CMD_WAREHOUSE.cs" />
     <Compile Include="Mapping\CMD_AREAMap.cs" />
@@ -64,10 +65,13 @@
     <Compile Include="Mapping\CMD_CIGARETTEMap.cs" />
     <Compile Include="Mapping\CMD_CRANEMap.cs" />
     <Compile Include="Mapping\CMD_PRODUCTMap.cs" />
+    <Compile Include="Mapping\CMD_PRODUCT_CATEGORYMap.cs" />
     <Compile Include="Mapping\CMD_SHELFMap.cs" />
     <Compile Include="Mapping\CMD_WAREHOUSEMap.cs" />
+    <Compile Include="Mapping\SYS_BILL_TARGETMap.cs" />
     <Compile Include="Mapping\SYS_TABLE_STATEMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SYS_BILL_TARGET.cs" />
     <Compile Include="SYS_TABLE_STATE.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -20,22 +20,27 @@ namespace THOK.Wms.Bll.Service
 
         [Dependency]
         public ISysTableStateRepository SysTableStateRepository { get; set; }
+        [Dependency]
+        public ISysBillTargetRepository SysBillTargetRepository { get; set; }
 
 
         [Dependency]
         public ISysTableStateService SysTableStateService { get; set; }
 
-        public object GetDetails(int page, int rows, string BTYPE_NAME, string BILL_TYPE, string TASK_LEVEL, string Memo)
+        public object GetDetails(int page, int rows, string BTYPE_NAME, string BILL_TYPE, string TASK_LEVEL, string Memo, string TARGET_CODE)
         {
             IQueryable<CMD_BILL_TYPE> query = CmdBillTypeRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> StateQuery=SysTableStateRepository.GetQueryable();
-            
+            IQueryable<SYS_BILL_TARGET> BillTargerQuery = SysBillTargetRepository.GetQueryable();
             //var CmdBillTypes = query.OrderBy(i => i.BTYPE_CODE).Select(i => new { i.BTYPE_CODE, i.BTYPE_NAME, i.ALLOW_EDIT, i.MEMO, i.TASK_LEVEL, i.BILL_TYPE, BILLTYPENAME = SysTableStateService.GetDescByState("CMD_BILL_TYPE", "BILL_TYPE", i.BILL_TYPE) });
 
             var CmdBillTypes = from a in query
-                      from b in StateQuery
-                      where a.BILL_TYPE == b.STATE && b.TABLE_NAME=="CMD_BILL_TYPE" && b.FIELD_NAME== "BILL_TYPE"
-                      select new { a.BTYPE_CODE, a.BTYPE_NAME, a.ALLOW_EDIT, a.MEMO, a.TASK_LEVEL, a.BILL_TYPE, BILLTYPENAME = b.STATE_DESC };
+                      join b in StateQuery on a.BILL_TYPE equals b.STATE
+                      join c in BillTargerQuery on a.TARGET_CODE equals c.TARGET_CODE into Targer
+                      from c in Targer.DefaultIfEmpty()
+
+                      where b.TABLE_NAME=="CMD_BILL_TYPE" && b.FIELD_NAME== "BILL_TYPE" 
+                               select new { a.BTYPE_CODE, a.BTYPE_NAME, a.ALLOW_EDIT, a.MEMO, a.TASK_LEVEL, a.BILL_TYPE, a.TARGET_CODE, BILLTYPENAME = b.STATE_DESC, TARGETNAME=c.TARGET_NAME };
                      
 
 
@@ -56,6 +61,10 @@ namespace THOK.Wms.Bll.Service
             {
                 CmdBillTypes = CmdBillTypes.Where(i => i.MEMO.Contains(Memo));
             }
+            if (!string.IsNullOrEmpty(TARGET_CODE))
+            {
+                CmdBillTypes = CmdBillTypes.Where(i => i.TARGET_CODE==TARGET_CODE);
+            }
             CmdBillTypes = CmdBillTypes.OrderBy(i => i.BTYPE_CODE).Select(i => i);
             int total = CmdBillTypes.Count();
             CmdBillTypes = CmdBillTypes.Skip((page - 1) * rows).Take(rows);
@@ -66,6 +75,8 @@ namespace THOK.Wms.Bll.Service
         {
             BillType.BTYPE_CODE = CmdBillTypeRepository.GetNewID("CMD_BILL_TYPE", "BTYPE_CODE");
             BillType.ALLOW_EDIT = "1";
+            if (BillType.BILL_TYPE != "2")
+                BillType.TARGET_CODE = "";
             CmdBillTypeRepository.Add(BillType);
             CmdBillTypeRepository.SaveChanges();
             return true;
@@ -88,6 +99,9 @@ namespace THOK.Wms.Bll.Service
             BillNewType.ALLOW_EDIT = "1";
             BillNewType.MEMO = BillType.MEMO;
             BillNewType.TASK_LEVEL = BillType.TASK_LEVEL;
+            BillNewType.TARGET_CODE = BillType.TARGET_CODE;
+            if (BillNewType.BILL_TYPE != "2")
+                BillNewType.TARGET_CODE = "";
             CmdBillTypeRepository.SaveChanges();
 
             

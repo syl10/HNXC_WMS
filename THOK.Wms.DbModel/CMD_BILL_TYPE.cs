@@ -10,6 +10,8 @@ namespace THOK.Wms.DbModel
         public string BILL_TYPE { get; set; }
         public string TASK_LEVEL { get; set; }
         public string ALLOW_EDIT { get; set; }
+
+        public string TARGET_CODE { get; set; }
         public string MEMO { get; set; }
     }
 }

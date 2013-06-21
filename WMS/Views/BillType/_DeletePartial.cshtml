@@ -11,6 +11,11 @@
                 valueField: 'id',
                 textField: 'text'
             });
+            $('#target').combobox({
+                url: "/SysBillTarget/Details/",
+                valueField: 'id',
+                textField: 'text'
+            }); 
             $('#dlg').dialog('open').dialog('setTitle', '删除');
             $('#fm .easyui-validatebox').validatebox({
                 required: false
@@ -23,10 +28,19 @@
             $('#BType').combo({
                 hasDownArrow: false
             });
+            $('#target').combo({
+                hasDownArrow: false
+            });
             $('#fm').form('load', row);
+            var peo = row.BILL_TYPE;
+            if (peo == "2") {
+                $('#trTarget').css('display', '');
+            } else {
+                $('#trTarget').css('display', 'none');
+            }
             $('#cc').combobox('setValue', row.TASK_LEVEL);
             $('#BType').combobox('setValue', row.BILL_TYPE);
-
+            $('#target').combobox('setValue', row.TARGET_CODE);
             url = '/BillType/Delete/?BTYPE_CODE=' + row.BTYPE_CODE;
         } else {
             $.messager.confirm('错误', '没有选择行！');
