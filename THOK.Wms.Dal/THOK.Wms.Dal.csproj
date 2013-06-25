@@ -57,6 +57,8 @@
     <Compile Include="EntityRepository\CMDProuductRepository.cs" />
     <Compile Include="EntityRepository\CMDCraneRepository.cs" />
     <Compile Include="EntityRepository\CMDShelfRepository.cs" />
+    <Compile Include="EntityRepository\CMDUnitCategoryRepository.cs" />
+    <Compile Include="EntityRepository\CMDUnitRepository.cs" />
     <Compile Include="EntityRepository\CMDWarehouseRepository.cs" />
     <Compile Include="EntityRepository\SysBillTargetRepository.cs" />
     <Compile Include="EntityRepository\SysTableStateRepository.cs" />
@@ -69,6 +71,8 @@
     <Compile Include="Interfaces\ICMDCellRepository.cs" />
     <Compile Include="Interfaces\ICMDCraneRepository.cs" />
     <Compile Include="Interfaces\ICMDShelfRepository.cs" />
+    <Compile Include="Interfaces\ICMDUnitCategoryRepository.cs" />
+    <Compile Include="Interfaces\ICMDUnitRepository.cs" />
     <Compile Include="Interfaces\ICMDWarehouseRepository.cs" />
     <Compile Include="Interfaces\ISysBillTargetRepository.cs" />
     <Compile Include="Interfaces\ISysTableStateRepository.cs" />

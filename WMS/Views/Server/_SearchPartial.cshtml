@@ -16,10 +16,10 @@
         queryParams.URL = $('#URL').val();
         queryParams.IS_ACTIVE = $('#IS_ACTIVE').val();
         $('#details').datagrid('options').queryParams = queryParams;
-        $('#details').datagrid({
-            pageNumber: 1,
-            pageSize: 10
-        });
+//        $('#details').datagrid({
+//            pageNumber: 1,
+//            pageSize: 10
+//        });
         $("#details").datagrid('reload');
         $('#dlg-search').dialog('close');
     }
@@ -40,7 +40,7 @@
                 <td width="168" align="left"><input id="URL"></td>
               </tr>
               <tr>
-                <td>描述</td>
+                <td>备注</td>
                 <td align="left"><textarea id="DESCRIPTION" style="width: 180px; height: 50px"></textarea></td>
               </tr>
               <tr>

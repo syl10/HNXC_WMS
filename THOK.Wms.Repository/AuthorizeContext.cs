@@ -52,10 +52,14 @@ namespace THOK.Wms.Repository
             modelBuilder.Configurations.Add(new CMD_CRANEMap());
             modelBuilder.Configurations.Add(new CMD_CIGARETTEMap());
             modelBuilder.Configurations.Add(new CMD_CARMap());
-            modelBuilder.Configurations.Add(new SYS_TABLE_STATEMap());
             modelBuilder.Configurations.Add(new CMD_BILL_TYPEMap());
             modelBuilder.Configurations.Add(new CMD_PRODUCT_CATEGORYMap());
+            modelBuilder.Configurations.Add(new CMD_UNIT_CATEGORYMap());
+            modelBuilder.Configurations.Add(new CMD_UNITMap());
+
+            modelBuilder.Configurations.Add(new SYS_TABLE_STATEMap());
             modelBuilder.Configurations.Add(new SYS_BILL_TARGETMap());
+            
             #endregion
 
             #region wcs

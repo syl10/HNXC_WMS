@@ -8,8 +8,7 @@ namespace THOK.Wms.Bll.Interfaces
 {
     public interface ICMDProductService:IService<CMD_PRODUCT>
     {
-        object GetDetails(int page, int rows, string ProductName, string ProductCode, string CustomCode, string BrandCode, string UniformCode, string AbcTypeCode, string ShortCode, string PriceLevelCode, string SupplierCode);
-
+        object GetDetails(int page, int rows, string ProductName, string ORIGINAL, string YEARS, string GRADE, string STYLE, string WEIGHT, string MEMO, string CATEGORY_CODE);
         bool Add(CMD_PRODUCT product);
         
         bool Delete(string ProductCode);
@@ -17,16 +16,6 @@ namespace THOK.Wms.Bll.Interfaces
         bool Save(CMD_PRODUCT product);
 
 
-        //object FindProduct(int page, int rows, string QueryString, string value);
-
-        //object checkFindProduct(string QueryString, string value);
-
-        object FindProduct();
-
-        object LoadProduct(int page, int rows);
-
-        object GetProductBy(int page, int rows, string QueryString, string Value);
-
-        System.Data.DataTable GetProduct(int page, int rows, string ProductName, string ProductCode, string CustomCode, string BrandCode, string UniformCode, string AbcTypeCode, string ShortCode, string PriceLevelCode, string SupplierCode);
+       
     }
 }

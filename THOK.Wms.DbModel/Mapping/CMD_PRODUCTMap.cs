@@ -13,7 +13,7 @@ namespace THOK.Wms.DbModel.Mapping
             // Properties
             this.Property(t => t.PRODUCT_CODE)
                 .IsRequired()
-                .HasMaxLength(40);
+                .HasMaxLength(20);
 
             this.Property(t => t.PRODUCT_NAME)
                 .IsRequired()
@@ -35,6 +35,10 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.MEMO)
                 .HasMaxLength(200);
 
+            this.Property(t => t.CATEGORY_CODE)
+                .IsRequired()
+                .HasMaxLength(3);
+
             // Table & Column Mappings
             this.ToTable("CMD_PRODUCT", "THOK");
             this.Property(t => t.PRODUCT_CODE).HasColumnName("PRODUCT_CODE");
@@ -45,6 +49,13 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.STYLE).HasColumnName("STYLE");
             this.Property(t => t.WEIGHT).HasColumnName("WEIGHT");
             this.Property(t => t.MEMO).HasColumnName("MEMO");
+            this.Property(t => t.CATEGORY_CODE).HasColumnName("CATEGORY_CODE");
+
+            // Relationships
+            this.HasRequired(t => t.CMD_PRODUCT_CATEGORY)
+                .WithMany(t => t.CMD_PRODUCT)
+                .HasForeignKey(d => d.CATEGORY_CODE);
+
         }
     }
 }

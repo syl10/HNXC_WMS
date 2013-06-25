@@ -130,8 +130,11 @@
     <Compile Include="Controllers\Wms\Base\CigaretteController.cs" />
     <Compile Include="Controllers\Wms\Base\CraneController.cs" />
     <Compile Include="Controllers\Wms\Base\ProductCategoryController.cs" />
+    <Compile Include="Controllers\Wms\Base\ProductController.cs" />
     <Compile Include="Controllers\Wms\Base\SysBillTargetController.cs" />
     <Compile Include="Controllers\Wms\Base\SysTableStateController.cs" />
+    <Compile Include="Controllers\Wms\Base\UnitController.cs" />
+    <Compile Include="Controllers\Wms\Base\UnitCategoryController.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\AreaController.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\CellController.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\DefaultProductSetController.cs" />
@@ -1773,6 +1776,24 @@
     <Content Include="Views\ProductCategory\_EditPartial.cshtml" />
     <Content Include="Views\ProductCategory\_PrintPartial.cshtml" />
     <Content Include="Views\ProductCategory\_SearchPartial.cshtml" />
+    <Content Include="Views\Unit\Index.cshtml" />
+    <Content Include="Views\Unit\_AddPartial.cshtml" />
+    <Content Include="Views\Unit\_DeletePartial.cshtml" />
+    <Content Include="Views\Unit\_EditPartial.cshtml" />
+    <Content Include="Views\Unit\_PrintPartial.cshtml" />
+    <Content Include="Views\Unit\_SearchPartial.cshtml" />
+    <Content Include="Views\UnitCategory\Index.cshtml" />
+    <Content Include="Views\UnitCategory\_AddPartial.cshtml" />
+    <Content Include="Views\UnitCategory\_DeletePartial.cshtml" />
+    <Content Include="Views\UnitCategory\_EditPartial.cshtml" />
+    <Content Include="Views\UnitCategory\_PrintPartial.cshtml" />
+    <Content Include="Views\UnitCategory\_SearchPartial.cshtml" />
+    <Content Include="Views\Product\Index.cshtml" />
+    <Content Include="Views\Product\_AddPartial.cshtml" />
+    <Content Include="Views\Product\_DeletePartial.cshtml" />
+    <Content Include="Views\Product\_EditPartial.cshtml" />
+    <Content Include="Views\Product\_PrintPartial.cshtml" />
+    <Content Include="Views\Product\_SearchPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

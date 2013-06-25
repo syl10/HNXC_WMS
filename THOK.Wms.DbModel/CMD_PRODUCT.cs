@@ -18,6 +18,8 @@ namespace THOK.Wms.DbModel
         public string STYLE { get; set; }
         public decimal WEIGHT { get; set; }
         public string MEMO { get; set; }
+        public string CATEGORY_CODE { get; set; }
         public virtual ICollection<CMD_CELL> CMD_CELL { get; set; }
+        public virtual CMD_PRODUCT_CATEGORY CMD_PRODUCT_CATEGORY { get; set; }
     }
 }

@@ -14,10 +14,10 @@
         queryParams.OperateUser = $('#operateuser').val();
         queryParams.TargetSystem = $('#targetsystem').val();
         $('#details').datagrid('options').queryParams = queryParams;
-        $('#details').datagrid({
-            pageNumber: 1,
-            pageSize: 10
-        });
+//        $('#details').datagrid({
+//            pageNumber: 1,
+//            pageSize: 10
+//        });
         $("#details").datagrid('reload');
         $('#xt-search').dialog('close');
     }

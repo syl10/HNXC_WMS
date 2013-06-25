@@ -57,6 +57,8 @@
     <Compile Include="CMD_PRODUCT.cs" />
     <Compile Include="CMD_PRODUCT_CATEGORY.cs" />
     <Compile Include="CMD_SHELF.cs" />
+    <Compile Include="CMD_UNIT.cs" />
+    <Compile Include="CMD_UNIT_CATEGORY.cs" />
     <Compile Include="CMD_WAREHOUSE.cs" />
     <Compile Include="Mapping\CMD_AREAMap.cs" />
     <Compile Include="Mapping\CMD_BILL_TYPEMap.cs" />
@@ -67,6 +69,8 @@
     <Compile Include="Mapping\CMD_PRODUCTMap.cs" />
     <Compile Include="Mapping\CMD_PRODUCT_CATEGORYMap.cs" />
     <Compile Include="Mapping\CMD_SHELFMap.cs" />
+    <Compile Include="Mapping\CMD_UNITMap.cs" />
+    <Compile Include="Mapping\CMD_UNIT_CATEGORYMap.cs" />
     <Compile Include="Mapping\CMD_WAREHOUSEMap.cs" />
     <Compile Include="Mapping\SYS_BILL_TARGETMap.cs" />
     <Compile Include="Mapping\SYS_TABLE_STATEMap.cs" />

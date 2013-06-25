@@ -33,42 +33,42 @@ namespace Wms.Controllers.Wms.WarehouseInfo
 
         //根据条件查找卷烟信息
         //POST: /DefaultProductSet/GetProductBy/
-        public ActionResult GetProductBy(int page, int rows, string QueryString, string Value)
-        {
-            if (QueryString == null)
-            {
-                QueryString = "ProductCode";
-            }
-            if (Value == null)
-            {
-                Value = "";
-            }
-            var product = ProductService.GetProductBy(page, rows, QueryString, Value);
-            return Json(product, "text", JsonRequestBehavior.AllowGet);
-        }
+        //public ActionResult GetProductBy(int page, int rows, string QueryString, string Value)
+        //{
+        //    if (QueryString == null)
+        //    {
+        //        QueryString = "ProductCode";
+        //    }
+        //    if (Value == null)
+        //    {
+        //        Value = "";
+        //    }
+        //    var product = ProductService.GetProductBy(page, rows, QueryString, Value);
+        //    return Json(product, "text", JsonRequestBehavior.AllowGet);
+        //}
         //根据条件查询卷烟货位
         //POST: /DefaultProductSet/GetCellBy/
-        public ActionResult GetCellBy(int page ,int rows,string QueryString ,string Value)
-        {
-            if (QueryString == null)
-            {
-                QueryString = "ProductCode";
-            }
-            if (Value == null)
-            {
-                Value = "";
-            }
-            var cell = CellService.GetCellBy(page, rows, QueryString, Value);
-            return Json(cell, "text", JsonRequestBehavior.AllowGet);
-        }
+        //public ActionResult GetCellBy(int page ,int rows,string QueryString ,string Value)
+        //{
+        //    if (QueryString == null)
+        //    {
+        //        QueryString = "ProductCode";
+        //    }
+        //    if (Value == null)
+        //    {
+        //        Value = "";
+        //    }
+        //    var cell = CellService.GetCellBy(page, rows, QueryString, Value);
+        //    return Json(cell, "text", JsonRequestBehavior.AllowGet);
+        //}
 
         //加载烟卷信息表
         // POST: /DefaultProductSet/LoadProduct/
-        public ActionResult LoadProduct(int page, int rows)
-        {
-            var product = ProductService.LoadProduct(page, rows);
-            return Json(product, "text", JsonRequestBehavior.AllowGet);
-        }
+        //public ActionResult LoadProduct(int page, int rows)
+        //{
+        //    var product = ProductService.LoadProduct(page, rows);
+        //    return Json(product, "text", JsonRequestBehavior.AllowGet);
+        //}
 
         //首页加载卷烟信息
         //POST: /DefaultProductSet/GetProductCell/

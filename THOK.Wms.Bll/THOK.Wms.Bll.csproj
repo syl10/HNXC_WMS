@@ -47,6 +47,8 @@
     <Compile Include="Interfaces\ICmdBillTypeService.cs" />
     <Compile Include="Interfaces\ICMDCarService.cs" />
     <Compile Include="Interfaces\ICMDProductCategoryService.cs" />
+    <Compile Include="Interfaces\ICMDUnitCategoryService.cs" />
+    <Compile Include="Interfaces\ICMDUnitService.cs" />
     <Compile Include="Interfaces\IService.cs" />
     <Compile Include="Interfaces\ISysBillTargetService.cs" />
     <Compile Include="Interfaces\ISysTableStateService.cs" />
@@ -75,6 +77,8 @@
     <Compile Include="Service\CMDShelfService.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Service\CMDUnitCategoryService.cs" />
+    <Compile Include="Service\CMDUnitService.cs" />
     <Compile Include="Service\CMDWarehouseService.cs">
       <SubType>Code</SubType>
     </Compile>
