@@ -1,0 +1,317 @@
+﻿<script type="text/javascript">
+    var url;
+    var status;
+    var editRow = null;
+    function getTime() {
+        var d = new Date();
+        var vYear = d.getFullYear();
+        var vMon = d.getMonth() + 1;
+        var vDay = d.getDate();
+        var h = d.getHours();
+        var m = d.getMinutes();
+        t = vYear + "-" + (vMon < 10 ? "0" + vMon : vMon) + "-" + (vDay < 10 ? "0" + vDay : vDay);
+        return t;
+    }
+
+    function DataLoad() {
+        $('#CigaretteAdd').combogrid({
+            required: true,
+            disabled: false,
+            width: 130,
+            panelWidth: 340,
+            url: '/Cigarette/Details/?page=1&rows=1000',
+            idField: 'CIGARETTE_CODE',
+            textField: 'CIGARETTE_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+                    { field: 'CIGARETTE_CODE', title: '牌号编码', align: 'left', width: 40 },
+                    { field: 'CIGARETTE_NAME', title: '牌号名称', align: 'left', width: 30 },
+                    { field: 'CIGARETTE_MEMO', title: '备注', align: 'left', width: 30 }
+                ]]
+        });
+        $('#FORMULA_DATE').datebox({
+            width:130,
+            required: true,
+            onSelect: function (date) {
+                var t = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                GetCode(t);
+            }
+        });
+    }
+
+    function GetCode(dttime) {
+        $.getJSON("/Formula/GetFormulaCode/?dtime=" + dttime, function (json) {
+            if (json) {
+                $('#FORMULA_CODE').val(json.FormulaCode);
+                $('#OPERATER').val(json.userName);
+            }
+        });
+    }
+    function addClick() {
+        status = "add";
+        $('#dlg').dialog('open').dialog('setTitle', '新增');
+        $('#fm').form('clear');
+        $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+        DataLoad();
+
+        $('#FORMULA_CODE').attr("readonly", true);
+        $('#OPERATE_DATE').attr("readonly", true);
+        $('#FORMULA_DATE').datebox('setValue', getTime());
+        $('#OPERATE_DATE').val(getTime());
+        GetCode(getTime());
+     
+        $('#fm .easyui-validatebox').validatebox({
+            required: true
+        });
+        $('#cc').combo({
+            hasDownArrow: true
+        });
+        $('#FORMULA_DATE').datebox({
+            hasDownArrow: true
+        });
+        $('#cc').combobox('setValue', "1");
+    }
+
+    //新增入库库明细按钮
+    function addBillDetailClick() {
+        editRow = null;
+        $('#dlg-AddBillDetail').dialog('open').dialog('setTitle', '新增入库订单明细');
+        $('#fm-inBillDetail').form('clear');
+        $('form input').removeAttr("disabled");
+        $('form textarea').removeAttr("disabled");
+    }
+    //删除入库单明细
+    function deleteBillDetailClick() {
+        var detailRow = $('#inBillDetail').datagrid('getSelected');
+        if (detailRow) {
+            $('#inBillDetail').datagrid('deleteRow', $('#inBillDetail').datagrid('getRowIndex', detailRow));
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    }
+    //修改入库单明细
+    function editBillDetailClick() {
+        
+        var detailRow = $('#inBillDetail').datagrid('getSelected');
+        if (detailRow) {
+            editRow = detailRow;
+            $('#dlg-AddBillDetail').dialog('open').dialog('setTitle', '修改入库细表信息');
+            $('#fm-inBillDetail .easyui-validatebox').validatebox({
+                required: false
+            });
+            $('form input').removeAttr("disabled");
+            $('form textarea').removeAttr("disabled");
+            $('#fm-inBillDetail').form('load', detailRow);
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    }
+    //保存入库细单
+    function DetailSave() {
+        if (editRow==null) { //新增明细
+            $('#inBillDetail').datagrid('appendRow', {
+                PRODUCT_CODE: $('#PRODUCT_CODE').val(),
+                PRODUCT_NAME: $('#PRODUCT_NAME').val(),
+                PERCENT: $('#PERCENT').val(),
+                OTHER: $('#OTHER').val()
+            });
+        }
+        else { //修改明细
+            $('#inBillDetail').datagrid('beginEdit', $('#inBillDetail').datagrid('getRowIndex', editRow)); 
+            $('#inBillDetail').datagrid('updateRow', {
+                index: $('#inBillDetail').datagrid('getRowIndex', editRow),
+                row: {
+                    PRODUCT_CODE: $('#PRODUCT_CODE').val(),
+                    PRODUCT_NAME: $('#PRODUCT_NAME').val(),
+                    PERCENT: $('#PERCENT').val(),
+                    OTHER: $('#OTHER').val()
+                }
+            });
+
+            $('#inBillDetail').datagrid('endEdit', $('#inBillDetail').datagrid('getRowIndex', editRow));
+            $('#inBillDetail').datagrid('refreshRow', $('#inBillDetail').datagrid('getRowIndex', editRow)); 
+
+            }
+        $('#dlg-AddBillDetail').dialog('close');
+    }
+
+
+    //保存入库单
+    function save() {
+        debugger
+        var changesRows = {
+            inserted: []
+        };
+        var Percent=0;
+        var blnDistinct = true;
+        var Rows = $('#inBillDetail').datagrid('getData');
+
+        for (var i = 0; i < Rows.total; i++) {
+            changesRows.inserted.push(Rows.rows[i])
+            Percent += eval(Rows.rows[i].PERCENT);
+            for (var j = i + 1; j < Rows.total; j++) {
+                if (Rows.rows[i].PRODUCT_CODE == Rows.rows[j].PRODUCT_CODE) {
+                    blnDistinct = false;
+                    break;
+                }
+            }
+            if (!blnDistinct)
+                break;
+        }
+        
+        if (status == "add")
+            url = '/Formula/Create/?detail=' + JSON.stringify(changesRows.inserted);
+        if (status == "edit")
+            url = '/Formula/Edit/?detail=' + JSON.stringify(changesRows.inserted);
+        if (status == "delete")
+            url = url;
+        $('#fm').form('submit', {
+            url: url,
+            onSubmit: function () {
+                var blnvalidate = $(this).form('validate');
+                if (blnvalidate) {
+                   
+                        if (!blnDistinct) {
+                            $.messager.alert('配方单明细', '产品代码重复');
+                            return false;
+                        }
+                        if (Percent != 100) {
+                            $.messager.alert('配方单明细', '比例合计不等于100');
+                            return false;
+                        }
+                    return true;
+                }
+                return false;
+            },
+            success: function (result) {
+                var result = eval('(' + result + ')');
+                if (result.success) {
+                    $.messager.alert(g_MsgBoxTitle, result.msg, "info");
+                    addKey = false;
+                    editKey = false;
+                    $('#dlg').dialog('close');
+                    $('#details').datagrid('reload');
+                    $('#inBillDetails').datagrid('load');
+                } else {
+                    $.messager.alert(g_MsgBoxTitle, result.msg + '<br />' + result.data, "error");
+                    addKey = false;
+                    editKey = false;
+                    $('#details').datagrid('reload');
+                }
+            }
+        });
+    }
+    //选择产品信息
+    function productSelect() {
+        $('#productData').dialog('open').dialog('setTitle', '选择产品信息');
+        $('#productDetail').datagrid({ url: '/Product/Details/?page=1&rows=1000' });
+        $("#productDetail").datagrid('reload');
+    }
+</script>
+
+<div id="dlg" class="easyui-dialog" modal="true"
+        style="width:700px;height:450px;padding:0px 0px"
+        closed="true" buttons="#dlg-buttons">
+	<div class="easyui-layout" fit="true">
+        <div region="center" border="false">
+            <table class="easyui-datagrid" border="false" toolbar="#dlg-detailButtons" width="700" id="inBillDetail"
+                fit="true" fitColumns="true" singleSelect="true" rownumbers="true" pagination="true" url="">
+                <thead>
+                    <tr>
+                        <th field="FORMULA_CODE" hidden="true" width="100">细单ID</th>
+                        <th field="PRODUCT_CODE" width="100">产品代码</th>
+                        <th field="PRODUCT_NAME" width="120" align="right">产品名称</th>
+                        <th field="PERCENT" width="80" align="right">百分比</th>
+                        <th field="OTHER" width="80" align="right">其它</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="dlg-detailButtons" style="width: auto; height: auto; background-color: #FFFFFF;">
+	<div border="false" style="padding:4px 4px;" >     
+	    <form id="fm" method="post" novalidate>
+            <table height="80px">
+                <tr>
+                <td width="60">配方编码</td>
+                <td width="168"><input name="FORMULA_CODE" id="FORMULA_CODE" readonly="true"></td>
+                <td width="60">配方名称</td>
+                <td width="168"><input name="FORMULA_NAME" id="FORMULA_NAME" class="easyui-validatebox" required="true"></td>
+                <td width="60">配方日期</td>
+                <td width="168"><input name="FORMULA_DATE" id="FORMULA_DATE"></td>
+                </tr>
+                <tr>
+                <td width="60">牌号编码</td>
+                <td width="168"><input name="CIGARETTE_CODE" id="CigaretteAdd" missingmessage="请选择牌号编码"></td>
+                <td width="60">状态</td>
+                <td width="168">
+                    <select id="cc" name="IS_ACTIVE" class="easyui-combobox" style=" height:80px">
+		                <option value="1">启用</option>
+		                <option value="0">禁用</option>
+	                </select>
+                </td>
+                <td width="60">操作人</td>
+                <td width="168"><input id="OPERATER" name="OPERATER" readonly="true"></td>
+                </tr>
+                <tr>
+                <td width="60">操作日期</td>
+                <td width="168"><input name="OPERATEDATE" id="OPERATE_DATE" readonly="true"></td>
+                <td width="60">使用次数</td>
+                <td width="168"><input id="USE_COUNT" name="USE_COUNT" readonly="true"></td>
+                <td width="60"></td>
+                <td width="168"></td>
+                </tr>
+            </table>
+	    </form>
+    </div>
+    <div border="false" style="padding:4px 4px; background-color:ButtonShadow" > 
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addBillDetailClick()" id="btnAddBillDetail">添加明细</a>
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteBillDetailClick()" id="btnDeleteBillDetail">删除明细</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editBillDetailClick()" id="btnEditBillDetail">修改明细</a>
+    </div>
+</div>
+
+<div id="dlg-buttons">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+</div>
+
+<div  id="dlg-AddBillDetail" class="easyui-dialog" modal="true"
+        style="width:270px;height:200px;padding:0px 0px"
+        closed="true" buttons="#dlg-AddBillDetailbuttons">
+     <form id="fm-inBillDetail">
+<table style="padding:10px 10px 0px 5px">
+  <tr>
+    <td style=" text-align:right">产品代码</td>
+    <td align="left"><input type="text" name="PRODUCT_CODE" id="PRODUCT_CODE" required="true" readonly="true"/>
+    <a href="#" onclick="productSelect()" class="easyui-linkbutton" iconcls="icon-search" plain="true"></a></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td style=" text-align:right">产品名称</td>
+    <td align="left"><input type="text" name="PRODUCT_NAME" class="easyui-validatebox" required="true" id="PRODUCT_NAME" readonly="true"/></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td style=" text-align:right">百分比</td>
+    <td align="left"><input type="text" name="PERCENT" class="easyui-numberbox" min="0" max="100" id="PERCENT" required="true"/></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td style=" text-align:right">其它</td>
+    <td align="left"><input type="text" name="OTHER" id="OTHER"/></td>
+    <td></td>
+  </tr>
+</table>
+ </form>
+</div>
+
+<div id="dlg-AddBillDetailbuttons">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="DetailSave()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-AddBillDetail').dialog('close')">取消</a>
+</div>
+@Html.Partial("_ProductPartial");  

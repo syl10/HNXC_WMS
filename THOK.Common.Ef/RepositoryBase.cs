@@ -127,6 +127,33 @@ namespace THOK.Common.Ef.EntityRepository
             return strNew;
         }
 
+        public string GetNewID(string PreName, DateTime dt, string AutoCode)
+        {
+            var pre = RepositoryContext.DbContext.Database.SqlQuery<PrefixTableCode>(string.Format("select * from sys_table_code where prefixcode='{0}'", PreName)).FirstOrDefault();
+            string strNew = "";
+            string strSQL = "";
+            string PreCode = PreName + dt.ToString("yyyyMMdd");
+            if (!string.IsNullOrEmpty(AutoCode))
+            {
+                strSQL = string.Format("select {1} from {0} where {1}='{2}'", pre.TableName, pre.FieldName, AutoCode);
+                var tmp = RepositoryContext.DbContext.Database.SqlQuery<string>(strSQL);
+                if (tmp.Count() == 0)
+                    return AutoCode;
+            }
+            strSQL = string.Format("select {1} from {0} where {1} like '{2}%'", pre.TableName, pre.FieldName, PreCode);
+            var tmp2 = RepositoryContext.DbContext.Database.SqlQuery<string>(strSQL);
+            if (tmp2.Count() > 0)
+            {
+                string value = tmp2.Max().ToString();
+                strNew = PreCode + (int.Parse(value.Substring(PreCode.Length, 5)) + 1).ToString().PadLeft(5, '0');
+            }
+            else
+            {
+                strNew = PreCode + "1".PadLeft(5, '0');
+            }
+            return strNew;
+        }
+
 
         //todo
         public int SaveChanges()

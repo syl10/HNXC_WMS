@@ -62,6 +62,8 @@
     <Compile Include="EntityRepository\CMDWarehouseRepository.cs" />
     <Compile Include="EntityRepository\SysBillTargetRepository.cs" />
     <Compile Include="EntityRepository\SysTableStateRepository.cs" />
+    <Compile Include="EntityRepository\WMSFormulaDetailRepository.cs" />
+    <Compile Include="EntityRepository\WMSFormulaMasterRepository.cs" />
     <Compile Include="Interfaces\ICmdBillTypeRepository.cs" />
     <Compile Include="Interfaces\ICMDCarRepository.cs" />
     <Compile Include="Interfaces\ICMDCigaretteRepository.cs" />
@@ -76,6 +78,8 @@
     <Compile Include="Interfaces\ICMDWarehouseRepository.cs" />
     <Compile Include="Interfaces\ISysBillTargetRepository.cs" />
     <Compile Include="Interfaces\ISysTableStateRepository.cs" />
+    <Compile Include="Interfaces\IWMSFormulaDetailRepository.cs" />
+    <Compile Include="Interfaces\IWMSFormulaMasterRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -2,7 +2,6 @@
 
     function searchClick() {
         $('#search_CC').combogrid({
-            required: true,
             width: 126,
             panelWidth: 300,
             url: '/ProductCategory/Details/?page=1&rows=1000',
@@ -23,7 +22,13 @@
 
     function select() {
         var queryParams = $('#details').datagrid('options').queryParams;
-        queryParams.CATEGORY_NAME = $('#CATEGORY_NAME').val();
+        queryParams.PRODUCT_NAME = $('#PRODUCT_NAME').val();
+        queryParams.CATEGORY_CODE = $('#search_CC').val();
+        queryParams.ORIGINAL = $('#ORIGINAL').val();
+        queryParams.YEARS = $('#YEARS').val();
+        queryParams.GRADE = $('#GRADE').val();
+        queryParams.STYLE = $('#STYLE').val();
+        queryParams.WEIGHT = $('#WEIGHT').val();
         queryParams.MEMO = $('#MEMO').val();
         $('#details').datagrid('options').queryParams = queryParams;
 //        $('#details').datagrid({
@@ -36,7 +41,7 @@
 
 </script>
 
-<div id="dlg-search" class="easyui-dialog" modal="true" style="width:300px;height:210px;padding:2px 2px"
+<div id="dlg-search" class="easyui-dialog" modal="true" style="width:430px;height:260px;padding:2px 2px"
 		closed="true" buttons="#dlg-buttons-search">
         <div class="easyui-layout" fit="true">
 			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     

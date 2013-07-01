@@ -8,6 +8,7 @@ namespace THOK.Wms.DbModel
         public CMD_PRODUCT()
         {
             this.CMD_CELL = new List<CMD_CELL>();
+            this.WMS_FORMULA_DETAIL = new List<WMS_FORMULA_DETAIL>();
         }
 
         public string PRODUCT_CODE { get; set; }
@@ -20,6 +21,7 @@ namespace THOK.Wms.DbModel
         public string MEMO { get; set; }
         public string CATEGORY_CODE { get; set; }
         public virtual ICollection<CMD_CELL> CMD_CELL { get; set; }
+        public virtual ICollection<WMS_FORMULA_DETAIL> WMS_FORMULA_DETAIL { get; set; }
         public virtual CMD_PRODUCT_CATEGORY CMD_PRODUCT_CATEGORY { get; set; }
     }
 }

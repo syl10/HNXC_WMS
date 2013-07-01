@@ -27,5 +27,7 @@ namespace THOK.Common.Ef.Interfaces
         //动态生成ID
         string GetNewID(string TableName, string ColumnName);
 
+        string GetNewID(string PreName, DateTime dt, string AutoCode);
+
     }
 }
