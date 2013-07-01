@@ -32,7 +32,17 @@
                 ]]
         });
         $('#FORMULA_DATE').datebox({
-            width:130,
+            width: 130,
+//            formatter: function (date) { return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(); },
+//            parser: function (dateStr) {
+//                var strArray = dateStr.split("-");
+//                if (strArray.length == 3) {
+//                    return new Date(strArray[0], strArray[1], strArray[2]);
+//                } else {
+//                    return new Date();
+//                }
+//            },
+
             required: true,
             onSelect: function (date) {
                 var t = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
@@ -58,6 +68,9 @@
 
         $('#FORMULA_CODE').attr("readonly", true);
         $('#OPERATE_DATE').attr("readonly", true);
+        $('#FORMULA_DATE').datebox({
+            hasDownArrow: true
+        });
         $('#FORMULA_DATE').datebox('setValue', getTime());
         $('#OPERATE_DATE').val(getTime());
         GetCode(getTime());
@@ -68,9 +81,7 @@
         $('#cc').combo({
             hasDownArrow: true
         });
-        $('#FORMULA_DATE').datebox({
-            hasDownArrow: true
-        });
+      
         $('#cc').combobox('setValue', "1");
     }
 
@@ -140,7 +151,6 @@
 
     //保存入库单
     function save() {
-        debugger
         var changesRows = {
             inserted: []
         };

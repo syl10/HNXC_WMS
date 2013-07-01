@@ -63,7 +63,7 @@ namespace WMS.Controllers.Wms.WMS
         public ActionResult Edit(WMS_FORMULA_MASTER master, object detail)
         {
             bool bResult = FormulaService.Edit(master, detail);
-            string msg = bResult ? "新增成功" : "新增失败";
+            string msg = bResult ? "修改成功" : "修改失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }
 
@@ -72,7 +72,7 @@ namespace WMS.Controllers.Wms.WMS
         public ActionResult Delete(string FORMULA_CODE)
         {
             bool bResult = FormulaService.Delete(FORMULA_CODE);
-            string msg = bResult ? "新增成功" : "新增失败";
+            string msg = bResult ? "删除成功" : "删除失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }
 

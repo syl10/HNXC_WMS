@@ -3,7 +3,6 @@
         
         var row = $('#details').datagrid('getSelected');
         if (row) {
-            debugger
             status = "edit";
             $('#dlg').dialog('open').dialog('setTitle', '编辑');
             DataLoad();
@@ -13,17 +12,16 @@
                 required: true
             });
             $('#FORMULA_CODE').attr("readonly", true);
-           
+
             $('#OPERATE_DATE').attr("readonly", true);
-            $('#FORMULA_DATE').datebox('setValue',row.FORMULADATE);
-            $('#OPERATE_DATE').val(row.OPERATE_DATE);
-            debugger
             $('#FORMULA_DATE').datebox({
-                width:130,
+                width: 130,
                 hasDownArrow: false
             });
-
             $(".datebox :text")[0].setAttribute("readonly", "true"); //设置只读
+
+            $('#FORMULA_DATE').datebox('setValue',row.FORMULADATE);
+            $('#OPERATE_DATE').val(row.OPERATE_DATE);
 
             $('form input').removeAttr("disabled");
             $('form textarea').removeAttr("disabled");
