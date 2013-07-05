@@ -55,8 +55,12 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="itextsharp, Version=5.1.3.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL" />
-    <Reference Include="Svg, Version=0.5.2.17984, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="itextsharp">
+      <HintPath>..\Libraries\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Svg">
+      <HintPath>..\Libraries\Svg.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />

@@ -44,6 +44,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="THOK.Wms.SignalR">
+      <HintPath>..\Libraries\THOK.Wms.SignalR.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\BillDetail.cs" />
@@ -72,10 +75,6 @@
     <ProjectReference Include="..\THOK.Wms.DbModel\THOK.Wms.DbModel.csproj">
       <Project>{E243AB76-351D-4C97-BFE3-D55E0BA0DECF}</Project>
       <Name>THOK.Wms.DbModel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\THOK.Wms.SignalR\THOK.Wms.SignalR.csproj">
-      <Project>{04A2C9B1-0F35-42CF-A6A7-4319D7C6E95F}</Project>
-      <Name>THOK.Wms.SignalR</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

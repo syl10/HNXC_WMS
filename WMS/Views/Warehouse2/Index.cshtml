@@ -65,7 +65,7 @@
         $("#CELL_AREA_NAME").val(data[0].AREA_NAME);
         $("#CELL_SHELF_NAME").val(data[0].SHELF_NAME);
         $("#CELL_ISACTIVE").val(data[0].IS_ACTIVE);
-        $("#SHELF_MEMO").val(data[0].MEMO);
+        $("#CELL_MEMO").val(data[0].MEMO);
     }
     $(document).ready(function () {
         $.ajaxSender.send('/DefaultProductSet/CellCodeSet/', ///Cell/GetCheckDetails/  /DefaultProductSet/CellCodeSet/
@@ -91,7 +91,7 @@
               仓库代码&nbsp;
             </td>
             <td>
-               <input type="text" id="WAREHOUSE_CODE" style="width: 133px;" readonly="true" />
+               <input type="text" disabled="disabled" id="WAREHOUSE_CODE" style="width: 133px;"  readonly="true" />
             </td>
         </tr>
         <tr>

@@ -42,6 +42,9 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xml" />
+    <Reference Include="THOK.Wms.SignalR">
+      <HintPath>..\Libraries\THOK.Wms.SignalR.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\ICmdBillTypeService.cs" />
@@ -124,10 +127,6 @@
     <ProjectReference Include="..\THOK.Wms.Download\THOK.Wms.Download.csproj">
       <Project>{9495DAFA-C32B-445C-B760-341CBE9288C6}</Project>
       <Name>THOK.Wms.Download</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\THOK.Wms.SignalR\THOK.Wms.SignalR.csproj">
-      <Project>{04A2C9B1-0F35-42CF-A6A7-4319D7C6E95F}</Project>
-      <Name>THOK.Wms.SignalR</Name>
     </ProjectReference>
     <ProjectReference Include="..\THOK.Wms.Upload\THOK.Wms.Upload.csproj">
       <Project>{D0A12011-ED6A-4B13-A6C7-2D42D9F3ED67}</Project>
