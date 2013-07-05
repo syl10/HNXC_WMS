@@ -221,8 +221,7 @@
     }
 </script>
 
-<div id="dlg" class="easyui-dialog" modal="true" style="width: 300px; height: 360px;
-    padding: 1px 1px" closed="true" buttons="#dlg-buttons">
+<div id="dlg" class="easyui-dialog" modal="true" style="width: 300px; height: 360px; padding: 1px 1px" closed="true" buttons="#dlg-buttons">
     <div id="ware" class="easyui-layout" fit="true" style="display: none">
         <div region="center" border="false" style="padding: 10px 10px; background: #fff; border: 1px solid #ccc;">
             <form id="warefm"  method="post">
@@ -235,7 +234,7 @@
                         仓库编码:
                     </td>
                     <td>
-                        <input name="WAREHOUSE_CODE" type="text" id="wareID"  class="easyui-validatebox" style="width: 140px;" />
+                        <input  name="WAREHOUSE_CODE"  readonly="readonly"   id="wareID" style="width: 140px;" />
                     </td>
                 </tr>
                 <tr style="height:30px;">
@@ -251,8 +250,8 @@
                      <td style=" text-align:right">
                         备注:
                     </td>
-                    <td >
-                        <textarea name="MEMO" style="width: 175px; height: 100px"></textarea>
+                    <td  style=" overflow:hidden">
+                        <textarea  name="MEMO" cols="10" rows="10"   style="width: 175px; height: 100px; white-space:pre-line;"></textarea>
                     </td>
                 </tr>               
             </table>
@@ -271,7 +270,7 @@
                     <td width="70" style=" text-align:right">
                         库区编码:                    </td>
                     <td width="189" align="left">
-                        <input name="AREA_CODE" type="text" id="areaID" readonly="true" class="easyui-validatebox" style="width: 100px;"/>
+                        <input name="AREA_CODE"  id="areaID" readonly="readonly"  style="width: 100px;"/>
                   </td>
                 </tr>
                 <tr style="height: 20px">
@@ -298,7 +297,7 @@
                         备注:
                   </td>
                     <td style="text-align: left">
-                        <textarea name="MEMO" style="width: 175px; height: 100px"></textarea>
+                        <textarea name="MEMO" style="width: 175px; height: 100px; "></textarea>
                     </td>
                 </tr>
             </table>
@@ -317,7 +316,7 @@
                     <td width="70" style=" text-align:right">
                         货架编码:                    </td>
                     <td width="189" align="left">
-                        <input name="SHELF_CODE" type="text" id="shelfID" readonly="true" class="easyui-validatebox" style="width: 100px;"/>
+                        <input name="SHELF_CODE" type="text" id="shelfID" readonly="readonly"  style="width: 100px;"/>
                   </td>
                 </tr>
                 <tr style="height: 20px">
@@ -396,7 +395,7 @@
                     <td width="70" style=" text-align:right">
                         货位编码:                    </td>
                     <td width="189" align="left">
-                        <input name="CELL_CODE" type="text" id="cellID" readonly="true" class="easyui-validatebox" style="width: 100px;"/>
+                        <input name="CELL_CODE" type="text" id="cellID"  readonly="readonly"  style="width: 100px;"/>
                   </td>
                 </tr>
                 <tr style="height: 20px">

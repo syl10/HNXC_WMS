@@ -43,7 +43,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
     <Reference Include="THOK.Util">
-      <HintPath>..\packages\THOK.Util.dll</HintPath>
+      <HintPath>..\Libraries\THOK.Util.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
