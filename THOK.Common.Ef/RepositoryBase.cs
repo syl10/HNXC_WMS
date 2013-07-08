@@ -129,27 +129,32 @@ namespace THOK.Common.Ef.EntityRepository
 
         public string GetNewID(string PreName, DateTime dt, string AutoCode)
         {
-            var pre = RepositoryContext.DbContext.Database.SqlQuery<PrefixTableCode>(string.Format("select * from sys_table_code where prefixcode='{0}'", PreName)).FirstOrDefault();
+            var pre = RepositoryContext.DbContext.Database.SqlQuery<PrefixTableCode>(string.Format("select * from sys_table_code where PREFIX_CODE='{0}'", PreName)).FirstOrDefault();
             string strNew = "";
             string strSQL = "";
-            string PreCode = PreName + dt.ToString("yyyyMMdd");
+            string PreCode = PreName + dt.ToString(pre.DATE_FORMAT);
             if (!string.IsNullOrEmpty(AutoCode))
             {
-                strSQL = string.Format("select {1} from {0} where {1}='{2}'", pre.TableName, pre.FieldName, AutoCode);
+                strSQL = string.Format("select {1} from {0} where {1}='{2}'", pre.TABLE_NAME, pre.FIELD_NAME, AutoCode);
                 var tmp = RepositoryContext.DbContext.Database.SqlQuery<string>(strSQL);
                 if (tmp.Count() == 0)
                     return AutoCode;
             }
-            strSQL = string.Format("select {1} from {0} where {1} like '{2}%'", pre.TableName, pre.FieldName, PreCode);
+            string SuqueceNo = "";
+            for (int i = 0; i < int.Parse(pre.SERIAL_LENGTH); i++)
+            {
+                SuqueceNo += "[0-9]";
+            }
+            strSQL = string.Format("select {1} from {0} where regexp_like ({1},'^{2}$')", pre.TABLE_NAME, pre.FIELD_NAME, PreCode + SuqueceNo);
             var tmp2 = RepositoryContext.DbContext.Database.SqlQuery<string>(strSQL);
             if (tmp2.Count() > 0)
             {
                 string value = tmp2.Max().ToString();
-                strNew = PreCode + (int.Parse(value.Substring(PreCode.Length, 5)) + 1).ToString().PadLeft(5, '0');
+                strNew = PreCode + (int.Parse(value.Substring(PreCode.Length, int.Parse(pre.SERIAL_LENGTH))) + 1).ToString().PadLeft(int.Parse(pre.SERIAL_LENGTH), '0');
             }
             else
             {
-                strNew = PreCode + "1".PadLeft(5, '0');
+                strNew = PreCode + "1".PadLeft(int.Parse(pre.SERIAL_LENGTH), '0');
             }
             return strNew;
         }

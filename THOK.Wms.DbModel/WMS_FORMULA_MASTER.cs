@@ -14,5 +14,6 @@ namespace THOK.Wms.DbModel
         public decimal USE_COUNT { get; set; }
         public decimal FORMULANO { get; set; }
         public string IS_ACTIVE { get; set; }
+        public virtual CMD_CIGARETTE CMD_CIGARETTE { get; set; }
     }
 }
