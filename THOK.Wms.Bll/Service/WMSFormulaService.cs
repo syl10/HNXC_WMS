@@ -30,7 +30,7 @@ namespace THOK.Wms.Bll.Service
         public object GetDetails(int page, int rows, string BTYPE_NAME, string BILL_TYPE, string TASK_LEVEL, string Memo, string TARGET_CODE)
         {
             IQueryable<WMS_FORMULA_MASTER> masterQuery = MasterRepository.GetQueryable();
-            var masters = masterQuery.OrderBy(i => i.FORMULA_CODE).Select(i => i);
+            var masters = masterQuery.OrderByDescending(i => i.FORMULA_DATE).Select(i => i);
 
             int total = masters.Count();
             masters = masters.Skip((page - 1) * rows).Take(rows);
@@ -40,6 +40,7 @@ namespace THOK.Wms.Bll.Service
                 FORMULADATE = i.FORMULA_DATE.ToString("yyyy-MM-dd HH:mm:ss"),
                 i.FORMULA_NAME,
                 i.CIGARETTE_CODE,
+                i.CMD_CIGARETTE.CIGARETTE_NAME,
                 i.IS_ACTIVE,
                 ISACTIVE=i.IS_ACTIVE=="1"?"可用":"禁用",
                 i.OPERATEDATE,

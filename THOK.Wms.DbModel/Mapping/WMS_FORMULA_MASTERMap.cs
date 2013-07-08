@@ -27,8 +27,6 @@ namespace THOK.Wms.DbModel.Mapping
                 .IsRequired()
                 .HasMaxLength(10);
 
-       
-
             this.Property(t => t.IS_ACTIVE)
                 .IsRequired()
                 .IsFixedLength()
@@ -45,6 +43,12 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.USE_COUNT).HasColumnName("USE_COUNT");
             this.Property(t => t.FORMULANO).HasColumnName("FORMULANO");
             this.Property(t => t.IS_ACTIVE).HasColumnName("IS_ACTIVE");
+
+            // Relationships
+            this.HasRequired(t => t.CMD_CIGARETTE)
+                .WithMany(t => t.WMS_FORMULA_MASTER)
+                .HasForeignKey(d => d.CIGARETTE_CODE);
+
         }
     }
 }
