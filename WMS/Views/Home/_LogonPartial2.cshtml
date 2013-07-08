@@ -98,7 +98,7 @@
         $.getJSON('/User/GetUserIp/?userName=' + userName, function (data) {
             $('#ipadress').text(data);
             $('#user').text(userName);
-            if (data != "" && data != ipAdress) {
+            if (data != "" && data != null && data != ipAdress) {
                 $('#dlg-forcelogon').dialog('open').dialog('setTitle', '强制登陆');
             }
             else {
