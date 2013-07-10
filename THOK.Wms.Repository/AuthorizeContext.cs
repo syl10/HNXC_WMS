@@ -56,6 +56,7 @@ namespace THOK.Wms.Repository
             modelBuilder.Configurations.Add(new CMD_PRODUCT_CATEGORYMap());
             modelBuilder.Configurations.Add(new CMD_UNIT_CATEGORYMap());
             modelBuilder.Configurations.Add(new CMD_UNITMap());
+            modelBuilder.Configurations.Add(new  CMD_PRODUCT_STYLEMap());
 
             modelBuilder.Configurations.Add(new WMS_FORMULA_DETAILMap());
             modelBuilder.Configurations.Add(new WMS_FORMULA_MASTERMap());

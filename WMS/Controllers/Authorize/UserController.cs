@@ -134,9 +134,18 @@ namespace WMS.Controllers.Authority
             bool bResult = UserService.UpdateUserInfo(userName);
             return Json(bResult, "text", JsonRequestBehavior.AllowGet);
         }
-        public ActionResult DeleteUserIp(string userName)
+        public ActionResult DeleteUserIp(string userName,string flag)
         {
-            bool bResult = UserService.DeleteUserIp(userName);
+            bool bResult = false;
+            if (flag == "1")
+            {
+                bResult = true;
+            }
+            else
+            {
+                bResult = UserService.DeleteUserIp(userName);
+
+            }
             return Json(bResult, "text", JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetLocalIp(string userName)

@@ -55,6 +55,7 @@
     <Compile Include="CMD_CRANE.cs" />
     <Compile Include="CMD_PRODUCT.cs" />
     <Compile Include="CMD_PRODUCT_CATEGORY.cs" />
+    <Compile Include="CMD_PRODUCT_STYLE.cs" />
     <Compile Include="CMD_SHELF.cs" />
     <Compile Include="CMD_UNIT.cs" />
     <Compile Include="CMD_UNIT_CATEGORY.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="Mapping\CMD_CRANEMap.cs" />
     <Compile Include="Mapping\CMD_PRODUCTMap.cs" />
     <Compile Include="Mapping\CMD_PRODUCT_CATEGORYMap.cs" />
+    <Compile Include="Mapping\CMD_PRODUCT_STYLEMap.cs" />
     <Compile Include="Mapping\CMD_SHELFMap.cs" />
     <Compile Include="Mapping\CMD_UNITMap.cs" />
     <Compile Include="Mapping\CMD_UNIT_CATEGORYMap.cs" />

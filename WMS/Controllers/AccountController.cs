@@ -111,5 +111,12 @@ namespace WMS.Controllers
             string url = bResult ? UserService.GetLogOnUrl(userName,null, cityId, systemId, serverId) : "";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, url),"text", JsonRequestBehavior.AllowGet);
         }
+
+        public void LogRegOff()
+        {
+            ViewBag.userName = "";
+            ViewBag.LogReg = "aa";
+            HttpContext.Response.Write("<script>alert('该账号已在另一个地方登录');window.parent.location.reload();</script>");
+        }
     }
 }

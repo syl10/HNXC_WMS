@@ -29,8 +29,9 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.GRADE)
                 .HasMaxLength(50);
 
-            this.Property(t => t.STYLE)
-                .HasMaxLength(50);
+            this.Property(t => t.STYLE_NO)
+                .IsFixedLength()
+                .HasMaxLength(2);
 
             this.Property(t => t.MEMO)
                 .HasMaxLength(200);
@@ -46,7 +47,7 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.ORIGINAL).HasColumnName("ORIGINAL");
             this.Property(t => t.YEARS).HasColumnName("YEARS");
             this.Property(t => t.GRADE).HasColumnName("GRADE");
-            this.Property(t => t.STYLE).HasColumnName("STYLE");
+            this.Property(t => t.STYLE_NO).HasColumnName("STYLE_NO");
             this.Property(t => t.WEIGHT).HasColumnName("WEIGHT");
             this.Property(t => t.MEMO).HasColumnName("MEMO");
             this.Property(t => t.CATEGORY_CODE).HasColumnName("CATEGORY_CODE");
@@ -55,6 +56,9 @@ namespace THOK.Wms.DbModel.Mapping
             this.HasRequired(t => t.CMD_PRODUCT_CATEGORY)
                 .WithMany(t => t.CMD_PRODUCT)
                 .HasForeignKey(d => d.CATEGORY_CODE);
+            this.HasOptional(t => t.CMD_PRODUCT_STYLE)
+                .WithMany(t => t.CMD_PRODUCT)
+                .HasForeignKey(d => d.STYLE_NO);
 
         }
     }
