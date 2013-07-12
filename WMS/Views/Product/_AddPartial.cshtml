@@ -5,6 +5,29 @@
         $('#fm .easyui-validatebox').validatebox({
             required: true
         });
+        setcategorycomb();
+        $('#STYLE_NO').combogrid({
+            required: true,
+            width: 126,
+            panelWidth: 300,
+            url: '/Product/Getstylelist/?page=1&rows=1000',
+            idField: 'STYLE_NO',
+            textField: 'STYLE_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+					{ field: 'STYLE_NO', title: '形态编号', hidden: true, width: 30 },
+					{ field: 'STYLE_NAME', title: '形态名称', align: 'left', width: 40 }
+
+				]]
+        });
+        $('form input').removeAttr("disabled");
+        $('form textarea').removeAttr("disabled");
+        url = '/Product/Create/';
+    };
+    //获取类别名称
+    function setcategorycomb() {
         $('#CC').combogrid({
             required: true,
             width: 126,
@@ -22,11 +45,7 @@
 
 				]]
         });
-        $('form input').removeAttr("disabled");
-        $('form textarea').removeAttr("disabled");
-        url = '/Product/Create/';
-    };
-
+    }
     function save() {
         $('#fm').form('submit', {
             url: url,
@@ -75,7 +94,7 @@
                         <td style="width:50px" align="right">等级</td>
                         <td style="width:138px" ><input name="GRADE" style="width:125px" ></td>
                         <td style="width:50px" align="right">形态</td>
-                        <td style="width:138px"><input name="STYLE" style="width:125px" ></td>
+                        <td style="width:138px"><input name="STYLE_NO"  id="STYLE_NO" style="width:125px" ></td>
                       </tr>
                        <tr>
                         <td style="width:50px" align="right">重量</td>

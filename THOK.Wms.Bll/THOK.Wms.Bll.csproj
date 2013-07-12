@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Interfaces\ICmdBillTypeService.cs" />
     <Compile Include="Interfaces\ICMDCarService.cs" />
+    <Compile Include="Interfaces\ICMDPorductStyleService.cs" />
     <Compile Include="Interfaces\ICMDProductCategoryService.cs" />
     <Compile Include="Interfaces\ICMDUnitCategoryService.cs" />
     <Compile Include="Interfaces\ICMDUnitService.cs" />
@@ -78,6 +79,7 @@
     </Compile>
     <Compile Include="Service\CMDCigaretteService.cs" />
     <Compile Include="Service\CMDProductCategoryService.cs" />
+    <Compile Include="Service\CMDProductStyleService.cs" />
     <Compile Include="Service\CMDShelfService.cs">
       <SubType>Code</SubType>
     </Compile>

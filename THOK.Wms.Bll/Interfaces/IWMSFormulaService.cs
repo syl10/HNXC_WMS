@@ -18,6 +18,8 @@ namespace THOK.Wms.Bll.Interfaces
         bool Delete(string FORMULA_CODE);
 
         object GetFormulaCode(string userName,DateTime dt, string FORMULA_CODE);
+        //根据牌号获取配方
+        object GetSubDetailbyCigarettecode(int page, int rows, string CIGARETTE_CODE);
 
     }
 }

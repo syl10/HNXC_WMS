@@ -85,5 +85,11 @@ namespace WMS.Controllers.Wms.WMS
 
             return Json(FormulaInfo, "text", JsonRequestBehavior.AllowGet);
         }
+        //获取用户所选牌号的配方
+        public ActionResult copy_detail(int page, int rows, string cigarettecode)
+        {
+            var users = FormulaService.GetSubDetailbyCigarettecode (page, rows, cigarettecode );
+            return Json(users, "text", JsonRequestBehavior.AllowGet);
+        }
     }
 }

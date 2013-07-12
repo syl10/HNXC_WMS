@@ -31,7 +31,7 @@ namespace THOK.Wms.Bll.Service
         {
            IQueryable<CMD_PRODUCT> ProductQuery = ProductRepository.GetQueryable();
 
-           var products = ProductQuery.OrderBy(i => i.PRODUCT_CODE).Select(i => new { i.PRODUCT_CODE, i.PRODUCT_NAME, i.YEARS, i.WEIGHT, i.STYLE_NO, i.ORIGINAL, i.GRADE, i.MEMO, i.CATEGORY_CODE, CATEGORYNAME = i.CMD_PRODUCT_CATEGORY.CATEGORY_NAME });
+           var products = ProductQuery.OrderBy(i => i.PRODUCT_CODE).Select(i => new { i.PRODUCT_CODE, i.PRODUCT_NAME, i.YEARS, i.WEIGHT, i.CMD_PRODUCT_STYLE .STYLE_NAME, i.ORIGINAL, i.GRADE, i.MEMO, i.CATEGORY_CODE, CATEGORYNAME = i.CMD_PRODUCT_CATEGORY.CATEGORY_NAME });
 
            if (!string.IsNullOrEmpty(ProductName))
            {
@@ -51,7 +51,7 @@ namespace THOK.Wms.Bll.Service
            }
            if (!string.IsNullOrEmpty(STYLE))
            {
-               products = products.Where(i => i.STYLE_NO.Contains(STYLE));
+               products = products.Where(i => i.STYLE_NAME.Contains(STYLE));
            }
            if (!string.IsNullOrEmpty(WEIGHT))
            {

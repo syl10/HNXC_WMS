@@ -81,8 +81,19 @@
         $('#cc').combo({
             hasDownArrow: true
         });
-      
+
         $('#cc').combobox('setValue', "1");
+
+        //点击配方选择框中的某条记录时触发的事件
+        $('#copy_details').datagrid('options').onClickRow = function () {
+            var row = $('#copy_details').datagrid('getSelected');
+            if (row) {
+                $('#copy_SubDetails').datagrid({ url: '/Formula/SubDetails/?FORMULA_CODE=' + row.FORMULA_CODE });
+                $('#copy_SubDetails').datagrid('reload');
+            } else {
+                $.messager.show({ title: '系统提示', msg: '失败!请检查原因！' });
+            }
+        }
     }
 
     //新增入库库明细按钮
@@ -219,6 +230,38 @@
         $('#productDetail').datagrid({ url: '/Product/Details/?page=1&rows=1000' });
         $("#productDetail").datagrid('reload');
     }
+    //配方复制
+    function formulacopy() {
+        var CIGARETTE_CODE = $('#CigaretteAdd').combogrid('grid').datagrid('getSelected');
+        if (CIGARETTE_CODE == null || CIGARETTE_CODE == "") {
+            alert("请先选择牌号"); return;
+        }
+        else {
+            $('#copy_details').datagrid({ url: '/Formula/copy_detail/?cigarettecode=' + CIGARETTE_CODE.CIGARETTE_CODE });
+            $('#dlg_copy').dialog('open').dialog('setTitle', '选择要复制的配方');
+            $('#copy_SubDetails').datagrid('loadData', { total: 0, rows: [] });
+        }
+    }
+
+    //复制配方选择框中的复制按钮点击事件.
+    function copy_details() {
+        if ($('#copy_details').datagrid('getSelected') != null) {
+            var copyrows = $('#copy_SubDetails').datagrid('getRows');
+            $.each(copyrows, function (index, row) {
+                $('#inBillDetail').datagrid('appendRow', {
+                    PRODUCT_CODE: row.PRODUCT_CODE,
+                    PRODUCT_NAME: row.PRODUCT_NAME,
+                    PERCENT: row.PERCENT,
+                    OTHER: row.OTHER
+                });
+            });
+            $('#dlg_copy').dialog('close');
+        }
+        else {
+            alert("您还未选择配方");return;
+        }
+//        $('#inBillDetail').datagrid('reload');
+    }
 </script>
 
 <div id="dlg" class="easyui-dialog" modal="true"
@@ -256,10 +299,12 @@
                 </tr>
                 <tr>
                 <td width="60">牌号编码</td>
-                <td width="168"><input name="CIGARETTE_CODE" id="CigaretteAdd" missingmessage="请选择牌号编码"></td>
+                <td width="168" style=" padding-top:0px;"><input  name="CIGARETTE_CODE" id="CigaretteAdd" missingmessage="请选择牌号编码">
+                <img src="../../Content/Images/copy2.png" title="复制配方" alt="" style=" cursor:pointer" onclick="formulacopy()" />
+                 </td>
                 <td width="60">状态</td>
                 <td width="168">
-                    <select id="cc" name="IS_ACTIVE" class="easyui-combobox" style=" height:80px">
+                    <select id="cc" name="IS_ACTIVE" class="easyui-combobox"  style="">
 		                <option value="1">启用</option>
 		                <option value="0">禁用</option>
 	                </select>
@@ -323,5 +368,50 @@
 <div id="dlg-AddBillDetailbuttons">
 	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="DetailSave()">确定</a>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-AddBillDetail').dialog('close')">取消</a>
+</div>
+
+@*配方选择框*@
+<div id="dlg_copy" class="easyui-dialog" modal="true"
+        style="width:1000px;height:450px;padding:0px 0px"
+        closed="true" buttons="#copy-dlg-buttons">
+        <div class="easyui-layout" fit="true">
+<div region="center" split="true"  border="false" style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #99BBE8">    
+    <table class="easyui-datagrid" border="false" singleSelect="true"  id="copy_details" url = ""
+        fit="true" fitColumns="true"  pagination="true" rownumbers="true" pageSize="50">
+        <thead>
+            <tr>
+                <th field="FORMULA_CODE" width="80" >配方代码</th>               
+                <th field="FORMULA_NAME" width="80" >配方名称</th>
+                <th field="FORMULADATE" width="60" >配方日期</th>
+                <th field="CIGARETTE_CODE" hidden="true" width="80" >牌号代码</th>
+                <th field="CIGARETTE_NAME" width="80" >牌号名称</th>
+                <th field="ISACTIVE" width="60" >状态</th>                
+                <th field="USE_COUNT" width="80" >次数</th> 
+                <th field="OPERATER" width="60" >操作人员</th>               
+                <th field="OPERATE_DATE" width="80" >操作日期</th>
+               
+            </tr>
+        </thead>
+    </table>
+</div>
+<div region="south" split="true" border="false" style="height: 180px; border-top-style: solid; border-top-width: 1px; border-top-color: 99BBE8;">
+    <table class="easyui-datagrid" border="false" singleSelect="true" id="copy_SubDetails" url="" pageSize="50"
+        fit="true" fitColumns="true"  pagination="true" rownumbers="true" >
+        <thead>
+            <tr>
+                <th field="FORMULA_CODE" width="50" align="left" hidden="true">ID</th>
+                <th field="PRODUCT_CODE" width="100">产品编码</th>
+                <th field="PRODUCT_NAME" width="80" align="right">产品名称</th>
+                <th field="PERCENT" width="80" align="right">百分比</th>
+                <th field="OTHER" width="80" align="right">其他</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+</div>
+</div>
+<div id="copy-dlg-buttons">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="copy_details()">复制</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_copy').dialog('close')">取消</a>
 </div>
 @Html.Partial("_ProductPartial");  

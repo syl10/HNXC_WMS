@@ -54,6 +54,7 @@
     <Compile Include="EntityRepository\CMDCellRepository.cs" />
     <Compile Include="EntityRepository\CMDCigaretteRepository.cs" />
     <Compile Include="EntityRepository\CMDProductCategoryRepository.cs" />
+    <Compile Include="EntityRepository\CMDProductStyleRepository.cs" />
     <Compile Include="EntityRepository\CMDProuductRepository.cs" />
     <Compile Include="EntityRepository\CMDCraneRepository.cs" />
     <Compile Include="EntityRepository\CMDShelfRepository.cs" />
@@ -68,6 +69,7 @@
     <Compile Include="Interfaces\ICMDCarRepository.cs" />
     <Compile Include="Interfaces\ICMDCigaretteRepository.cs" />
     <Compile Include="Interfaces\ICMDProductCategoryRepository.cs" />
+    <Compile Include="Interfaces\ICMDProductStyleRepository.cs" />
     <Compile Include="Interfaces\ICMDProuductRepository.cs" />
     <Compile Include="Interfaces\ICMDAreaRepository.cs" />
     <Compile Include="Interfaces\ICMDCellRepository.cs" />

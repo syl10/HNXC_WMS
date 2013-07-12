@@ -15,6 +15,8 @@ namespace WMS.Controllers.Wms.Base
         [Dependency]
         public ICMDProductService ProductService { get; set; }
 
+        [Dependency]
+        public ICMDPorductStyleService Productstyle { get; set; }
         //
         // GET: /Product/
 
@@ -70,7 +72,12 @@ namespace WMS.Controllers.Wms.Base
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }
 
-
+        //获取形态列表
+        public ActionResult Getstylelist(int page, int rows)
+        {
+            var users = Productstyle.GetDetails(page, rows);
+            return Json(users, "text", JsonRequestBehavior.AllowGet);
+        }
     }
 }
 
