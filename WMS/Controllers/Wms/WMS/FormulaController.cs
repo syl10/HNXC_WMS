@@ -91,5 +91,11 @@ namespace WMS.Controllers.Wms.WMS
             var users = FormulaService.GetSubDetailbyCigarettecode (page, rows, cigarettecode );
             return Json(users, "text", JsonRequestBehavior.AllowGet);
         }
+        //获取用户所选牌号的已启用配方.
+        public ActionResult Getuserfull(int page, int rows, string cigarettecode)
+        {
+            var users = FormulaService.Getusefull(page, rows, cigarettecode);
+            return Json(users, "text", JsonRequestBehavior.AllowGet);
+        }
     }
 }

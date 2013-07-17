@@ -20,6 +20,7 @@ namespace THOK.Wms.Bll.Interfaces
         object GetFormulaCode(string userName,DateTime dt, string FORMULA_CODE);
         //根据牌号获取配方
         object GetSubDetailbyCigarettecode(int page, int rows, string CIGARETTE_CODE);
-
+        //根据牌号获取已经启用的配方
+        object Getusefull(int page, int rows, string CIGARETTE_CODE);
     }
 }

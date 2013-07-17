@@ -66,7 +66,7 @@ namespace THOK.Wms.Bll.Service
         public bool Add(WMS_FORMULA_MASTER master, object detail)
         {
             master.FORMULA_CODE = MasterRepository.GetNewID("FM", master.FORMULA_DATE, master.FORMULA_CODE);
-            master.USE_COUNT = 30;
+            master.USE_COUNT = 0;
             master.FORMULANO = 10;
             master.OPERATEDATE = DateTime .Now ;
             MasterRepository.Add(master);
@@ -159,9 +159,32 @@ namespace THOK.Wms.Bll.Service
                 i.FORMULA_NAME,
                 i.CIGARETTE_CODE,
                 i.CMD_CIGARETTE.CIGARETTE_NAME,
-                i.IS_ACTIVE,
                 ISACTIVE = i.IS_ACTIVE == "1" ? "可用" : "禁用",
-                i.OPERATEDATE,
+                OPERATE_DATE = i.OPERATEDATE.ToString("yyyy-MM-dd HH:mm:ss"),
+                i.OPERATER,
+                i.USE_COUNT,
+                i.FORMULANO
+            });
+            return new { total, rows = tmp.ToArray() };
+        }
+
+
+        public object Getusefull(int page, int rows, string CIGARETTE_CODE)
+        {
+            IQueryable<WMS_FORMULA_MASTER> masterQuery = MasterRepository.GetQueryable();
+            var masters = masterQuery.OrderByDescending(i => i.FORMULA_DATE).Select(i => i);
+            masters = masters.Where(i => i.CIGARETTE_CODE == CIGARETTE_CODE);
+            masters = masters.Where(i => i.IS_ACTIVE == "1");
+            int total = masters.Count();
+            masters = masters.Skip((page - 1) * rows).Take(rows);
+            var tmp = masters.ToArray().AsEnumerable().Select(i => new
+            {
+                i.FORMULA_CODE,
+                i.FORMULA_DATE,
+                FORMULADATE = i.FORMULA_DATE.ToString("yyyy-MM-dd HH:mm:ss"),
+                i.FORMULA_NAME,
+                i.CMD_CIGARETTE.CIGARETTE_NAME,
+                ISACTIVE = i.IS_ACTIVE == "1" ? "可用" : "禁用",
                 OPERATE_DATE = i.OPERATEDATE.ToString("yyyy-MM-dd HH:mm:ss"),
                 i.OPERATER,
                 i.USE_COUNT,

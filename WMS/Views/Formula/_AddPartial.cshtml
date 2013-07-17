@@ -83,6 +83,7 @@
         });
 
         $('#cc').combobox('setValue', "1");
+        $('#copybt').show();//显示复制按钮
 
         //点击配方选择框中的某条记录时触发的事件
         $('#copy_details').datagrid('options').onClickRow = function () {
@@ -148,7 +149,7 @@
                     PRODUCT_CODE: $('#PRODUCT_CODE').val(),
                     PRODUCT_NAME: $('#PRODUCT_NAME').val(),
                     PERCENT: $('#PERCENT').val(),
-                    OTHER: $('#OTHER').val()
+                    OTHER: $('#OTHER').val() == null ? "" : $('#OTHER').val()
                 }
             });
 
@@ -181,13 +182,16 @@
             if (!blnDistinct)
                 break;
         }
-        
-        if (status == "add")
+
+        if (status == "add") {
             url = '/Formula/Create/?detail=' + JSON.stringify(changesRows.inserted);
-        if (status == "edit")
+        }
+        if (status == "edit") {
             url = '/Formula/Edit/?detail=' + JSON.stringify(changesRows.inserted);
-        if (status == "delete")
+        }
+        if (status == "delete") {
             url = url;
+        }
         $('#fm').form('submit', {
             url: url,
             onSubmit: function () {
@@ -234,9 +238,10 @@
     function formulacopy() {
         var CIGARETTE_CODE = $('#CigaretteAdd').combogrid('grid').datagrid('getSelected');
         if (CIGARETTE_CODE == null || CIGARETTE_CODE == "") {
-            alert("请先选择牌号"); return;
+            alert("请先选择牌号");  return;
         }
         else {
+            $('#copy_details').datagrid('loadData', { total: 0, rows: [] }); 
             $('#copy_details').datagrid({ url: '/Formula/copy_detail/?cigarettecode=' + CIGARETTE_CODE.CIGARETTE_CODE });
             $('#dlg_copy').dialog('open').dialog('setTitle', '选择要复制的配方');
             $('#copy_SubDetails').datagrid('loadData', { total: 0, rows: [] });
@@ -245,20 +250,23 @@
 
     //复制配方选择框中的复制按钮点击事件.
     function copy_details() {
-        if ($('#copy_details').datagrid('getSelected') != null) {
+        var copydetail = $('#copy_details').datagrid('getSelected');
+        if (copydetail != null) {
+            $('#FORMULA_NAME').val(copydetail.FORMULA_NAME);
             var copyrows = $('#copy_SubDetails').datagrid('getRows');
+            $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
             $.each(copyrows, function (index, row) {
                 $('#inBillDetail').datagrid('appendRow', {
                     PRODUCT_CODE: row.PRODUCT_CODE,
                     PRODUCT_NAME: row.PRODUCT_NAME,
                     PERCENT: row.PERCENT,
-                    OTHER: row.OTHER
+                    OTHER: row.OTHER==null?"":row.OTHER
                 });
             });
             $('#dlg_copy').dialog('close');
         }
         else {
-            alert("您还未选择配方");return;
+          alert("请选择配方");return;
         }
 //        $('#inBillDetail').datagrid('reload');
     }
@@ -291,7 +299,9 @@
             <table height="80px">
                 <tr>
                 <td width="60">配方编码</td>
-                <td width="168"><input name="FORMULA_CODE" id="FORMULA_CODE" readonly="true"></td>
+                <td width="133"><input name="FORMULA_CODE" id="FORMULA_CODE" readonly="true"></td>
+                <td width="15"></td>
+                <td width="20"></td>
                 <td width="60">配方名称</td>
                 <td width="168"><input name="FORMULA_NAME" id="FORMULA_NAME" class="easyui-validatebox" required="true"></td>
                 <td width="60">配方日期</td>
@@ -299,9 +309,10 @@
                 </tr>
                 <tr>
                 <td width="60">牌号编码</td>
-                <td width="168" style=" padding-top:0px;"><input  name="CIGARETTE_CODE" id="CigaretteAdd" missingmessage="请选择牌号编码">
-                <img src="../../Content/Images/copy2.png" title="复制配方" alt="" style=" cursor:pointer" onclick="formulacopy()" />
+                <td width="133" ><input  name="CIGARETTE_CODE" id="CigaretteAdd" missingmessage="请选择牌号编码">
                  </td>
+                 <td width="15" style=" padding-top:2px"><img id="copybt" src="../../Content/Images/copy2.png" title="复制配方" alt="" style=" cursor:pointer;  height:20px; " onclick="formulacopy()" /></td>
+                 <td width="20"></td>
                 <td width="60">状态</td>
                 <td width="168">
                     <select id="cc" name="IS_ACTIVE" class="easyui-combobox"  style="">
@@ -314,7 +325,9 @@
                 </tr>
                 <tr>
                 <td width="60">操作日期</td>
-                <td width="168"><input name="OPERATEDATE" id="OPERATE_DATE" readonly="true"></td>
+                <td width="133"><input name="OPERATEDATE" id="OPERATE_DATE" readonly="true"></td>
+                <td></td>
+                <td width="20"></td>
                 <td width="60">使用次数</td>
                 <td width="168"><input id="USE_COUNT" name="USE_COUNT" readonly="true"></td>
                 <td width="60"></td>
@@ -377,7 +390,7 @@
         <div class="easyui-layout" fit="true">
 <div region="center" split="true"  border="false" style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #99BBE8">    
     <table class="easyui-datagrid" border="false" singleSelect="true"  id="copy_details" url = ""
-        fit="true" fitColumns="true"  pagination="true" rownumbers="true" pageSize="50">
+        fit="true" fitColumns="true"  pagination="true" rownumbers="true" >
         <thead>
             <tr>
                 <th field="FORMULA_CODE" width="80" >配方代码</th>               
