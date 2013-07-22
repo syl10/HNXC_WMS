@@ -5,13 +5,31 @@
             editable: false,
             panelHeight: 45
         });
+        $('#search_CATEGORY_CODE').combogrid({
+            required: false,
+            width: 150,
+            panelWidth: 300,
+            url: '/UnitCategory/Details/?page=1&rows=1000',
+            idField: 'CATEGORY_CODE',
+            textField: 'CATEGORY_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+					{ field: 'CATEGORY_CODE', title: '类别编码', hidden: true, width: 30 },
+					{ field: 'CATEGORY_NAME', title: '类别名称', align: 'left', width: 40 },
+					{ field: 'MEMO', title: '备注', align: 'left', width: 30 }
+
+				]]
+        });
         $('#dlg-search').dialog('open').dialog('setTitle', '查询');
     };
 
     function select() {
         var queryParams = $('#details').datagrid('options').queryParams;
-        queryParams.CIGARETTE_NAME = $('#search_CIGARETTE_NAME').val();
-        queryParams.CIGARETTE_MEMO = $('#search_CIGARETTE_MEMO').val();
+        queryParams.UNIT_NAME = $('#search_UNIT_NAME').val();
+        queryParams.CATEGORY_CODE = $('#search_CATEGORY_CODE').val();
+        queryParams.MEMO = $('#search_CIGARETTE_MEMO').val();
         $('#details').datagrid('options').queryParams = queryParams;
 //        $('#details').datagrid({
 //            pageNumber: 1,
@@ -29,8 +47,12 @@
 			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
                 <table width="250">
                     <tr>
-                    <td width="60">牌号名称</td>
-                    <td width="168"><input id="search_CIGARETTE_NAME" ></td>
+                    <td width="60">单位名称</td>
+                    <td width="168"><input id="search_UNIT_NAME" ></td>
+                    </tr>
+                    <tr>
+                    <td width="60">类别名称</td>
+                    <td width="168"><input id="search_CATEGORY_CODE" ></td>
                     </tr>
                     <tr>
                     <td>备注</td>
