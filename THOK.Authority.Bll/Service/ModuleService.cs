@@ -234,6 +234,7 @@ namespace THOK.Authority.Bll.Service
 
             var userModules = from um in QueryModule
                               where um.SYSTEM_SYSTEM_ID == userSystem.SYSTEM_SYSTEM_ID && um.MODULE_ID == um.PARENT_MODULE_MODULE_ID
+                              orderby um.SHOW_ORDER
                               select um;
 
 
