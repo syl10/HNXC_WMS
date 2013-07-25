@@ -54,6 +54,7 @@
     <Compile Include="EntityRepository\CMDCellRepository.cs" />
     <Compile Include="EntityRepository\CMDCigaretteRepository.cs" />
     <Compile Include="EntityRepository\CMDProductCategoryRepository.cs" />
+    <Compile Include="EntityRepository\CMDProductionLineRepository.cs" />
     <Compile Include="EntityRepository\CMDProductStyleRepository.cs" />
     <Compile Include="EntityRepository\CMDProuductRepository.cs" />
     <Compile Include="EntityRepository\CMDCraneRepository.cs" />
@@ -65,11 +66,14 @@
     <Compile Include="EntityRepository\SysTableStateRepository.cs" />
     <Compile Include="EntityRepository\WMSFormulaDetailRepository.cs" />
     <Compile Include="EntityRepository\WMSFormulaMasterRepository.cs" />
+    <Compile Include="EntityRepository\WMSScheduleDetailRepository.cs" />
+    <Compile Include="EntityRepository\WMSScheduleMasterRepository.cs" />
     <Compile Include="EntityRepository\WMSScheduleRespository.cs" />
     <Compile Include="Interfaces\ICmdBillTypeRepository.cs" />
     <Compile Include="Interfaces\ICMDCarRepository.cs" />
     <Compile Include="Interfaces\ICMDCigaretteRepository.cs" />
     <Compile Include="Interfaces\ICMDProductCategoryRepository.cs" />
+    <Compile Include="Interfaces\ICMDProductionLineRepository.cs" />
     <Compile Include="Interfaces\ICMDProductStyleRepository.cs" />
     <Compile Include="Interfaces\ICMDProuductRepository.cs" />
     <Compile Include="Interfaces\ICMDAreaRepository.cs" />
@@ -83,6 +87,8 @@
     <Compile Include="Interfaces\ISysTableStateRepository.cs" />
     <Compile Include="Interfaces\IWMSFormulaDetailRepository.cs" />
     <Compile Include="Interfaces\IWMSFormulaMasterRepository.cs" />
+    <Compile Include="Interfaces\IWMSScheduleDetailRepository.cs" />
+    <Compile Include="Interfaces\IWMSScheduleMasterRepository.cs" />
     <Compile Include="Interfaces\IWMSScheduleRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

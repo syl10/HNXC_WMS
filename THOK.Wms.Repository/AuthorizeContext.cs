@@ -57,13 +57,19 @@ namespace THOK.Wms.Repository
             modelBuilder.Configurations.Add(new CMD_UNIT_CATEGORYMap());
             modelBuilder.Configurations.Add(new CMD_UNITMap());
             modelBuilder.Configurations.Add(new  CMD_PRODUCT_STYLEMap());
+            modelBuilder.Configurations.Add(new CMD_PRODUCTION_LINEMap());
 
             modelBuilder.Configurations.Add(new WMS_FORMULA_DETAILMap());
             modelBuilder.Configurations.Add(new WMS_FORMULA_MASTERMap());
+            modelBuilder.Configurations.Add(new WMS_SCHEDULE_MASTERMap());
+            modelBuilder.Configurations.Add(new WMS_SCHEDULE_DETAILMap());
+            modelBuilder.Configurations.Add(new WMS_BILL_MASTERMap());
+            modelBuilder.Configurations.Add(new WMS_SCHEDULEMap());
+
 
             modelBuilder.Configurations.Add(new SYS_TABLE_STATEMap());
             modelBuilder.Configurations.Add(new SYS_BILL_TARGETMap());
-            modelBuilder.Configurations.Add(new WMS_SCHEDULEMap());
+
             
             #endregion
 
