@@ -56,3 +56,5 @@
 {    @Html.Partial("_TaskPartial")}
 @if (ViewBag.hasMigration != null && ViewBag.hasMigration)
 {    @Html.Partial("_MigrationPartial")}
+@if (ViewBag.hasOutstore != null && ViewBag.hasOutstore)
+{     @Html.Partial("_OutstorePartial")}

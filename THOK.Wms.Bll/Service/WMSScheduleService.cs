@@ -32,7 +32,7 @@ namespace THOK.Wms.Bll.Service
             var schedule = from a in schedulequery
                            join b in statequery on a.STATUS equals b.STATE
                            join c in statequery on a.STATE equals c.STATE
-                           where b.TABLE_NAME == "WMS_SCHEDULE" && b.FIELD_NAME == "STATUS" && c.TABLE_NAME == "WMS_SCHEDULE" && c.FIELD_NAME == "STATE"
+                           where b.TABLE_NAME == "WMS_SCHEDULE_MASTER" && b.FIELD_NAME == "STATUS" && c.TABLE_NAME == "WMS_SCHEDULE_MASTER" && c.FIELD_NAME == "STATE"
                            select new {
                                a.SCHEDULE_NO,
                                a.SCHEDULE_DATE,

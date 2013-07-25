@@ -57,6 +57,8 @@
     <Compile Include="Interfaces\ISysBillTargetService.cs" />
     <Compile Include="Interfaces\ISysTableStateService.cs" />
     <Compile Include="Interfaces\IWMSFormulaService.cs" />
+    <Compile Include="Interfaces\IWMSScheduleDetailService.cs" />
+    <Compile Include="Interfaces\IWMSScheduleMasterService.cs" />
     <Compile Include="Interfaces\IWMSScheduleService.cs" />
     <Compile Include="Service\CmdBillTypeService.cs" />
     <Compile Include="Service\CMDCarService.cs" />
@@ -94,6 +96,8 @@
     <Compile Include="Service\SysBillTargetService.cs" />
     <Compile Include="Service\SysTableStateService.cs" />
     <Compile Include="Service\WMSFormulaService.cs" />
+    <Compile Include="Service\WMSScheduleDetailService.cs" />
+    <Compile Include="Service\WMSScheduleMasterService.cs" />
     <Compile Include="Service\WMSScheduleService.cs" />
   </ItemGroup>
   <ItemGroup />

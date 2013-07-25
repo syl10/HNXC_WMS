@@ -5,6 +5,11 @@ namespace THOK.Wms.DbModel
 {
     public partial class WMS_FORMULA_MASTER
     {
+        public WMS_FORMULA_MASTER()
+        {
+            this.WMS_SCHEDULE = new List<WMS_SCHEDULE>();
+            this.WMS_SCHEDULE_DETAIL = new List<WMS_SCHEDULE_DETAIL>();
+        }
         public string FORMULA_CODE { get; set; }
         public string FORMULA_NAME { get; set; }
         public System.DateTime FORMULA_DATE { get; set; }
@@ -15,5 +20,7 @@ namespace THOK.Wms.DbModel
         public decimal FORMULANO { get; set; }
         public string IS_ACTIVE { get; set; }
         public virtual CMD_CIGARETTE CMD_CIGARETTE { get; set; }
+        public virtual ICollection<WMS_SCHEDULE> WMS_SCHEDULE { get; set; }
+        public virtual ICollection<WMS_SCHEDULE_DETAIL> WMS_SCHEDULE_DETAIL { get; set; }
     }
 }

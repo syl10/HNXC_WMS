@@ -1,0 +1,35 @@
+﻿<script type="text/javascript">
+    function deleteClick() {
+        clickbt = "delete";
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            if (row.STATECODE == "1") {
+                $('#dlg').dialog('open').dialog('setTitle', '编辑');
+                $('#fm').form('clear');
+                $('#fm').form('load', row);
+                loaddata(row.SCHEDULE_NO);
+                $('#SCHEDULE_DATE').datebox({
+                    hasDownArrow: true,
+                    required: true
+                });
+                $('#OPERATE_DATE').datebox({
+                    hasDownArrow: true,
+                    required: true
+                });
+            }
+            else {
+                alert("改记录已审核不能删除");
+            }
+        }
+        else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    }
+    //加载该计划单的明细.
+    function loaddata(SCHEDULE_NO) {
+        $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+        $('#inBillDetail').datagrid({ url: '/Schedule2/GetSubDetail/?SCHEDULE_NO=' + SCHEDULE_NO });
+        $('#inBillDetail').datagrid('reload');
+    }
+</script>
+
