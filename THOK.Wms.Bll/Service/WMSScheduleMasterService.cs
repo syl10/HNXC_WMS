@@ -30,7 +30,7 @@ namespace THOK.Wms.Bll.Service
             IQueryable<WMS_SCHEDULE_MASTER> ScheduleMaster = ScheduleMasterRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
             var schedule = from a in ScheduleMaster
-                           join b in statequery on a.STATUS equals b.STATE
+                           join b in statequery on a.STATUS equals b.STATE 
                            join c in statequery on a.STATE equals c.STATE
                            where b.TABLE_NAME == "WMS_SCHEDULE_MASTER" && b.FIELD_NAME == "STATUS" && c.TABLE_NAME == "WMS_SCHEDULE_MASTER" && c.FIELD_NAME == "STATE"
                            select new
@@ -54,7 +54,8 @@ namespace THOK.Wms.Bll.Service
             }
             if (!string.IsNullOrEmpty(SCHEDULE_DATE))
             {
-                schedule = schedule.Where(i => i.SCHEDULE_DATE.ToString().Contains(SCHEDULE_DATE));
+                DateTime scheduledt = DateTime.Parse(SCHEDULE_DATE);
+                schedule = schedule.Where(i => i.SCHEDULE_DATE.CompareTo (scheduledt )==0);
             }
             if (!string.IsNullOrEmpty(STATE))
             {
@@ -66,7 +67,10 @@ namespace THOK.Wms.Bll.Service
             }
             if (!string.IsNullOrEmpty(OPERATE_DATE))
             {
-                schedule = schedule.Where(i => i.OPERATE_DATE.Equals(OPERATE_DATE));
+                DateTime operatedt = DateTime.Parse(OPERATE_DATE);
+                DateTime operatedt2 = operatedt.AddDays(1);
+                schedule = schedule.Where(i => i.OPERATE_DATE.Value .CompareTo (operatedt )>=0);
+                schedule = schedule.Where(i => i.OPERATE_DATE.Value.CompareTo(operatedt2 ) <0);
             }
             if (!string.IsNullOrEmpty(CHECKER))
             {
@@ -74,7 +78,10 @@ namespace THOK.Wms.Bll.Service
             }
             if (!string.IsNullOrEmpty(CHECK_DATE))
             {
-                schedule = schedule.Where(i => i.CHECK_DATE.Equals(CHECK_DATE));
+                DateTime checkdt = DateTime.Parse(CHECK_DATE);
+                DateTime checkdt2 = checkdt.AddDays(1);
+                schedule = schedule.Where(i => i.CHECK_DATE.Value .CompareTo (checkdt )>=0);
+                schedule = schedule.Where(i => i.CHECK_DATE.Value.CompareTo(checkdt2) < 0);
             }
             var temp = schedule.ToArray().OrderBy(i=>i.SCHEDULE_DATE).Select(i => new
             {

@@ -17,16 +17,58 @@
 
 				]]
         });
+        gradecomb();
+        originalcomb();
         $('#dlg-search').dialog('open').dialog('setTitle', '查询');
     };
-
+    //获取原产地
+    function originalcomb() {
+        $('#ORIGINAL').combogrid({
+            required: true,
+            width: 125,
+            panelWidth: 300,
+            url: '/ProductOriginal/Details/?page=1&rows=1000',
+            idField: 'ORIGINAL_CODE',
+            textField: 'ORIGINAL_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+					{ field: 'ORIGINAL_CODE', title: '产地代码', hidden: true, width: 30 },
+					{ field: 'ORIGINAL_NAME', title: '产地名称', align: 'left', width: 40 },
+                    { field: 'DISTRICT_CODE', title: '地区编号', align: 'left', width: 40 },
+					{ field: 'MEMO', title: '备注', align: 'left', width: 30 }
+				]]
+        });
+    }
+    //获取产品等级
+    function gradecomb() {
+        $('#GRADE').combogrid({
+            required: true,
+            width: 125,
+            panelWidth: 300,
+            url: '/ProductGrade/Details/?page=1&rows=1000',
+            idField: 'GRADE_CODE',
+            textField: 'GRADE_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+					{ field: 'GRADE_CODE', title: '等级代码', hidden: true, width: 30 },
+					{ field: 'ENGLISH_CODE', title: '英文代号', align: 'left', width: 40 },
+                    { field: 'USER_CODE', title: '自定代号', align: 'left', width: 40 },
+                    { field: 'GRADE_NAME', title: '等级名称', align: 'left', width: 40 },
+					{ field: 'MEMO', title: '备注', align: 'left', width: 30 }
+				]]
+        });
+    }
     function select() {
         var queryParams = $('#details').datagrid('options').queryParams;
         queryParams.PRODUCT_NAME = $('#PRODUCT_NAME').val();
-        queryParams.CATEGORY_CODE = $('#search_CC').val();
-        queryParams.ORIGINAL = $('#ORIGINAL').val();
+        queryParams.CATEGORY_CODE = $('#search_CC').combogrid('getValue');
+        queryParams.ORIGINAL = $('#ORIGINAL').combogrid('getValue');
         queryParams.YEARS = $('#YEARS').val();
-        queryParams.GRADE = $('#GRADE').val();
+        queryParams.GRADE = $('#GRADE').combogrid('getValue');
         queryParams.STYLE = $('#STYLE').val();
         queryParams.WEIGHT = $('#WEIGHT').val();
         queryParams.MEMO = $('#MEMO').val();

@@ -12,24 +12,28 @@
 
         $('#dlg-search').dialog('open').dialog('setTitle', '查询');
 
+
     }
     //查询
     function select() {
         var queryParams = $('#details').datagrid('options').queryParams;
         queryParams.SCHEDULE_NO = $('#SSCHEDULE_NO').val();
-        queryParams.SCHEDULE_DATE = $('#SSCHEDULE_DATE').val();
+        queryParams.SCHEDULE_DATE = $('#SSCHEDULE_DATE').datebox('getValue');
         if($('#SSTATE').combobox('getText')!=null&&$('#SSTATE').combobox('getText')!=""){
         queryParams.STATE = $('#SSTATE').combobox('getValue');}
         else
         queryParams.STATE ="";
         queryParams.OPERATER = $('#SOPERATER').val();
-        queryParams.OPERATE_DATE = $('#SOPERATE_DATE').val();
+        queryParams.OPERATE_DATE = $('#SOPERATE_DATE').datebox('getValue');
         queryParams.CHECKER = $('#SCHECKER').val();
-        queryParams.CHECK_DATE = $('#SCHECK_DATE').val();
+        queryParams.CHECK_DATE = $('#SCHECK_DATE').datebox('getValue');
         $('#details').datagrid('options').queryParams = queryParams;
         $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
         $('#details').datagrid('reload');
         $('#SSTATE').combobox('clear');
+        $('#SSCHEDULE_DATE').datebox('clear');
+        $('#SOPERATE_DATE').datebox('clear');
+        $('#SCHECK_DATE').datebox('clear');
         $('#dlg-search').dialog('close');
     }
 </script>

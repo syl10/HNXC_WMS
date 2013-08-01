@@ -5,23 +5,10 @@
         $('#fm .easyui-validatebox').validatebox({
             required: true
         });
+        setgradecomb();
+        setoriginalcomb();
         setcategorycomb();
-        $('#STYLE_NO').combogrid({
-            required: true,
-            width: 126,
-            panelWidth: 300,
-            url: '/Product/Getstylelist/?page=1&rows=1000',
-            idField: 'STYLE_NO',
-            textField: 'STYLE_NAME',
-            mode: 'local',
-            editable: false,
-            fitColumns: true,
-            columns: [[
-					{ field: 'STYLE_NO', title: '形态编号', hidden: true, width: 30 },
-					{ field: 'STYLE_NAME', title: '形态名称', align: 'left', width: 40 }
-
-				]]
-        });
+        setstyle();
         $('form input').removeAttr("disabled");
         $('form textarea').removeAttr("disabled");
         url = '/Product/Create/';
@@ -43,6 +30,65 @@
 					{ field: 'CATEGORY_NAME', title: '类别名称', align: 'left', width: 40 },
 					{ field: 'MEMO', title: '备注', align: 'left', width: 30 }
 
+				]]
+        });
+    }
+    function setstyle() {
+        $('#STYLE_NO').combogrid({
+            required: true,
+            width: 126,
+            panelWidth: 300,
+            url: '/Product/Getstylelist/?page=1&rows=1000',
+            idField: 'STYLE_NO',
+            textField: 'STYLE_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+					{ field: 'STYLE_NO', title: '形态编号', hidden: true, width: 30 },
+					{ field: 'STYLE_NAME', title: '形态名称', align: 'left', width: 40 }
+
+				]]
+        });
+    }
+    //获取原产地
+    function setoriginalcomb() {
+        $('#ORIGINAL_CODE').combogrid({
+            required: true,
+            width: 125,
+            panelWidth: 300,
+            url: '/ProductOriginal/Details/?page=1&rows=1000',
+            idField: 'ORIGINAL_CODE',
+            textField: 'ORIGINAL_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+					{ field: 'ORIGINAL_CODE', title: '产地代码', hidden: true, width: 30 },
+					{ field: 'ORIGINAL_NAME', title: '产地名称', align: 'left', width: 40 },
+                    { field: 'DISTRICT_CODE', title: '地区编号', align: 'left', width: 40 },
+					{ field: 'MEMO', title: '备注', align: 'left', width: 30 }
+				]]
+        });
+    }
+    //获取产品等级
+    function setgradecomb() {
+        $('#GRADE_CODE').combogrid({
+            required: true,
+            width: 125,
+            panelWidth: 300,
+            url: '/ProductGrade/Details/?page=1&rows=1000',
+            idField: 'GRADE_CODE',
+            textField: 'GRADE_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+					{ field: 'GRADE_CODE', title: '等级代码', hidden: true, width: 30 },
+					{ field: 'ENGLISH_CODE', title: '英文代号', align: 'left', width: 40 },
+                    { field: 'USER_CODE', title: '自定代号', align: 'left', width: 40 },
+                    { field: 'GRADE_NAME', title: '等级名称', align: 'left', width: 40 },
+					{ field: 'MEMO', title: '备注', align: 'left', width: 30 }
 				]]
         });
     }
@@ -86,13 +132,13 @@
                       </tr>
                        <tr>
                         <td style="width:50px" align="right">原产地</td>
-                        <td style="width:138px"><input name="ORIGINAL" style="width:125px" ></td>
+                        <td style="width:138px"><input name="ORIGINAL_CODE"  id="ORIGINAL_CODE"  ></td>
 						<td style="width:50px" align="right">年份</td>
                         <td style="width:138px"><input name="YEARS" style="width:125px"></td>
                       </tr>
                        <tr>
                         <td style="width:50px" align="right">等级</td>
-                        <td style="width:138px" ><input name="GRADE" style="width:125px" ></td>
+                        <td style="width:138px" ><input name="GRADE_CODE"  id="GRADE_CODE"   style="width:125px"></td>
                         <td style="width:50px" align="right">形态</td>
                         <td style="width:138px"><input name="STYLE_NO"  id="STYLE_NO" style="width:125px" ></td>
                       </tr>

@@ -58,6 +58,8 @@ namespace THOK.Wms.Repository
             modelBuilder.Configurations.Add(new CMD_UNITMap());
             modelBuilder.Configurations.Add(new  CMD_PRODUCT_STYLEMap());
             modelBuilder.Configurations.Add(new CMD_PRODUCTION_LINEMap());
+            modelBuilder.Configurations.Add(new CMD_PRODUCT_ORIGINALMap());
+            modelBuilder.Configurations.Add(new CMD_PRODUCT_GRADEMap());
 
             modelBuilder.Configurations.Add(new WMS_FORMULA_DETAILMap());
             modelBuilder.Configurations.Add(new WMS_FORMULA_MASTERMap());
@@ -65,6 +67,7 @@ namespace THOK.Wms.Repository
             modelBuilder.Configurations.Add(new WMS_SCHEDULE_DETAILMap());
             modelBuilder.Configurations.Add(new WMS_BILL_MASTERMap());
             modelBuilder.Configurations.Add(new WMS_SCHEDULEMap());
+            modelBuilder.Configurations.Add(new WMS_BILL_DETAILMap());
 
 
             modelBuilder.Configurations.Add(new SYS_TABLE_STATEMap());

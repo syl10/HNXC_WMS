@@ -37,8 +37,14 @@ namespace THOK.Wms.DbModel.Mapping
 
             this.Property(t => t.MEMO)
                 .HasMaxLength(100);
+
             this.Property(t => t.TARGET_CODE)
-              .HasMaxLength(3);
+                .IsFixedLength()
+                .HasMaxLength(3);
+
+            this.Property(t => t.TASK_TYPE)
+                .IsFixedLength()
+                .HasMaxLength(2);
 
             // Table & Column Mappings
             this.ToTable("CMD_BILL_TYPE", "THOK");
@@ -47,8 +53,9 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.BILL_TYPE).HasColumnName("BILL_TYPE");
             this.Property(t => t.TASK_LEVEL).HasColumnName("TASK_LEVEL");
             this.Property(t => t.ALLOW_EDIT).HasColumnName("ALLOW_EDIT");
-            this.Property(t => t.TARGET_CODE).HasColumnName("TARGET_CODE");
             this.Property(t => t.MEMO).HasColumnName("MEMO");
+            this.Property(t => t.TARGET_CODE).HasColumnName("TARGET_CODE");
+            this.Property(t => t.TASK_TYPE).HasColumnName("TASK_TYPE");
         }
     }
 }

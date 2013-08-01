@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -51,15 +52,19 @@
     <Compile Include="Interfaces\ICMDCarService.cs" />
     <Compile Include="Interfaces\ICMDPorductStyleService.cs" />
     <Compile Include="Interfaces\ICMDProductCategoryService.cs" />
+    <Compile Include="Interfaces\ICMDProductGradeService.cs" />
+    <Compile Include="Interfaces\ICMDProductOriginalService.cs" />
     <Compile Include="Interfaces\ICMDUnitCategoryService.cs" />
     <Compile Include="Interfaces\ICMDUnitService.cs" />
     <Compile Include="Interfaces\IService.cs" />
     <Compile Include="Interfaces\ISysBillTargetService.cs" />
     <Compile Include="Interfaces\ISysTableStateService.cs" />
+    <Compile Include="Interfaces\IWMSBillMasterService.cs" />
     <Compile Include="Interfaces\IWMSFormulaService.cs" />
     <Compile Include="Interfaces\IWMSScheduleDetailService.cs" />
     <Compile Include="Interfaces\IWMSScheduleMasterService.cs" />
     <Compile Include="Interfaces\IWMSScheduleService.cs" />
+    <Compile Include="Models\FormulaDetail.cs" />
     <Compile Include="Service\CmdBillTypeService.cs" />
     <Compile Include="Service\CMDCarService.cs" />
     <Compile Include="Service\CMDCraneService.cs" />
@@ -82,6 +87,8 @@
     </Compile>
     <Compile Include="Service\CMDCigaretteService.cs" />
     <Compile Include="Service\CMDProductCategoryService.cs" />
+    <Compile Include="Service\CMDProductGradeService.cs" />
+    <Compile Include="Service\CMDProductOriginalService.cs" />
     <Compile Include="Service\CMDProductStyleService.cs" />
     <Compile Include="Service\CMDShelfService.cs">
       <SubType>Code</SubType>
@@ -95,6 +102,7 @@
     <Compile Include="Service\ServiceBase.cs" />
     <Compile Include="Service\SysBillTargetService.cs" />
     <Compile Include="Service\SysTableStateService.cs" />
+    <Compile Include="Service\WMSBillMasterService.cs" />
     <Compile Include="Service\WMSFormulaService.cs" />
     <Compile Include="Service\WMSScheduleDetailService.cs" />
     <Compile Include="Service\WMSScheduleMasterService.cs" />

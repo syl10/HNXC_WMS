@@ -39,7 +39,7 @@ namespace THOK.Wms.Bll.Service
         {
             var city = new THOK.Wms.DbModel.CMD_PRODUCT_CATEGORY()
             {
-                CATEGORY_CODE = ProductCategoryRepository.GetNewID("CMD_CIGARETTE", "CIGARETTE_CODE"),
+                CATEGORY_CODE = ProductCategoryRepository.GetNewID("CMD_PRODUCT_CATEGORY", "CATEGORY_CODE"),
                 CATEGORY_NAME = CATEGORY_NAME,
                 MEMO = MEMO
             };

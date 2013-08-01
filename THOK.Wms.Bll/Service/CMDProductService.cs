@@ -31,7 +31,19 @@ namespace THOK.Wms.Bll.Service
         {
            IQueryable<CMD_PRODUCT> ProductQuery = ProductRepository.GetQueryable();
 
-           var products = ProductQuery.OrderBy(i => i.PRODUCT_CODE).Select(i => new { i.PRODUCT_CODE, i.PRODUCT_NAME, i.YEARS, i.WEIGHT, i.CMD_PRODUCT_STYLE .STYLE_NAME, i.ORIGINAL, i.GRADE, i.MEMO, i.CATEGORY_CODE, CATEGORYNAME = i.CMD_PRODUCT_CATEGORY.CATEGORY_NAME });
+           var products = ProductQuery.OrderBy(i => i.PRODUCT_CODE).Select(i => new {
+               i.PRODUCT_CODE, 
+               i.PRODUCT_NAME, 
+               i.YEARS,
+               i.WEIGHT,
+               i.CMD_PRODUCT_STYLE .STYLE_NAME,
+               i.ORIGINAL_CODE,
+               ORIGINAL=i.CMD_PRODUCT_ORIGINAL .ORIGINAL_NAME , 
+               i.GRADE_CODE,GRADE=i.CMD_PRODUCT_GRADE .GRADE_NAME , 
+               i.MEMO, 
+               i.CATEGORY_CODE, 
+               CATEGORYNAME = i.CMD_PRODUCT_CATEGORY.CATEGORY_NAME
+           });
 
            if (!string.IsNullOrEmpty(ProductName))
            {
@@ -39,7 +51,7 @@ namespace THOK.Wms.Bll.Service
            }
            if (!string.IsNullOrEmpty(ORIGINAL))
            {
-               products = products.Where(i => i.ORIGINAL.Contains(ORIGINAL));
+               products = products.Where(i => i.ORIGINAL_CODE .Contains(ORIGINAL));
            }
            if (!string.IsNullOrEmpty(YEARS))
            {
@@ -47,7 +59,7 @@ namespace THOK.Wms.Bll.Service
            }
            if (!string.IsNullOrEmpty(GRADE))
            {
-               products = products.Where(i => i.GRADE.Contains(GRADE));
+               products = products.Where(i => i.GRADE_CODE.Contains(GRADE));
            }
            if (!string.IsNullOrEmpty(STYLE))
            {
@@ -98,12 +110,13 @@ namespace THOK.Wms.Bll.Service
         {
             var prod = ProductRepository.GetQueryable().FirstOrDefault(b => b.PRODUCT_CODE == product.PRODUCT_CODE);
             prod.PRODUCT_NAME = product.PRODUCT_NAME;
-            prod.GRADE = product.GRADE;
-            prod.ORIGINAL = product.ORIGINAL;
+            prod.GRADE_CODE  = product.GRADE_CODE ;
+            prod.ORIGINAL_CODE = product.ORIGINAL_CODE;
             prod.STYLE_NO = product.STYLE_NO;
             prod.WEIGHT = product.WEIGHT;
             prod.YEARS = product.YEARS;
             prod.CATEGORY_CODE = product.CATEGORY_CODE;
+            prod.MEMO = product.MEMO;
             ProductRepository.SaveChanges();
             return true;
         }

@@ -62,6 +62,13 @@ namespace THOK.Wms.DbModel.Mapping
                 .IsFixedLength()
                 .HasMaxLength(2);
 
+            this.Property(t => t.CIGARETTE_CODE)
+                .IsFixedLength()
+                .HasMaxLength(3);
+
+            this.Property(t => t.FORMULA_CODE)
+                .HasMaxLength(20);
+
             // Table & Column Mappings
             this.ToTable("WMS_BILL_MASTER", "THOK");
             this.Property(t => t.BILL_NO).HasColumnName("BILL_NO");
@@ -82,8 +89,17 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.BILL_METHOD).HasColumnName("BILL_METHOD");
             this.Property(t => t.SCHEDULE_ITEMNO).HasColumnName("SCHEDULE_ITEMNO");
             this.Property(t => t.LINE_NO).HasColumnName("LINE_NO");
+            this.Property(t => t.CIGARETTE_CODE).HasColumnName("CIGARETTE_CODE");
+            this.Property(t => t.FORMULA_CODE).HasColumnName("FORMULA_CODE");
+            this.Property(t => t.BATCH_WEIGHT).HasColumnName("BATCH_WEIGHT");
 
             // Relationships
+            this.HasRequired(t => t.CMD_BILL_TYPE)
+                .WithMany(t => t.WMS_BILL_MASTER)
+                .HasForeignKey(d => d.BTYPE_CODE);
+            this.HasOptional(t => t.CMD_CIGARETTE)
+                .WithMany(t => t.WMS_BILL_MASTER)
+                .HasForeignKey(d => d.CIGARETTE_CODE);
             this.HasOptional(t => t.CMD_PRODUCTION_LINE)
                 .WithMany(t => t.WMS_BILL_MASTER)
                 .HasForeignKey(d => d.LINE_NO);
@@ -93,6 +109,9 @@ namespace THOK.Wms.DbModel.Mapping
             this.HasOptional(t => t.SYS_BILL_TARGET)
                 .WithMany(t => t.WMS_BILL_MASTER)
                 .HasForeignKey(d => d.TARGET_CODE);
+            this.HasOptional(t => t.WMS_FORMULA_MASTER)
+                .WithMany(t => t.WMS_BILL_MASTER)
+                .HasForeignKey(d => d.FORMULA_CODE);
 
         }
     }

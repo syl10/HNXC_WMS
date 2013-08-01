@@ -52,6 +52,8 @@ namespace THOK.Common
                  {
                      //dr[r] = strRows[r].Split(':')[1].Trim().Replace("，", ",").Replace("：", ":").Replace("\"", "");
                      dr[strRows[r].Split(':')[0].Trim().Replace("\"", "")] = strRows[r].Split(':')[1].Trim().Replace("，", ",").Replace("：", ":").Replace("\"", "");
+                     //if(dr.ItemArray [r]=="")
+                      
                  }
                  tb.Rows.Add(dr);
                  tb.AcceptChanges();

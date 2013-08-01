@@ -19,15 +19,17 @@ namespace THOK.Wms.DbModel.Mapping
                 .IsRequired()
                 .HasMaxLength(50);
 
-            this.Property(t => t.ORIGINAL)
-                .HasMaxLength(50);
+            this.Property(t => t.ORIGINAL_CODE)
+                .IsFixedLength()
+                .HasMaxLength(3);
 
             this.Property(t => t.YEARS)
                 .IsFixedLength()
                 .HasMaxLength(4);
 
-            this.Property(t => t.GRADE)
-                .HasMaxLength(50);
+            this.Property(t => t.GRADE_CODE)
+                .IsFixedLength()
+                .HasMaxLength(3);
 
             this.Property(t => t.STYLE_NO)
                 .IsFixedLength()
@@ -44,15 +46,21 @@ namespace THOK.Wms.DbModel.Mapping
             this.ToTable("CMD_PRODUCT", "THOK");
             this.Property(t => t.PRODUCT_CODE).HasColumnName("PRODUCT_CODE");
             this.Property(t => t.PRODUCT_NAME).HasColumnName("PRODUCT_NAME");
-            this.Property(t => t.ORIGINAL).HasColumnName("ORIGINAL");
+            this.Property(t => t.ORIGINAL_CODE).HasColumnName("ORIGINAL_CODE");
             this.Property(t => t.YEARS).HasColumnName("YEARS");
-            this.Property(t => t.GRADE).HasColumnName("GRADE");
+            this.Property(t => t.GRADE_CODE).HasColumnName("GRADE_CODE");
             this.Property(t => t.STYLE_NO).HasColumnName("STYLE_NO");
             this.Property(t => t.WEIGHT).HasColumnName("WEIGHT");
             this.Property(t => t.MEMO).HasColumnName("MEMO");
             this.Property(t => t.CATEGORY_CODE).HasColumnName("CATEGORY_CODE");
 
             // Relationships
+            this.HasOptional(t => t.CMD_PRODUCT_GRADE)
+                .WithMany(t => t.CMD_PRODUCT)
+                .HasForeignKey(d => d.GRADE_CODE);
+            this.HasOptional(t => t.CMD_PRODUCT_ORIGINAL)
+                .WithMany(t => t.CMD_PRODUCT)
+                .HasForeignKey(d => d.ORIGINAL_CODE);
             this.HasRequired(t => t.CMD_PRODUCT_CATEGORY)
                 .WithMany(t => t.CMD_PRODUCT)
                 .HasForeignKey(d => d.CATEGORY_CODE);

@@ -44,7 +44,9 @@
     @if (ViewBag.hasMigration != null && ViewBag.hasMigration)
     {<a id="migration" href="#" class="easyui-linkbutton" plain="true" fun="true">迁移</a>}    
     @if (ViewBag.hasOutstore != null && ViewBag.hasOutstore)
-    {<a id="outstore" href="#" class="easyui-linkbutton" plain="true" fun="true">生成出库单</a>}                                                                                                   
+    {<a id="outstore" href="#" class="easyui-linkbutton" plain="true" fun="true">生成出库单</a>}  
+  @if (ViewBag.hasMix != null && ViewBag.hasMix)
+    {<a id="mix" href="#" class="easyui-linkbutton" plain="true" fun="true">混装</a>}                                                                                         
     @if (ViewBag.hasPrint != null && ViewBag.hasPrint)
     {<a id="print" href="#" class="easyui-linkbutton"  plain="true" fun="true">打印</a>}
     @if (ViewBag.hasHelp != null && ViewBag.hasHelp)

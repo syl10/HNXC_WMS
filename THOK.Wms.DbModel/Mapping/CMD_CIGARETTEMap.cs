@@ -13,6 +13,7 @@ namespace THOK.Wms.DbModel.Mapping
             // Properties
             this.Property(t => t.CIGARETTE_CODE)
                 .IsRequired()
+                .IsFixedLength()
                 .HasMaxLength(3);
 
             this.Property(t => t.CIGARETTE_NAME)
