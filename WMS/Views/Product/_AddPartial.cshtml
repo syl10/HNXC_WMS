@@ -1,4 +1,5 @@
 ﻿<script type="text/javascript">
+    var isloaded = false; //判断是否已经加载过所有combogrid数据了.
     function addClick() {
         $('#dlg').dialog('open').dialog('setTitle', '新增');
         $('#fm').form('clear');
@@ -9,9 +10,16 @@
         setoriginalcomb();
         setcategorycomb();
         setstyle();
+
+        $('#STYLE_NO').combogrid('clear');
+        $('#ORIGINAL_CODE').combogrid('clear');
+        $('#GRADE_CODE').combogrid('clear');
+        $('#CC').combogrid('clear');
+
         $('form input').removeAttr("disabled");
         $('form textarea').removeAttr("disabled");
         url = '/Product/Create/';
+        isloaded = true;
     };
     //获取类别名称
     function setcategorycomb() {
@@ -33,6 +41,7 @@
 				]]
         });
     }
+    //获取形态
     function setstyle() {
         $('#STYLE_NO').combogrid({
             required: true,

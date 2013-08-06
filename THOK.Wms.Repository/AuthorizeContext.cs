@@ -72,6 +72,8 @@ namespace THOK.Wms.Repository
 
             modelBuilder.Configurations.Add(new SYS_TABLE_STATEMap());
             modelBuilder.Configurations.Add(new SYS_BILL_TARGETMap());
+            modelBuilder.Configurations.Add(new WCS_TASKMap());
+            modelBuilder.Configurations.Add(new WMS_PRODUCT_STATEMap());
 
             
             #endregion

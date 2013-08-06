@@ -148,6 +148,7 @@
     <Compile Include="Controllers\Wms\WMS\Schedule2Controller.cs" />
     <Compile Include="Controllers\Wms\WMS\ScheduleController.cs" />
     <Compile Include="Controllers\Wms\WMS\StockInBillController.cs" />
+    <Compile Include="Controllers\Wms\WMS\StockInWorkController.cs" />
     <Compile Include="Controllers\Wms\WMS\StockOutBillController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

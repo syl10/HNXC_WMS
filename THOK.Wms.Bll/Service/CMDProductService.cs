@@ -36,6 +36,7 @@ namespace THOK.Wms.Bll.Service
                i.PRODUCT_NAME, 
                i.YEARS,
                i.WEIGHT,
+               i.STYLE_NO ,
                i.CMD_PRODUCT_STYLE .STYLE_NAME,
                i.ORIGINAL_CODE,
                ORIGINAL=i.CMD_PRODUCT_ORIGINAL .ORIGINAL_NAME , 
