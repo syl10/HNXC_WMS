@@ -56,7 +56,7 @@
 		        }
 		    }
 		    },
-              { field: 'FPRODUCT_CODE', width: 120, title: '混合第一笔产品编号', formatter: function (value, row, index) {
+              { field: 'FPRODUCT_CODE', width: 120, title: '混装第一笔产品编号', formatter: function (value, row, index) {
                   if (row.IS_MIX == "1") {
                       //                      return "<select id='pro" + index + "' class='easyui-combogrid' style='height:20px; width:110px;'   data-options=' panelWidth:450,   value:\"006\",   idField:\"PRODUCT_CODE\",   textField:\"PRODUCT_CODE\",    url:\"/StockInBill/GetMIXproduct/?page=1&rows=1000&BillNo=' +" + row.BILL_NO + "\",    columns:[[ {field: \"PRODUCT_CODE\", title: \"产品代号\", align: \"left\", width: 40 },   {field: \"PRODUCT_NAME\", title: \"产品名称\", align: \"left\", width: 30}]]  '></select>   "
 
@@ -119,7 +119,7 @@
                         PACKAGE_COUNT: change.PACKAGE_COUNT,
                         TOTAL_WEIGHT: change.TOTAL_WEIGHT,
                         IS_MIX: mixchange,
-                        FPRODUCT_CODE: " ",
+                        FPRODUCT_CODE: "",
                         REAL_WEIGHT: change.REAL_WEIGHT,
                         NC_COUNT: change.NC_COUNT
                     }
@@ -169,10 +169,15 @@ function mixsave() {
     var fprocweight = [];
     var isexist = false;
     var issubmit = false;
+    var codestr = "";
+    var isvalidate = true;
     var Rows = $('#mixinBillDetail').datagrid('getData');
     for (var i = 0; i < Rows.total; i++) {
         changesRows.inserted.push(Rows.rows[i]);
         if (Rows.rows[i].IS_MIX == "1") {
+            if ($('#pro' + i).combogrid('getValue') == "null" || $('#pro' + i).combogrid('getValue') == "" || $('#pro' + i).combogrid('getValue') == null) {
+                alert("请选择混装产品代码"); isvalidate = false; break; 
+             }
             changesRows.inserted[i].FPRODUCT_CODE = $('#pro' + i).combogrid('getValue');
             for (var n = 0; n < fprocweight.length; n++) {
                 if (fprocweight[n].code == changesRows.inserted[i].FPRODUCT_CODE) {
@@ -190,23 +195,39 @@ function mixsave() {
             changesRows.inserted[i].FPRODUCT_CODE = " ";
         }
     }
+    if (!isvalidate) return;
     for (var item = 0; item < fprocweight.length; item++) {
         if (fprocweight[item].pweight < fprocweight[item].weight) {
-            $.messager.confirm('提示', '混装产品代码为:' + fprocweight[item].code + '超出标准重量,是否继续?', function (r) {
-                if (r&&item>=fprocweight.length-1) {
-                    $.getJSON("/StockInBill/SetMIX/?BillNo=" + mixrow.BILL_NO + '&detail=' + JSON.stringify(changesRows.inserted), function (json) {
-                        if (json) {
-                            $.messager.show({
-                                title: '提示',
-                                msg: json.success
-                            });
-                        }
-                    });
-                    $('#mixdlg').dialog('close');
-                    $('#SubDetails').datagrid('reload');
-                }
-            });
+            codestr +=fprocweight[item].code+",";
         }
+    }
+    if (codestr != "") {
+        $.messager.confirm('提示', '混装产品代码为:' + codestr + '超出标准重量,是否继续?', function (r) {
+            if (r) {
+                $.getJSON("/StockInBill/SetMIX/?BillNo=" + mixrow.BILL_NO + '&detail=' + JSON.stringify(changesRows.inserted), function (json) {
+                    if (json) {
+                        $.messager.show({
+                            title: '提示',
+                            msg: json.success
+                        });
+                    }
+                });
+                $('#mixdlg').dialog('close');
+                $('#SubDetails').datagrid('reload');
+            }
+        });
+    }
+    else {
+        $.getJSON("/StockInBill/SetMIX/?BillNo=" + mixrow.BILL_NO + '&detail=' + JSON.stringify(changesRows.inserted), function (json) {
+            if (json) {
+                $.messager.show({
+                    title: '提示',
+                    msg: json.success
+                });
+            }
+        });
+        $('#mixdlg').dialog('close');
+        $('#SubDetails').datagrid('reload');
     }
 }
 </script>

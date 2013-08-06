@@ -134,7 +134,7 @@
                     { field: 'BTYPE_NAME', title: '类型名称', align: 'left', width: 30 },
                     { field: 'TASK_LEVEL', title: '任务等级', align: 'left', width: 30 },
                     { field: 'TARGET_CODE', title: '目标口', align: 'left', hidden: true, width: 30 },
-                     { field: 'TARGETNAME', title: '目标口', align: 'left',width: 30 }
+                     { field: 'TARGETNAME', title: '目标口', align: 'left',hidden: true,width: 30 }
                 ]]
         });
     }
@@ -422,7 +422,7 @@
                 fit="true" fitColumns="true" singleSelect="true" rownumbers="true" pagination="true" url="">
                 <thead>
                     <tr>
-                        <th field="ITEM_NO" width="100">序号</th>
+                        <th field="ITEM_NO" width="100" hidden="true">序号</th>
                         <th field="PRODUCT_CODE" width="120" >产品代码</th>
                         <th field="PRODUCT_NAME" width="120">产品名称</th>
                         <th field="WEIGHT" width="80"  hidden="true">产品重量</th>

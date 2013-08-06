@@ -44,6 +44,7 @@ namespace THOK.Wms.Bll.Service
                                   a.CMD_BILL_TYPE .BTYPE_NAME,  //单据类型名称
                                   a.SCHEDULE_NO,
                                   a.WAREHOUSE_CODE ,
+                                  a.CMD_WAREHOUSE .WAREHOUSE_NAME,
                                   a.SYS_BILL_TARGET .TARGET_NAME , //目标位置名
                                   a.TARGET_CODE , //目标位置代码
                                   a.STATUS ,//单据来源代号
@@ -123,14 +124,15 @@ namespace THOK.Wms.Bll.Service
                 billmaster = billmaster.Where(i => i.CHECK_DATE.Value.CompareTo(checkdt) >= 0);
                 billmaster = billmaster.Where(i => i.CHECK_DATE.Value.CompareTo(checkdt2) < 0);
             }
-            var temp = billmaster.ToArray().OrderBy(i => i.OPERATE_DATE ).Select(i => new
+            var temp = billmaster.ToArray().OrderByDescending(i => i.OPERATE_DATE ).Select(i => new
             {
                  i.BILL_NO ,
-                 BILL_DATE = i.BILL_DATE.ToString("yyyy-MM-dd HH:mm:ss"),
+                 BILL_DATE = i.BILL_DATE.ToString("yyyy-MM-dd"),
                  i.BTYPE_CODE ,
                  i.BTYPE_NAME ,
                  i.SCHEDULE_NO ,
                  i.WAREHOUSE_CODE ,
+                 i.WAREHOUSE_NAME ,
                  i.TARGET_CODE ,
                  i.TARGET_NAME ,
                  i.STATUS ,
@@ -242,6 +244,7 @@ namespace THOK.Wms.Bll.Service
         public bool Add(WMS_BILL_MASTER mast, object detail)
         {
             bool rejust = false;
+            int serial = 1;
             try
             {
                 mast.BILL_NO = BillMasterRepository.GetNewID("IS", mast.BILL_DATE , mast.BILL_NO);
@@ -257,10 +260,12 @@ namespace THOK.Wms.Bll.Service
                     
                     WMS_BILL_DETAIL subdetail = new WMS_BILL_DETAIL();
                     THOK.Common.JsonData.DataBind(subdetail, dr);
+                    subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO  = mast.BILL_NO ;
                     subdetail.IS_MIX = "0";
                     subdetail.FPRODUCT_CODE = "";
                     BillDetailRepository.Add(subdetail);
+                    serial++;
                 }
 
                 BillMasterRepository.SaveChanges();
@@ -344,13 +349,16 @@ namespace THOK.Wms.Bll.Service
             DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]); //修改
             if (dt != null)
             {
+                int serial = 1;
                 foreach (DataRow dr in dt.Rows)
                 {
                     WMS_BILL_DETAIL subdetail = new WMS_BILL_DETAIL();
                     THOK.Common.JsonData.DataBind(subdetail, dr);
+                    subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
                     //subdetail.IS_MIX = "0";
                     BillDetailRepository.Add(subdetail);
+                    serial++;
                 }
             }
             BillMasterRepository.SaveChanges();
