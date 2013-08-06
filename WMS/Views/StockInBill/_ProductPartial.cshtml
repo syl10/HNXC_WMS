@@ -17,6 +17,9 @@
         var productRow = $('#productDetail').datagrid('getSelected');
         if (productRow) {
             $('#PRODUCT_CODE').val(productRow.PRODUCT_CODE);
+            $('#WEIGHT').val( productRow.WEIGHT);
+            $('#REAL_WEIGHT').numberbox('setValue', productRow.WEIGHT);
+            $('#PRODUCT_NAME').val(productRow.PRODUCT_NAME);
             $('#productData').dialog('close');
         }
     }

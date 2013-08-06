@@ -54,6 +54,7 @@
                 }
             }
     }
+
     function addClick() {
         clickbt = "add";
         serial = 0;
@@ -90,6 +91,8 @@
         $('#BILL_METHOD').combobox('enable');
        //启用载入配方按钮
         $('#btLoadFormula').linkbutton('enable');
+         //启用批次重量控件
+      $('#BATCH_WEIGHT').numberbox('enable');
     }
     //获取时间字符串
     function getDate() {
@@ -116,6 +119,7 @@
             disabled: false,
             width: 135,
             panelWidth: 340,
+            value:'001',
             url: '/BillType/Details/?page=1&rows=1000',
             idField: 'BTYPE_CODE',
             textField: 'BTYPE_NAME',
@@ -141,6 +145,7 @@
             disabled: false,
             width: 135,
             panelWidth: 340,
+            value:'001',
             url: '/StockInBill/GetWarehousecode/?page=1&rows=1000',
             idField: 'WAREHOUSE_CODE',
             textField: 'WAREHOUSE_NAME',
@@ -238,9 +243,10 @@
         if (clickbt == "add")
             serial += 1;
         else if (clickbt == "edit") {
-            $.getJSON("/Schedule2/GetSerial/?SCHEDULENO=" + $('#SCHEDULE_NO').val(), function (json) {
+            $.getJSON("/StockInBill/GetSerial/?BILL_NO=" + $('#BILL_NO').val(), function (json) {
                 if (json) {
-                    $('#ITEM_NO').val(json.Itemno + 1);
+                    $('#ITEM_NO').val(json.Itemno + serial);
+                    serial+=1;
                 }
             });
         }
@@ -252,12 +258,13 @@
 
     //添加明细按钮点击事件
     function addBillDetailClick() {
+       editsubdetail=null;
         $('#dlg-AddBillDetail').dialog('open').dialog('setTitle', '添加明细');
         $('#fm-inBillDetail').form('clear');
         GetSerial(); //
-        $('#REAL_WEIGHT').val('0.0');
+//        $('#TOTAL_WEIGHT').numberbox('setValue', 0.00) ;
         $('#PACKAGE_COUNT').numberbox('setValue', 0) ;
-        $('#WEIGHT').val('0.0');
+        $('#REAL_WEIGHT').numberbox('setValue', 0.00) ;
         $('#NC_COUNT').numberbox('setValue', 0) ;
     }
     //删除明细
@@ -290,16 +297,16 @@
         if ($('#fm-inBillDetail').form('validate')) {
             if (editsubdetail == null) {
                 $('#inBillDetail').datagrid('appendRow', {
-                    BILL_NO: $('#BILL_NO').val(),
                     ITEM_NO: $('#ITEM_NO').val(),
                     PRODUCT_CODE: $('#PRODUCT_CODE').val(),
-                    WEIGHT: $('#WEIGHT').val(),
+                    PRODUCT_NAME:$('#PRODUCT_NAME').val(),
+                    WEIGHT: $('#WEIGHT').val()==""?"0":$('#WEIGHT').val(),
+                    PACKAGE_COUNT: $('#PACKAGE_COUNT').val()==""?"0":$('#PACKAGE_COUNT').val(),
+                    TOTAL_WEIGHT:$('#REAL_WEIGHT').val()*$('#PACKAGE_COUNT').val(),
+                    IS_MIX:"0",
+                    FPRODUCT_CODE:"",
                     REAL_WEIGHT: $('#REAL_WEIGHT').val(),
-                    PACKAGE_COUNT: $('#PACKAGE_COUNT').val(),
-                    NC_COUNT: $('#NC_COUNT').val(),
-                    IS_MIX: $('#IS_MIX').combobox('getValue'),
-                    IS_MIXDESC: $('#IS_MIX').combobox('getText'),
-                    FPRODUCT_CODE: $('#FPRODUCT_CODE').val()
+                    NC_COUNT: $('#NC_COUNT').val()
 
                 });
             }
@@ -308,16 +315,16 @@
                 $('#inBillDetail').datagrid('updateRow', {
                     index: $('#inBillDetail').datagrid('getRowIndex', editsubdetail),
                     row: {
-                        BILL_NO: $('#BILL_NO').val(),
                         ITEM_NO: $('#ITEM_NO').val(),
                         PRODUCT_CODE: $('#PRODUCT_CODE').val(),
-                        WEIGHT: $('#WEIGHT').val(),
-                        REAL_WEIGHT: $('#REAL_WEIGHT').val(),
-                        PACKAGE_COUNT: $('#PACKAGE_COUNT').val(),
-                        NC_COUNT: $('#NC_COUNT').val(),
-                        IS_MIX: $('#IS_MIX').combobox('getValue'),
-                        IS_MIXDESC: $('#IS_MIX').combobox('getText'),
-                        FPRODUCT_CODE: $('#FPRODUCT_CODE').val()
+                       PRODUCT_NAME:$('#PRODUCT_NAME').val(),
+                       WEIGHT: $('#WEIGHT').val()==""?"0":$('#WEIGHT').val(),
+                       PACKAGE_COUNT: $('#PACKAGE_COUNT').val()==""?"0":$('#PACKAGE_COUNT').val(),
+                       TOTAL_WEIGHT:$('#REAL_WEIGHT').val()*$('#PACKAGE_COUNT').val(),
+                    IS_MIX:editsubdetail.IS_MIX,
+                    FPRODUCT_CODE:editsubdetail.FPRODUCT_CODE,
+                    REAL_WEIGHT: $('#REAL_WEIGHT').val(),
+                       NC_COUNT: $('#NC_COUNT').val()
                     }
                 });
 
@@ -353,6 +360,12 @@
                   url: '/StockInBill/LoadFormula/?Formulacode=' + FORMULA_CODE + '&BATCH_WEIGHT=' + $('#BATCH_WEIGHT').numberbox('getValue')
           });
         $('#inBillDetail').datagrid('reload');
+        if(clickbt=="edit")
+        {
+            var row = $('#details').datagrid('getSelected');
+            $('#BILL_NO').val(row.BILL_NO);
+            $('#OPERATER').val(row.OPERATER);
+        }
     }
 
 
@@ -362,7 +375,7 @@
         };
         var Rows = $('#inBillDetail').datagrid('getData');
         for (var i = 0; i < Rows.total; i++) {
-            changesRows.inserted.push(Rows.rows[i])
+            changesRows.inserted.push(Rows.rows[i]);
         }
         if (clickbt == "add") {
             url = '/StockInBill/Add/?detail=' + JSON.stringify(changesRows.inserted);
@@ -371,7 +384,7 @@
             url = '/StockInBill/Edit/?detail=' + JSON.stringify(changesRows.inserted);
         }
         if (clickbt == "delete") {
-            url = '/StockInBill/Delete/?scheduleno=' + $('#SCHEDULE_NO').val();
+            url = '/StockInBill/Delete/?Billno=' + $('#BILL_NO').val();
         }
         $('#fm').form('submit', {
             url: url,
@@ -412,13 +425,13 @@
                         <th field="ITEM_NO" width="100">序号</th>
                         <th field="PRODUCT_CODE" width="120" >产品代码</th>
                         <th field="PRODUCT_NAME" width="120">产品名称</th>
-                        <th field="WEIGHT" width="80" >重量</th>
+                        <th field="WEIGHT" width="80"  hidden="true">产品重量</th>
+                        <th field="REAL_WEIGHT" width="80" >重量</th>
                         <th field="PACKAGE_COUNT" width="80">包数</th>
                         <th field="TOTAL_WEIGHT" width="80" >总重量</th>
-@*                        <th field="NC_COUNT" width="60" >NC包数</th>
-                        <th field="IS_MIX" width="60" hidden="true">是否混合</th>
-                        <th field="IS_MIXDESC" width="60">是否混装</th>
-                        <th field="FPRODUCT_CODE" width="60" hidden="true">混合第一笔产品编号</th>*@
+                        <th field="NC_COUNT" width="60" >NC包数</th>
+                <th field="IS_MIX" width="60" hidden="true">是否混装</th>
+                <th field="FPRODUCT_CODE" width="80" hidden="true">混合第一笔产品编号</th>
                     </tr>
                 </thead>
             </table>
@@ -452,14 +465,14 @@
 		                        <option value="1">等级</option>
                    </select>
                  </td>
-                <td width="90">牌   号</td>
-                <td width="168"><input id="CIGARETTE_CODE" name="CIGARETTE_CODE"  readonly="true" ></td>
-                 </tr>
-                 <tr>
-                <td width="90">配方代号</td>
-                <td width="168"><input id="FORMULA_CODE" name="FORMULA_CODE"  readonly="true"></td>
                   <td width="90">批次重量</td>
                 <td width="168"><input id="BATCH_WEIGHT"  name="BATCH_WEIGHT" class="easyui-numberbox" precision="2" ></td>
+                 </tr>
+                 <tr>
+                <td width="90">牌   号</td>
+                <td width="168"><input id="CIGARETTE_CODE" name="CIGARETTE_CODE"  readonly="true" ></td>
+                <td width="90">配方代号</td>
+                <td width="168"><input id="FORMULA_CODE" name="FORMULA_CODE"  readonly="true"></td>
                 <td colspan="4"><a href="#" class="easyui-linkbutton" plain="true" onclick="Loadformula()" id="btLoadFormula"  style="width:60px ">载入配方</a> </td>
                 </tr>
                 <tr>
@@ -481,51 +494,47 @@
 </div>
 
 <div  id="dlg-AddBillDetail" class="easyui-dialog" modal="true"
-        style="width:270px;height:290px;padding:0px 0px"
+        style="width:270px;height:230px;padding:0px 0px"
         closed="true" buttons="#dlg-AddBillDetailbuttons">
      <form id="fm-inBillDetail" novalidate>
 <table style="padding:10px 10px 0px 5px">
-  <tr>
-    <td style=" text-align:right; width:60px">序号</td>
-    <td align="left"><input type="text" name="ITEM_NO" id="ITEM_NO" class="easyui-validatebox"  readonly="true"/></td>
-    <td></td>
-  </tr>
+<tr>
+    <td style="width:60px"></td>
+    <td align="left" style=" display:none">
+    <input type="text" name="ITEM_NO"    id="ITEM_NO"    />
+    <input type="text" name="WEIGHT"    id="WEIGHT"    />@*产品表中的重量*@
+    </td>
+</tr>
   <tr>
     <td style=" text-align:right; width:60px"> 产品代码</td>
-    <td align="left"><input type="text" name="PRODUCT_CODE" id="PRODUCT_CODE"  class="easyui-validatebox"  readonly="true"/>
+    <td align="left"><input type="text" name="PRODUCT_CODE" id="PRODUCT_CODE"  required="true"  readonly="true"/>
      <a href="#" onclick="productSelect()" class="easyui-linkbutton" iconcls="icon-search" plain="true"></a></td>
     <td></td>
   </tr>
   <tr>
-    <td style=" text-align:right; width:60px">重量</td>
-    <td align="left"><input type="text" name="WEIGHT"    id="WEIGHT"  /></td>
-    <td></td>
+      <td style=" text-align:right; width:60px">产品名称</td>
+      <td align="left"><input  type="text" name="PRODUCT_NAME" id="PRODUCT_NAME"  readonly="true"/></td>
+      <td></td>
   </tr>
   <tr>
-    <td style=" text-align:right; width:60px">实际重量</td>
-    <td align="left"><input type="text" name="REAL_WEIGHT" id="REAL_WEIGHT"   /></td>
+    <td style=" text-align:right; width:60px">重量</td>
+    <td align="left"><input type="text" name="REAL_WEIGHT"    id="REAL_WEIGHT"  class="easyui-numberbox"  precision="2"  /></td>
     <td></td>
   </tr>
+
     <tr>
     <td style=" text-align:right; width:60px">包数</td>
     <td align="left"><input type="text" name="PACKAGE_COUNT" id="PACKAGE_COUNT"  class="easyui-numberbox"  /></td>
   </tr>
+
+    <tr>
+    <td style=" text-align:right; width:60px;display:none">总重量</td>
+    <td align="left" style=" display:none"><input type="text" name="TOTAL_WEIGHT" id="TOTAL_WEIGHT"  readonly="true"  /></td>
+    <td></td>
+  </tr>
       <tr>
     <td style=" text-align:right; width:60px">NC包数</td>
-    <td align="left"><input type="text" name="NC_COUNT" id="NC_COUNT" class="easyui-numberbox"  readonly="true"  /></td>
-  </tr>
-   <tr>
-    <td style=" text-align:right; width:60px">是否混装</td>
-    <td align="left">
-                   <select  name="IS_MIX" id="IS_MIX"  class="easyui-combobox" >
-                                <option value="0">非混装</option>
-		                        <option value="1">混装</option>
-                   </select>
-    </td>
-  </tr>
-     <tr>
-    <td style=" text-align:right; width:60px">混合第一笔产品编号</td>
-    <td align="left"><input type="text" name="FPRODUCT_CODE" id="FPRODUCT_CODE"    /></td>
+    <td align="left"><input type="text" name="NC_COUNT" id="NC_COUNT" class="easyui-numberbox"  /></td>
   </tr>
 </table>
  </form>

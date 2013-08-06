@@ -25,6 +25,10 @@ namespace THOK.Wms.Bll.Models
        /// <summary>
        ///产品每包重量,或者混装中的不足一包的重量
        /// </summary>
+       public decimal REAL_WEIGHT { set; get; }
+       /// <summary>
+       /// 指产品表中的重量
+       /// </summary>
        public decimal WEIGHT { set; get; }
        /// <summary>
        /// 包数
@@ -34,5 +38,13 @@ namespace THOK.Wms.Bll.Models
        /// 总重量
        /// </summary>
        public decimal TOTAL_WEIGHT { set; get; }
+       /// <summary>
+       /// 是否混装
+       /// </summary>
+       public string IS_MIX { get; set; }
+       /// <summary>
+       /// 混装产品代码
+       /// </summary>
+       public string FPRODUCT_CODE { get; set; }
     }
 }

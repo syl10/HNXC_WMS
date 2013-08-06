@@ -31,12 +31,12 @@ namespace WMS.Controllers.Wms.WMS
         }
         public ActionResult Details(int page, int rows, FormCollection collection)
         {
-            var Billmaster = BillMasterService.GetDetails(page, rows,"2");
+            var Billmaster = BillMasterService.GetDetails(page, rows,"2","","","","","","","","","","","","");
             return Json(Billmaster, "text", JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetSubDetail(int page, int rows, string BillNo)
         {
-            var Billdetail = BillMasterService.GetSubDetails(page, rows, BillNo);
+            var Billdetail = BillMasterService.GetSubDetails(page, rows, BillNo,0);
             return Json(Billdetail, "text", JsonRequestBehavior.AllowGet);
         }
         //审核

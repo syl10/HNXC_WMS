@@ -1,6 +1,40 @@
 ﻿<script type="text/javascript">
     function deleteClick() {
+        clickbt = "delete";
+        serial = 1;
+        var row = $('#details').datagrid('getSelected');
+        index = $('#details').datagrid('getRowIndex', row);
+        if (row) {
+            if (row.STATE == "1") {
+                $('#dlg').dialog('open').dialog('setTitle', '删除');
+                $('#fm').form('clear');
+                loaddata(row.BILL_NO);
+                $('#BILL_DATE').datebox({
+                    width: 135,
+                    hasDownArrow: true,
+                    required: true
+                });
+                $('#OPERATE_DATE').datebox({
+                    width: 135,
+                    hasDownArrow: true,
+                    required: true
+                });
+                GetBillType(); //单据类型
+                GetWarehouseCode();  //仓库编号
+                GetCigarette(); //加载牌号
+                GetFormula(""); //加载配方
 
+                method(row.BILL_METHOD); //入库方式的控件启禁用判断
+                $('#BILL_METHOD').combobox('disable');
+                $('#fm').form('load', row);
+            }
+            else {
+                alert("改记录已审核不能删除");
+            }
+        }
+        else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
     }
 </script>
 

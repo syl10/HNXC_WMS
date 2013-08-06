@@ -134,7 +134,8 @@
             else if (clickbt == "edit") {
                 $.getJSON("/Schedule2/GetSerial/?SCHEDULENO=" + $('#SCHEDULE_NO').val(), function (json) {
                     if (json) {
-                        $('#ITEM_NO').val(json.Itemno+1);
+                        $('#ITEM_NO').val(json.Itemno + serial);
+                        serial += 1;
                     }
                 });
             }

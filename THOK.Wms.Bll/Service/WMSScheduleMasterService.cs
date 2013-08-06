@@ -241,7 +241,7 @@ namespace THOK.Wms.Bll.Service
         }
 
 
-        public new bool Delete(string scheduleno)
+        public  bool Delete(string scheduleno)
         {
             var editmaster = ScheduleMasterRepository.GetQueryable().Where(i => i.SCHEDULE_NO == scheduleno ).FirstOrDefault();
 

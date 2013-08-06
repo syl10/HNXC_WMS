@@ -34,12 +34,26 @@ namespace WMS.Controllers.Wms.WMS
         }
         public ActionResult Details(int page, int rows, FormCollection collection)
         {
-            var Billmaster = BillMasterService.GetDetails(page, rows,"1");
+            string BILL_NO = collection["BILL_NO"] ?? "";
+            string BILL_DATE = collection["BILL_DATE"] ?? "";
+            string BTYPE_CODE = collection["BTYPE_CODE"] ?? "";
+            string WAREHOUSE_CODE = collection["WAREHOUSE_CODE"] ?? "";
+            string BILL_METHOD = collection["BILL_METHOD"] ?? "";
+            string CIGARETTE_CODE = collection["CIGARETTE_CODE"] ?? "";
+            string FORMULA_CODE = collection["FORMULA_CODE"] ?? "";
+            string STATE = collection["STATE"] ?? "";
+            string OPERATER = collection["OPERATER"] ?? "";
+            string OPERATE_DATE = collection["OPERATE_DATE"] ?? "";
+            string CHECKER = collection["CHECKER"] ?? "";
+            string CHECK_DATE = collection["CHECK_DATE"] ?? "";
+            
+            var Billmaster = BillMasterService.GetDetails(page, rows,"1", 
+                BILL_NO, BILL_DATE,BTYPE_CODE,WAREHOUSE_CODE,BILL_METHOD,CIGARETTE_CODE ,FORMULA_CODE ,STATE ,OPERATER ,OPERATE_DATE ,CHECKER ,CHECK_DATE  );
             return Json(Billmaster, "text", JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetSubDetail(int page, int rows, string BillNo)
         {
-            var Billdetail = BillMasterService.GetSubDetails (page, rows,BillNo);
+            var Billdetail = BillMasterService.GetSubDetails (page, rows,BillNo,0);
             return Json(Billdetail, "text", JsonRequestBehavior.AllowGet);
         }
         public ActionResult Add(WMS_BILL_MASTER  mast, object detail)
@@ -52,6 +66,11 @@ namespace WMS.Controllers.Wms.WMS
         {
             bool bResult = BillMasterService.Edit(mast, detail);
             string msg = bResult ? "修改成功" : "修改失败";
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult Delete(string Billno) {
+            bool bResult = BillMasterService.Delete(Billno);
+            string msg = bResult ? "删除成功" : "删除失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }
         //单据编号
@@ -88,6 +107,28 @@ namespace WMS.Controllers.Wms.WMS
         {
             var Billdetail = BillMasterService.LoadFormulaDetail(page, rows, Formulacode, BATCH_WEIGHT);
             return Json(Billdetail, "text", JsonRequestBehavior.AllowGet);
+        }
+        //获取明细中的序号
+        public ActionResult GetSerial(string BILL_NO)
+        {
+            var rejust = BillMasterService.GetSerial(BILL_NO);
+            return Json(rejust, "text", JsonRequestBehavior.AllowGet);
+        }
+        //获取该单据下的混装产品
+        public ActionResult GetMIXproduct(int page, int rows, string BillNo)
+        {
+            var Billdetail = BillMasterService.GetSubDetails(page, rows, BillNo, 1);
+            return Json(Billdetail, "text", JsonRequestBehavior.AllowGet);
+        }
+        //设置混装
+        public ActionResult SetMIX(string BillNo, object detail)
+        {
+            bool Result = BillMasterService.SetMIX (BillNo,detail);
+            string msg = Result ? "设置成功" : "设置失败";
+            var just = new { 
+                success=msg
+            };
+            return Json(just, "text", JsonRequestBehavior.AllowGet);
         }
     }
 }
