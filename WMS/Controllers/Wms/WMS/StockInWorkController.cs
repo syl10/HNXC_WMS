@@ -13,6 +13,7 @@ namespace WMS.Controllers.Wms.WMS
 
         public ActionResult Index()
         {
+            ViewBag.hasSearch = true;
             return View();
         }
 

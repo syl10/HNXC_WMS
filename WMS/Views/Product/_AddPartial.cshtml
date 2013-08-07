@@ -1,5 +1,5 @@
 ﻿<script type="text/javascript">
-    var isloaded = false; //判断是否已经加载过所有combogrid数据了.
+    var loaded=0;
     function addClick() {
         $('#dlg').dialog('open').dialog('setTitle', '新增');
         $('#fm').form('clear');
@@ -38,7 +38,8 @@
 					{ field: 'CATEGORY_NAME', title: '类别名称', align: 'left', width: 40 },
 					{ field: 'MEMO', title: '备注', align: 'left', width: 30 }
 
-				]]
+				]],
+            onLoadSuccess: function () { loaded++; }
         });
     }
     //获取形态
@@ -57,7 +58,8 @@
 					{ field: 'STYLE_NO', title: '形态编号', hidden: true, width: 30 },
 					{ field: 'STYLE_NAME', title: '形态名称', align: 'left', width: 40 }
 
-				]]
+				]],
+            onLoadSuccess: function () { loaded++; }
         });
     }
     //获取原产地
@@ -77,7 +79,8 @@
 					{ field: 'ORIGINAL_NAME', title: '产地名称', align: 'left', width: 40 },
                     { field: 'DISTRICT_CODE', title: '地区编号', align: 'left', width: 40 },
 					{ field: 'MEMO', title: '备注', align: 'left', width: 30 }
-				]]
+				]],
+            onLoadSuccess: function () { loaded++; }
         });
     }
     //获取产品等级
@@ -98,7 +101,8 @@
                     { field: 'USER_CODE', title: '自定代号', align: 'left', width: 40 },
                     { field: 'GRADE_NAME', title: '等级名称', align: 'left', width: 40 },
 					{ field: 'MEMO', title: '备注', align: 'left', width: 30 }
-				]]
+				]],
+            onLoadSuccess: function () { loaded++; }
         });
     }
     function save() {
