@@ -11,9 +11,13 @@ namespace WMS.Controllers.Wms.WMS
         //
         // GET: /StockInWork/
 
-        public ActionResult Index()
+        public ActionResult Index(string moduleID)
         {
             ViewBag.hasSearch = true;
+            ViewBag.hasBarcode = true;
+            ViewBag.hasTask = true;
+            ViewBag.hasExit = true;
+            ViewBag.ModuleID = moduleID;
             return View();
         }
 

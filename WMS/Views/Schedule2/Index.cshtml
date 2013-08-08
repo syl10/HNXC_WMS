@@ -16,7 +16,7 @@
 
 <div region="center" split="true"  border="false" style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #99BBE8">    
     <table class="easyui-datagrid" border="false" singleSelect="true" id="details" url = '/Schedule2/GetDetail/'
-        fit="true" fitColumns="true" toolbar="#tool"  pagination="true" rownumbers="true" pageSize="50">
+        fit="true" fitColumns="true" toolbar="#tool"  pagination="true" rownumbers="true" pageSize="50" striped="true">
         <thead>
             <tr>
                 <th field="SCHEDULE_NO" width="80">计划单号</th>
@@ -37,7 +37,7 @@
 </div>
 <div region="south" split="true" border="false" style="height: 250px; border-top-style: solid; border-top-width: 1px; border-top-color: 99BBE8;">
     <table class="easyui-datagrid" border="false" singleSelect="true" id="SubDetails" url="" pageSize="50"
-        fit="true" fitColumns="true"  pagination="true" rownumbers="true" >
+        fit="true" fitColumns="true"  pagination="true" rownumbers="true" striped="true">
         <thead>
             <tr>
                 <th field="SCHEDULE_NO" width="80" hidden="true">计划单号</th>

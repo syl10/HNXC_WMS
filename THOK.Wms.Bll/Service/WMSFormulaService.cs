@@ -87,7 +87,10 @@ namespace THOK.Wms.Bll.Service
         public bool Edit(WMS_FORMULA_MASTER master, object detail)
         {
             var editmaster = MasterRepository.GetQueryable().Where(i => i.FORMULA_CODE == master.FORMULA_CODE).FirstOrDefault();
-
+            editmaster.FORMULA_NAME = master.FORMULA_NAME;
+            editmaster.FORMULA_DATE = master.FORMULA_DATE;
+            editmaster.IS_ACTIVE = master.IS_ACTIVE;
+            editmaster.CIGARETTE_CODE = master.CIGARETTE_CODE;
             var details = DetailRepository.GetQueryable().Where(i => i.FORMULA_CODE == master.FORMULA_CODE);
             var tmp = details.ToArray().AsEnumerable().Select(i => i);
             foreach (WMS_FORMULA_DETAIL sub in tmp)

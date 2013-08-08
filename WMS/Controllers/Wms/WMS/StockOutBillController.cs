@@ -29,9 +29,9 @@ namespace WMS.Controllers.Wms.WMS
             ViewBag.ModuleID = moduleID;
             return View();
         }
-        public ActionResult Details(int page, int rows, FormCollection collection)
+        public ActionResult Details(int page, int rows,string flag, FormCollection collection)
         {
-            var Billmaster = BillMasterService.GetDetails(page, rows,"2","","","","","","","","","","","","");
+            var Billmaster = BillMasterService.GetDetails(page, rows,"2",flag ,"","","","","","","","","","","","");
             return Json(Billmaster, "text", JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetSubDetail(int page, int rows, string BillNo)

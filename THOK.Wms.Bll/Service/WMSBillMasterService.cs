@@ -27,7 +27,7 @@ namespace THOK.Wms.Bll.Service
         public IWMSFormulaDetailRepository FormulaDetailRepository { get; set; }
         [Dependency]
         public ICMDProuductRepository ProductRepository { get; set; }
-        public object GetDetails(int page, int rows, string billtype, string BILL_NO, string BILL_DATE, string BTYPE_CODE, string WAREHOUSE_CODE, string BILL_METHOD, string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE)
+        public object GetDetails(int page, int rows, string billtype, string flag, string BILL_NO, string BILL_DATE, string BTYPE_CODE, string WAREHOUSE_CODE, string BILL_METHOD, string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE)
         {
             IQueryable<WMS_BILL_MASTER > billquery = BillMasterRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
@@ -157,6 +157,9 @@ namespace THOK.Wms.Bll.Service
                  i.LINE_NO ,
                  i.LINE_NAME 
             });
+            if (flag == "1") {  //入库作业  获取的记录即状态不是保存的
+                temp = temp.Where(i => i.STATE != "1");
+            }
             int total = temp.Count();
             temp = temp.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = temp.ToArray() };
@@ -356,6 +359,7 @@ namespace THOK.Wms.Bll.Service
                     THOK.Common.JsonData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
+                    if (subdetail.FPRODUCT_CODE == "null") subdetail.FPRODUCT_CODE = "";
                     //subdetail.IS_MIX = "0";
                     BillDetailRepository.Add(subdetail);
                     serial++;
