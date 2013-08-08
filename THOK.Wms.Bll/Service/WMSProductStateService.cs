@@ -13,5 +13,8 @@ namespace THOK.Wms.Bll.Service
         {
             get { throw new NotImplementedException(); }
         }
+        //public bool test() {
+        //    OracleConnection ora = new OracleConnection(); 
+        //}
     }
 }

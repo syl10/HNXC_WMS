@@ -1859,6 +1859,12 @@
     <Content Include="Views\ProductGrade\_EditPartial.cshtml" />
     <Content Include="Views\ProductGrade\_PrintPartial.cshtml" />
     <Content Include="Views\ProductGrade\_SearchPartial.cshtml" />
+    <Content Include="Views\Shared\_BarcodePartial.cshtml" />
+    <Content Include="Views\Shared\_ExitPartial.cshtml" />
+    <Content Include="Views\StockInWork\_SearchPartial.cshtml" />
+    <Content Include="Views\StockInWork\_TaskPartial.cshtml" />
+    <Content Include="Views\StockInWork\_BarcodePartial.cshtml" />
+    <Content Include="Views\StockInWork\_ExitPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

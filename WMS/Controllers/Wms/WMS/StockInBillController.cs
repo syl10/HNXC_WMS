@@ -32,7 +32,7 @@ namespace WMS.Controllers.Wms.WMS
             ViewBag.ModuleID = moduleID;
             return View();
         }
-        public ActionResult Details(int page, int rows, FormCollection collection)
+        public ActionResult Details(int page, int rows, string flag, FormCollection collection)
         {
             string BILL_NO = collection["BILL_NO"] ?? "";
             string BILL_DATE = collection["BILL_DATE"] ?? "";
@@ -47,7 +47,7 @@ namespace WMS.Controllers.Wms.WMS
             string CHECKER = collection["CHECKER"] ?? "";
             string CHECK_DATE = collection["CHECK_DATE"] ?? "";
             
-            var Billmaster = BillMasterService.GetDetails(page, rows,"1", 
+            var Billmaster = BillMasterService.GetDetails(page, rows,"1", flag,
                 BILL_NO, BILL_DATE,BTYPE_CODE,WAREHOUSE_CODE,BILL_METHOD,CIGARETTE_CODE ,FORMULA_CODE ,STATE ,OPERATER ,OPERATE_DATE ,CHECKER ,CHECK_DATE  );
             return Json(Billmaster, "text", JsonRequestBehavior.AllowGet);
         }
