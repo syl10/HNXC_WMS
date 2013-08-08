@@ -35,8 +35,8 @@ namespace THOK.Wms.Bll.Service
                              join b in statequery on a.STATUS equals b.STATE
                              join c in statequery on a.STATE equals c.STATE
                              join d in statequery on a.BILL_METHOD equals d.STATE
-                             where b.TABLE_NAME == "BILLMASTER" && b.FIELD_NAME == "STATUS" && c.TABLE_NAME == "BILLMASTER" && c.FIELD_NAME == "STATE" 
-                             && d.TABLE_NAME == "BILLMASTER" && d.FIELD_NAME == "BILL_METHOD"&&a.CMD_BILL_TYPE .BILL_TYPE ==billtype 
+                             where b.TABLE_NAME == "WMS_BILL_MASTER" && b.FIELD_NAME == "STATUS" && c.TABLE_NAME == "WMS_BILL_MASTER" && c.FIELD_NAME == "STATE"
+                             && d.TABLE_NAME == "WMS_BILL_MASTER" && d.FIELD_NAME == "BILL_METHOD" && a.CMD_BILL_TYPE.BILL_TYPE == billtype 
                              select new {
                                   a.BILL_NO ,
                                   a.BILL_DATE ,
@@ -172,8 +172,8 @@ namespace THOK.Wms.Bll.Service
             IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
             var billdetail = from a in detailquery
                              join b in statequery on a.IS_MIX equals b.STATE
-                             join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE 
-                             where b.TABLE_NAME == "BILLDETAIL" && b.FIELD_NAME == "IS_MIX"
+                             join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE
+                             where b.TABLE_NAME == "WMS_BILL_DETAIL" && b.FIELD_NAME == "IS_MIX"
                              select new { 
                                  a.ITEM_NO ,
                                  a.BILL_NO ,
