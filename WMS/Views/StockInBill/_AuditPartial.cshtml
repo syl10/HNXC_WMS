@@ -27,7 +27,7 @@
                 });
             }
             else {
-                $.messager.confirm('提示', '该记录已审核！');
+                $.messager.confirm('提示', '该记录已' + row.STATENAME + '无法审核！');
             }
         }
         else {

@@ -27,7 +27,7 @@
             idField: 'CIGARETTE_CODE',
             textField: 'CIGARETTE_CODE',
             mode: 'local',
-            editable: false,
+            editable: true,
             fitColumns: true,
             columns: [[
                     { field: 'CIGARETTE_CODE', title: '牌号编码', align: 'left', width: 40 },
@@ -51,7 +51,7 @@
             idField: 'FORMULA_CODE',
             textField: 'FORMULA_CODE',
             mode: 'local',
-            editable: false,
+            editable: true,
             fitColumns: true,
             columns: [[
                     { field: 'FORMULA_CODE', title: '配方代码', align: 'left', width: 40 },
@@ -112,7 +112,10 @@
         queryParams.BILL_DATE = $('#SBILL_DATE').datebox('getValue');
         queryParams.BTYPE_CODE=$('#SBTYPE_CODE').combogrid('getValue');
         queryParams.WAREHOUSE_CODE=$('#SWAREHOUSE_CODE').combogrid('getValue');
-        queryParams.BILL_METHOD=$('#SBILL_METHOD').combobox('getValue');
+        if($('#SBILL_METHOD').combobox('getText')!=null&&$('#SBILL_METHOD').combobox('getText')!=""){
+            queryParams.BILL_METHOD=$('#SBILL_METHOD').combobox('getValue'); }
+         else
+          queryParams.BILL_METHOD="";
         queryParams.CIGARETTE_CODE=$('#SCIGARETTE_CODE').combogrid('getValue');
         queryParams.FORMULA_CODE=$('#SFORMULA_CODE').combogrid('getValue');
         if($('#SSTATE').combobox('getText')!=null&&$('#SSTATE').combobox('getText')!=""){

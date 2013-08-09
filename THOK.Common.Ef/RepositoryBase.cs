@@ -21,7 +21,7 @@ namespace THOK.Common.Ef.EntityRepository
 
         public void Add(T entity)
         {
-            dbSet.Add(entity);
+            dbSet.Add(entity); 
         }
 
         public void Delete(T entity)
@@ -158,7 +158,17 @@ namespace THOK.Common.Ef.EntityRepository
             }
             return strNew;
         }
-
+        public int  Exeprocedure(string storename, object[] paramers)
+        {
+            try
+            {
+                 ((IObjectContextAdapter)RepositoryContext.DbContext).ObjectContext.ExecuteStoreCommand(storename, paramers);
+                return 1;
+            }
+            catch (Exception ex) {
+                return -1;
+            }
+        }
 
         //todo
         public int SaveChanges()
