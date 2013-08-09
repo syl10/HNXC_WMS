@@ -55,7 +55,19 @@ namespace THOK.Wms.Bll.Service
         public object GetSubDetails(int page, int rows, string FORMULA_CODE)
         {
             IQueryable<WMS_FORMULA_DETAIL> DetailQuery = DetailRepository.GetQueryable();
-            var Details = DetailQuery.OrderBy(i => i.FORMULA_CODE).Select(i => new { i.FORMULA_CODE,i.PRODUCT_CODE,i.CMD_PRODUCT.GRADE_CODE ,i.CMD_PRODUCT.YEARS,i.CMD_PRODUCT.STYLE_NO,i.CMD_PRODUCT.PRODUCT_NAME,i.PERCENT,i.OTHER});
+            var Details = DetailQuery.OrderBy(i => i.FORMULA_CODE).Select(i => new {
+                  i.FORMULA_CODE,
+                  i.PRODUCT_CODE,
+                  i.CMD_PRODUCT.GRADE_CODE ,
+                  i.CMD_PRODUCT.YEARS,
+                  i.CMD_PRODUCT.STYLE_NO,
+                  i.CMD_PRODUCT.PRODUCT_NAME,
+                  i.CMD_PRODUCT .CMD_PRODUCT_GRADE.GRADE_NAME ,
+                  i.CMD_PRODUCT .CMD_PRODUCT_STYLE.STYLE_NAME ,
+                  i.CMD_PRODUCT .CMD_PRODUCT_ORIGINAL .ORIGINAL_NAME ,
+                  i.CMD_PRODUCT .CMD_PRODUCT_CATEGORY .CATEGORY_NAME ,
+                  i.PERCENT,
+                  i.OTHER});
             Details = Details.Where(i => i.FORMULA_CODE == FORMULA_CODE);
 
             int total = Details.Count();

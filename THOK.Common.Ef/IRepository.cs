@@ -28,6 +28,8 @@ namespace THOK.Common.Ef.Interfaces
         string GetNewID(string TableName, string ColumnName);
 
         string GetNewID(string PreName, DateTime dt, string AutoCode);
+        //执行存储过程.
+         int Exeprocedure(string storename, object[] paramers);
 
     }
 }

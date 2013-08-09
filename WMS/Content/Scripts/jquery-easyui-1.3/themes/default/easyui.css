@@ -394,8 +394,8 @@
 }
 .datagrid-body td,.datagrid-footer td{
 	font-size:12px;
-	border-right:1px solid #ccc;
-	border-bottom:1px solid #ccc;
+	border-right:1px solid #CCC;
+	border-bottom:1px solid #CCC;
 	overflow:hidden;
 	padding:0;
 	margin:0;

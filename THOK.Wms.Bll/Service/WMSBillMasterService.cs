@@ -27,7 +27,7 @@ namespace THOK.Wms.Bll.Service
         public IWMSFormulaDetailRepository FormulaDetailRepository { get; set; }
         [Dependency]
         public ICMDProuductRepository ProductRepository { get; set; }
-        public object GetDetails(int page, int rows, string billtype, string flag, string BILL_NO, string BILL_DATE, string BTYPE_CODE, string WAREHOUSE_CODE, string BILL_METHOD, string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE)
+        public object GetDetails(int page, int rows, string billtype, string flag, string BILL_NO, string BILL_DATE, string BTYPE_CODE, string WAREHOUSE_CODE, string BILL_METHOD, string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE, string STATUS, string BILL_DATEStar, string BILL_DATEEND)
         {
             IQueryable<WMS_BILL_MASTER > billquery = BillMasterRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
@@ -123,6 +123,17 @@ namespace THOK.Wms.Bll.Service
                 DateTime checkdt2 = checkdt.AddDays(1);
                 billmaster = billmaster.Where(i => i.CHECK_DATE.Value.CompareTo(checkdt) >= 0);
                 billmaster = billmaster.Where(i => i.CHECK_DATE.Value.CompareTo(checkdt2) < 0);
+            }
+            if (!string.IsNullOrEmpty(STATUS)) {
+                billmaster = billmaster.Where(i => i.STATUS == STATUS);
+            }
+            if (!string.IsNullOrEmpty(BILL_DATEStar)) {
+                DateTime datestare = DateTime.Parse(BILL_DATEStar);
+                billmaster = billmaster.Where(i => i.BILL_DATE.CompareTo(datestare) >= 0);
+            }
+            if (!string.IsNullOrEmpty(BILL_DATEEND)) {
+                DateTime dateend = DateTime.Parse(BILL_DATEEND);
+                billmaster = billmaster.Where(i => i.BILL_DATE.CompareTo(dateend) <= 0);
             }
             var temp = billmaster.ToArray().OrderByDescending(i => i.OPERATE_DATE ).Select(i => new
             {

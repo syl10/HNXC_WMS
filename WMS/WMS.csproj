@@ -1865,6 +1865,8 @@
     <Content Include="Views\StockInWork\_TaskPartial.cshtml" />
     <Content Include="Views\StockInWork\_BarcodePartial.cshtml" />
     <Content Include="Views\StockInWork\_ExitPartial.cshtml" />
+    <Content Include="Views\StockOutWork\_TaskPartial.cshtml" />
+    <Content Include="Views\StockOutWork\_SearchPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
