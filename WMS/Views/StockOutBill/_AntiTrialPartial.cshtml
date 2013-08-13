@@ -27,7 +27,7 @@
                 });
             }
             else {
-                $.messager.confirm('提示', '该记录还未审核无法反审！');
+                $.messager.confirm('提示', '该记录已' + row.STATENAME + '无法反审！');
             }
         }
         else {

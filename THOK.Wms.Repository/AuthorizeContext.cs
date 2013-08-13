@@ -68,6 +68,8 @@ namespace THOK.Wms.Repository
             modelBuilder.Configurations.Add(new WMS_BILL_MASTERMap());
             modelBuilder.Configurations.Add(new WMS_SCHEDULEMap());
             modelBuilder.Configurations.Add(new WMS_BILL_DETAILMap());
+            modelBuilder.Configurations.Add(new WMS_PRODUCTION_MASTERMap());
+            modelBuilder.Configurations.Add(new WMS_PRODUCTION_DETAILMap());
 
 
             modelBuilder.Configurations.Add(new SYS_TABLE_STATEMap());

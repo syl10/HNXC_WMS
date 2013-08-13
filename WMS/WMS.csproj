@@ -144,6 +144,7 @@
     <Compile Include="Controllers\Wms\WarehouseInfo\ShelfController.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\Warehouse2Controller.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\WarehouseController.cs" />
+    <Compile Include="Controllers\Wms\WMS\DirectProductController.cs" />
     <Compile Include="Controllers\Wms\WMS\FormulaController.cs" />
     <Compile Include="Controllers\Wms\WMS\Schedule2Controller.cs" />
     <Compile Include="Controllers\Wms\WMS\ScheduleController.cs" />
@@ -1867,6 +1868,14 @@
     <Content Include="Views\StockInWork\_ExitPartial.cshtml" />
     <Content Include="Views\StockOutWork\_TaskPartial.cshtml" />
     <Content Include="Views\StockOutWork\_SearchPartial.cshtml" />
+    <Content Include="Views\DirectProduct\Index.cshtml" />
+    <Content Include="Views\DirectProduct\_SearchPartial.cshtml" />
+    <Content Include="Views\DirectProduct\_AddPartial.cshtml" />
+    <Content Include="Views\DirectProduct\_DeletePartial.cshtml" />
+    <Content Include="Views\DirectProduct\_EditPartial.cshtml" />
+    <Content Include="Views\DirectProduct\_AntiTrialPartial.cshtml" />
+    <Content Include="Views\DirectProduct\_AuditPartial.cshtml" />
+    <Content Include="Views\DirectProduct\_PrintPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -1,6 +1,146 @@
 ﻿<script type="text/javascript">
     function addClick() {
-
+        $('#dlg').dialog('open').dialog('setTitle', '新增');
+        $('#fm').form('clear');
+        $('#fm-inBillDetail .easyui-validatebox').validatebox({
+            required: true
+        });
     }
 </script>
+
+
+<div id="dlg" class="easyui-dialog" modal="true"
+        style="width:850px;height:450px;padding:0px 0px"
+        closed="true" buttons="#dlg-buttons">
+	<div class="easyui-layout" fit="true">
+        <div region="center" border="false">
+            <table class="easyui-datagrid" border="false" toolbar="#dlg-detailButtons" width="700" id="inBillDetail"
+                fit="true" fitColumns="true" singleSelect="true" rownumbers="true" pagination="true" url="" striped="true">
+                <thead>
+                    <tr>
+                        <th field="ITEM_NO" width="100" hidden="true">序号</th>
+                        <th field="PRODUCT_CODE" width="120" >产品代码</th>
+                        <th field="PRODUCT_NAME" width="120">产品名称</th>
+                        <th field="WEIGHT" width="80"  hidden="true">产品重量</th>
+                        <th field="REAL_WEIGHT" width="80" >重量</th>
+                        <th field="PACKAGE_COUNT" width="80">包数</th>
+                        <th field="TOTAL_WEIGHT" width="80" >总重量</th>
+                        <th field="NC_COUNT" width="60" >NC包数</th>
+                <th field="IS_MIX" width="60" hidden="true">是否混装</th>
+                <th field="FPRODUCT_CODE" width="80" hidden="true">混合第一笔产品编号</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="dlg-detailButtons" style="width: auto; height: auto; background-color: #FFFFFF;">
+	<div border="false" style="padding:4px 4px;" >     
+	    <form id="fm" method="post" novalidate>
+            <table height="80px">
+                <tr>
+                <td width="90">单据编号</td>
+                <td width="133"><input name="BILL_NO" id="BILL_NO" readonly="true"></td>
+                <td width="90">单据日期</td>
+                <td width="168"><input name="BILL_DATE" id="BILL_DATE"  ></td>
+                <td width="90">操作人员</td>
+                <td width="168"><input  name="OPERATER" id="OPERATER"  readonly="true"/></td>
+                <td width="90">操作日期</td>
+                <td width="168"><input id="OPERATE_DATE" name="OPERATE_DATE"  readonly="true" disabled="true"></td>
+                 </tr>
+                <tr>
+                <td width="90">单据类型</td>
+                <td width="168"><input name="BTYPE_CODE"  id="BTYPE_CODE"/></td>
+                <td width="90">仓库编号</td>
+                <td width="168"><input name="WAREHOUSE_CODE"  id="WAREHOUSE_CODE"/></td>
+                <td width="90">出库方式</td>
+                <td width="133" >
+                   <select  name="BILL_METHOD" id="BILL_METHOD"  class="easyui-combobox" >
+                                <option value="0">批次入库出库</option>
+		                        <option value="1">等级入库出库</option>
+                   </select>
+                 </td>
+                  <td width="90">批次选择</td>
+                <td width="168"><input id="BATCH_SELECT"  name="BATCH_WEIGHT"  class="easyui-combogrid"></td>
+                 </tr>
+                 <tr>
+                  <td width="90">批次重量</td>
+                <td width="168"><input id="BATCH_WEIGHT"  name="BATCH_WEIGHT" class="easyui-numberbox" precision="2" ></td>
+                <td width="90">牌   号</td>
+                <td width="168"><input id="CIGARETTE_CODE" name="CIGARETTE_CODE"  readonly="true" ></td>
+                <td width="90">配方代号</td>
+                <td width="168"><input id="FORMULA_CODE" name="FORMULA_CODE"  readonly="true"></td>
+                <td colspan="4"><a href="#" class="easyui-linkbutton" plain="true" onclick="Loadformula()" id="btLoadFormula"  style="width:60px ">载入配方</a> </td>
+                </tr>
+                <tr>
+                </tr>
+            </table>
+	    </form>
+    </div>
+    <div border="false" class="formula_editbg" > 
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addBillDetailClick()" id="btnAddBillDetail">添加明细</a>
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteBillDetailClick()" id="btnDeleteBillDetail">删除明细</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editBillDetailClick()" id="btnEditBillDetail">修改明细</a>
+        
+    </div>
+</div>
+
+<div id="dlg-buttons">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+</div>
+
+<div  id="dlg-AddBillDetail" class="easyui-dialog" modal="true"
+        style="width:270px;height:230px;padding:0px 0px"
+        closed="true" buttons="#dlg-AddBillDetailbuttons">
+     <form id="fm-inBillDetail" novalidate>
+<table style="padding:10px 10px 0px 5px">
+<tr>
+    <td style="width:60px"></td>
+    <td align="left" style=" display:none">
+    <input type="text" name="ITEM_NO"    id="ITEM_NO"    />
+    <input type="text" name="WEIGHT"    id="WEIGHT"    />@*产品表中的重量*@
+    </td>
+</tr>
+  <tr>
+    <td style=" text-align:right; width:60px"> 产品代码</td>
+    <td align="left"><input type="text" name="PRODUCT_CODE" id="PRODUCT_CODE"  required="true"  readonly="true"/>
+     <a href="#" onclick="productSelect()" class="easyui-linkbutton" iconcls="icon-search" plain="true"></a></td>
+    <td></td>
+  </tr>
+  <tr>
+      <td style=" text-align:right; width:60px">产品名称</td>
+      <td align="left"><input  type="text" name="PRODUCT_NAME" id="PRODUCT_NAME"  readonly="true"/></td>
+      <td></td>
+  </tr>
+  <tr>
+    <td style=" text-align:right; width:60px">重量</td>
+    <td align="left"><input type="text" name="REAL_WEIGHT"    id="REAL_WEIGHT"  class="easyui-numberbox"  precision="2"  /></td>
+    <td></td>
+  </tr>
+
+    <tr>
+    <td style=" text-align:right; width:60px">包数</td>
+    <td align="left"><input type="text" name="PACKAGE_COUNT" id="PACKAGE_COUNT"  class="easyui-numberbox"  /></td>
+  </tr>
+
+    <tr>
+    <td style=" text-align:right; width:60px;display:none">总重量</td>
+    <td align="left" style=" display:none"><input type="text" name="TOTAL_WEIGHT" id="TOTAL_WEIGHT"  readonly="true"  /></td>
+    <td></td>
+  </tr>
+      <tr>
+    <td style=" text-align:right; width:60px">NC包数</td>
+    <td align="left"><input type="text" name="NC_COUNT" id="NC_COUNT" class="easyui-numberbox"  /></td>
+  </tr>
+</table>
+ </form>
+</div>
+
+<div id="dlg-AddBillDetailbuttons">
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="DetailSave()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-AddBillDetail').dialog('close')">取消</a>
+</div>
+
 

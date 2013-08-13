@@ -72,6 +72,8 @@
     <Compile Include="EntityRepository\WMSBillMasterRepository.cs" />
     <Compile Include="EntityRepository\WMSFormulaDetailRepository.cs" />
     <Compile Include="EntityRepository\WMSFormulaMasterRepository.cs" />
+    <Compile Include="EntityRepository\WMSProductionDetailRepository.cs" />
+    <Compile Include="EntityRepository\WMSProductionMasterRepository.cs" />
     <Compile Include="EntityRepository\WMSProductStateRepository.cs" />
     <Compile Include="EntityRepository\WMSScheduleDetailRepository.cs" />
     <Compile Include="EntityRepository\WMSScheduleMasterRepository.cs" />
@@ -99,6 +101,8 @@
     <Compile Include="Interfaces\IWMSBillMasterRepository.cs" />
     <Compile Include="Interfaces\IWMSFormulaDetailRepository.cs" />
     <Compile Include="Interfaces\IWMSFormulaMasterRepository.cs" />
+    <Compile Include="Interfaces\IWMSProductionDetailRepository.cs" />
+    <Compile Include="Interfaces\IWMSProductionMasterRepository.cs" />
     <Compile Include="Interfaces\IWMSProductStateRepository.cs" />
     <Compile Include="Interfaces\IWMSScheduleDetailRepository.cs" />
     <Compile Include="Interfaces\IWMSScheduleMasterRepository.cs" />
