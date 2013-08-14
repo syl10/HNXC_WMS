@@ -59,9 +59,9 @@ namespace WMS.Controllers.Wms.WMS
             var Billdetail = BillMasterService.GetSubDetails (page, rows,BillNo,0);
             return Json(Billdetail, "text", JsonRequestBehavior.AllowGet);
         }
-        public ActionResult Add(WMS_BILL_MASTER  mast, object detail)
+        public ActionResult Add(WMS_BILL_MASTER mast, object detail, string prefix)
         {
-            bool bResult = BillMasterService.Add(mast, detail);
+            bool bResult = BillMasterService.Add(mast, detail,prefix);
             string msg = bResult ? "新增成功" : "新增失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }
@@ -77,10 +77,10 @@ namespace WMS.Controllers.Wms.WMS
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }
         //单据编号
-        public ActionResult GetBillNo(System.DateTime dtime, string BILL_NO)
+        public ActionResult GetBillNo(System.DateTime dtime, string BILL_NO,string prefix)
         {
             string userName = this.GetCookieValue("username");
-            var BillnoInfo = BillMasterService.GetBillNo(userName, dtime, BILL_NO );
+            var BillnoInfo = BillMasterService.GetBillNo(userName, dtime, BILL_NO,prefix );
 
             return Json(BillnoInfo, "text", JsonRequestBehavior.AllowGet);
         }

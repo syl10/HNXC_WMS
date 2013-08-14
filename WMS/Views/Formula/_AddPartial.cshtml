@@ -169,7 +169,7 @@
         var Percent=0;
         var blnDistinct = true;
         var Rows = $('#inBillDetail').datagrid('getData');
-
+        if (Rows.total == 0 && status != "delete") { alert("明细不能为空"); return; }
         for (var i = 0; i < Rows.total; i++) {
             changesRows.inserted.push(Rows.rows[i])
             Percent += eval(Rows.rows[i].PERCENT);
@@ -197,7 +197,7 @@
             onSubmit: function () {
                 var blnvalidate = $(this).form('validate');
                 if (blnvalidate) {
-                   
+                    if (status != "delete") {
                         if (!blnDistinct) {
                             $.messager.alert('配方单明细', '产品代码重复');
                             return false;
@@ -206,6 +206,7 @@
                             $.messager.alert('配方单明细', '比例合计不等于100');
                             return false;
                         }
+                    }
                     return true;
                 }
                 return false;

@@ -222,7 +222,8 @@ namespace THOK.Wms.Bll.Service
                 billquery.CHECK_DATE = DateTime.Now;
                 billquery.CHECKER = checker;
                 billquery.STATE = "2";
-                BillMasterRepository.SaveChanges();
+               int result= BillMasterRepository.SaveChanges();
+               if (result == -1) return false;
             }
             else
                 return false;
@@ -247,9 +248,9 @@ namespace THOK.Wms.Bll.Service
 
 
         //获取单据编号
-        public object GetBillNo(string userName, DateTime dt, string BILL_NO)
+        public object GetBillNo(string userName, DateTime dt, string BILL_NO, string prefix)
         {
-            var strCode = BillMasterRepository.GetNewID("IS", dt, BILL_NO);
+            var strCode = BillMasterRepository.GetNewID(prefix, dt, BILL_NO);
             var BillnoInfo =
                 new
                 {
@@ -260,13 +261,13 @@ namespace THOK.Wms.Bll.Service
         }
 
 
-        public bool Add(WMS_BILL_MASTER mast, object detail)
+        public bool Add(WMS_BILL_MASTER mast, object detail, string prefix)
         {
             bool rejust = false;
             int serial = 1;
             try
             {
-                mast.BILL_NO = BillMasterRepository.GetNewID("IS", mast.BILL_DATE , mast.BILL_NO);
+                mast.BILL_NO = BillMasterRepository.GetNewID(prefix , mast.BILL_DATE , mast.BILL_NO);
                 mast.OPERATE_DATE = DateTime.Now;
                 //mast.BILL_DATE = DateTime.Now;
                 mast.STATE = "1"; //默认保存状态
@@ -287,8 +288,10 @@ namespace THOK.Wms.Bll.Service
                     serial++;
                 }
 
-                BillMasterRepository.SaveChanges();
-                rejust = true;
+              int brs=  BillMasterRepository.SaveChanges();
+              if (brs == -1) rejust = false;
+              else
+                  rejust = true;
             }
             catch (Exception ex)
             {
@@ -381,9 +384,10 @@ namespace THOK.Wms.Bll.Service
                     serial++;
                 }
             }
-            BillMasterRepository.SaveChanges();
-
-            return true;
+          int result= BillMasterRepository.SaveChanges();
+          if (result == -1) return false;
+          else
+              return true;
         }
 
         //获取序列号
@@ -427,7 +431,8 @@ namespace THOK.Wms.Bll.Service
                         billdetail.FPRODUCT_CODE = subdetail.FPRODUCT_CODE;
                     }
                 }
-                BillDetailRepository.SaveChanges();
+             int result= BillDetailRepository.SaveChanges();
+             if (result == -1) return false;
                 return true;
             }
             catch (Exception ex) { return false; }
@@ -444,7 +449,8 @@ namespace THOK.Wms.Bll.Service
                 BillDetailRepository.Delete(sub);
             }
             BillMasterRepository.Delete(deletbillno);
-            BillMasterRepository.SaveChanges();
+           int result= BillMasterRepository.SaveChanges();
+           if (result == -1) return false;
             return true;
         }
     }

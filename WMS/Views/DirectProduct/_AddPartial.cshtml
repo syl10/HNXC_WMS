@@ -172,7 +172,7 @@
             inserted: []
         };
         var Rows = $('#inBillDetail').datagrid('getData');
-        if (Rows.total==0) {alert("明细不能为空");  return; }
+        if (Rows.total == 0 && clickbt != "delete") { alert("明细不能为空"); return; }
         for (var i = 0; i < Rows.total; i++) {
             changesRows.inserted.push(Rows.rows[i]);
         }

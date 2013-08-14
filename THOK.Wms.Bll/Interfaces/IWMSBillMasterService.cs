@@ -16,10 +16,10 @@ namespace THOK.Wms.Bll.Interfaces
         bool Audit(string checker, string BillNo);
         //反审
         bool Antitrial(string BillNo);
-        //获取单据编号
-        object GetBillNo(string userName, DateTime dt, string BILL_NO);
+        //获取单据编号  prefix是单据编号的前缀字符
+        object GetBillNo(string userName, DateTime dt, string BILL_NO, string prefix);
         //单据新增
-        bool Add(WMS_BILL_MASTER  mast, object detail);
+        bool Add(WMS_BILL_MASTER mast, object detail, string prefix);
         //修改单据
         bool Edit(WMS_BILL_MASTER mast, object detail);
         //删除单据

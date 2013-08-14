@@ -108,7 +108,7 @@
     }
     //单据编号
     function GetBillNo(date) {
-        $.getJSON("/StockInBill/GetBillNo/?dtime=" + date, function (json) {
+        $.getJSON("/StockInBill/GetBillNo/?dtime=" + date+'&prefix=IS', function (json) {
             if (json) {
                 $('#BILL_NO').val(json.BillNo);
                 $('#OPERATER').val(json.userName);
@@ -387,13 +387,20 @@
         var changesRows = {
             inserted: []
         };
+        var  totalweight=0;
         var Rows = $('#inBillDetail').datagrid('getData');
-       if (Rows.total==0) {alert("明细不能为空");  return; }
+       if (Rows.total==0&&clickbt!="delete") {alert("明细不能为空");  return; }
         for (var i = 0; i < Rows.total; i++) {
             changesRows.inserted.push(Rows.rows[i]);
+            totalweight+=Rows.rows[i].TOTAL_WEIGHT;
         }
+
+        if(totalweight!=$('#BATCH_WEIGHT').val()&&$('#BILL_METHOD').combobox('getValue')=='0'){
+            alert("你输入的批次重量与明细的总重量不符,请确认已载入配方.");return;
+        }
+
         if (clickbt == "add") {
-            url = '/StockInBill/Add/?detail=' + JSON.stringify(changesRows.inserted);
+            url = '/StockInBill/Add/?prefix=IS&detail=' + JSON.stringify(changesRows.inserted);
         }
         if (clickbt == "edit") {
             url = '/StockInBill/Edit/?detail=' + JSON.stringify(changesRows.inserted);
