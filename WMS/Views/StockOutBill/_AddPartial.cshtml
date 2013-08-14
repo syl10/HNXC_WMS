@@ -5,6 +5,17 @@
         $('#fm-inBillDetail .easyui-validatebox').validatebox({
             required: true
         });
+        $('#BILL_DATE').datebox({
+            width: 135,
+            hasDownArrow: true,
+            required: true
+        });
+        $('#OPERATE_DATE').datebox({
+            width: 135,
+            hasDownArrow: true,
+            required: true,
+            disabled:true,
+        });
     }
 </script>
 
@@ -51,10 +62,14 @@
                  </tr>
                 <tr>
                 <td width="90">单据类型</td>
-                <td width="168"><input name="BTYPE_CODE"  id="BTYPE_CODE"/></td>
+                <td width="168"><input name="BTYPE_CODE"  id="BTYPE_CODE" class="easyui-combogrid"/></td>
                 <td width="90">仓库编号</td>
-                <td width="168"><input name="WAREHOUSE_CODE"  id="WAREHOUSE_CODE"/></td>
-                <td width="90">出库方式</td>
+                <td width="168"><input name="WAREHOUSE_CODE"  id="WAREHOUSE_CODE" class="easyui-combogrid"/></td>
+                <td width="90">批次重量</td>
+                <td width="168"><input id="BATCH_WEIGHT"  name="BATCH_WEIGHT" class="easyui-numberbox" precision="2" ></td>
+                <td width="90">牌   号</td>
+                <td width="168"><input id="CIGARETTE_CODE" name="CIGARETTE_CODE"   class="easyui-combogrid"></td>
+@*                <td width="90">出库方式</td>
                 <td width="133" >
                    <select  name="BILL_METHOD" id="BILL_METHOD"  class="easyui-combobox" >
                                 <option value="0">批次入库出库</option>
@@ -62,16 +77,12 @@
                    </select>
                  </td>
                   <td width="90">批次选择</td>
-                <td width="168"><input id="BATCH_SELECT"  name="BATCH_WEIGHT"  class="easyui-combogrid"></td>
+                <td width="168"><input id="BATCH_SELECT"  name="BATCH_WEIGHT"  class="easyui-combogrid"></td>*@
                  </tr>
                  <tr>
-                  <td width="90">批次重量</td>
-                <td width="168"><input id="BATCH_WEIGHT"  name="BATCH_WEIGHT" class="easyui-numberbox" precision="2" ></td>
-                <td width="90">牌   号</td>
-                <td width="168"><input id="CIGARETTE_CODE" name="CIGARETTE_CODE"  readonly="true" ></td>
                 <td width="90">配方代号</td>
-                <td width="168"><input id="FORMULA_CODE" name="FORMULA_CODE"  readonly="true"></td>
-                <td colspan="4"><a href="#" class="easyui-linkbutton" plain="true" onclick="Loadformula()" id="btLoadFormula"  style="width:60px ">载入配方</a> </td>
+                <td width="168"><input id="FORMULA_CODE" name="FORMULA_CODE"  class="easyui-combogrid"></td>
+                <td colspan="4"><a href="#" class="easyui-linkbutton"  onclick="Loadformula()" id="btLoadFormula"  style="width:66px ">载入配方</a> </td>
                 </tr>
                 <tr>
                 </tr>

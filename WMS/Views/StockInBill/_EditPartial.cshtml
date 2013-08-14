@@ -2,6 +2,7 @@
     function editClick() {
         clickbt = "edit";
         serial = 1;
+        ischang = false; 
         var row = $('#details').datagrid('getSelected');
         index = $('#details').datagrid('getRowIndex', row);
         if (row) {
@@ -33,7 +34,7 @@
             }
         }
         else {
-            $.messager.confirm('错误', '没有选择行！');
+            alert('错误', '没有选择行！');
         }
     }
     //加载该计划单的明细.

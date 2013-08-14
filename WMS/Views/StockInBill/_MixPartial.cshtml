@@ -15,11 +15,11 @@
                 $('#mixdlg').dialog('open').dialog('setTitle', '混装操作');
                 mixloaddata(mixrow.BILL_NO);
             } else {
-                alert("改记录已审核不能修改");
+                alert("该记录已" + mixrow.STATENAME + "不能设置混装");
             }
         }
         else {
-            $.messager.confirm('错误', '没有选择行！');
+            alert('错误', '没有选择行！');
         }
 
     }
