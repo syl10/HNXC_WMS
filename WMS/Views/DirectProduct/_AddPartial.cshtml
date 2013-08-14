@@ -1,8 +1,11 @@
 ﻿<script type="text/javascript">
     var editsubdetail;  //获取明细修改中的所要修改的行
     var clickbt; //点击的按钮
+    var isresetvalue = false; //判断是否执行了resetformulavalue函数
+    var ischang = false; //判断牌号是否改变
     function addClick() {
         clickbt = "add";
+        isresetvalue = false;
         $('#dlg').dialog('open').dialog('setTitle', '新增');
         $('#fm').form('clear');
         $('#fm-inBillDetail .easyui-validatebox').validatebox({
@@ -91,6 +94,10 @@
                 ]],
             onSelect: function (index, data) {
                 GetFormula(data.CIGARETTE_CODE);
+            },
+            onChange: function (newValue, oldValue) {
+                $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+                ischang = true;
             }
         });
     }
@@ -114,17 +121,24 @@
                     { field: 'USE_COUNT', title: '次数', align: 'left', width: 30 }
                 ]],
             onLoadSuccess: function () {
-                if (clickbt == "edit") {
+                if (clickbt == "edit" && !ischang) {
                     var row = $('#details').datagrid('getSelected');
-                    resetformulavalue(row.FORMULA_CODE);
+                    resetformulavalue(row.FORMULA_CODE); 
+                    isresetvalue = false;
+                }
+            },
+            onChange: function (newValue, oldValue) {
+                if (isresetvalue == false) {//清空明细
+                    $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
                 }
             }
         });
-        if (editsubdetail == null)
+//        if (editsubdetail == null)
             $('#FORMULA_CODE').combogrid('clear');
     }
 
     function resetformulavalue(value) {
+        isresetvalue = true;
         $('#FORMULA_CODE').combogrid('setValue', value);
     }
 
@@ -158,6 +172,7 @@
             inserted: []
         };
         var Rows = $('#inBillDetail').datagrid('getData');
+        if (Rows.total==0) {alert("明细不能为空");  return; }
         for (var i = 0; i < Rows.total; i++) {
             changesRows.inserted.push(Rows.rows[i]);
         }
@@ -246,7 +261,7 @@
                 <td width="168"><input id="CIGARETTE_CODE" name="CIGARETTE_CODE" class="easyui-combogrid"  readonly="true"  ></td>
                 <td width="90">配方代号</td>
                 <td width="168"><input id="FORMULA_CODE" name="FORMULA_CODE"  class="easyui-combogrid" readonly="true"></td>
-                <td colspan="4"><a href="#" class="easyui-linkbutton" plain="true" onclick="Loadformula()" id="btLoadFormula"  style="width:60px ">载入配方</a> </td>
+                <td colspan="4"><a href="#" class="easyui-linkbutton"   onclick="Loadformula()" id="btLoadFormula"  style="width:66px ">载入配方</a> </td>
                 </tr>
                 <tr>
                 </tr>

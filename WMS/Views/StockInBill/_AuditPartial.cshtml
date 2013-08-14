@@ -27,11 +27,11 @@
                 });
             }
             else {
-                $.messager.confirm('提示', '该记录已' + row.STATENAME + '无法审核！');
+                alert( '该记录已' + row.STATENAME + '无法审核！');
             }
         }
         else {
-            $.messager.confirm('错误', '没有选择行！');
+            alert( '没有选择行！');
         }
     }
 </script>
