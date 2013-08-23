@@ -70,5 +70,18 @@ namespace THOK.Wms.Bll.Service
                 return true;
            //((ObjectContext)RepositoryContext).ExecuteStoreCommand("", "");
         }
+
+        //出库作业.
+        public bool Task(string billno, string cigarettecode, string formulacode, string batchweight, string tasker)
+        {
+            string sqlstr = "begin STOCKOUTWORK('" + billno + "','" + cigarettecode + "','" + formulacode + "'," + batchweight + ",'" + tasker + "');end;";
+            //string sqlstr = "update WMS_BILL_MASTER set state='2' where bill_no='"+billno+"' ";
+            int result = ProductStateRepository.Exeprocedure(sqlstr, null);
+            //return ((ObjectContext)RepositoryContext).ExecuteStoreCommand("","");
+            if (result < 0)
+                return false;
+            else
+                return true;
+        }
     }
 }

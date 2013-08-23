@@ -10,7 +10,9 @@ namespace THOK.Wms.Bll.Interfaces
     {
         //获取某条单据下的作业任务
         object Details(int page, int rows, string billno);
-        //单据拆分为作业.
+        //单据拆分为作业,(入库)
         bool Task(string billno, string btypecode,string tasker);
+        //出库作业功能.
+        bool Task(string billno, string cigarettecode, string formulacode, string batchweight, string tasker);
     }
 }

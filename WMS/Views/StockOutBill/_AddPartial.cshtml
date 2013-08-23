@@ -1,6 +1,7 @@
 ﻿<script type="text/javascript">
     var clickbt; //点击的按钮
     var isresetvalue = false; //判断是否执行了resetformulavalue函数
+    var ischang = false; //判断牌号是否改变
     function addClick() {
         clickbt = "add";
         $('#dlg').dialog('open').dialog('setTitle', '新增');
@@ -24,6 +25,7 @@
         GetWarehouseCode();  //仓库编号
         GetCigarette(); //加载牌号
         GetFormula(""); //加载配方
+        GetLineNo();//制丝线
         //禁用明细按钮
         $('#btnAddBillDetail').linkbutton('disable');
         $('#btnDeleteBillDetail').linkbutton('disable');
@@ -98,6 +100,26 @@
                 ]]
         });
     }
+//    制丝线
+        function GetLineNo() {
+            $('#LINE_NO').combogrid({
+                required: true,
+                disabled: false,
+                width: 135,
+                panelWidth: 340,
+                url: '/Schedule2/GetLine/?page=1&rows=1000',
+                idField: 'LINE_NO',
+                textField: 'LINE_NAME',
+                mode: 'local',
+                editable: false,
+                fitColumns: true,
+                columns: [[
+                        { field: 'LINE_NO', title: '制丝线编号', align: 'left', width: 40 },
+                        { field: 'LINE_NAME', title: '制丝线名称', align: 'left', width: 30 },
+                        { field: 'MEMO', title: '备注', align: 'left', width: 30 }
+                    ]]
+            });
+        }
     //牌号
     function GetCigarette() {
         $('#CIGARETTE_CODE').combogrid({
@@ -122,7 +144,7 @@
             onChange: function (newValue, oldValue) {
                 $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
                 $('#FORMULA_CODE').combogrid('clear');
-//                ischang = true;
+                ischang = true;
             }
         });
     }
@@ -146,7 +168,7 @@
                     { field: 'USE_COUNT', title: '次数', align: 'left', width: 30 }
                 ]],
             onLoadSuccess: function () {
-                if (clickbt == "edit") {
+                if (clickbt == "edit" && !ischang) {
                     var row = $('#details').datagrid('getSelected');
                     resetformulavalue(row.FORMULA_CODE);
                      isresetvalue=false;
@@ -159,7 +181,7 @@
             }
         });
 //        if (editsubdetail == null)
-//            $('#FORMULA_CODE').combogrid('clear');
+            $('#FORMULA_CODE').combogrid('clear');
     }
 
     function resetformulavalue(value) {
@@ -285,10 +307,10 @@
                 <td width="168"><input name="BTYPE_CODE"  id="BTYPE_CODE" class="easyui-combogrid"/></td>
                 <td width="90">仓库编号</td>
                 <td width="168"><input name="WAREHOUSE_CODE"  id="WAREHOUSE_CODE" class="easyui-combogrid"/></td>
+                <td width="90">制丝线编号</td>
+                <td width="168"><input name="LINE_NO" id="LINE_NO" class="easyui-combogrid"/></td>
                 <td width="90">批次重量</td>
                 <td width="168"><input id="BATCH_WEIGHT"  name="BATCH_WEIGHT" class="easyui-numberbox" precision="2" ></td>
-                <td width="90">牌   号</td>
-                <td width="168"><input id="CIGARETTE_CODE" name="CIGARETTE_CODE"   class="easyui-combogrid"></td>
       
 @*                <td width="90">出库方式</td>
                 <td width="133" >
@@ -301,6 +323,8 @@
                 <td width="168"><input id="BATCH_SELECT"  name="BATCH_WEIGHT"  class="easyui-combogrid"></td>*@
                  </tr>
                  <tr>
+                <td width="90">牌   号</td>
+                <td width="168"><input id="CIGARETTE_CODE" name="CIGARETTE_CODE"   class="easyui-combogrid"></td>
                 <td width="90">配方代号</td>
                 <td width="168"><input id="FORMULA_CODE" name="FORMULA_CODE"  class="easyui-combogrid"></td>
                 <td colspan="4"><a href="#" class="easyui-linkbutton"  onclick="Loadformula()" id="btLoadFormula"  style="width:66px ">载入配方</a> </td>

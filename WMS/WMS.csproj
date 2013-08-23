@@ -151,6 +151,7 @@
     <Compile Include="Controllers\Wms\WMS\StockInBillController.cs" />
     <Compile Include="Controllers\Wms\WMS\StockInWorkController.cs" />
     <Compile Include="Controllers\Wms\WMS\StockOutBillController.cs" />
+    <Compile Include="Controllers\Wms\WMS\StockOutWorkController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

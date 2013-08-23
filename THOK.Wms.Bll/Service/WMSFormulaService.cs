@@ -37,7 +37,7 @@ namespace THOK.Wms.Bll.Service
             var tmp = masters.ToArray().AsEnumerable().Select(i => new {
                 i.FORMULA_CODE,
                 i.FORMULA_DATE,
-                FORMULADATE = i.FORMULA_DATE.ToString("yyyy-MM-dd HH:mm:ss"),
+                FORMULADATE = i.FORMULA_DATE.ToString("yyyy-MM-dd"),
                 i.FORMULA_NAME,
                 i.CIGARETTE_CODE,
                 i.CMD_CIGARETTE.CIGARETTE_NAME,

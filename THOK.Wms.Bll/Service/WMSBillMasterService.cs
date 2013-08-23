@@ -360,6 +360,7 @@ namespace THOK.Wms.Bll.Service
                 billmast.CIGARETTE_CODE = mast.CIGARETTE_CODE;
                 billmast.FORMULA_CODE = mast.FORMULA_CODE;
                 billmast.BATCH_WEIGHT = mast.BATCH_WEIGHT;
+                billmast.LINE_NO = mast.LINE_NO=="null"?"":mast .LINE_NO ;
             }
             var details = BillDetailRepository.GetQueryable().Where(i => i.BILL_NO == mast.BILL_NO);
             var tmp = details.ToArray().AsEnumerable().Select(i => i);

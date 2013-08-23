@@ -14,7 +14,7 @@
     });
 </script>
 <div region="center" split="true" border="false">    
-    <table id="details" class="easyui-datagrid" url="/StockOutBill/Details/?flag='0'" border="false" singleSelect="true"
+    <table id="details" class="easyui-datagrid" url="/StockOutBill/Details/?flag=0" border="false" singleSelect="true"
         fit="true" fitColumns="false" toolbar="#tool"  pagination="true" rownumbers="true"  striped="true">
         <thead>
             <tr>
@@ -64,8 +64,8 @@
                 <th field="PACKAGE_COUNT" width="80">包数</th>
                 <th field="NC_COUNT" width="80">NC包数</th>
                 <th field="IS_MIX" width="60" hidden="true">是否混装</th>
-                <th field="IS_MIXDESC" width="60">是否混装</th>
-                <th field="FPRODUCT_CODE" width="80">混合第一笔产品编号</th>
+                <th field="IS_MIXDESC" width="60" hidden="true">是否混装</th>
+                <th field="FPRODUCT_CODE" width="80" hidden="true">混合第一笔产品编号</th>
             </tr>
         </thead>
     </table>
