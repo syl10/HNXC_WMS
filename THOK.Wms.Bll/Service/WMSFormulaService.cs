@@ -37,7 +37,7 @@ namespace THOK.Wms.Bll.Service
             var tmp = masters.ToArray().AsEnumerable().Select(i => new {
                 i.FORMULA_CODE,
                 i.FORMULA_DATE,
-                FORMULADATE = i.FORMULA_DATE.ToString("yyyy-MM-dd HH:mm:ss"),
+                FORMULADATE = i.FORMULA_DATE.ToString("yyyy-MM-dd"),
                 i.FORMULA_NAME,
                 i.CIGARETTE_CODE,
                 i.CMD_CIGARETTE.CIGARETTE_NAME,
@@ -130,18 +130,23 @@ namespace THOK.Wms.Bll.Service
 
         public bool Delete(string FORMULA_CODE)
         {
-            var editmaster = MasterRepository.GetQueryable().Where(i => i.FORMULA_CODE == FORMULA_CODE).FirstOrDefault();
-            
-
-            var details = DetailRepository.GetQueryable().Where(i => i.FORMULA_CODE == FORMULA_CODE);
-            var tmp = details.ToArray().AsEnumerable().Select(i => i);
-            foreach (WMS_FORMULA_DETAIL sub in tmp)
+            try
             {
-                DetailRepository.Delete(sub);
+                var editmaster = MasterRepository.GetQueryable().Where(i => i.FORMULA_CODE == FORMULA_CODE).FirstOrDefault();
+
+                var details = DetailRepository.GetQueryable().Where(i => i.FORMULA_CODE == FORMULA_CODE);
+                var tmp = details.ToArray().AsEnumerable().Select(i => i);
+                foreach (WMS_FORMULA_DETAIL sub in tmp)
+                {
+                    DetailRepository.Delete(sub);
+                }
+                MasterRepository.Delete(editmaster);
+              int result=  MasterRepository.SaveChanges();
+              if (result == -1) return false;
+              else
+                  return true;
             }
-            MasterRepository.Delete(editmaster);
-            MasterRepository.SaveChanges();
-            return true;
+            catch (Exception ex) { return false; }
           
         }
 

@@ -1,6 +1,7 @@
 ﻿<script type="text/javascript">
     $(function () {
         $('#details').datagrid('options').onClickRow = function () {
+            $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
             var row = $('#details').datagrid('getSelected');
             if (row) {
                 $('#SubDetails').datagrid({ url: '/Formula/SubDetails/?FORMULA_CODE=' + row.FORMULA_CODE });

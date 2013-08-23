@@ -76,7 +76,7 @@
             width: 135,
             hasDownArrow: true,
             required: true,
-            disabled:true,
+            disabled:true
         });
         GetBillNo(getDate()); //单据编号
         GetBillType();//单据类型
@@ -108,7 +108,7 @@
     }
     //单据编号
     function GetBillNo(date) {
-        $.getJSON("/StockInBill/GetBillNo/?dtime=" + date, function (json) {
+        $.getJSON("/StockInBill/GetBillNo/?dtime=" + date+'&prefix=IS', function (json) {
             if (json) {
                 $('#BILL_NO').val(json.BillNo);
                 $('#OPERATER').val(json.userName);
@@ -163,26 +163,6 @@
         });
     }
 
-    //制丝线
-//    function GetLineNo() {
-//        $('#LINE_NO').combogrid({
-//            required: true,
-//            disabled: false,
-//            width: 135,
-//            panelWidth: 340,
-//            url: '/Schedule2/GetLine/?page=1&rows=1000',
-//            idField: 'LINE_NO',
-//            textField: 'LINE_NAME',
-//            mode: 'local',
-//            editable: false,
-//            fitColumns: true,
-//            columns: [[
-//                    { field: 'LINE_NO', title: '制丝线编号', align: 'left', width: 40 },
-//                    { field: 'LINE_NAME', title: '制丝线名称', align: 'left', width: 30 },
-//                    { field: 'MEMO', title: '备注', align: 'left', width: 30 }
-//                ]]
-//        });
-//    }
 
     //牌号
     function GetCigarette() {
@@ -387,13 +367,20 @@
         var changesRows = {
             inserted: []
         };
+        var  totalweight=0;
         var Rows = $('#inBillDetail').datagrid('getData');
-       if (Rows.total==0) {alert("明细不能为空");  return; }
+       if (Rows.total==0&&clickbt!="delete") {alert("明细不能为空");  return; }
         for (var i = 0; i < Rows.total; i++) {
             changesRows.inserted.push(Rows.rows[i]);
+            totalweight+=Rows.rows[i].TOTAL_WEIGHT;
         }
+
+        if(totalweight!=$('#BATCH_WEIGHT').val()&&$('#BILL_METHOD').combobox('getValue')=='0'){
+            alert("你输入的批次重量与明细的总重量不符,请确认已载入配方.");return;
+        }
+
         if (clickbt == "add") {
-            url = '/StockInBill/Add/?detail=' + JSON.stringify(changesRows.inserted);
+            url = '/StockInBill/Add/?prefix=IS&detail=' + JSON.stringify(changesRows.inserted);
         }
         if (clickbt == "edit") {
             url = '/StockInBill/Edit/?detail=' + JSON.stringify(changesRows.inserted);

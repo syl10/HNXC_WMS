@@ -149,7 +149,8 @@ namespace THOK.Wms.Bll.Service
                 temp.CHECK_DATE = DateTime.Now;
                 temp.CHECKER = checker;
                 temp.STATE = "2";
-                ProductionmasterRepository.SaveChanges();
+               int result= ProductionmasterRepository.SaveChanges();
+               if (result == -1) return false;
             }
             else
                 return false;
@@ -164,7 +165,8 @@ namespace THOK.Wms.Bll.Service
                 temp.CHECK_DATE = DateTime.Now;
                 temp.CHECKER = "";
                 temp.STATE = "1";
-                ProductionmasterRepository.SaveChanges();
+               int result=  ProductionmasterRepository.SaveChanges();
+               if (result == -1) return false;
             }
             else
                 return false;
@@ -184,7 +186,8 @@ namespace THOK.Wms.Bll.Service
                 ProeductiondetailRepository.Delete(sub);
             }
             ProductionmasterRepository.Delete(editmaster);
-            ProductionmasterRepository.SaveChanges();
+           int result=  ProductionmasterRepository.SaveChanges();
+           if (result == -1) return false;
             return true;
         }
 
@@ -230,12 +233,14 @@ namespace THOK.Wms.Bll.Service
                     serial++;
                 }
 
-                ProductionmasterRepository.SaveChanges();
-                rejust = true;
+              int rsb=  ProductionmasterRepository.SaveChanges();
+              if (rsb == -1) rejust = false;
+              else
+                  rejust = true;
             }
             catch (Exception ex)
             {
-
+                rejust = false;
             }
             return rejust;
         }
@@ -301,8 +306,8 @@ namespace THOK.Wms.Bll.Service
                     serial++;
                 }
             }
-            ProductionmasterRepository.SaveChanges();
-
+          int result=  ProductionmasterRepository.SaveChanges();
+          if (result == -1) return false;
             return true;
         }
     }

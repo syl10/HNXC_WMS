@@ -158,11 +158,12 @@ namespace THOK.Common.Ef.EntityRepository
             }
             return strNew;
         }
+        //执行命令函数
         public int  Exeprocedure(string storename, object[] paramers)
         {
             try
             {
-                 ((IObjectContextAdapter)RepositoryContext.DbContext).ObjectContext.ExecuteStoreCommand(storename, paramers);
+               int a=((IObjectContextAdapter)RepositoryContext.DbContext).ObjectContext.ExecuteStoreCommand(storename, paramers);
                 return 1;
             }
             catch (Exception ex) {

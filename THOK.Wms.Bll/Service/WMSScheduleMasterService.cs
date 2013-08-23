@@ -47,7 +47,7 @@ namespace THOK.Wms.Bll.Service
                                STATECODE = a.STATE,
                                STATUSCODE = a.STATUS
                            };
-            schedule = schedule.OrderByDescending(i => i.SCHEDULE_NO).Select(i => i);
+            //schedule = schedule.OrderByDescending(i => i.SCHEDULE_NO).Select(i => i);
             if (!string.IsNullOrEmpty(SCHEDULE_NO))
             {
                 schedule = schedule.Where(i => i.SCHEDULE_NO == SCHEDULE_NO);
@@ -83,7 +83,7 @@ namespace THOK.Wms.Bll.Service
                 schedule = schedule.Where(i => i.CHECK_DATE.Value .CompareTo (checkdt )>=0);
                 schedule = schedule.Where(i => i.CHECK_DATE.Value.CompareTo(checkdt2) < 0);
             }
-            var temp = schedule.ToArray().OrderBy(i=>i.SCHEDULE_DATE).Select(i => new
+            var temp = schedule.ToArray().OrderByDescending(i=>i.OPERATE_DATE).Select(i => new
             {
                 i.SCHEDULE_NO,
                 SCHEDULE_DATE = i.SCHEDULE_DATE.ToString("yyyy-MM-dd"),
@@ -110,7 +110,9 @@ namespace THOK.Wms.Bll.Service
                 i.SCHEDULE_NO ,
                 i.ITEM_NO,
                 i.FORMULA_CODE ,
+                i.WMS_FORMULA_MASTER .FORMULA_NAME ,
                 i.CIGARETTE_CODE,
+                i.CMD_CIGARETTE .CIGARETTE_NAME ,
                 i.BILL_NO,
                 i.QUANTITY,
                LINE_NAME= i.CMD_PRODUCTION_LINE .LINE_NAME,
