@@ -212,5 +212,15 @@ namespace THOK.Wms.Bll.Service
             });
             return new { total, rows = tmp.ToArray() };
         }
+
+        //验证配方编号是否存在
+        public bool Checkformulacode(string formulacode)
+        {
+           var  mast = MasterRepository.GetQueryable().FirstOrDefault(i => i.FORMULA_CODE == formulacode);
+           if (mast != null)
+               return false;
+           else
+               return true;
+        }
     }
 }

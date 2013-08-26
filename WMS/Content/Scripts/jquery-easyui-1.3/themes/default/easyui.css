@@ -336,6 +336,7 @@
 	background:#fafafa url('images/datagrid_header_bg.gif') repeat-x left bottom;
 	border-bottom:1px solid #ccc;
 	border-top:1px solid #fff;
+
 }
 .datagrid-header td.datagrid-header-over{
 	background:#EBF3FD;

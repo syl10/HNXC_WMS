@@ -21,7 +21,9 @@ namespace THOK.Wms.DbModel
         public Nullable<System.DateTime> OPERATE_DATE { get; set; }
         public string CHECKER { get; set; }
         public Nullable<System.DateTime> CHECK_DATE { get; set; }
+        public string LINE_NO { get; set; }
         public virtual CMD_CIGARETTE CMD_CIGARETTE { get; set; }
+        public virtual CMD_PRODUCTION_LINE CMD_PRODUCTION_LINE { get; set; }
         public virtual CMD_WAREHOUSE CMD_WAREHOUSE { get; set; }
         public virtual WMS_FORMULA_MASTER WMS_FORMULA_MASTER { get; set; }
     }

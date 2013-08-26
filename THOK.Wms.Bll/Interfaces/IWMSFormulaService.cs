@@ -22,5 +22,7 @@ namespace THOK.Wms.Bll.Interfaces
         object GetSubDetailbyCigarettecode(int page, int rows, string CIGARETTE_CODE);
         //根据牌号获取已经启用的配方
         object Getusefull(int page, int rows, string CIGARETTE_CODE);
+        //验证配方编号是否存在
+        bool Checkformulacode(string formulacode);
     }
 }

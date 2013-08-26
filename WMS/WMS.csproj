@@ -1877,6 +1877,8 @@
     <Content Include="Views\DirectProduct\_AntiTrialPartial.cshtml" />
     <Content Include="Views\DirectProduct\_AuditPartial.cshtml" />
     <Content Include="Views\DirectProduct\_PrintPartial.cshtml" />
+    <Content Include="Views\Shared\_CopyPartial.cshtml" />
+    <Content Include="Views\Product\_CopyPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

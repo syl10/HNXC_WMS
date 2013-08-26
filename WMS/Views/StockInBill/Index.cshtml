@@ -12,13 +12,14 @@
             }
         }
     });
+
 </script>
 <div region="center" split="true" border="false">    
     <table id="details" class="easyui-datagrid" url="/StockInBill/Details/?flag=0" border="false" singleSelect="true"
         fit="true" fitColumns="false" toolbar="#tool"  pagination="true" rownumbers="true" striped="true"  >
         <thead>
             <tr>
-                <th field="BILL_NO" width="100" >单据编号</th>
+                <th field="BILL_NO" width="100" ><span  align:center>单据编号</span></th>
                 <th field="BILL_DATE" width="80">入库日期</th>
                 <th field="BTYPE_NAME" width="80">单据类型</th>
                 <th field="BILL_METHOD" width="90" hidden="true">入库方式</th>

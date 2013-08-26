@@ -66,7 +66,7 @@
         $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
         DataLoad();
 
-        $('#FORMULA_CODE').attr("readonly", true);
+        $('#FORMULA_CODE').attr("readonly", false);
         $('#OPERATE_DATE').attr("readonly", true);
         $('#FORMULA_DATE').datebox({
             hasDownArrow: true
@@ -169,6 +169,7 @@
         var Percent=0;
         var blnDistinct = true;
         var Rows = $('#inBillDetail').datagrid('getData');
+        if (status == "add")  checkformulacode();
         if (Rows.total == 0 && status != "delete") { alert("明细不能为空"); return; }
         for (var i = 0; i < Rows.total; i++) {
             changesRows.inserted.push(Rows.rows[i])
@@ -185,6 +186,7 @@
 
         if (status == "add") {
             url = '/Formula/Create/?detail=' + JSON.stringify(changesRows.inserted);
+           
         }
         if (status == "edit") {
             url = '/Formula/Edit/?detail=' + JSON.stringify(changesRows.inserted);
@@ -270,7 +272,25 @@
           alert("请选择配方");return;
         }
 //        $('#inBillDetail').datagrid('reload');
-    }
+  }
+  //验证配方编号是否已存在
+  function checkformulacode() {
+      var code = $('#FORMULA_CODE').val();
+      if (code == "") {
+          alert("配方编号不可为空");
+          return false;
+      }
+      else {
+          $.getJSON("/Formula/Checkformulacode/?formulacode=" + code, function (json) {
+              if (json) {
+                  if (json.success == -1) {
+                      alert("该配方编号已存在");
+                      return false;
+                  }
+              }
+          });
+      }
+  }
 </script>
 
 <div id="dlg" class="easyui-dialog" modal="true"
@@ -300,19 +320,22 @@
             <table height="80px">
                 <tr>
                 <td width="60">配方编码</td>
-                <td width="133"><input name="FORMULA_CODE" id="FORMULA_CODE" readonly="true"></td>
-                <td width="15"></td>
-                <td width="20"></td>
-                <td width="60">配方名称</td>
-                <td width="168"><input name="FORMULA_NAME" id="FORMULA_NAME" class="easyui-validatebox" required="true"></td>
-                <td width="60">配方日期</td>
-                <td width="168"><input name="FORMULA_DATE" id="FORMULA_DATE"></td>
-                </tr>
-                <tr>
+                <td width="168"><input name="FORMULA_CODE" id="FORMULA_CODE" ></td>
                 <td width="60">牌号编码</td>
                 <td width="133" ><input  name="CIGARETTE_CODE" id="CigaretteAdd" missingmessage="请选择牌号编码">
                  </td>
                  <td width="15" style=" padding-top:2px"><img id="copybt" src="../../Content/Images/copy2.png" title="复制配方" alt="" style=" cursor:pointer;  height:20px; " onclick="formulacopy()" /></td>
+                <td width="20"></td>
+
+                <td width="60">配方日期</td>
+                <td width="168"><input name="FORMULA_DATE" id="FORMULA_DATE"></td>
+                </tr>
+                <tr>
+                <td width="60">配方名称</td>
+                <td width="168"><input name="FORMULA_NAME" id="FORMULA_NAME" class="easyui-validatebox" required="true"></td>
+                <td width="60">使用次数</td>
+                <td width="133"><input id="USE_COUNT" name="USE_COUNT" ></td>
+                <td width="15"></td>
                  <td width="20"></td>
                 <td width="60">状态</td>
                 <td width="168">
@@ -321,16 +344,14 @@
 		                <option value="0">禁用</option>
 	                </select>
                 </td>
-                <td width="60">操作人</td>
-                <td width="168"><input id="OPERATER" name="OPERATER" readonly="true"></td>
                 </tr>
                 <tr>
                 <td width="60">操作日期</td>
-                <td width="133"><input name="OPERATEDATE" id="OPERATE_DATE" readonly="true"></td>
-                <td></td>
+                <td width="168"><input name="OPERATEDATE" id="OPERATE_DATE" readonly="true"></td>
+                <td width="60">操作人</td>
+                <td width="133"><input id="OPERATER" name="OPERATER" readonly="true"></td>
+                <td width="15"></td>
                 <td width="20"></td>
-                <td width="60">使用次数</td>
-                <td width="168"><input id="USE_COUNT" name="USE_COUNT" readonly="true"></td>
                 <td width="60"></td>
                 <td width="168"></td>
                 </tr>

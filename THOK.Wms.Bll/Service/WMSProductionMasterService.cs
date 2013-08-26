@@ -49,6 +49,8 @@ namespace THOK.Wms.Bll.Service
                            a.IN_BILLNO ,
                            a.OUT_BILLNO ,
                            a.STATE ,
+                           a.LINE_NO,
+                           a.CMD_PRODUCTION_LINE.LINE_NAME,
                            STATENAME=b.STATE_DESC ,
                            a.OPERATER ,
                            a.OPERATE_DATE ,
@@ -127,6 +129,8 @@ namespace THOK.Wms.Bll.Service
                 i.IN_BILLNO,
                 i.OUT_BILLNO,
                 i.STATE,
+                i.LINE_NO ,
+                i.LINE_NAME ,
                 STATENAME = i.STATENAME ,
                 i.OPERATER,
                 OPERATE_DATE = i.OPERATE_DATE == null ? "" : ((DateTime)i.OPERATE_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
@@ -285,6 +289,7 @@ namespace THOK.Wms.Bll.Service
                 billmast.CIGARETTE_CODE = mast.CIGARETTE_CODE;
                 billmast.FORMULA_CODE = mast.FORMULA_CODE;
                 billmast.BATCH_WEIGHT = mast.BATCH_WEIGHT;
+                billmast.LINE_NO = mast.LINE_NO;
                 var details = ProeductiondetailRepository.GetQueryable().Where(i => i.BILL_NO == mast.BILL_NO);
             var tmp = details.ToArray().AsEnumerable().Select(i => i);
             foreach (WMS_PRODUCTION_DETAIL  sub in tmp)
