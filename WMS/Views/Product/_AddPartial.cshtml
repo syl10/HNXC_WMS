@@ -10,6 +10,7 @@
         setoriginalcomb();
         setcategorycomb();
         setstyle();
+        SetYear();
 
         $('#STYLE_NO').combogrid('clear');
         $('#ORIGINAL_CODE').combogrid('clear');
@@ -105,6 +106,19 @@
             onLoadSuccess: function () { loaded++; }
         });
     }
+    //设置年份  2000--3000
+    function SetYear() {
+        var years = [];
+        for (var i = 2000; i <= 3000; i++) {
+            years.push({id:i,text:i});
+        }
+//        $('#comb_year').combobox('reload', years);
+        $('#comb_year').combobox({
+           data: years,
+           valueField: 'id',
+           textField: 'text'
+       });
+    }
     function save() {
         $('#fm').form('submit', {
             url: url,
@@ -147,7 +161,7 @@
                         <td style="width:50px" align="right">原产地</td>
                         <td style="width:138px"><input name="ORIGINAL_CODE"  id="ORIGINAL_CODE"  ></td>
 						<td style="width:50px" align="right">年份</td>
-                        <td style="width:138px"><input name="YEARS" style="width:125px"></td>
+                        <td style="width:138px"><input  name="YEARS"  id="comb_year" style="width:125px"></td>
                       </tr>
                        <tr>
                         <td style="width:50px" align="right">等级</td>

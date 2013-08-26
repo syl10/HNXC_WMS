@@ -34,8 +34,9 @@ namespace WMS.Controllers.Wms.WMS
         public ActionResult Task(string BillNo, string btypecode)
         {
              string userName = this.GetCookieValue("username");
-             bool bResult = ProductStateService.Task(BillNo, btypecode, userName);
-             string msg = bResult ? "作业成功" : "作业失败";
+             string error="";
+             bool bResult = ProductStateService.Task(BillNo, btypecode, userName,out error );
+             string msg = bResult ? "作业成功" : "作业失败"+error;
              var just = new
              {
                  success = msg

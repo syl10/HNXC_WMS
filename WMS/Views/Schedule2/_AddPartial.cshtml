@@ -151,7 +151,10 @@
          $('#fm-inBillDetail').form('clear');
          GetCigarette(); //获取牌号
          GetLINE_NO(); //制丝线
-         GetSerial();//获取序号
+         GetSerial(); //获取序号
+         $('#QUANTITY').numberbox({
+             required: true
+         });  
       }
       //删除明细
      function deleteBillDetailClick(){

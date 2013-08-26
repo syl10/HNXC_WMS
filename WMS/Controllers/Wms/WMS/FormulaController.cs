@@ -97,5 +97,17 @@ namespace WMS.Controllers.Wms.WMS
             var users = FormulaService.Getusefull(page, rows, cigarettecode);
             return Json(users, "text", JsonRequestBehavior.AllowGet);
         }
+        //验证配方编号
+        public ActionResult Checkformulacode(string formulacode)
+        {
+            bool bResult = FormulaService.Checkformulacode(formulacode);
+            string msg = bResult ? "1" : "-1";
+            var just = new
+            {
+                 success=msg
+            };
+            return Json(just, "text", JsonRequestBehavior.AllowGet);
+
+        }
     }
 }

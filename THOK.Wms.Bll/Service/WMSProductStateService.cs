@@ -59,10 +59,10 @@ namespace THOK.Wms.Bll.Service
         }
 
         //单据拆分为作业
-        public bool Task(string billno, string btypecode, string tasker)
+        public bool Task(string billno, string btypecode, string tasker,out string error)
         {
             string sqlstr = "begin stockinwork('"+billno+"','"+btypecode+"','"+tasker+"');end;";
-            int result = ProductStateRepository.Exeprocedure(sqlstr , null );
+            int result = ProductStateRepository.Exeprocedure(sqlstr ,out  error  );
             //return ((ObjectContext)RepositoryContext).ExecuteStoreCommand("","");
             if (result < 0)
                 return false;
@@ -72,11 +72,11 @@ namespace THOK.Wms.Bll.Service
         }
 
         //出库作业.
-        public bool Task(string billno, string cigarettecode, string formulacode, string batchweight, string tasker)
+        public bool Task(string billno, string cigarettecode, string formulacode, string batchweight, string tasker,out string error)
         {
             string sqlstr = "begin STOCKOUTWORK('" + billno + "','" + cigarettecode + "','" + formulacode + "'," + batchweight + ",'" + tasker + "');end;";
             //string sqlstr = "update WMS_BILL_MASTER set state='2' where bill_no='"+billno+"' ";
-            int result = ProductStateRepository.Exeprocedure(sqlstr, null);
+            int result = ProductStateRepository.Exeprocedure(sqlstr, out error );
             //return ((ObjectContext)RepositoryContext).ExecuteStoreCommand("","");
             if (result < 0)
                 return false;
