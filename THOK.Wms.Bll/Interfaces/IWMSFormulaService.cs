@@ -8,7 +8,7 @@ namespace THOK.Wms.Bll.Interfaces
 {
     public interface IWMSFormulaService:IService<WMS_FORMULA_MASTER>
     {
-        object GetDetails(int page, int rows, string BTYPE_NAME, string BILL_TYPE, string TASK_LEVEL, string Memo, string TARGET_CODE);
+        object GetDetails(int page, int rows, string BTYPE_NAME, string BILL_TYPE, string TASK_LEVEL, string Memo, string TARGET_CODE, string FORMULA_CODE, string FORMULA_NAME, string CIGARETTE_CODE, string ISACTIVE, string FORMULADATE, string OPERATER);
         object GetSubDetails(int page, int rows, string FORMULA_CODE);
 
         bool Add(WMS_FORMULA_MASTER master, object detail);

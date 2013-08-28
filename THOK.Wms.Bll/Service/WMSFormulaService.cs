@@ -27,11 +27,35 @@ namespace THOK.Wms.Bll.Service
 
 
 
-        public object GetDetails(int page, int rows, string BTYPE_NAME, string BILL_TYPE, string TASK_LEVEL, string Memo, string TARGET_CODE)
+        public object GetDetails(int page, int rows, string BTYPE_NAME, string BILL_TYPE, string TASK_LEVEL, string Memo, string TARGET_CODE, string FORMULA_CODE, string FORMULA_NAME, string CIGARETTE_CODE, string ISACTIVE, string FORMULADATE, string OPERATER)
         {
             IQueryable<WMS_FORMULA_MASTER> masterQuery = MasterRepository.GetQueryable();
             var masters = masterQuery.OrderByDescending(i => i.FORMULA_DATE).Select(i => i);
-
+            if (!string.IsNullOrEmpty(FORMULA_CODE))
+            {
+                masters = masters.Where(i => i.FORMULA_CODE == FORMULA_CODE);
+            }
+            if (!string.IsNullOrEmpty(FORMULA_NAME))
+            {
+                masters = masters.Where(i => i.FORMULA_NAME == FORMULA_NAME);
+            }
+            if (!string.IsNullOrEmpty(CIGARETTE_CODE))
+            {
+                masters = masters.Where(i => i.CIGARETTE_CODE == CIGARETTE_CODE);
+            }
+            if (!string.IsNullOrEmpty(ISACTIVE))
+            {
+                masters = masters.Where(i => i.IS_ACTIVE == ISACTIVE);
+            }
+            if (!string.IsNullOrEmpty(FORMULADATE))
+            {
+                DateTime dt = DateTime.Parse(FORMULADATE);
+                masters = masters.Where(i => i.FORMULA_DATE == dt );
+            }
+            if (!string.IsNullOrEmpty(OPERATER))
+            {
+                masters = masters.Where(i => i.OPERATER == OPERATER);
+            }
             int total = masters.Count();
             masters = masters.Skip((page - 1) * rows).Take(rows);
             var tmp = masters.ToArray().AsEnumerable().Select(i => new {

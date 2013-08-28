@@ -11,8 +11,13 @@
                 $.messager.show({ title: '系统提示', msg: '失败!请检查原因！' });
             }
         }
+        //       var obj= document.getElementById("details").tBodies;
+        //        debugger
+//                        alert( $(".datagrid-cell").attr("style"));
+        //        $(".datagrid-cell").addClass("hearcenter");
+        $(".datagrid-cell").css("text-align", "center");
     });
-
+   
 </script>
 <div region="center" split="true" border="false">    
     <table id="details" class="easyui-datagrid" url="/StockInBill/Details/?flag=0" border="false" singleSelect="true"

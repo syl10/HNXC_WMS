@@ -27,6 +27,8 @@ namespace THOK.Wms.Bll.Service
         public IWMSFormulaDetailRepository FormulaDetailRepository { get; set; }
         [Dependency]
         public ICMDProuductRepository ProductRepository { get; set; }
+        [Dependency]
+        public ICmdBillTypeRepository CmdBillTypeRepository { get; set; }
         public object GetDetails(int page, int rows, string billtype, string flag, string BILL_NO, string BILL_DATE, string BTYPE_CODE, string WAREHOUSE_CODE, string BILL_METHOD, string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE, string STATUS, string BILL_DATEStar, string BILL_DATEEND)
         {
             IQueryable<WMS_BILL_MASTER > billquery = BillMasterRepository.GetQueryable();
@@ -263,6 +265,7 @@ namespace THOK.Wms.Bll.Service
 
         public bool Add(WMS_BILL_MASTER mast, object detail, string prefix)
         {
+            var targetcode = CmdBillTypeRepository.GetQueryable().FirstOrDefault(i => i.BTYPE_CODE == mast.BTYPE_CODE);
             bool rejust = false;
             int serial = 1;
             try
@@ -272,6 +275,7 @@ namespace THOK.Wms.Bll.Service
                 //mast.BILL_DATE = DateTime.Now;
                 mast.STATE = "1"; //默认保存状态
                 mast.STATUS = "0"; //默认手工输入
+                mast.TARGET_CODE = targetcode.TARGET_CODE;
                 BillMasterRepository.Add(mast);
 
                 DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]);
