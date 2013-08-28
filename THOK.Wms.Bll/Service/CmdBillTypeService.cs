@@ -77,6 +77,13 @@ namespace THOK.Wms.Bll.Service
             BillType.ALLOW_EDIT = "1";
             if (BillType.BILL_TYPE != "2")
                 BillType.TARGET_CODE = "";
+            IQueryable<CMD_BILL_TYPE> query = CmdBillTypeRepository.GetQueryable();
+            var taskType = query.OrderBy(i=>i.BTYPE_CODE).AsEnumerable().Select(b => new {b.BILL_TYPE,b.TARGET_CODE, b.TASK_TYPE });
+            taskType = taskType.Where(i => i.BILL_TYPE == BillType.BILL_TYPE );
+            if(!string.IsNullOrEmpty(BillType.TARGET_CODE))
+                taskType = taskType.Where(i => i.TARGET_CODE == BillType.TARGET_CODE);
+            BillType.TASK_TYPE = taskType.FirstOrDefault().TASK_TYPE;
+           
             CmdBillTypeRepository.Add(BillType);
             CmdBillTypeRepository.SaveChanges();
             return true;
@@ -102,6 +109,12 @@ namespace THOK.Wms.Bll.Service
             BillNewType.TARGET_CODE = BillType.TARGET_CODE;
             if (BillNewType.BILL_TYPE != "2")
                 BillNewType.TARGET_CODE = "";
+            IQueryable<CMD_BILL_TYPE> query = CmdBillTypeRepository.GetQueryable();
+            var taskType = query.OrderBy(i => i.BTYPE_CODE).AsEnumerable().Select(b => new { b.BILL_TYPE, b.TARGET_CODE, b.TASK_TYPE });
+            taskType = taskType.Where(i => i.BILL_TYPE == BillType.BILL_TYPE);
+            if (!string.IsNullOrEmpty(BillType.TARGET_CODE))
+                taskType = taskType.Where(i => i.TARGET_CODE == BillType.TARGET_CODE);
+            BillType.TASK_TYPE = taskType.FirstOrDefault().TASK_TYPE;
             CmdBillTypeRepository.SaveChanges();
 
             
