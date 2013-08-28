@@ -87,6 +87,8 @@
     <Compile Include="Mapping\WMS_BILL_MASTERMap.cs" />
     <Compile Include="Mapping\WMS_FORMULA_DETAILMap.cs" />
     <Compile Include="Mapping\WMS_FORMULA_MASTERMap.cs" />
+    <Compile Include="Mapping\WMS_PALLET_DETAILMap.cs" />
+    <Compile Include="Mapping\WMS_PALLET_MASTERMap.cs" />
     <Compile Include="Mapping\WMS_PRODUCTION_DETAILMap.cs" />
     <Compile Include="Mapping\WMS_PRODUCTION_MASTERMap.cs" />
     <Compile Include="Mapping\WMS_PRODUCT_STATEMap.cs" />
@@ -101,6 +103,8 @@
     <Compile Include="WMS_BILL_MASTER.cs" />
     <Compile Include="WMS_FORMULA_DETAIL.cs" />
     <Compile Include="WMS_FORMULA_MASTER.cs" />
+    <Compile Include="WMS_PALLET_DETAIL.cs" />
+    <Compile Include="WMS_PALLET_MASTER.cs" />
     <Compile Include="WMS_PRODUCTION_DETAIL.cs" />
     <Compile Include="WMS_PRODUCTION_MASTER.cs" />
     <Compile Include="WMS_PRODUCT_STATE.cs" />

@@ -71,3 +71,6 @@ textarea{
    background-image:url(../images/editbg.png);
    background-repeat:repeat-x;
 }
+.hearcenter{
+  text-align:center;
+}

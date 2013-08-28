@@ -2,6 +2,7 @@
     var url;
     var status;
     var editRow = null;
+    var ischeckpass = true;//判断编号是否存在.
     function getTime() {
         var d = new Date();
         var vYear = d.getFullYear();
@@ -169,7 +170,10 @@
         var Percent=0;
         var blnDistinct = true;
         var Rows = $('#inBillDetail').datagrid('getData');
-        if (status == "add")  checkformulacode();
+//        if (status == "add") {
+//        checkformulacode();
+//        if (!ischeckpass) return;
+//        }
         if (Rows.total == 0 && status != "delete") { alert("明细不能为空"); return; }
         for (var i = 0; i < Rows.total; i++) {
             changesRows.inserted.push(Rows.rows[i])
@@ -275,21 +279,28 @@
   }
   //验证配方编号是否已存在
   function checkformulacode() {
-      var code = $('#FORMULA_CODE').val();
-      if (code == "") {
-          alert("配方编号不可为空");
-          return false;
-      }
-      else {
-          $.getJSON("/Formula/Checkformulacode/?formulacode=" + code, function (json) {
-              if (json) {
-                  if (json.success == -1) {
-                      alert("该配方编号已存在");
-                      return false;
+      if (status == "add") {
+          var code = $('#FORMULA_CODE').val();
+          if (code == "") {
+              alert("配方编号不可为空");
+              return ;
+          }
+          else {
+              $.getJSON("/Formula/Checkformulacode/?formulacode=" + code, function (json) {
+                  if (json) {
+                      if (json.success == -1) {
+                          alert("该配方编号已存在");
+                          return;
+                      }
+                      else {
+                          save();
+                      }
                   }
-              }
-          });
+              });
+          }
       }
+      else
+          save();
   }
 </script>
 
@@ -366,7 +377,7 @@
 </div>
 
 <div id="dlg-buttons">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="checkformulacode()">确定</a>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 </div>
 

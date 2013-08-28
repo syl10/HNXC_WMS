@@ -40,7 +40,14 @@ namespace WMS.Controllers.Wms.WMS
             string TASK_LEVEL = collection["TASK_LEVEL"] ?? "";
             string Memo = collection["MEMO"] ?? "";
             string TARGET_CODE = collection["TARGET_CODE"] ?? "";
-            var users = FormulaService.GetDetails(page, rows, BTYPE_NAME, BILL_TYPE, TASK_LEVEL, Memo, TARGET_CODE);
+
+            string FORMULA_CODE = collection["FORMULA_CODE"] ?? "";
+            string FORMULA_NAME = collection["FORMULA_NAME"] ?? "";
+            string CIGARETTE_CODE = collection["CIGARETTE_CODE"] ?? "";
+            string ISACTIVE = collection["ISACTIVE"] ?? "";
+            string FORMULADATE = collection["FORMULADATE"] ?? "";
+            string OPERATER = collection["OPERATER"] ?? "";
+            var users = FormulaService.GetDetails(page, rows, BTYPE_NAME, BILL_TYPE, TASK_LEVEL, Memo, TARGET_CODE,FORMULA_CODE ,FORMULA_NAME ,CIGARETTE_CODE ,ISACTIVE ,FORMULADATE ,OPERATER );
             return Json(users, "text", JsonRequestBehavior.AllowGet);
         }
         // GET: /Formula/Details/
