@@ -36,7 +36,11 @@
         }
         else
             queryParams.CIGARETTE_CODE = "";
-        queryParams.ISACTIVE = $('#SISACTIVE').val();
+        if ($('#SISACTIVE').combobox('getText') != null && $('#SISACTIVE').combobox('getText') != "") {
+            queryParams.ISACTIVE = $('#SISACTIVE').combobox('getValue');
+        }
+        else
+            queryParams.ISACTIVE = "";
         queryParams.FORMULADATE = $('#SFORMULADATE').val();
         queryParams.OPERATER = $('#SOPERATER').val();
 

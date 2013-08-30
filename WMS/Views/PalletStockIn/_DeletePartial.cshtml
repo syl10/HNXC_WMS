@@ -3,7 +3,7 @@
         clickbt = "delete";
         serial = 1;
         var row = $('#details').datagrid('getSelected');
-//        index = $('#details').datagrid('getRowIndex', row);
+        //        index = $('#details').datagrid('getRowIndex', row);
         if (row) {
             if (row.STATE == "1") {
                 $('#dlg').dialog('open').dialog('setTitle', '删除');
@@ -21,11 +21,6 @@
                 });
                 GetBillType(); //单据类型
                 GetWarehouseCode();  //仓库编号
-                GetCigarette(); //加载牌号
-                GetFormula(""); //加载配方
-
-                method(row.BILL_METHOD); //入库方式的控件启禁用判断
-                $('#BILL_METHOD').combobox('disable');
                 $('#fm').form('load', row);
             }
             else {
