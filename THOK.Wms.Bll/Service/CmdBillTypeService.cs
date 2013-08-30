@@ -51,7 +51,12 @@ namespace THOK.Wms.Bll.Service
             }
             if (!string.IsNullOrEmpty(BILL_TYPE))
             {
-                CmdBillTypes = CmdBillTypes.Where(i => i.BILL_TYPE == BILL_TYPE);
+                if (BILL_TYPE.Contains(','))
+                {
+                    CmdBillTypes = CmdBillTypes.Where(i => BILL_TYPE .Contains (i.BILL_TYPE ));
+                }
+                else
+                    CmdBillTypes = CmdBillTypes.Where(i => i.BILL_TYPE == BILL_TYPE);
             }
             if (!string.IsNullOrEmpty(TASK_LEVEL))
             {

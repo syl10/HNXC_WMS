@@ -61,6 +61,7 @@
     <Compile Include="Interfaces\ISysTableStateService.cs" />
     <Compile Include="Interfaces\IWMSBillMasterService.cs" />
     <Compile Include="Interfaces\IWMSFormulaService.cs" />
+    <Compile Include="Interfaces\IWMSPalletMasterService.cs" />
     <Compile Include="Interfaces\IWMSProductionMasterService.cs" />
     <Compile Include="Interfaces\IWMSProductStateService.cs" />
     <Compile Include="Interfaces\IWMSScheduleDetailService.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Service\SysTableStateService.cs" />
     <Compile Include="Service\WMSBillMasterService.cs" />
     <Compile Include="Service\WMSFormulaService.cs" />
+    <Compile Include="Service\WMSPalletMasterService.cs" />
     <Compile Include="Service\WMSProductionMasterService.cs" />
     <Compile Include="Service\WMSProductStateService.cs" />
     <Compile Include="Service\WMSScheduleDetailService.cs" />
