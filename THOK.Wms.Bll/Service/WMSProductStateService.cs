@@ -58,7 +58,7 @@ namespace THOK.Wms.Bll.Service
 
         }
 
-        //单据拆分为作业
+        //入库单据拆分为作业
         public bool Task(string billno, string btypecode, string tasker,out string error)
         {
             string sqlstr = "begin stockinwork('"+billno+"','"+btypecode+"','"+tasker+"');end;";
@@ -82,6 +82,18 @@ namespace THOK.Wms.Bll.Service
                 return false;
             else
                 return true;
+        }
+
+        //托盘入库作业
+        public bool Task(string billno, string tasker, out string error)
+        {
+            string sqlstr = "begin PALLETSTOCKINWORK('" + billno + "','" + tasker + "');end;";
+            int result = ProductStateRepository.Exeprocedure(sqlstr, out  error);
+            //return ((ObjectContext)RepositoryContext).ExecuteStoreCommand("","");
+            if (result < 0)
+                return false;
+            else
+                return true; 
         }
     }
 }

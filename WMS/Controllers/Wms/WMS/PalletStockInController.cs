@@ -17,6 +17,9 @@ namespace WMS.Controllers.Wms.WMS
         [Dependency]
         public IWMSPalletMasterService  PalletmasterService { get; set; }
 
+        [Dependency]
+        public IWMSProductStateService ProductStateService { get; set; }
+
         public ActionResult Index(string moduleID)
         {
             ViewBag.hasSearch = true;
@@ -25,6 +28,9 @@ namespace WMS.Controllers.Wms.WMS
             ViewBag.hasDelete = true;
             ViewBag.hasPrint = true;
             ViewBag.hasHelp = true;
+            ViewBag.hasTask = true;
+            //ViewBag.hasAudit = true;
+            //ViewBag.hasAntiTrial = true;
             ViewBag.ModuleID = moduleID;
             return View();
         }
@@ -74,6 +80,19 @@ namespace WMS.Controllers.Wms.WMS
             bool bResult = PalletmasterService.Delete(Billno);
             string msg = bResult ? "删除成功" : "删除失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+        }
+        //作业 函数
+        public ActionResult Task(string BillNo)
+        {
+            string userName = this.GetCookieValue("username");
+            string error = "";
+            bool bResult = ProductStateService.Task(BillNo, userName, out error);
+            string msg = bResult ? "作业成功" : "作业失败" + error;
+            var just = new
+            {
+                success = msg
+            };
+            return Json(just, "text", JsonRequestBehavior.AllowGet);
         }
     }
 }

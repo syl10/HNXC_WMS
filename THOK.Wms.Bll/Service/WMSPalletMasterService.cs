@@ -200,18 +200,18 @@ namespace THOK.Wms.Bll.Service
         public object GetSubDetails(int page, int rows, string BillNo)
         {
             IQueryable<WMS_PALLET_DETAIL> palletdetailquery = PalletdetailRepository.GetQueryable();
-            IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
-            var detail = from a in palletdetailquery
-                         join b in productquery on a.PRODUCT_CODE equals b.PRODUCT_CODE
-                         select new { 
-                             a.BILL_NO ,
-                             a.ITEM_NO,
-                             a.PRODUCT_CODE ,
-                             b.PRODUCT_NAME ,
-                             a.QUANTITY ,
-                             a.PACKAGES 
-                         };
-            var temp = detail.ToArray().Where(i => i.BILL_NO == BillNo).OrderBy(i => i.ITEM_NO).Select(i => i);
+            //IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
+            //var detail = from a in palletdetailquery
+            //             join b in productquery on a.PRODUCT_CODE equals b.PRODUCT_CODE
+            //             select new { 
+            //                 a.BILL_NO ,
+            //                 a.ITEM_NO,
+            //                 a.PRODUCT_CODE ,
+            //                 b.PRODUCT_NAME ,
+            //                 a.QUANTITY ,
+            //                 a.PACKAGES 
+            //             };
+            var temp = palletdetailquery.ToArray().Where(i => i.BILL_NO == BillNo).OrderBy(i => i.ITEM_NO).Select(i => i);
             int total = temp.Count();
             temp = temp.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = temp.ToArray() };
@@ -268,6 +268,17 @@ namespace THOK.Wms.Bll.Service
             int result = PalletmasterRepository.SaveChanges();
             if (result == -1) return false;
             return true;
+        }
+
+
+        public bool Audit(string checker, string BillNo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool Antitrial(string BillNo)
+        {
+            throw new NotImplementedException();
         }
     }
 }

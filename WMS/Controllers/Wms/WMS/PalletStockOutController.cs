@@ -26,6 +26,9 @@ namespace WMS.Controllers.Wms.WMS
             ViewBag.hasDelete = true;
             ViewBag.hasPrint = true;
             ViewBag.hasHelp = true;
+            ViewBag.hasTask = true;
+            //ViewBag.hasAudit = true;
+            //ViewBag.hasAntiTrial = true;
             ViewBag.ModuleID = moduleID;
             return View();
         }
