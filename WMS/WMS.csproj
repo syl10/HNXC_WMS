@@ -1894,8 +1894,10 @@
     <Content Include="Views\PalletStockOut\_DeletePartial.cshtml" />
     <Content Include="Views\PalletStockOut\_EditPartial.cshtml" />
     <Content Include="Views\PalletStockOut\_SearchPartial.cshtml" />
-    <Content Include="Views\PalletStockIn\_ProductPartial.cshtml" />
     <Content Include="Views\PalletStockOut\_ProductPartial.cshtml" />
+    <Content Include="Views\PalletStockIn\_AuditPartial.cshtml" />
+    <Content Include="Views\PalletStockIn\_AntiTrialPartial.cshtml" />
+    <Content Include="Views\PalletStockIn\_TaskPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

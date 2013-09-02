@@ -20,5 +20,9 @@ namespace THOK.Wms.Bll.Interfaces
        bool Edit(WMS_PALLET_MASTER mast, object detail);
        //删除单据
        bool Delete(string BillNo);
+       //单据审核
+       bool Audit(string checker, string BillNo);
+       //反审
+       bool Antitrial(string BillNo);
     }
 }

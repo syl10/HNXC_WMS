@@ -14,5 +14,7 @@ namespace THOK.Wms.Bll.Interfaces
         bool Task(string billno, string btypecode,string tasker,out string error);
         //出库作业功能.
         bool Task(string billno, string cigarettecode, string formulacode, string batchweight, string tasker, out string error);
+        //托盘入库作业
+        bool Task(string billno, string tasker, out string error);
     }
 }

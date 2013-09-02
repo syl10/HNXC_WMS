@@ -56,6 +56,7 @@
             mode: 'local',
             editable: false,
             fitColumns: true,
+            value: '001',
             columns: [[
                     { field: 'WAREHOUSE_CODE', title: '仓库编号', align: 'left', width: 40 },
                     { field: 'WAREHOUSE_NAME', title: '仓库名称', align: 'left', width: 30 },
@@ -76,6 +77,7 @@
             mode: 'local',
             editable: false,
             fitColumns: true,
+            value:'012',
             queryParams: {
                 BILL_TYPE: '9'
             },
@@ -97,6 +99,7 @@
         $('#QUANTITY').numberbox('setValue', 0); //数量
         $('#PACKAGES').numberbox('setValue', 0); //组数
         $('#ITEM_NO').val(0); //序号在客户端默认都为0, 后台更改.
+        $('#PRODUCT_CODE').val('0000')
     }
     //删除明细
     function deleteBillDetailClick() {
@@ -131,7 +134,6 @@
                 $('#inBillDetail').datagrid('appendRow', {
                     ITEM_NO: $('#ITEM_NO').val(),
                     PRODUCT_CODE: $('#PRODUCT_CODE').val(),
-                    PRODUCT_NAME: $('#PRODUCT_NAME').val(),
                     QUANTITY: $('#QUANTITY').val() == "" ? "0" : $('#QUANTITY').val(),
                     PACKAGES: $('#PACKAGES').val() * $('#PACKAGES').val()
                 });
@@ -143,7 +145,6 @@
                     row: {
                         ITEM_NO: $('#ITEM_NO').val(),
                         PRODUCT_CODE: $('#PRODUCT_CODE').val(),
-                        PRODUCT_NAME: $('#PRODUCT_NAME').val(),
                         QUANTITY: $('#QUANTITY').val() == "" ? "0" : $('#QUANTITY').val(),
                         PACKAGES: $('#PACKAGES').val() * $('#PACKAGES').val()
                     }
@@ -155,13 +156,6 @@
             $('#dlg-AddBillDetail').dialog('close');
             //            $('#LINE_NO').combogrid('clear');
         }
-    }
-
-    //选择产品信息
-    function productSelect() {
-        $('#productData').dialog('open').dialog('setTitle', '选择产品信息');
-        $('#productDetail').datagrid({ url: '/Product/Details/?page=1&rows=1000' });
-        $("#productDetail").datagrid('reload');
     }
 
     function save() {
@@ -272,7 +266,7 @@
 	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
 </div>
 <div  id="dlg-AddBillDetail" class="easyui-dialog" modal="true"
-        style="width:270px;height:230px;padding:0px 0px"
+        style="width:270px;height:180px;padding:0px 0px"
         closed="true" buttons="#dlg-AddBillDetailbuttons">
      <form id="fm-inBillDetail" novalidate>
 <table style="padding:10px 10px 0px 5px">
@@ -284,14 +278,8 @@
 </tr>
   <tr>
     <td style=" text-align:right; width:60px"> 产品代码</td>
-    <td align="left"><input type="text" name="PRODUCT_CODE" id="PRODUCT_CODE"  required="true"  readonly="true"/>
-     <a href="#" onclick="productSelect()" class="easyui-linkbutton" iconcls="icon-search" plain="true"></a></td>
+    <td align="left"><input type="text" name="PRODUCT_CODE" id="PRODUCT_CODE"  required="true"  readonly="true"/></td>
     <td></td>
-  </tr>
-  <tr>
-      <td style=" text-align:right; width:60px">产品名称</td>
-      <td align="left"><input  type="text" name="PRODUCT_NAME" id="PRODUCT_NAME"  readonly="true"/></td>
-      <td></td>
   </tr>
   <tr>
     <td style=" text-align:right; width:60px">数量</td>
