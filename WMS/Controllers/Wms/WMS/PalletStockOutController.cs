@@ -73,6 +73,12 @@ namespace WMS.Controllers.Wms.WMS
             string msg = bResult ? "修改成功" : "修改失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }
+        public ActionResult Delete(string Billno)
+        {
+            bool bResult = PalletmasterService.Delete(Billno);
+            string msg = bResult ? "删除成功" : "删除失败";
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

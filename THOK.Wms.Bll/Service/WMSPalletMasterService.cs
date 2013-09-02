@@ -112,7 +112,7 @@ namespace THOK.Wms.Bll.Service
                 master = master.Where(i => i.TASK_DATE.Value.CompareTo(dt) <= 0);
                 master = master.Where(i => i.TASK_DATE.Value.CompareTo(dt2) < 0);
             }
-            var temp = master.ToArray ().OrderBy(i => i.OPERATE_DATE).Select(i => new { 
+            var temp = master.ToArray ().OrderByDescending(i => i.OPERATE_DATE  ).Select(i => new { 
                 i.BILL_NO ,
                BILL_DATE= i.BILL_DATE .ToString ("yyyy-MM-dd"),
                i.BTYPE_CODE ,
