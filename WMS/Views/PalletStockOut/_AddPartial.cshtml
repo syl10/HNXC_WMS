@@ -97,7 +97,7 @@
         $('#dlg-AddBillDetail').dialog('open').dialog('setTitle', '添加明细');
         $('#fm-inBillDetail').form('clear');
         $('#QUANTITY').numberbox('setValue', 0); //数量
-        $('#PACKAGES').numberbox('setValue', 0); //组数
+        $('#PACKAGES').numberbox('setValue', 1); //组数
         $('#ITEM_NO').val(0); //序号在客户端默认都为0, 后台更改.
         $('#PRODUCT_CODE').val('0000')
     }
@@ -218,7 +218,7 @@
                          <th field="ITEM_NO" width="80"  hidden="true">序号</th>
                          <th field="PRODUCT_CODE" width="80">产品代码</th>
                          <th field="QUANTITY" width="80">数量</th>
-                         <th field="PACKAGES" width="80">组数</th>
+                         <th field="PACKAGES" width="80">垛数</th>
                     </tr>
                 </thead>
             </table>
@@ -288,7 +288,7 @@
   </tr>
 
     <tr>
-    <td style=" text-align:right; width:60px">组数</td>
+    <td style=" text-align:right; width:60px">垛数</td>
     <td align="left"><input type="text" name="PACKAGES" id="PACKAGES"  class="easyui-numberbox"  /></td>
   </tr>
 </table>

@@ -37,7 +37,7 @@ namespace THOK.Wms.Repository.RepositoryContext
             }
             catch (System.Exception ex2)
             {
-                string str = ex2.ToString();
+                string str = ex2.InnerException +ex2.Message;
                 return -1;
             }
         }

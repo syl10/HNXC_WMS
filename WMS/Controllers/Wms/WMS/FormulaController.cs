@@ -80,7 +80,7 @@ namespace WMS.Controllers.Wms.WMS
         {
             bool bResult = FormulaService.Delete(FORMULA_CODE);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, "失败原因可能是该配方被使用中"), "text", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Formula/GetFormulaCode/

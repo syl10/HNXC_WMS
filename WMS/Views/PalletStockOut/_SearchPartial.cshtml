@@ -12,7 +12,7 @@
 
           SGetWarehouseCode() ;//仓库编号
           SGetBillType() ;//单据类型
-          SGetTarget();//目标位置
+//          SGetTarget();//目标位置
 
         $('#dlg-search').dialog('open').dialog('setTitle', '查询');
     }
@@ -63,24 +63,24 @@
         });
     }
     //获取目标位置
-    function  SGetTarget(){
-        $('#STARGET').combogrid({
-            required: true,
-            disabled: false,
-            width: 125,
-            panelWidth: 340,
-            url: '/SysBillTarget/Details/?page=1&rows=1000',
-            idField: 'id',
-            textField: 'text',
-            mode: 'local',
-            editable: false,
-            fitColumns: true,
-            columns: [[
-                    { field: 'id', title: '目标代码', align: 'left', width: 40 },
-                     { field: 'text', title: '目标名称', align: 'left', width: 30 }
-                ]]
-        });
-    }
+//    function  SGetTarget(){
+//        $('#STARGET').combogrid({
+//            required: true,
+//            disabled: false,
+//            width: 125,
+//            panelWidth: 340,
+//            url: '/SysBillTarget/Details/?page=1&rows=1000',
+//            idField: 'id',
+//            textField: 'text',
+//            mode: 'local',
+//            editable: false,
+//            fitColumns: true,
+//            columns: [[
+//                    { field: 'id', title: '目标代码', align: 'left', width: 40 },
+//                     { field: 'text', title: '目标名称', align: 'left', width: 30 }
+//                ]]
+//        });
+//    }
     //查询
     function select() {
         var queryParams = $('#details').datagrid('options').queryParams;
@@ -128,25 +128,29 @@
                         <td style="width:138px"><input id="SWAREHOUSE_CODE" style="width:125px" ></td>
                       </tr>
                       <tr>
-                          <td width="50">目标位置</td>
-                          <td width="125" ><input id="STARGET" style="width:125px" ></td>
+@*                          <td width="50">目标位置</td>
+                          <td width="125" ><input id="STARGET" style="width:125px" ></td>*@
                         <td style="width:50px" align="right">单据状态</td>
                         <td style="width:138px">
                              <select id="SSTATE"  class="easyui-combobox" style="width:125px" >		                
                                      <option value="1">保存</option>
-		                            <option value="2">审核</option>
+		                            <option value="3">作业</option>
+                                    <option value="4">完成</option>
+                                    <option  value="5">已发送</option>
+                                    <option value="6">取消</option>
+                                    <option value="7" >暂停</option>
 	                         </select>
                         </td>
-                      </tr>
-                       <tr>
                         <td style="width:50px" align="right">操作人员</td>
                         <td style="width:138px"><input id="SOPERATER" style="width:125px" ></td>
+                      </tr>
+                       <tr>
 						 <td style="width:50px">操作日期</td>
                         <td style="width:138px"><input id="SOPERATE_DATE" style="width:125px" ></td>
-                      </tr>
-                      <tr>
                         <td style="width:50px" align="right">作业人员</td>
                         <td  style="width:138px"><input id="STASKER" style="width: 125px; "></td>
+                      </tr>
+                      <tr>
                         <td style="width:50px" align="right">作业日期</td>
                         <td style="width:138px"><input id="SSTASK_DATE" style="width: 125px; "/></td>
                       </tr>
