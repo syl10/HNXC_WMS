@@ -15,6 +15,7 @@
 //          SGetTarget();//目标位置
 
         $('#dlg-search').dialog('open').dialog('setTitle', '查询');
+        $('#SSTATE').combobox('clear');
     }
 
    //仓库编号
@@ -88,7 +89,7 @@
         queryParams.BILL_DATE = $('#SBILL_DATE').datebox('getValue');
         queryParams.BTYPE_CODE = $('#SBTYPE_CODE').combogrid('getValue');
         queryParams.WAREHOUSE_CODE = $('#SWAREHOUSE_CODE').combogrid('getValue');
-        queryParams.TARGET=$('#STARGET').combogrid('getValue');
+//        queryParams.TARGET=$('#STARGET').combogrid('getValue');
         if ($('#SSTATE').combobox('getText') != null && $('#SSTATE').combobox('getText') != "") {
             queryParams.STATE = $('#SSTATE').combobox('getValue');
         }
