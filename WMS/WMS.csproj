@@ -1314,6 +1314,7 @@
     <Content Include="Content\Scripts\jthok-ui\leftmenu.js" />
     <Content Include="Content\Scripts\mykeyboardshortcuts.js" />
     <Content Include="Content\Scripts\Native_FullScreen.js" />
+    <Content Include="Content\themes\base\css\css.css" />
     <Content Include="Content\themes\base\icons\2Menu_Help.png" />
     <Content Include="Content\themes\base\icons\2Menu_Jurisdiction.png" />
     <Content Include="Content\themes\base\icons\2Menu_ServerDevice.png" />

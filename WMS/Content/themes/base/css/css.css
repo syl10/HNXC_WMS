@@ -68,7 +68,7 @@ textarea{
 /*配方信息中的添加,编辑中的中间工具栏背景色*/
 .formula_editbg{
    padding:4px 4px;
-   background-image:url(../images/editbg.png);
+   background-image:url(../images/editbg2.png);
    background-repeat:repeat-x;
 }
 .hearcenter{
