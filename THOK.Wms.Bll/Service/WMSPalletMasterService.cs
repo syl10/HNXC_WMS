@@ -92,13 +92,13 @@ namespace THOK.Wms.Bll.Service
             }
             if (!string.IsNullOrEmpty(OPERATER))
             {
-                master = master.Where(i => i.OPERATER == OPERATER);
+                master = master.Where(i => i.OPERATER.Contains (OPERATER));
             }
             if (!string.IsNullOrEmpty(OPERATE_DATE))
             {
                 DateTime dt=DateTime .Parse (OPERATE_DATE );
                 DateTime dt2=dt.AddDays (1);
-                master = master.Where(i => i.OPERATE_DATE.Value.CompareTo(dt) <= 0);
+                master = master.Where(i => i.OPERATE_DATE.Value.CompareTo(dt) >= 0);
                 master = master.Where(i => i.OPERATE_DATE.Value.CompareTo(dt2) < 0);
             }
             if (!string.IsNullOrEmpty(TASKER))
@@ -109,7 +109,7 @@ namespace THOK.Wms.Bll.Service
             {
                 DateTime dt = DateTime.Parse(TASK_DATE);
                 DateTime dt2 = dt.AddDays(1);
-                master = master.Where(i => i.TASK_DATE.Value.CompareTo(dt) <= 0);
+                master = master.Where(i => i.TASK_DATE.Value.CompareTo(dt) >= 0);
                 master = master.Where(i => i.TASK_DATE.Value.CompareTo(dt2) < 0);
             }
             var temp = master.ToArray ().OrderByDescending(i => i.OPERATE_DATE  ).Select(i => new { 
