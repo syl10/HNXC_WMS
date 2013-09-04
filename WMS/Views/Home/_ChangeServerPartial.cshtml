@@ -71,6 +71,8 @@
     </div>
 </div>
 <div id="dlg-buttons-changeserver">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="changeToServer()">确定</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-changeserver').dialog('close')">取消</a>
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="changeToServer()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-changeserver').dialog('close')">取消</a>*@
+      <input type="button"  onclick="changeToServer()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#fm-logon').form('clear')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>

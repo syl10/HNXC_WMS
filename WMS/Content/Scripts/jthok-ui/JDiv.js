@@ -20,3 +20,11 @@ function setbg() {
         }
     });
 }
+
+//用于按钮样式的改变
+function btmouseup(obj) {
+    $(obj).addClass('btclasschange');
+}
+function btmouseout(obj) {
+    $(obj).removeClass("btclasschange");
+}

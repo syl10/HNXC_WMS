@@ -213,8 +213,10 @@
                             <tr>
                                 <td  style="height: 25px; text-align:left; width: 50px;"></td>
                                 <td  style="text-align: left; width: 217px;height:30px">
-                                    <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="login()">确定</a>
-                                    <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#fm-logon').form('clear')">取消</a>
+                                    @*<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="login()">确定</a>*@
+                                    @*<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#fm-logon').form('clear')">取消</a>*@
+                                    <input type="button"  onclick="login()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+                                   <input type="button"  onclick="javascript:$('#fm-logon').form('clear')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
                                 </td>
                             </tr>
                     </table>
@@ -235,13 +237,17 @@
         <div style="color:Green; height:20px; padding-bottom:20px;text-align:center; font-size:18px">当前登陆账号：<label id="user"></label></div>
         
     <div id="dlg-buttons-changepassword">
-	    <a href="#" style=" margin-left:50px; " class="easyui-linkbutton" iconCls="icon-ok" onclick="login2()">强制登陆</a>
-	    <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-forcelogon').dialog('close')">取消</a>
+@*	    <a href="#" style=" margin-left:50px; " class="easyui-linkbutton" iconCls="icon-ok" onclick="login2()">强制登陆</a>
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-forcelogon').dialog('close')">取消</a>*@
+           <input type="button"  onclick="login2()" style=" margin-left:50px;  width:100px"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="强制登录"/>
+           <input type="button"  onclick="javascript:$('#dlg-forcelogon').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
     </div>
     </div>
     </div>
 
     <div id="dlg-buttons-logon">
-	    <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="login()">确定</a>
-	    <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-logon').dialog('close')">取消</a>
+@*	    <a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="login()">确定</a>
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-logon').dialog('close')">取消</a>*@
+          <input type="button"  onclick="login()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+          <input type="button"  onclick="javascript:$('#fm-logon').form('clear')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
     </div>

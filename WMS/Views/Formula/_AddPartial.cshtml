@@ -139,7 +139,7 @@
                 PRODUCT_CODE: $('#PRODUCT_CODE').val(),
                 PRODUCT_NAME: $('#PRODUCT_NAME').val(),
                 PERCENT: $('#PERCENT').val(),
-                OTHER: $('#OTHER').val()
+                OTHER: $('#OTHER').val() == null ? "" : $('#OTHER').val()
             });
         }
         else { //修改明细
@@ -227,7 +227,7 @@
                     $('#details').datagrid('reload');
                     $('#inBillDetails').datagrid('load');
                 } else {
-                    $.messager.alert(g_MsgBoxTitle, result.msg + '<br />' + result.data, "error");
+                    $.messager.alert(g_MsgBoxTitle, result.msg + '<br />' + result.data, "warning");
                     addKey = false;
                     editKey = false;
                     $('#details').datagrid('reload');
@@ -260,6 +260,7 @@
         var copydetail = $('#copy_details').datagrid('getSelected');
         if (copydetail != null) {
             $('#FORMULA_NAME').val(copydetail.FORMULA_NAME);
+            $('#BATCH_WEIGHT').numberbox('setValue', copydetail.BATCH_WEIGHT);
             var copyrows = $('#copy_SubDetails').datagrid('getRows');
             $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
             $.each(copyrows, function (index, row) {
@@ -348,13 +349,8 @@
                 <td width="133"><input id="USE_COUNT" name="USE_COUNT" ></td>
                 <td width="15"></td>
                  <td width="20"></td>
-                <td width="60">状态</td>
-                <td width="168">
-                    <select id="cc" name="IS_ACTIVE" class="easyui-combobox"  style="">
-		                <option value="1">启用</option>
-		                <option value="0">禁用</option>
-	                </select>
-                </td>
+                 <td width="60">批次重量</td>
+                 <td width="168"><input id="BATCH_WEIGHT" name="BATCH_WEIGHT" class="easyui-numberbox"  precision="2"></td>
                 </tr>
                 <tr>
                 <td width="60">操作日期</td>
@@ -363,8 +359,13 @@
                 <td width="133"><input id="OPERATER" name="OPERATER" readonly="true"></td>
                 <td width="15"></td>
                 <td width="20"></td>
-                <td width="60"></td>
-                <td width="168"></td>
+                <td width="60">状态</td>
+                <td width="168">
+                    <select id="cc" name="IS_ACTIVE" class="easyui-combobox"  style="">
+		                <option value="1">启用</option>
+		                <option value="0">禁用</option>
+	                </select>
+                </td>
                 </tr>
             </table>
 	    </form>
@@ -377,8 +378,10 @@
 </div>
 
 <div id="dlg-buttons">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="checkformulacode()">确定</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="checkformulacode()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>*@
+      <input type="button"  onclick="checkformulacode()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#dlg').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>
 
 <div  id="dlg-AddBillDetail" class="easyui-dialog" modal="true"
@@ -412,8 +415,10 @@
 </div>
 
 <div id="dlg-AddBillDetailbuttons">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="DetailSave()">确定</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-AddBillDetail').dialog('close')">取消</a>
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="DetailSave()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-AddBillDetail').dialog('close')">取消</a>*@
+      <input type="button"  onclick="DetailSave()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#dlg-AddBillDetail').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>
 
 @*配方选择框*@
@@ -431,7 +436,8 @@
                 <th field="FORMULADATE" width="60" >配方日期</th>
                 <th field="CIGARETTE_CODE" hidden="true" width="80" >牌号代码</th>
                 <th field="CIGARETTE_NAME" width="80" >牌号名称</th>
-                <th field="ISACTIVE" width="60" >状态</th>                
+                <th field="ISACTIVE" width="60" >状态</th>   
+                <th field="BATCH_WEIGHT" width="60">批次重量</th>             
                 <th field="USE_COUNT" width="80" >次数</th> 
                 <th field="OPERATER" width="60" >操作人员</th>               
                 <th field="OPERATE_DATE" width="80" >操作日期</th>
@@ -457,7 +463,9 @@
 </div>
 </div>
 <div id="copy-dlg-buttons">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="copy_details()">复制</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_copy').dialog('close')">取消</a>
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="copy_details()">复制</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_copy').dialog('close')">取消</a>*@
+      <input type="button"  onclick="copy_details()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="复制"/>
+       <input type="button"  onclick="javascript:$('#dlg_copy').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>
 @Html.Partial("_ProductPartial");  

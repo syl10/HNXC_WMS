@@ -28,7 +28,7 @@
             idField: 'LINE_NO',
             textField: 'LINE_NAME',
             mode: 'local',
-            editable: false,
+            editable: true,
             fitColumns: true,
             columns: [[
                         { field: 'LINE_NO', title: '制丝线编号', align: 'left', width: 40 },
@@ -92,7 +92,7 @@
             idField: 'WAREHOUSE_CODE',
             textField: 'WAREHOUSE_NAME',
             mode: 'local',
-            editable: false,
+            editable: true,
             fitColumns: true,
             columns: [[
                     { field: 'WAREHOUSE_CODE', title: '仓库编号', align: 'left', width: 40 },
@@ -112,7 +112,7 @@
             idField: 'BTYPE_CODE',
             textField: 'BTYPE_NAME',
             mode: 'local',
-            editable: false,
+            editable: true,
             fitColumns: true,
             queryParams: {
                 BILL_TYPE: '2'
@@ -209,7 +209,9 @@
 </div>
 
 <div id="dlg-buttons-search">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="select()">查询</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">取消</a>
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="select()">查询</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">取消</a>*@
+      <input type="button"  onclick="select()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/>
+      <input type="button"  onclick="javascript:$('#dlg-search').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>
 

@@ -29,7 +29,7 @@
             idField: 'CIGARETTE_CODE',
             textField: 'CIGARETTE_CODE',
             mode: 'local',
-            editable: true,
+//            editable: true,
             fitColumns: true,
             columns: [[
                     { field: 'CIGARETTE_CODE', title: '牌号编码', align: 'left', width: 40 },
@@ -53,7 +53,7 @@
             idField: 'FORMULA_CODE',
             textField: 'FORMULA_CODE',
             mode: 'local',
-            editable: true,
+//            editable: true,
             fitColumns: true,
             columns: [[
                     { field: 'FORMULA_CODE', title: '配方代码', align: 'left', width: 40 },
@@ -65,7 +65,7 @@
     //仓库编号
     function SGetWarehouseCode() {
         $('#SWAREHOUSE_CODE').combogrid({
-            required: true,
+            required: false,
             disabled: false,
             width: 125,
             panelWidth: 340,
@@ -73,7 +73,7 @@
             idField: 'WAREHOUSE_CODE',
             textField: 'WAREHOUSE_NAME',
             mode: 'local',
-            editable: false,
+//            editable: false,
             fitColumns: true,
             columns: [[
                     { field: 'WAREHOUSE_CODE', title: '仓库编号', align: 'left', width: 40 },
@@ -85,7 +85,7 @@
     //单据类型
     function SGetBillType() {
         $('#SBTYPE_CODE').combogrid({
-            required: true,
+            required: false,
             disabled: false,
             width: 125,
             panelWidth: 340,
@@ -93,7 +93,7 @@
             idField: 'BTYPE_CODE',
             textField: 'BTYPE_NAME',
             mode: 'local',
-            editable: false,
+//            editable: false,
             fitColumns: true,
             queryParams: {
                   BILL_TYPE:'1'
@@ -197,6 +197,8 @@
 </div>
 
 <div id="dlg-buttons-search">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="select()">查询</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">取消</a>
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="select()">查询</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">取消</a>*@
+      <input type="button"  onclick="select()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/>
+      <input type="button"  onclick="javascript:$('#dlg-search').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>

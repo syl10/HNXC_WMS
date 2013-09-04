@@ -71,6 +71,7 @@ namespace THOK.Wms.Bll.Service
                  OPERATE_DATE=i.OPERATEDATE.ToString("yyyy-MM-dd HH:mm:ss"),
                 i.OPERATER,
                 i.USE_COUNT,
+                i.BATCH_WEIGHT,
                 i.FORMULANO
             });
             return new { total, rows = tmp.ToArray() };
@@ -127,6 +128,7 @@ namespace THOK.Wms.Bll.Service
             editmaster.FORMULA_DATE = master.FORMULA_DATE;
             editmaster.IS_ACTIVE = master.IS_ACTIVE;
             editmaster.CIGARETTE_CODE = master.CIGARETTE_CODE;
+            editmaster.BATCH_WEIGHT = master.BATCH_WEIGHT;
             var details = DetailRepository.GetQueryable().Where(i => i.FORMULA_CODE == master.FORMULA_CODE);
             var tmp = details.ToArray().AsEnumerable().Select(i => i);
             foreach (WMS_FORMULA_DETAIL sub in tmp)
@@ -142,6 +144,7 @@ namespace THOK.Wms.Bll.Service
                     WMS_FORMULA_DETAIL subdetail = new WMS_FORMULA_DETAIL();
                     THOK.Common.JsonData.DataBind(subdetail, dr);
                     subdetail.FORMULA_CODE = master.FORMULA_CODE;
+                    subdetail.OTHER = subdetail.OTHER == "null" ? "" : subdetail.OTHER;
                     DetailRepository.Add(subdetail);
                 }
             }
@@ -207,6 +210,7 @@ namespace THOK.Wms.Bll.Service
                 OPERATE_DATE = i.OPERATEDATE.ToString("yyyy-MM-dd HH:mm:ss"),
                 i.OPERATER,
                 i.USE_COUNT,
+                i.BATCH_WEIGHT ,
                 i.FORMULANO
             });
             return new { total, rows = tmp.ToArray() };
@@ -232,6 +236,7 @@ namespace THOK.Wms.Bll.Service
                 OPERATE_DATE = i.OPERATEDATE.ToString("yyyy-MM-dd HH:mm:ss"),
                 i.OPERATER,
                 i.USE_COUNT,
+                i.BATCH_WEIGHT ,
                 i.FORMULANO
             });
             return new { total, rows = tmp.ToArray() };

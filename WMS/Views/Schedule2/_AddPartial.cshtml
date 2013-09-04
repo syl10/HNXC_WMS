@@ -71,6 +71,7 @@
               columns: [[
                     { field: 'FORMULA_CODE', title: '配方代码', align: 'left', width: 40 },
                     { field: 'FORMULA_NAME', title: '配方名称', align: 'left', width: 30 },
+                    { field: 'BATCH_WEIGHT', title: '批次重量', align: 'left', width: 30 },
                     { field: 'USE_COUNT', title: '次数', align: 'left', width: 30 }
                 ]],
               onLoadSuccess: function () {
@@ -78,6 +79,9 @@
                       var row = $('#inBillDetail').datagrid('getSelected');
                       resetformulavalue(row.FORMULA_CODE);
                   }
+              },
+              onSelect: function (index, data) {
+                  $('#QUANTITY').numberbox('setValue', data.BATCH_WEIGHT);
               }
           });
           if(editsubdetail==null)
@@ -332,8 +336,10 @@
 </div>
 
 <div id="dlg-buttons">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">确定</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>*@
+      <input type="button"  onclick="save()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#dlg').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>
 
 <div  id="dlg-AddBillDetail" class="easyui-dialog" modal="true"
@@ -358,7 +364,7 @@
   </tr>
   <tr>
     <td style=" text-align:right">重量</td>
-    <td align="left"><input type="text" name="QUANTITY" id="QUANTITY"   class="easyui-numberbox" /></td>
+    <td align="left"><input type="text" name="QUANTITY" id="QUANTITY" readonly="true"   class="easyui-numberbox" /></td>
     <td></td>
   </tr>
     <tr>
@@ -371,6 +377,8 @@
 </div>
 
 <div id="dlg-AddBillDetailbuttons">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="DetailSave()">确定</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-AddBillDetail').dialog('close')">取消</a>
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="DetailSave()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-AddBillDetail').dialog('close')">取消</a>*@
+      <input type="button"  onclick="DetailSave()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#dlg-AddBillDetail').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>

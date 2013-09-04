@@ -32,6 +32,9 @@ namespace THOK.Wms.DbModel.Mapping
                 .IsRequired()
                 .IsFixedLength()
                 .HasMaxLength(1);
+            this.Property(t => t.BATCH_WEIGHT)
+                .IsRequired();
+                
 
             // Table & Column Mappings
             this.ToTable("WMS_FORMULA_MASTER", "THOK");
@@ -44,6 +47,7 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.USE_COUNT).HasColumnName("USE_COUNT");
             this.Property(t => t.FORMULANO).HasColumnName("FORMULANO");
             this.Property(t => t.IS_ACTIVE).HasColumnName("IS_ACTIVE");
+            this.Property(t => t.BATCH_WEIGHT).HasColumnName("BATCH_WEIGHT");
 
             // Relationships
             this.HasRequired(t => t.CMD_CIGARETTE)

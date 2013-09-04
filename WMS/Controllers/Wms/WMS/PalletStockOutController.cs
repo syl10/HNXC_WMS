@@ -20,13 +20,13 @@ namespace WMS.Controllers.Wms.WMS
 
         public ActionResult Index(string moduleID)
         {
-            ViewBag.hasSearch = true;
-            ViewBag.hasAdd = true;
-            ViewBag.hasEdit = true;
-            ViewBag.hasDelete = true;
-            ViewBag.hasPrint = true;
-            ViewBag.hasHelp = true;
-            ViewBag.hasTask = true;
+            ViewBag.hasSearch =true;
+            ViewBag.hasAdd =true;
+            ViewBag.hasEdit =true;
+            ViewBag.hasDelete =true;
+            ViewBag.hasPrint =true;
+            ViewBag.hasHelp =true;
+            //ViewBag.hasTask = true;
             //ViewBag.hasAudit = true;
             //ViewBag.hasAntiTrial = true;
             ViewBag.ModuleID = moduleID;

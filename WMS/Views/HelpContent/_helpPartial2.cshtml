@@ -55,9 +55,11 @@
     </div>
 </div>
 <div id="dlgHelpContent-buttons2">
-    <a href="#" class="easyui-linkbutton" iconcls="icon-ok" onclick="helpSave2()">确定</a> 
+@*    <a href="#" class="easyui-linkbutton" iconcls="icon-ok" onclick="helpSave2()">确定</a> 
     <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" onclick="javascript:$('#helpData2').dialog('close')">
-        取消</a>
+        取消</a>*@
+      <input type="button"  onclick="helpSave2()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#helpData2').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>
 <div id="btn-query2">
 <select id="queryType2" name="QueryString" class="easyui-combobox" style="width: 100px;" readonly="true">

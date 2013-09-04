@@ -110,7 +110,9 @@
         <a href="#" class="easyui-linkbutton" iconcls="icon-edit" plain="true" onclick="query()">查询</a>
     </div>
     <div id="dlg-buttons-permission">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="update()">确定</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-permissionadmin').dialog('close')">取消</a>
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="update()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-permissionadmin').dialog('close')">取消</a>*@
+      <input type="button"  onclick="update()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#dlg-permissionadmin').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>
 </div>

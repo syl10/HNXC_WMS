@@ -74,3 +74,45 @@ textarea{
 .hearcenter{
   text-align:center;
 }
+.btok{
+	width:75px;
+	height:23px;
+	background-image:url(../icons/ok.png);
+	background-repeat:no-repeat;
+	background-position:10px;
+	padding-left:3px;
+	text-indent: 12px;
+	cursor:pointer;
+	padding-top: 3px;
+	padding-right: 3px;
+	padding-bottom: 3px;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 2px;
+	border-top-style: outset;
+}
+.btclasschange{
+  background-color:#CCCCCC;
+}
+.btcance{
+	width:75px;
+	height:23px;
+	background-image:url(../icons/cancel.png);
+	background-repeat:no-repeat;
+	background-position:8px;
+	margin-left:3px;
+	text-indent: 12px;
+	cursor:pointer;
+    padding-top: 3px;
+	padding-right: 3px;
+	padding-bottom: 3px;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 2px;
+	border-top-style: outset;
+}
+.btcance2{
+ background-color:#CCCCCC;
+}

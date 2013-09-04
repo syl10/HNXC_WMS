@@ -21,7 +21,7 @@
    //仓库编号
     function SGetWarehouseCode() {
         $('#SWAREHOUSE_CODE').combogrid({
-            required: true,
+            required: false,
             disabled: false,
             width: 125,
             panelWidth: 340,
@@ -41,7 +41,7 @@
     //单据类型
     function SGetBillType() {
         $('#SBTYPE_CODE').combogrid({
-            required: true,
+            required: false,
             disabled: false,
             width: 125,
             panelWidth: 340,
@@ -161,7 +161,9 @@
 </div>
 
 <div id="dlg-buttons-search">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="select()">查询</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">取消</a>
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="select()">查询</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">取消</a>*@
+      <input type="button"  onclick="select()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/>
+      <input type="button"  onclick="javascript:$('#dlg-search').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>
 
