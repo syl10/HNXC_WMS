@@ -227,7 +227,7 @@
             changesRows.inserted.push(Rows.rows[i]);
         }
         if (clickbt == "add") {
-            url = '/StockOutBill/Add/?prefix=IS&detail=' + JSON.stringify(changesRows.inserted);
+            url = '/StockOutBill/Add/?prefix=OS&detail=' + JSON.stringify(changesRows.inserted);
         }
         if (clickbt == "edit") {
             url = '/StockOutBill/Edit/?detail=' + JSON.stringify(changesRows.inserted);
@@ -331,7 +331,10 @@
                 <td width="168"><input id="CIGARETTE_CODE" name="CIGARETTE_CODE"   class="easyui-combogrid"></td>
                 <td width="90">配方代号</td>
                 <td width="168"><input id="FORMULA_CODE" name="FORMULA_CODE"  class="easyui-combogrid"></td>
-                <td colspan="4"><a href="#" class="easyui-linkbutton"  onclick="Loadformula()" id="btLoadFormula"  style="width:66px ">载入配方</a> </td>
+                <td colspan="4">
+                  @*<a href="#" class="easyui-linkbutton"  onclick="Loadformula()" id="btLoadFormula"  style="width:66px ">载入配方</a> *@
+                  <input type="button"  onclick="Loadformula()" id="btLoadFormula" style="width:100px "  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="载入配方"/>
+                </td>
                 </tr>
                 <tr>
                 </tr>

@@ -7,6 +7,8 @@ using THOK.Wms.Bll.Interfaces;
 using Microsoft.Practices.Unity;
 using THOK.Wms.Dal.Interfaces;
 using System.Data;
+using THOK.Authority.Dal.Interfaces;
+using THOK.Authority.DbModel;
 
 namespace THOK.Wms.Bll.Service
 {
@@ -20,6 +22,8 @@ namespace THOK.Wms.Bll.Service
         public ISysTableStateRepository SysTableStateRepository { get; set; }
         [Dependency]
         public ICMDProuductRepository ProductRepository { get; set; }
+        [Dependency]
+        public IUserRepository UserRepository { get; set; }
 
         protected override Type LogPrefix
         {
@@ -32,8 +36,11 @@ namespace THOK.Wms.Bll.Service
         {
             IQueryable<WMS_PRODUCTION_MASTER> query = ProductionmasterRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
+            IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
             var detail = from a in query
                        join b in statequery on a.STATE equals b.STATE
+                       join d in userquery on a.OPERATER equals d.USER_ID 
+                       join c in userquery on a.CHECKER equals c.USER_ID into e from c in e.DefaultIfEmpty ()
                        where b.TABLE_NAME == "WMS_PRODUCTION_MASTER" && b.FIELD_NAME == "STATE"
                        select new { 
                            a.BILL_NO ,
@@ -52,10 +59,10 @@ namespace THOK.Wms.Bll.Service
                            a.LINE_NO,
                            a.CMD_PRODUCTION_LINE.LINE_NAME,
                            STATENAME=b.STATE_DESC ,
-                           a.OPERATER ,
+                           OPERATER =d.USER_NAME,
                            a.OPERATE_DATE ,
                            a.CHECK_DATE ,
-                           a.CHECKER 
+                           CHECKER=c.USER_NAME  
                        };
             if (!string.IsNullOrEmpty(BILL_NO))
             {

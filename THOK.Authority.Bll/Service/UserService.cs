@@ -175,6 +175,10 @@ namespace THOK.Authority.Bll.Service
         {
             string url = "";
             string logOnKey = "";
+            string userid = "";
+            IQueryable<AUTH_USER> queryCity = UserRepository.GetQueryable();
+            var user = queryCity.Single(c => c.USER_NAME == userName);
+            userid = user.USER_ID;
             if (string.IsNullOrEmpty(serverId))
             {
                 url = GetUrlFromCity(cityId, out serverId);
@@ -182,8 +186,6 @@ namespace THOK.Authority.Bll.Service
 
             if (string.IsNullOrEmpty(password))
             {
-                IQueryable<AUTH_USER> queryCity = UserRepository.GetQueryable();
-                var user = queryCity.Single(c => c.USER_NAME == userName);
                 password = user.PWD;
             }
 
@@ -193,6 +195,7 @@ namespace THOK.Authority.Bll.Service
             }
             var key = new UserLoginInfo()
                     {
+                        UserID=userid ,
                         CityID = cityId,
                         SystemID = systemId,
                         UserName = userName,

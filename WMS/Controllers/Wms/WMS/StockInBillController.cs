@@ -61,6 +61,8 @@ namespace WMS.Controllers.Wms.WMS
         }
         public ActionResult Add(WMS_BILL_MASTER mast, object detail, string prefix)
         {
+            string userid = this.GetCookieValue("userid");
+            mast.OPERATER = userid;
             bool bResult = BillMasterService.Add(mast, detail,prefix);
             string msg = bResult ? "新增成功" : "新增失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
@@ -93,7 +95,7 @@ namespace WMS.Controllers.Wms.WMS
         //审核
         public ActionResult Audit(string BillNo)
         {
-            string checker = this.GetCookieValue("username");
+            string checker = this.GetCookieValue("userid");
             bool Result = BillMasterService.Audit(checker, BillNo);
             string msg = Result ? "审核成功" : "审核失败";
             return Json(JsonMessageHelper.getJsonMessage(Result, msg, null), "text", JsonRequestBehavior.AllowGet);

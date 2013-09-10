@@ -27,7 +27,7 @@
                 ]]
         });
     }
-    function select() {
+    function Sselect() {
         var queryParams = $('#details').datagrid('options').queryParams;
         queryParams.FORMULA_CODE = $('#SFORMULA_CODE').val();
         queryParams.FORMULA_NAME=$('#SFORMULA_NAME').val();
@@ -87,7 +87,7 @@
 <div id="dlg-buttons-search">
 @*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="select()">查询</a>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">取消</a>*@
-      <input type="button"  onclick="select()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/>
+      <input type="button"  onclick="Sselect()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/>
        <input type="button"  onclick="javascript:$('#dlg-search').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>
 

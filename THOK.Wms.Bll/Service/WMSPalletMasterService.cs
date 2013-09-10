@@ -7,6 +7,8 @@ using THOK.Wms.Bll.Interfaces;
 using Microsoft.Practices.Unity;
 using THOK.Wms.Dal.Interfaces;
 using System.Data;
+using THOK.Authority.Dal.Interfaces;
+using THOK.Authority.DbModel;
 
 namespace THOK.Wms.Bll.Service
 {
@@ -26,6 +28,8 @@ namespace THOK.Wms.Bll.Service
         public ISysBillTargetRepository SysBillTargetRepository { get; set; }
         [Dependency]
         public ICMDProuductRepository ProductRepository { get; set; }
+        [Dependency]
+        public IUserRepository UserRepository { get; set; }
         protected override Type LogPrefix
         {
             get { return this.GetType(); }
@@ -38,10 +42,13 @@ namespace THOK.Wms.Bll.Service
             IQueryable<CMD_BILL_TYPE> btypequery = CmdBillTypeRepository.GetQueryable();
             IQueryable<SYS_BILL_TARGET> billtargetquery = SysBillTargetRepository.GetQueryable();
             IQueryable<CMD_WAREHOUSE> warehousequery = CMDWarehouseRepository.GetQueryable();
+            IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
             var master = from a in palletquery
                        join b in tatequery on a.STATUS equals b.STATE
                        join c in tatequery on a.STATE equals c.STATE
                        join d in btypequery on a.BTYPE_CODE equals d.BTYPE_CODE 
+                       join h in userquery on a.OPERATER equals h.USER_ID 
+                       join  j in userquery on a.TASKER equals j.USER_ID into k from j in k.DefaultIfEmpty ()
                       join f in warehousequery on a.WAREHOUSE_CODE equals f.WAREHOUSE_CODE
                        join e in billtargetquery on a.TARGET equals e.TARGET_CODE into g
                        from e in g.DefaultIfEmpty ()
@@ -60,9 +67,9 @@ namespace THOK.Wms.Bll.Service
                            STATUSNAME= b.STATE_DESC ,
                            a.STATE ,
                            STATENAME= c.STATE_DESC ,
-                           a.OPERATER ,
+                           OPERATER=h.USER_NAME  ,
                            a.OPERATE_DATE ,
-                           a.TASKER ,
+                           TASKER=j.USER_NAME  ,
                            a.TASK_DATE 
                        };
             if (!string.IsNullOrEmpty(BILL_NO))

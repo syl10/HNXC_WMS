@@ -23,6 +23,10 @@ namespace THOK.Wms.Bll.Service
         public IWMSProductStateRepository  ProductStateRepository { get; set; }
         [Dependency]
         public ISysTableStateRepository SysTableStateRepository { get; set; }
+        [Dependency]
+        public ICMDCellRepository cellRepository { get; set; }
+        [Dependency]
+        public ICMDProuductRepository ProductRepository { get; set; }
         //public bool test() {
         //    OracleConnection ora = new OracleConnection(); 
         //}
@@ -94,6 +98,36 @@ namespace THOK.Wms.Bll.Service
                 return false;
             else
                 return true; 
+        }
+
+        //获取要补料的单据下的产品条码(只获取可以补料的条码)
+        public object Barcodeselect(int page, int rows, string soursebillno)
+        {
+            IQueryable<WMS_PRODUCT_STATE> query = ProductStateRepository.GetQueryable();
+            IQueryable<CMD_CELL> cellquery = cellRepository.GetQueryable();
+            IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
+            IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
+            var barcode = from a in query
+                          join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE
+                          join d in statequery on a.IS_MIX equals d.STATE
+                          where a.BILL_NO == soursebillno &&  d.TABLE_NAME == "WMS_PRODUCT_STATE" && d.FIELD_NAME == "IS_MIX"
+                          && !(from b in cellquery  where b.BILL_NO ==soursebillno select b.PRODUCT_BARCODE ).Contains (a.PRODUCT_BARCODE )
+                          select new { 
+                              a.ITEM_NO ,
+                              a.PRODUCT_CODE ,
+                              a.PRODUCT_BARCODE ,
+                              c.PRODUCT_NAME ,
+                              a.SCHEDULE_NO ,
+                              a.WEIGHT ,
+                              a.REAL_WEIGHT ,
+                              a.OUT_BILLNO ,
+                              a.IS_MIX ,
+                              IS_MIXDESC = d.STATE_DESC  //是否混装,文字显示
+                          };
+            var temp = barcode.OrderBy(i => i.ITEM_NO).Select(i => i);
+            int total = temp.Count();
+            temp = temp.Skip((page - 1) * rows).Take(rows);
+            return new { total, rows = temp.ToArray() };
         }
     }
 }

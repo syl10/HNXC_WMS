@@ -38,7 +38,7 @@
 				]]
         });
     });
-    function select() {
+    function Sselect() {
         var queryParams = $('#details').datagrid('options').queryParams;
         queryParams.SystemID = $('#cg-logon-changeSystem').combogrid('getValue');
         queryParams.UserID = $('#cg-logon-changeUser').combogrid('getValue');
@@ -79,6 +79,6 @@
 <div id="dlg-buttons-search">
 @*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="select()">查询</a>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">取消</a>*@
-      <input type="button"  onclick="select()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/>
+      <input type="button"  onclick="Sselect()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/>
        <input type="button"  onclick="javascript:$('#fm-logon').form('clear')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>

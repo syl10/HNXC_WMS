@@ -7,6 +7,8 @@ using THOK.Wms.DbModel;
 using Microsoft.Practices.Unity;
 using  THOK.Wms.Dal.Interfaces;
 using System.Data;
+using THOK.Authority.Dal.Interfaces;
+using THOK.Authority.DbModel;
 
 namespace THOK.Wms.Bll.Service
 {
@@ -24,24 +26,29 @@ namespace THOK.Wms.Bll.Service
         public ISysTableStateRepository SysTableStateRepository { get; set; }
         [Dependency]
         public ICMDProductionLineRepository ProductionLineRepository { get; set; }
+        [Dependency]
+        public IUserRepository UserRepository { get; set; }
 
         public object GetDetails(int page, int rows, string SCHEDULE_NO, string SCHEDULE_DATE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE)
         {
             IQueryable<WMS_SCHEDULE_MASTER> ScheduleMaster = ScheduleMasterRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
+            IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
             var schedule = from a in ScheduleMaster
                            join b in statequery on a.STATUS equals b.STATE 
                            join c in statequery on a.STATE equals c.STATE
+                           join d in userquery on a.OPERATER equals d.USER_ID 
+                           join e in userquery on a.CHECKER equals e.USER_ID into g from e in g.DefaultIfEmpty ()
                            where b.TABLE_NAME == "WMS_SCHEDULE_MASTER" && b.FIELD_NAME == "STATUS" && c.TABLE_NAME == "WMS_SCHEDULE_MASTER" && c.FIELD_NAME == "STATE"
                            select new
                            {
                                a.SCHEDULE_NO,
                                a.SCHEDULE_DATE,
                                a.SOURCE_BILLNO ,
-                               a.OPERATER,
+                               OPERATER=d.USER_NAME ,
                                a.OPERATE_DATE,
                                a.CHECK_DATE,
-                               a.CHECKER,
+                               CHECKER=e.USER_NAME ,
                                STATE = c.STATE_DESC,
                                STATUS = b.STATE_DESC,
                                STATECODE = a.STATE,

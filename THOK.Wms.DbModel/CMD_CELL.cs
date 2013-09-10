@@ -13,6 +13,7 @@ namespace THOK.Wms.DbModel
         public decimal CELL_ROW { get; set; }
         public string IS_ACTIVE { get; set; }
         public string PRODUCT_CODE { get; set; }
+        public string PRODUCT_BARCODE { get; set; }
         public Nullable<decimal> REAL_WEIGHT { get; set; }
         public string SCHEDULE_NO { get; set; }
         public string IS_LOCK { get; set; }

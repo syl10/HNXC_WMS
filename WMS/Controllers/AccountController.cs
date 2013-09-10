@@ -51,16 +51,18 @@ namespace WMS.Controllers
         public ActionResult LogOn(string logOnKey)
         {
             UserLoginInfo userLoginInfo = (new JavaScriptSerializer()).Deserialize<UserLoginInfo>(Des.DecryptDES(logOnKey, "12345678"));
-            string userName = userLoginInfo.UserName;
+            string userName = userLoginInfo.UserName; 
             string password = userLoginInfo.Password;
             string cityId = userLoginInfo.CityID;
             string systemId = userLoginInfo.SystemID;
             string serverId = userLoginInfo.ServerID;
+            string userid=userLoginInfo .UserID ;
             bool bResult = UserService.ValidateUser(userName, password)
                 && UserService.ValidateUserPermission(userName, cityId, systemId);
             if (bResult)
             {
                 FormsService.SignIn(userName, false);
+                this.AddCookie("userid", userid);
                 this.AddCookie("cityid", cityId);
                 this.AddCookie("systemid", systemId);
                 this.AddCookie("serverid", serverId);

@@ -63,6 +63,8 @@ namespace WMS.Controllers.Wms.WMS
         }
         public ActionResult Add(WMS_PALLET_MASTER mast, object detail, string prefix)
         {
+            string userid = this.GetCookieValue("userid");
+            mast.OPERATER = userid;
             bool bResult = PalletmasterService.Add(mast, detail, prefix);
             string msg = bResult ? "新增成功" : "新增失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);

@@ -1,0 +1,91 @@
+﻿<script type="text/javascript">
+//查询按钮事件
+    function billQueryClick() {
+        var billno = $('#BillInfo').val();
+        $('#BillDetail').datagrid({ url: '/FillBill/billselect/?page=1&rows=30&billmethod=' + $('#BILL_METHOD').combobox('getValue') + '&billno=' + billno });
+        $("#BillDetail").datagrid('reload');
+    }
+    function billselected() {
+        var billRow = $('#BillDetail').datagrid('getSelected');
+        if (billRow) {
+            $('#SOURCE_BILLNO').val(billRow.BILL_NO);
+            $('#BillData').dialog('close');
+            $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+        }
+    }
+
+    $(function () {
+        $('#BillDetail').datagrid({
+            onDblClickRow: function () {
+                billselected();
+            }
+        })
+    });
+</script>
+<div id="BillData" class="easyui-dialog" modal="true" style="width: 770px; height: 500px;
+    padding: 0px 0px" closed="true" buttons="#dlgProduct-buttons">
+    <div split="true" border="false" style="width: 750px; height: 430px">
+        <table id="BillDetail" class="easyui-datagrid" border="false" toolbar="#btn-query"
+            singleselect="true" fit="true" fitcolumns="false" pagination="true" rownumbers="true">
+            <thead>
+                <tr>
+                    <th field="BILL_NO" width="100">
+                        单据编号
+                    </th>
+                    <th field="BILL_DATE" width="150">
+                        单据日期
+                    </th>
+                    <th field="BTYPE_CODE" width="100">
+                        单据类型
+                    </th>
+                    <th field="SCHEDULE_NO" width="80">
+                        计划单号
+                    </th>
+                      <th field="LINE_NO" width="80">
+                        制丝线
+                    </th>
+                      <th field="CIGARETTE_CODE" width="80">
+                        牌号
+                    </th>
+                      <th field="FORMULA_CODE" width="80">
+                        配方
+                    </th>
+                      <th field="BATCH_WEIGHT" width="80">
+                        批次重量
+                    </th>
+                      <th field="OPERATER" width="80">
+                        操作人
+                    </th>
+                    <th field="OPERATE_DATE" width="60">
+                        操作日期
+                    </th>
+                    <th field="CHECKER" width="80">
+                        审核人
+                    </th>
+                    <th field="CHECK_DATE" width="60">
+                        审核日期
+                    </th>
+                    <th field="TASKER" width="60">
+                        作业人
+                    </th>
+                    <th field="TASK_DATE" width="60">
+                        作业日期
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div id="dlgProduct-buttons">
+      <input type="button"  onclick="billselected()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#BillData').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+<div id="btn-query">
+<select id="queryType" name="QueryString" class="easyui-combobox" style="width: 100px;" readonly="true">
+		                <option value="billno">单据编号</option>
+	                </select>
+                    <input id="BillInfo">
+ <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="billQueryClick()" id="billQuery">查询</a>
+</div>
+
+

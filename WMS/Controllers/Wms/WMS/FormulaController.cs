@@ -61,6 +61,8 @@ namespace WMS.Controllers.Wms.WMS
         [HttpPost]
         public ActionResult Create(WMS_FORMULA_MASTER master,object detail)
         {
+            string userid = this.GetCookieValue("userid");
+            master.OPERATER = userid;
             bool bResult = FormulaService.Add(master, detail);
             string msg = bResult ? "新增成功" : "新增失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);

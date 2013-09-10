@@ -8,6 +8,8 @@ using Microsoft.Practices.Unity;
 using THOK.Wms.Dal.Interfaces;
 using THOK.Wms.Bll.Models;
 using System.Data;
+using THOK.Authority.Dal.Interfaces;
+using THOK.Authority.DbModel;
 
 
 namespace THOK.Wms.Bll.Service
@@ -19,6 +21,8 @@ namespace THOK.Wms.Bll.Service
 
         [Dependency]
         public IWMSFormulaMasterRepository MasterRepository { get; set; }
+        [Dependency]
+        public IUserRepository UserRepository { get; set; }
 
         protected override Type LogPrefix
         {
@@ -30,7 +34,24 @@ namespace THOK.Wms.Bll.Service
         public object GetDetails(int page, int rows, string BTYPE_NAME, string BILL_TYPE, string TASK_LEVEL, string Memo, string TARGET_CODE, string FORMULA_CODE, string FORMULA_NAME, string CIGARETTE_CODE, string ISACTIVE, string FORMULADATE, string OPERATER)
         {
             IQueryable<WMS_FORMULA_MASTER> masterQuery = MasterRepository.GetQueryable();
-            var masters = masterQuery.OrderByDescending(i => i.FORMULA_DATE).Select(i => i);
+            IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
+            var formulamast = from a in masterQuery
+                              join b in userquery on a.OPERATER equals b.USER_ID
+                              select new {
+                                 a.FORMULA_CODE,
+                                  a.FORMULA_DATE,
+                                  a.FORMULA_NAME,
+                                 a.CIGARETTE_CODE,
+                                 //a.CMD_CIGARETTE.CIGARETTE_NAME,
+                                  a.CMD_CIGARETTE.CIGARETTE_NAME,
+                                  a.IS_ACTIVE,
+                                 a.OPERATEDATE,
+                                  OPERATER=b.USER_NAME ,
+                                  a.USE_COUNT,
+                                  a.BATCH_WEIGHT,
+                                  a.FORMULANO
+                              };
+            var masters = formulamast.OrderByDescending(i => i.FORMULA_DATE).Select(i => i);
             if (!string.IsNullOrEmpty(FORMULA_CODE))
             {
                 masters = masters.Where(i => i.FORMULA_CODE == FORMULA_CODE);
@@ -64,7 +85,7 @@ namespace THOK.Wms.Bll.Service
                 FORMULADATE = i.FORMULA_DATE.ToString("yyyy-MM-dd"),
                 i.FORMULA_NAME,
                 i.CIGARETTE_CODE,
-                i.CMD_CIGARETTE.CIGARETTE_NAME,
+                i.CIGARETTE_NAME,
                 i.IS_ACTIVE,
                 ISACTIVE=i.IS_ACTIVE=="1"?"可用":"禁用",
                 i.OPERATEDATE,

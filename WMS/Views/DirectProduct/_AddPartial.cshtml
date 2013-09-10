@@ -290,7 +290,10 @@
                  <tr>
                 <td width="90">配方代号</td>
                 <td width="168"><input id="FORMULA_CODE" name="FORMULA_CODE"  class="easyui-combogrid" readonly="true"></td>
-                <td colspan="6" ><a href="#" class="easyui-linkbutton"   onclick="Loadformula()" id="btLoadFormula"  style="width:66px ">载入配方</a> </td>
+                <td colspan="6" >
+                     @*<a href="#" class="easyui-linkbutton"   onclick="Loadformula()" id="btLoadFormula"  style="width:66px ">载入配方</a> *@
+                     <input type="button"  onclick="Loadformula()" id="btLoadFormula" style="width:100px "  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="载入配方"/>
+                  </td>
                 </tr>
                 <tr>
                 </tr>

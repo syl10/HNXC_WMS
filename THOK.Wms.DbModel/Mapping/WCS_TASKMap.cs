@@ -64,6 +64,23 @@ namespace THOK.Wms.DbModel.Mapping
                 .IsFixedLength()
                 .HasMaxLength(1);
 
+            this.Property(t => t.RFID_CHECK)
+                .IsFixedLength()
+                .HasMaxLength(1);
+
+            this.Property(t => t.CHECK_PALLET_CODE)
+                .HasMaxLength(40);
+
+            this.Property(t => t.BARCODE_CHECK)
+                .IsFixedLength()
+                .HasMaxLength(1);
+
+            this.Property(t => t.CHECK_PRODUCT_BARCODE)
+                .HasMaxLength(40);
+
+            this.Property(t => t.SOURCE_BILLNO)
+                .HasMaxLength(20);
+
             // Table & Column Mappings
             this.ToTable("WCS_TASK", "THOK");
             this.Property(t => t.TASK_ID).HasColumnName("TASK_ID");
@@ -83,6 +100,11 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.NEWCELL_CODE).HasColumnName("NEWCELL_CODE");
             this.Property(t => t.FINISH_DATE).HasColumnName("FINISH_DATE");
             this.Property(t => t.IS_MIX).HasColumnName("IS_MIX");
+            this.Property(t => t.RFID_CHECK).HasColumnName("RFID_CHECK");
+            this.Property(t => t.CHECK_PALLET_CODE).HasColumnName("CHECK_PALLET_CODE");
+            this.Property(t => t.BARCODE_CHECK).HasColumnName("BARCODE_CHECK");
+            this.Property(t => t.CHECK_PRODUCT_BARCODE).HasColumnName("CHECK_PRODUCT_BARCODE");
+            this.Property(t => t.SOURCE_BILLNO).HasColumnName("SOURCE_BILLNO");
         }
     }
 }

@@ -38,6 +38,9 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.PRODUCT_CODE)
                 .HasMaxLength(40);
 
+            this.Property(t => t.PRODUCT_BARCODE)
+                .HasMaxLength(40);
+
             this.Property(t => t.SCHEDULE_NO)
                 .HasMaxLength(20);
 

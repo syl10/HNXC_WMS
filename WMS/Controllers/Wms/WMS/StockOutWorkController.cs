@@ -34,7 +34,7 @@ namespace WMS.Controllers.Wms.WMS
         //作业 函数
         public ActionResult Task(string BillNo, string cigarettecode, string formulacode, string batchweight)
         {
-            string userName = this.GetCookieValue("username");
+            string userName = this.GetCookieValue("userid");
             string error = "";
             bool bResult = ProductStateService.Task(BillNo,cigarettecode ,formulacode ,batchweight, userName,out error);
             string msg = bResult ? "作业成功" : "作业失败"+error;

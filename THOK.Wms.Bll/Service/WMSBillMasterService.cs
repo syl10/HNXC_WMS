@@ -8,6 +8,8 @@ using Microsoft.Practices.Unity;
 using  THOK.Wms.Dal.Interfaces;
 using System.Data;
 using THOK.Wms.Bll.Models;
+using THOK.Authority.Dal.Interfaces;
+using THOK.Authority.DbModel;
 
 namespace THOK.Wms.Bll.Service
 {
@@ -29,14 +31,26 @@ namespace THOK.Wms.Bll.Service
         public ICMDProuductRepository ProductRepository { get; set; }
         [Dependency]
         public ICmdBillTypeRepository CmdBillTypeRepository { get; set; }
+        [Dependency]
+        public IUserRepository UserRepository { get; set; }
+        [Dependency]
+        public ICMDCellRepository cellRepository { get; set; }
+        [Dependency]
+        public IWMSProductStateRepository ProductStateRepository { get; set; }
+        [Dependency]
+        public IWCSTaskRepository WcsTaskRepository { get; set; }
         public object GetDetails(int page, int rows, string billtype, string flag, string BILL_NO, string BILL_DATE, string BTYPE_CODE, string WAREHOUSE_CODE, string BILL_METHOD, string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE, string STATUS, string BILL_DATEStar, string BILL_DATEEND)
         {
             IQueryable<WMS_BILL_MASTER > billquery = BillMasterRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
+            IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
             var billmaster = from a in billquery
                              join b in statequery on a.STATUS equals b.STATE
                              join c in statequery on a.STATE equals c.STATE
                              join d in statequery on a.BILL_METHOD equals d.STATE
+                             join e in userquery on a.OPERATER equals e.USER_ID 
+                             join f in userquery on a.CHECKER equals f.USER_ID  into fg from f in fg.DefaultIfEmpty ()
+                             join g in userquery on a.TASKER equals g.USER_ID into hg from g in hg.DefaultIfEmpty ()
                              where b.TABLE_NAME == "WMS_BILL_MASTER" && b.FIELD_NAME == "STATUS" && c.TABLE_NAME == "WMS_BILL_MASTER" && c.FIELD_NAME == "STATE"
                              && d.TABLE_NAME == "WMS_BILL_MASTER" && d.FIELD_NAME == "BILL_METHOD" && a.CMD_BILL_TYPE.BILL_TYPE == billtype 
                              select new {
@@ -59,11 +73,11 @@ namespace THOK.Wms.Bll.Service
                                   a.WMS_FORMULA_MASTER .FORMULA_NAME , //配方名称
                                   a.BATCH_WEIGHT ,
                                   a.SOURCE_BILLNO,
-                                  a.OPERATER ,
+                                  OPERATER =e.USER_NAME ,
                                   a.OPERATE_DATE ,
-                                  a.CHECKER ,
+                                  CHECKER=f.USER_NAME  ,
                                   a.CHECK_DATE ,
-                                  a.TASKER ,
+                                  TASKER =g.USER_NAME ,
                                   a.TASK_DATE ,
                                   a.BILL_METHOD ,//单据方式代码
                                  BILLMETHODNAME= d.STATE_DESC ,//单据方式描述
@@ -170,8 +184,19 @@ namespace THOK.Wms.Bll.Service
                  i.LINE_NO ,
                  i.LINE_NAME 
             });
-            if (flag == "1") {  //入库作业  获取的记录即状态不是保存的
-                temp = temp.Where(i => i.STATE != "1");
+            if (flag == "2")
+            {  //属于抽检补料入库单
+                temp = temp.Where(i => "2,3".Contains(i.BILL_METHOD));
+            }
+            else
+            {
+                //temp = temp.Where(i => i.BILL_METHOD != "2");
+                //temp = temp.Where(i => i.BILL_METHOD != "3");
+                temp = temp.Where(i => !("2,3".Contains(i.BILL_METHOD)));
+                if (flag == "1")
+                {  //入库,出库作业  获取的记录即状态不是保存的
+                    temp = temp.Where(i => i.STATE != "1");
+                }
             }
             int total = temp.Count();
             temp = temp.Skip((page - 1) * rows).Take(rows);
@@ -457,6 +482,245 @@ namespace THOK.Wms.Bll.Service
            int result= BillMasterRepository.SaveChanges();
            if (result == -1) return false;
             return true;
+        }
+
+        //查询需要补料的单据
+        public object billselect(int page, int rows, string billmethod, string billno)
+        {
+            string billtyp = "";
+           if (billmethod == "2") {  //抽检单
+               billtyp = "3"; 
+            }
+           if (billmethod == "3") {//补料的
+               billtyp = "1";
+           }
+            IQueryable<WMS_BILL_MASTER> billquery = BillMasterRepository.GetQueryable();
+            IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
+            IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
+            IQueryable<CMD_CELL> cellquery = cellRepository.GetQueryable();
+            var billmaster =(from a in billquery
+                            join h in cellquery on a.BILL_NO equals h.BILL_NO 
+                             join b in statequery on a.STATUS equals b.STATE
+                             join c in statequery on a.STATE equals c.STATE
+                             join d in statequery on a.BILL_METHOD equals d.STATE
+                             join e in userquery on a.OPERATER equals e.USER_ID
+                             join f in userquery on a.CHECKER equals f.USER_ID into fg
+                             from f in fg.DefaultIfEmpty()
+                             join g in userquery on a.TASKER equals g.USER_ID into hg
+                             from g in hg.DefaultIfEmpty()
+                             where b.TABLE_NAME == "WMS_BILL_MASTER" && b.FIELD_NAME == "STATUS" && c.TABLE_NAME == "WMS_BILL_MASTER" && c.FIELD_NAME == "STATE"
+                             && d.TABLE_NAME == "WMS_BILL_MASTER" && d.FIELD_NAME == "BILL_METHOD" && a.CMD_BILL_TYPE.BILL_TYPE == billtyp
+                             select new
+                             {
+                                 a.BILL_NO,
+                                 a.BILL_DATE,
+                                 a.BTYPE_CODE, //单据类型代码
+                                 a.CMD_BILL_TYPE.BTYPE_NAME,  //单据类型名称
+                                 a.SCHEDULE_NO,
+                                 //a.WAREHOUSE_CODE,
+                                 //a.CMD_WAREHOUSE.WAREHOUSE_NAME,
+                                 //a.SYS_BILL_TARGET.TARGET_NAME, //目标位置名
+                                 //a.TARGET_CODE, //目标位置代码
+                                 a.STATUS,//单据来源代号
+                                 STATUSNAME = b.STATE_DESC,//单据来源描述,手动,系统输入
+                                 a.STATE,//单据状态代号
+                                 //STATENAME = c.STATE_DESC,//单据状态描述
+                                 a.CIGARETTE_CODE,
+                                 a.CMD_CIGARETTE.CIGARETTE_NAME,//牌号名称
+                                 a.FORMULA_CODE,
+                                 a.WMS_FORMULA_MASTER.FORMULA_NAME, //配方名称
+                                 a.BATCH_WEIGHT,
+                                 //a.SOURCE_BILLNO,
+                                 OPERATER = e.USER_NAME,
+                                 a.OPERATE_DATE,
+                                 CHECKER = f.USER_NAME,
+                                 a.CHECK_DATE,
+                                 TASKER = g.USER_NAME,
+                                 a.TASK_DATE,
+                                 a.BILL_METHOD,//单据方式代码
+                                 BILLMETHODNAME = d.STATE_DESC,//单据方式描述
+                                 a.SCHEDULE_ITEMNO,
+                                 a.LINE_NO,//制丝线代码
+                                 a.CMD_PRODUCTION_LINE.LINE_NAME //制丝线名
+                             }).Distinct ();
+            if (!string.IsNullOrEmpty(billno)) {
+                billmaster = billmaster.Where(i => i.BILL_NO == billno);
+            }
+            var temp = billmaster.ToArray().OrderByDescending(i => i.OPERATE_DATE).Select(i => new
+            {
+                i.BILL_NO,
+                BILL_DATE = i.BILL_DATE.ToString("yyyy-MM-dd"),
+                i.BTYPE_CODE,
+                i.BTYPE_NAME,
+                i.SCHEDULE_NO,
+                //i.WAREHOUSE_CODE,
+                //i.WAREHOUSE_NAME,
+                //i.TARGET_CODE,
+                //i.TARGET_NAME,
+                i.STATUS,
+                i.STATUSNAME,
+                i.STATE,
+                //i.STATENAME,
+                //i.SOURCE_BILLNO,
+                i.CIGARETTE_CODE,
+                i.CIGARETTE_NAME,//牌号名称
+                i.FORMULA_CODE,
+                i.FORMULA_NAME, //配方名称
+                i.BATCH_WEIGHT,
+                i.OPERATER,
+                OPERATE_DATE = i.OPERATE_DATE == null ? "" : ((DateTime)i.OPERATE_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+                i.CHECKER,
+                CHECK_DATE = i.CHECK_DATE == null ? "" : ((DateTime)i.CHECK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+                i.TASKER,
+                TASK_DATE = i.TASK_DATE == null ? "" : ((DateTime)i.TASK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+                i.BILL_METHOD,
+                i.BILLMETHODNAME,
+                i.SCHEDULE_ITEMNO,
+                i.LINE_NO,
+                i.LINE_NAME
+            });
+            int total = temp.Count();
+            temp = temp.Skip((page - 1) * rows).Take(rows);
+            return new { total, rows = temp.ToArray() };
+        }
+
+        //抽检补料入库单添加
+        public bool FillBillAdd(WMS_BILL_MASTER mast, object detail, string prefix)
+        {
+            var targetcode = CmdBillTypeRepository.GetQueryable().FirstOrDefault(i => i.BTYPE_CODE == mast.BTYPE_CODE);
+            bool rejust = false;
+            int serial = 1;
+            try
+            {
+                mast.BILL_NO = BillMasterRepository.GetNewID(prefix, mast.BILL_DATE, mast.BILL_NO);
+                mast.OPERATE_DATE = DateTime.Now;
+                //mast.BILL_DATE = DateTime.Now;
+                mast.STATE = "1"; //默认保存状态
+                mast.STATUS = "0"; //默认手工输入
+                mast.TARGET_CODE = targetcode.TARGET_CODE;
+                BillMasterRepository.Add(mast);
+
+                DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]);
+                foreach (DataRow dr in dt.Rows)
+                {
+
+                    WMS_PRODUCT_STATE subdetail = new WMS_PRODUCT_STATE();
+                    THOK.Common.JsonData.DataBind(subdetail, dr);
+                    subdetail.ITEM_NO = serial;
+                    subdetail.BILL_NO = mast.BILL_NO;
+                    ProductStateRepository.Add(subdetail);
+                    serial++;
+                }
+
+                int brs = BillMasterRepository.SaveChanges();
+                if (brs == -1) rejust = false;
+                else
+                    rejust = true;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return rejust;
+        }
+
+        //抽检补料入库单修改
+        public bool FillBillEdit(WMS_BILL_MASTER mast, object detail)
+        {
+            var billmast = BillMasterRepository.GetQueryable().FirstOrDefault(i => i.BILL_NO == mast.BILL_NO);
+            billmast.BILL_DATE = mast.BILL_DATE;
+            billmast.SOURCE_BILLNO = mast.SOURCE_BILLNO;
+
+            var details = ProductStateRepository.GetQueryable().Where(i => i.BILL_NO == mast.BILL_NO);
+            var tmp = details.ToArray().AsEnumerable().Select(i => i);
+            foreach (WMS_PRODUCT_STATE  sub in tmp)
+            {
+                ProductStateRepository.Delete(sub);
+            }
+
+            DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]); //修改
+            if (dt != null)
+            {
+                int serial = 1;
+                foreach (DataRow dr in dt.Rows)
+                {
+                    WMS_PRODUCT_STATE subdetail = new WMS_PRODUCT_STATE();
+                    THOK.Common.JsonData.DataBind(subdetail, dr);
+                    subdetail.ITEM_NO = serial;
+                    subdetail.BILL_NO = mast.BILL_NO;
+                    if (subdetail.SCHEDULE_NO == "null") subdetail.SCHEDULE_NO = "";
+                    if (subdetail.OUT_BILLNO == "null") subdetail.OUT_BILLNO = "";
+                    
+                    ProductStateRepository.Add(subdetail);
+                    serial++;
+                }
+            }
+            int result = BillMasterRepository.SaveChanges();
+            if (result == -1) return false;
+            else
+                return true;
+        }
+
+        //抽检补料入库单删除
+        public bool FillBillDelete(string BillNo)
+        {
+            var deletbillno = BillMasterRepository.GetQueryable().Where(i => i.BILL_NO == BillNo).FirstOrDefault();
+            var details = ProductStateRepository.GetQueryable().Where(i => i.BILL_NO == BillNo);
+            var tmp = details.ToArray().AsEnumerable().Select(i => i);
+            foreach (WMS_PRODUCT_STATE  sub in tmp)
+            {
+                ProductStateRepository.Delete(sub);
+            }
+            BillMasterRepository.Delete(deletbillno);
+            int result = BillMasterRepository.SaveChanges();
+            if (result == -1) return false;
+            return true;
+        }
+
+        //抽检补料入库单作业
+        public bool FillBillTask(string BillNo, string tasker)
+        {
+            var billmast = BillMasterRepository.GetQueryable().FirstOrDefault (i=>i.BILL_NO ==BillNo );
+            var productstatequery = ProductStateRepository.GetQueryable().Where (i=>i.BILL_NO ==BillNo );
+            var tmp = productstatequery.ToArray().AsEnumerable().Select(i => i);
+            string soursebillno = billmast.SOURCE_BILLNO;
+            if (billmast.BILL_METHOD == "2") //抽检
+            {
+                soursebillno = BillMasterRepository.GetQueryable().FirstOrDefault(i => i.BILL_NO == billmast.SOURCE_BILLNO).SOURCE_BILLNO;
+            }
+            try
+            {
+                int serial = 1;
+                foreach (WMS_PRODUCT_STATE item in tmp)
+                {
+                    WCS_TASK task = new WCS_TASK();
+                    task.TASK_ID = billmast.BILL_NO + serial.ToString("00");
+                    task.BILL_NO = billmast.BILL_NO;
+                    task.TASK_TYPE = billmast.CMD_BILL_TYPE.TASK_TYPE;
+                    task.TASK_LEVEL = decimal.Parse(billmast.CMD_BILL_TYPE.TASK_LEVEL);
+                    task.PRODUCT_CODE = item.PRODUCT_CODE;
+                    task.PRODUCT_BARCODE = item.PRODUCT_BARCODE;
+                    task.REAL_WEIGHT = item.REAL_WEIGHT;
+                    task.TARGET_CODE = billmast.TARGET_CODE;
+                    task.STATE = "0";
+                    task.TASK_DATE = DateTime.Now;
+                    task.TASKER = tasker;
+                    task.PRODUCT_TYPE = "1";
+                    task.IS_MIX = item.IS_MIX;
+                    task.SOURCE_BILLNO = soursebillno;
+                    WcsTaskRepository.Add(task);
+                    serial++;
+                }
+                billmast.TASK_DATE = DateTime.Now;
+                billmast.TASKER = tasker;
+                billmast.STATE = "3";
+               int result= BillMasterRepository.SaveChanges();
+               if (result == -1) return false;
+               else  return true;
+            }
+            catch (Exception ex) {
+                return false;
+            }
         }
     }
 }

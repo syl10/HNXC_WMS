@@ -56,6 +56,8 @@ namespace WMS.Controllers.Wms.WMS
         }
         public ActionResult Add(WMS_PRODUCTION_MASTER mast, object detail)
         {
+            string userid = this.GetCookieValue("userid");
+            mast.OPERATER = userid;
             bool bResult = ProductionmastService.Add(mast, detail);
             string msg = bResult ? "新增成功" : "新增失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
@@ -83,7 +85,7 @@ namespace WMS.Controllers.Wms.WMS
         //审核
         public ActionResult Audit(string billno)
         {
-            string checker = this.GetCookieValue("username");
+            string checker = this.GetCookieValue("userid");
             bool Result = ProductionmastService.Audit(checker, billno);
             string msg = Result ? "审核成功" : "审核失败";
             return Json(JsonMessageHelper.getJsonMessage(Result, msg, null), "text", JsonRequestBehavior.AllowGet);

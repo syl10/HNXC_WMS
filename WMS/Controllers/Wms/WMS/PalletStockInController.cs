@@ -65,6 +65,8 @@ namespace WMS.Controllers.Wms.WMS
         }
         public ActionResult Add(WMS_PALLET_MASTER  mast, object detail, string prefix)
         {
+            string userid = this.GetCookieValue("userid");
+            mast.OPERATER = userid;
             bool bResult = PalletmasterService.Add(mast, detail, prefix);
             string msg = bResult ? "新增成功" : "新增失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
@@ -84,7 +86,7 @@ namespace WMS.Controllers.Wms.WMS
         //作业 函数
         public ActionResult Task(string BillNo)
         {
-            string userName = this.GetCookieValue("username");
+            string userName = this.GetCookieValue("userid");
             string error = "";
             bool bResult = ProductStateService.Task(BillNo, userName, out error);
             string msg = bResult ? "作业成功" : "作业失败" + error;

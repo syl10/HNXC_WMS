@@ -24,5 +24,10 @@ namespace THOK.Wms.DbModel
         public string NEWCELL_CODE { get; set; }
         public Nullable<System.DateTime> FINISH_DATE { get; set; }
         public string IS_MIX { get; set; }
+        public string RFID_CHECK { get; set; }
+        public string CHECK_PALLET_CODE { get; set; }
+        public string BARCODE_CHECK { get; set; }
+        public string CHECK_PRODUCT_BARCODE { get; set; }
+        public string SOURCE_BILLNO { get; set; }
     }
 }
