@@ -608,6 +608,8 @@ namespace THOK.Wms.Bll.Service
                     THOK.Common.JsonData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
+                    //if (subdetail.SCHEDULE_NO == "null") subdetail.SCHEDULE_NO = "";
+                    //if (subdetail.OUT_BILLNO == "null") subdetail.OUT_BILLNO = "";
                     ProductStateRepository.Add(subdetail);
                     serial++;
                 }

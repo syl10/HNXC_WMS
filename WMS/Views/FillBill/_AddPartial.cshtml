@@ -119,22 +119,22 @@
             $.messager.confirm('错误', '没有选择行！');
         }
     }
-    //修改明细
-    function editBillDetailClick() {
-        var detailRow = $('#inBillDetail').datagrid('getSelected');
-        if (detailRow) {
-            editsubdetail = detailRow;
-            $('#dlg-AddBillDetail').dialog('open').dialog('setTitle', '修改明细表信息');
-            $('#fm-inBillDetail .easyui-validatebox').validatebox({
-                required: false
-            });
-            $('#fm-inBillDetail').form('clear');
+//    //修改明细
+//    function editBillDetailClick() {
+//        var detailRow = $('#inBillDetail').datagrid('getSelected');
+//        if (detailRow) {
+//            editsubdetail = detailRow;
+//            $('#dlg-AddBillDetail').dialog('open').dialog('setTitle', '修改明细表信息');
+//            $('#fm-inBillDetail .easyui-validatebox').validatebox({
+//                required: false
+//            });
+//            $('#fm-inBillDetail').form('clear');
 
-            $('#fm-inBillDetail').form('load', detailRow);
-        } else {
-            $.messager.confirm('错误', '没有选择行！');
-        }
-    }
+//            $('#fm-inBillDetail').form('load', detailRow);
+//        } else {
+//            $.messager.confirm('错误', '没有选择行！');
+//        }
+//    }
     //添加明细中的确定按钮
     function DetailSave() {
         if ($('#fm-inBillDetail').form('validate')) {
@@ -154,55 +154,43 @@
 
                 });
             }
-            else { //修改
-                $('#inBillDetail').datagrid('beginEdit', $('#inBillDetail').datagrid('getRowIndex', editsubdetail));
-                $('#inBillDetail').datagrid('updateRow', {
-                    index: $('#inBillDetail').datagrid('getRowIndex', editsubdetail),
-                    row: {
-                        ITEM_NO: $('#ITEM_NO').val(),
-                        PRODUCT_CODE: $('#PRODUCT_CODE').val(),
-                        PRODUCT_BARCODE: $('#PRODUCT_BARCODE').val(),
-//                        PRODUCT_NAME: $('#PRODUCT_NAME').val(),
-                        WEIGHT: $('#WEIGHT').val() == "" ? "0" : $('#WEIGHT').val(),
-                        PACKAGE_COUNT: $('#PACKAGE_COUNT').val() == "" ? "0" : $('#PACKAGE_COUNT').val(),
-                        OUT_BILLNO: $('#OUT_BILLNO').val(),
-                        IS_MIX: $('#IS_MIX').val(),
-                        IS_MIXDESC:$('#IS_MIXDESC').val(),
-                        REAL_WEIGHT: $('#REAL_WEIGHT').val(),
-                        SCHEDULE_NO: $('#SCHEDULE_NO').val()
-                    }
-                });
-
-                $('#inBillDetail').datagrid('endEdit', $('#inBillDetail').datagrid('getRowIndex', editsubdetail));
-                $('#inBillDetail').datagrid('refreshRow', $('#inBillDetail').datagrid('getRowIndex', editsubdetail));
-            }
             $('#dlg-AddBillDetail').dialog('close');
         }
     }
     //查询按钮点击触发的函数
     function billselect() {
         $('#BillData').dialog('open').dialog('setTitle', '选择来源单据');
+        $('#BarcodeDetail').datagrid('loadData', { total: 0, rows: [] });
         $('#BillDetail').datagrid({ url: '/FillBill/billselect/?page=1&rows=30&billmethod=' + $('#BILL_METHOD').combobox('getValue') });
         $("#BillDetail").datagrid('reload');
     }
     //查询条码按钮触发函数
     function barcodeSelect() {
-        $('#BarcodeData').dialog('open').dialog('setTitle', '选择产品条码');
-        $('#BarcodeDetail').datagrid({ url: '/FillBill/barcodeselect/?page=1&rows=30&soursebill=' + $('#SOURCE_BILLNO').val() });
-        $("#BarcodeDetail").datagrid('reload');
+        $('#BarcodeData2').dialog('open').dialog('setTitle', '选择产品条码');
+        $('#BarcodeDetail2').datagrid({ url: '/FillBill/barcodeselect/?page=1&rows=30&soursebill=' + $('#SOURCE_BILLNO').val() });
+        $("#BarcodeDetail2").datagrid('reload');
     }
     //
     function save() {
         var changesRows = {
             inserted: []
         };
+        var barcodestr = "";
+        var iscoderepeat = false;
         var Rows = $('#inBillDetail').datagrid('getData');
         if (Rows.total == 0 && clickbt != "delete") { alert("明细不能为空"); return; }
         for (var i = 0; i < Rows.total; i++) {
+            if (barcodestr.search(Rows.rows[i].PRODUCT_BARCODE) == -1) {
+                barcodestr += Rows.rows[i].PRODUCT_BARCODE + ",";
+            }
+            else {
+                iscoderepeat = true;
+                alert("产品条码:" + Rows.rows[i].PRODUCT_BARCODE + "重复");
+                break;
+            }
             changesRows.inserted.push(Rows.rows[i]);
-//            totalweight += Rows.rows[i].TOTAL_WEIGHT;
         }
-
+        if (iscoderepeat) { return; }
         if (clickbt == "add") {
             url = '/FillBill/Add/?prefix=FIS&detail=' + JSON.stringify(changesRows.inserted);
         }
@@ -304,7 +292,7 @@
     <div border="false" class="formula_editbg" > 
 	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addBillDetailClick()" id="btnAddBillDetail">添加明细</a>
 	    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteBillDetailClick()" id="btnDeleteBillDetail">删除明细</a>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editBillDetailClick()" id="btnEditBillDetail">修改明细</a>
+@*        <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editBillDetailClick()" id="btnEditBillDetail">修改明细</a>*@
         
     </div>
 </div>

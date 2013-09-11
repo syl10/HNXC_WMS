@@ -87,7 +87,8 @@ namespace THOK.Common
                         value = Convert.ChangeType(row[infors[i].Name], Nullable.GetUnderlyingType(infors[i].PropertyType)); 
                     }
                      else 
-                     value = Convert.ChangeType(row[infors[i].Name], infors[i].PropertyType);
+                        value = Convert.ChangeType(row[infors[i].Name], infors[i].PropertyType);
+                    value = value.ToString () == "null" ? "" : value;
                     infors[i].SetValue(entity, value, null);
                 }
             }

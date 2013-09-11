@@ -122,7 +122,8 @@ namespace THOK.Wms.Bll.Service
                               a.REAL_WEIGHT ,
                               a.OUT_BILLNO ,
                               a.IS_MIX ,
-                              IS_MIXDESC = d.STATE_DESC  //是否混装,文字显示
+                              IS_MIXDESC = d.STATE_DESC,  //是否混装,文字显示
+                              a.PACKAGE_COUNT 
                           };
             var temp = barcode.OrderBy(i => i.ITEM_NO).Select(i => i);
             int total = temp.Count();

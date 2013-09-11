@@ -1,12 +1,12 @@
 ﻿<script type="text/javascript">
     //查询按钮事件
     function barcodeQueryClick() {
-        var billno = $('#BillInfo').val();
-        $('#BarcodeDetail').datagrid({ url: '/FillBill/billselect/?page=1&rows=30&billmethod=' + $('#BILL_METHOD').combobox('getValue') + '&billno=' + billno });
-        $("#BarcodeDetail").datagrid('reload');
+        var billno = $('#BillInfo2').val();
+        $('#BarcodeDetail2').datagrid({ url: '/FillBill/billselect/?page=1&rows=30&billmethod=' + $('#BILL_METHOD').combobox('getValue') + '&billno=' + billno });
+        $("#BarcodeDetail2").datagrid('reload');
     }
     function barcodeselected() {
-        var barcodeRow = $('#BarcodeDetail').datagrid('getSelected');
+        var barcodeRow = $('#BarcodeDetail2').datagrid('getSelected');
         if (barcodeRow) {
             $('#PRODUCT_BARCODE').val(barcodeRow.PRODUCT_BARCODE);
             $('#PRODUCT_CODE').val(barcodeRow.PRODUCT_CODE);
@@ -18,22 +18,22 @@
             $('#OUT_BILLNO').val(barcodeRow.OUT_BILLNO);
             $('#IS_MIX').val(barcodeRow.IS_MIX);
             $('#IS_MIXDESC').val(barcodeRow.IS_MIXDESC);
-            $('#BarcodeData').dialog('close');
+            $('#BarcodeData2').dialog('close');
         }
     }
 
     $(function () {
-        $('#BarcodeDetail').datagrid({
+        $('#BarcodeDetail2').datagrid({
             onDblClickRow: function () {
                 barcodeselected();
             }
         })
     });
 </script>
-<div id="BarcodeData" class="easyui-dialog" modal="true" style="width: 683px; height: 500px;
-    padding: 0px 0px" closed="true" buttons="#dlgbarcode-buttons">
+<div id="BarcodeData2" class="easyui-dialog" modal="true" style="width: 683px; height: 500px;
+    padding: 0px 0px" closed="true" buttons="#dlgbarcode-buttons2">
     <div split="true" border="false" style="width: 666px; height: 430px">
-        <table id="BarcodeDetail" class="easyui-datagrid" border="false" toolbar="#btn-barquery"
+        <table id="BarcodeDetail2" class="easyui-datagrid" border="false" toolbar="#btn-barquery2"
             singleselect="true" fit="true" fitcolumns="false" pagination="true" rownumbers="true">
             <thead>
                 <tr>
@@ -67,14 +67,14 @@
         </table>
     </div>
 </div>
-<div id="dlgbarcode-buttons">
+<div id="dlgbarcode-buttons2">
       <input type="button"  onclick="barcodeselected()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
-       <input type="button"  onclick="javascript:$('#BarcodeData').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+       <input type="button"  onclick="javascript:$('#BarcodeData2').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>
-<div id="btn-barquery">
-<select id="barcodequeryType" name="QueryString" class="easyui-combobox" style="width: 100px;" readonly="true">
+<div id="btn-barquery2">
+<select id="barcodequeryType2" name="QueryString" class="easyui-combobox" style="width: 100px;" readonly="true">
 		                <option value="billno">产品条码</option>
 	                </select>
-                    <input id="BillInfo">
- <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="barcodeQueryClick()" id="barcodeQuery">查询</a>
+                    <input id="BillInfo2">
+ <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="barcodeQueryClick()" id="barcodeQuery2">查询</a>
 </div>
