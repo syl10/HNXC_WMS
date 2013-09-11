@@ -24,5 +24,7 @@ namespace THOK.Wms.Bll.Interfaces
         object Getusefull(int page, int rows, string CIGARETTE_CODE);
         //验证配方编号是否存在
         bool Checkformulacode(string formulacode);
+        //获取所有有效的配方
+        object Getallusefull(int page, int rows);
     }
 }

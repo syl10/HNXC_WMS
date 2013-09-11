@@ -119,22 +119,6 @@
             $.messager.confirm('错误', '没有选择行！');
         }
     }
-//    //修改明细
-//    function editBillDetailClick() {
-//        var detailRow = $('#inBillDetail').datagrid('getSelected');
-//        if (detailRow) {
-//            editsubdetail = detailRow;
-//            $('#dlg-AddBillDetail').dialog('open').dialog('setTitle', '修改明细表信息');
-//            $('#fm-inBillDetail .easyui-validatebox').validatebox({
-//                required: false
-//            });
-//            $('#fm-inBillDetail').form('clear');
-
-//            $('#fm-inBillDetail').form('load', detailRow);
-//        } else {
-//            $.messager.confirm('错误', '没有选择行！');
-//        }
-//    }
     //添加明细中的确定按钮
     function DetailSave() {
         if ($('#fm-inBillDetail').form('validate')) {
@@ -238,11 +222,11 @@
                         <th field="ITEM_NO" width="100" hidden="true">序号</th>
                         <th field="PRODUCT_CODE" width="150">产品代码</th>
                        <th field="PRODUCT_BARCODE" width="150">产品条码</th>
-                      <th field="SCHEDULE_NO" width="80" >计划单号</th>
+                      <th field="SCHEDULE_NO" width="80"  hidden="true">计划单号</th>
                       <th field="WEIGHT" width="60" >重量</th>
                       <th field="REAL_WEIGHT" width="60" >实际重量</th>
                       <th field="PACKAGE_COUNT" width="50">包数</th>
-                      <th field="OUT_BILLNO" width="80">出库单号</th>
+                      <th field="OUT_BILLNO" width="80" hidden="true">出库单号</th>
                       <th field="IS_MIX" width="80" hidden="true">是否混装</th>
                      <th field="IS_MIXDESC" width="60">是否混装</th>
                     </tr>
@@ -292,20 +276,17 @@
     <div border="false" class="formula_editbg" > 
 	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addBillDetailClick()" id="btnAddBillDetail">添加明细</a>
 	    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteBillDetailClick()" id="btnDeleteBillDetail">删除明细</a>
-@*        <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editBillDetailClick()" id="btnEditBillDetail">修改明细</a>*@
         
     </div>
 </div>
 
 <div id="dlg-buttons">
-@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">确定</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>*@
       <input type="button"  onclick="save()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
        <input type="button"  onclick="javascript:$('#dlg').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>
 
 <div  id="dlg-AddBillDetail" class="easyui-dialog" modal="true"
-        style="width:270px;height:300px;padding:0px 0px"
+        style="width:270px;height:280px;padding:0px 0px"
         closed="true" buttons="#dlg-AddBillDetailbuttons">
      <form id="fm-inBillDetail" novalidate>
 <table style="padding:10px 10px 0px 5px">
@@ -334,8 +315,8 @@
       <td></td>
   </tr>
     <tr>
-      <td style=" text-align:right; width:60px">计划单号</td>
-      <td align="left"><input  type="text" name="SCHEDULE_NO" id="SCHEDULE_NO"  readonly="true"/></td>
+      <td style=" text-align:right; width:60px; display:none" >计划单号</td>
+      <td align="left" style="display:none"><input  type="text" name="SCHEDULE_NO" id="SCHEDULE_NO"  readonly="true"/></td>
       <td></td>
   </tr>
   <tr>

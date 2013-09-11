@@ -242,7 +242,8 @@ namespace THOK.Wms.Bll.Service
         {
             IQueryable<WMS_FORMULA_MASTER> masterQuery = MasterRepository.GetQueryable();
             var masters = masterQuery.OrderByDescending(i => i.FORMULA_DATE).Select(i => i);
-            masters = masters.Where(i => i.CIGARETTE_CODE == CIGARETTE_CODE);
+            if (CIGARETTE_CODE != null)
+                masters = masters.Where(i => i.CIGARETTE_CODE == CIGARETTE_CODE);
             masters = masters.Where(i => i.IS_ACTIVE == "1");
             int total = masters.Count();
             masters = masters.Skip((page - 1) * rows).Take(rows);
@@ -271,6 +272,31 @@ namespace THOK.Wms.Bll.Service
                return false;
            else
                return true;
+        }
+
+        //获取所有有效的配方
+        public object Getallusefull(int page, int rows)
+        {
+            IQueryable<WMS_FORMULA_MASTER> masterQuery = MasterRepository.GetQueryable();
+            var masters = masterQuery.OrderByDescending(i => i.FORMULA_DATE).Select(i => i);
+            masters = masters.Where(i => i.IS_ACTIVE == "1");
+            int total = masters.Count();
+            masters = masters.Skip((page - 1) * rows).Take(rows);
+            var tmp = masters.ToArray().AsEnumerable().Select(i => new
+            {
+                i.FORMULA_CODE,
+                i.FORMULA_DATE,
+                FORMULADATE = i.FORMULA_DATE.ToString("yyyy-MM-dd HH:mm:ss"),
+                i.FORMULA_NAME,
+                i.CMD_CIGARETTE.CIGARETTE_NAME,
+                ISACTIVE = i.IS_ACTIVE == "1" ? "可用" : "禁用",
+                OPERATE_DATE = i.OPERATEDATE.ToString("yyyy-MM-dd HH:mm:ss"),
+                i.OPERATER,
+                i.USE_COUNT,
+                i.BATCH_WEIGHT,
+                i.FORMULANO
+            });
+            return new { total, rows = tmp.ToArray() };
         }
     }
 }

@@ -544,7 +544,17 @@ namespace THOK.Wms.Bll.Service
                                  a.CMD_PRODUCTION_LINE.LINE_NAME //制丝线名
                              }).Distinct ();
             if (!string.IsNullOrEmpty(billno)) {
-                billmaster = billmaster.Where(i => i.BILL_NO == billno);
+                string info = billno.Split(':')[0];
+                string val = billno.Split(':')[1];
+                if (!string.IsNullOrEmpty(val))
+                {
+                    if (info == "billno")
+                        billmaster = billmaster.Where(i => i.BILL_NO == val);
+                    else if (info == "cigarate")
+                        billmaster = billmaster.Where(i => i.CIGARETTE_CODE == val);
+                    else
+                        billmaster = billmaster.Where(i => i.FORMULA_CODE == val);
+                }
             }
             var temp = billmaster.ToArray().OrderByDescending(i => i.OPERATE_DATE).Select(i => new
             {
