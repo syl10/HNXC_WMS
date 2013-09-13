@@ -37,7 +37,7 @@ namespace THOK.Wms.Bll.Service
             }
             if (!string.IsNullOrEmpty(FORMULA_NAME))
             {
-                masters = masters.Where(i => i.FORMULA_NAME == FORMULA_NAME);
+                masters = masters.Where(i => i.FORMULA_NAME .Contains ( FORMULA_NAME));
             }
             if (!string.IsNullOrEmpty(CIGARETTE_CODE))
             {
@@ -54,7 +54,7 @@ namespace THOK.Wms.Bll.Service
             }
             if (!string.IsNullOrEmpty(OPERATER))
             {
-                masters = masters.Where(i => i.OPERATER == OPERATER);
+                masters = masters.Where(i => i.OPERATER .Contains ( OPERATER));
             }
             int total = masters.Count();
             masters = masters.Skip((page - 1) * rows).Take(rows);

@@ -146,6 +146,8 @@
     <Compile Include="Controllers\Wms\WarehouseInfo\WarehouseController.cs" />
     <Compile Include="Controllers\Wms\WMS\DirectProductController.cs" />
     <Compile Include="Controllers\Wms\WMS\FormulaController.cs" />
+    <Compile Include="Controllers\Wms\WMS\PalletStockInController.cs" />
+    <Compile Include="Controllers\Wms\WMS\PalletStockOutController.cs" />
     <Compile Include="Controllers\Wms\WMS\Schedule2Controller.cs" />
     <Compile Include="Controllers\Wms\WMS\ScheduleController.cs" />
     <Compile Include="Controllers\Wms\WMS\StockInBillController.cs" />
@@ -1312,6 +1314,7 @@
     <Content Include="Content\Scripts\jthok-ui\leftmenu.js" />
     <Content Include="Content\Scripts\mykeyboardshortcuts.js" />
     <Content Include="Content\Scripts\Native_FullScreen.js" />
+    <Content Include="Content\themes\base\css\css.css" />
     <Content Include="Content\themes\base\icons\2Menu_Help.png" />
     <Content Include="Content\themes\base\icons\2Menu_Jurisdiction.png" />
     <Content Include="Content\themes\base\icons\2Menu_ServerDevice.png" />
@@ -1880,6 +1883,22 @@
     <Content Include="Views\Shared\_CopyPartial.cshtml" />
     <Content Include="Views\Product\_CopyPartial.cshtml" />
     <Content Include="Views\Formula\_SearchPartial.cshtml" />
+    <Content Include="Views\PalletStockIn\Index.cshtml" />
+    <Content Include="Views\PalletStockOut\Index.cshtml" />
+    <Content Include="Views\PalletStockIn\_AddPartial.cshtml" />
+    <Content Include="Views\PalletStockIn\_DeletePartial.cshtml" />
+    <Content Include="Views\PalletStockIn\_EditPartial.cshtml" />
+    <Content Include="Views\PalletStockIn\_SearchPartial.cshtml" />
+    <Content Include="Views\PalletStockIn\_PrintPartial.cshtml" />
+    <Content Include="Views\PalletStockOut\_PrintPartial.cshtml" />
+    <Content Include="Views\PalletStockOut\_AddPartial.cshtml" />
+    <Content Include="Views\PalletStockOut\_DeletePartial.cshtml" />
+    <Content Include="Views\PalletStockOut\_EditPartial.cshtml" />
+    <Content Include="Views\PalletStockOut\_SearchPartial.cshtml" />
+    <Content Include="Views\PalletStockOut\_ProductPartial.cshtml" />
+    <Content Include="Views\PalletStockIn\_AuditPartial.cshtml" />
+    <Content Include="Views\PalletStockIn\_AntiTrialPartial.cshtml" />
+    <Content Include="Views\PalletStockIn\_TaskPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

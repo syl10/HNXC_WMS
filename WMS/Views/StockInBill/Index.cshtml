@@ -10,12 +10,8 @@
             else {
                 $.messager.show({ title: '系统提示', msg: '失败!请检查原因！' });
             }
+//            setdatagridcell();
         }
-        //       var obj= document.getElementById("details").tBodies;
-        //        debugger
-//                        alert( $(".datagrid-cell").attr("style"));
-        //        $(".datagrid-cell").addClass("hearcenter");
-        $(".datagrid-cell").css("text-align", "center");
     });
    
 </script>
@@ -24,7 +20,7 @@
         fit="true" fitColumns="false" toolbar="#tool"  pagination="true" rownumbers="true" striped="true"  >
         <thead>
             <tr>
-                <th field="BILL_NO" width="100" ><span  align:center>单据编号</span></th>
+                <th field="BILL_NO" width="100" >单据编号</th>
                 <th field="BILL_DATE" width="80">入库日期</th>
                 <th field="BTYPE_NAME" width="80">单据类型</th>
                 <th field="BILL_METHOD" width="90" hidden="true">入库方式</th>
@@ -60,7 +56,7 @@
         fit="true" fitColumns="true"  pagination="true" rownumbers="true" striped="true">
         <thead>
             <tr>
-                <th field="BILL_NO" width="80" >单据编号</th>
+                <th field="BILL_NO" width="100" >单据编号</th>
                 <th field="ITEM_NO" width="40" >序号</th>
                 <th field="PRODUCT_CODE" width="80">产品代码</th>
                 <th field="YEARS" width="80" >年份</th>

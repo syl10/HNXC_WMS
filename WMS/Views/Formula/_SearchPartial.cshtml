@@ -4,7 +4,7 @@
               hasDownArrow: true,
           });
           SGetCigarette();//牌号
-          $('#SSTATE').combobox('clear');
+          $('#SISACTIVE').combobox('clear');
         $('#dlg-search').dialog('open').dialog('setTitle', '查询');
     }
     //牌号
@@ -36,7 +36,11 @@
         }
         else
             queryParams.CIGARETTE_CODE = "";
-        queryParams.ISACTIVE = $('#SISACTIVE').val();
+        if ($('#SISACTIVE').combobox('getText') != null && $('#SISACTIVE').combobox('getText') != "") {
+            queryParams.ISACTIVE = $('#SISACTIVE').combobox('getValue');
+        }
+        else
+            queryParams.ISACTIVE = "";
         queryParams.FORMULADATE = $('#SFORMULADATE').val();
         queryParams.OPERATER = $('#SOPERATER').val();
 

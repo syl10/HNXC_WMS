@@ -11,6 +11,7 @@
             else {
                 $.messager.show({ title: '系统提示', msg: '失败!请检查原因！' });
             }
+//            setdatagridcell();
         }
     });
 </script>
@@ -20,7 +21,7 @@
         fit="true" fitColumns="false" toolbar="#tool"  pagination="true" rownumbers="true"  striped="true">
         <thead>
             <tr>
-                  <th field="BILL_NO" width="80">单据编号</th>
+                  <th field="BILL_NO" width="100">单据编号</th>
                 <th field="BILL_DATE" width="80">单据日期</th>
                 <th field="BTYPE_NAME" width="80">单据类型</th>
                 <th field="SCHEDULE_NO" width="80">计划单号</th>
@@ -58,7 +59,7 @@
         fit="true" fitColumns="true"  pagination="true" rownumbers="true" striped="true">
         <thead>
             <tr>
-                <th field="BILL_NO" width="80" >单据编号</th>
+                <th field="BILL_NO" width="100" >单据编号</th>
                 <th field="ITEM_NO" width="40" >序号</th>
                 <th field="PRODUCT_CODE" width="80">产品代码</th>
                 <th field="PRODUCT_BARCODE" width="80">产品条码</th>
