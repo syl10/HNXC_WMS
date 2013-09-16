@@ -126,7 +126,7 @@ namespace THOK.Authority.Bll.Service
             //       select new{a.SYSTEM_ID, a.SYSTEM_NAME,a.DESCRIPTION,STATUS=a.STATUS=="1"?"启用":"未启用",b.CITY_CITY_ID,b.SYSTEM_SYSTEM_ID,b.USER_USER_ID,b.IS_ACTIVE};
             //var userUseSysem = qq.Where(p => p.CITY_CITY_ID == cityID && !p.SYSTEM_SYSTEM_ID.Contains(systemID)  && p.IS_ACTIVE=="1"  && p.USER_USER_ID == user.USER_ID);
             //return userUseSysem.Distinct().ToArray();
-            var user = UserRepository.GetQueryable().FirstOrDefault(u => u.USER_NAME == userName);
+            var user = UserRepository.GetQueryable().FirstOrDefault(u => u.USER_NAME.ToLower() == userName.ToLower());
             var userSystems = UserSystemRepository.GetQueryable().Where(usR => usR.SYSTEM_SYSTEM_ID != systemID && usR.USER_USER_ID == user.USER_ID && usR.CITY_CITY_ID == cityID);
             var userSystem = userSystems.Where(u => u.AUTH_USER_MODULE.Any(um => um.IS_ACTIVE == "1") || u.IS_ACTIVE == "1")
                 .Select(us => new { us.AUTH_SYSTEM.SYSTEM_ID, us.AUTH_SYSTEM.SYSTEM_NAME, us.AUTH_SYSTEM.DESCRIPTION, STATUS = us.AUTH_SYSTEM.STATUS == "1" ? "启用" : "未启用" });

@@ -209,7 +209,7 @@ namespace THOK.Authority.Bll.Service
 
             //Guid gSystemID = new Guid(systemID);
             //Guid gCityID = new Guid(cityID);
-            var user = queryUser.Single(u => u.USER_NAME == userName);
+            var user = queryUser.Single(u => u.USER_NAME.ToLower() == userName.ToLower());
             var city = queryCity.Single(c => c.CITY_ID.Trim() == cityID);
             var system = querySystem.Single(s => s.SYSTEM_ID.Trim() == systemID);
             //InitUserSystem(user, city, system);
@@ -307,7 +307,7 @@ namespace THOK.Authority.Bll.Service
 
             //Guid gCityID = new Guid(cityID);
             //Guid gModuleID = new Guid(moduleID);
-            var user = queryUser.Single(u => u.USER_NAME == userName);
+            var user = queryUser.Single(u => u.USER_NAME.ToLower() == userName.ToLower());
             var city = queryCity.Single(c => c.CITY_ID == cityID);
             // var module = queryModule.Single(m => m.ModuleID == gModuleID);
             var module = queryModule.Single(m => m.MODULE_ID == moduleID);
