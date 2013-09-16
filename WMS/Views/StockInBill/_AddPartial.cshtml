@@ -384,38 +384,41 @@
         }
 
         if (clickbt == "add") {
-            url = '/StockInBill/Add/?prefix=IS&detail=' + JSON.stringify(changesRows.inserted);
+            url = '/StockInBill/Add/?prefix=IS&detail=' +escape( JSON.stringify(changesRows.inserted));
         }
         if (clickbt == "edit") {
-            url = '/StockInBill/Edit/?detail=' + JSON.stringify(changesRows.inserted);
+            url = '/StockInBill/Edit/?detail=' + escape( JSON.stringify(changesRows.inserted));
         }
         if (clickbt == "delete") {
             url = '/StockInBill/Delete/?Billno=' + $('#BILL_NO').val();
         }
-        $('#fm').form('submit', {
-            url: url,
-            onSubmit: function () {
-                return $(this).form('validate');
-            },
-            success: function (result) {
-                var result = eval('(' + result + ')');
-                if (result.success) {
-                    $.messager.show({
-                        title: '成功',
-                        msg: result.msg
-                    });
-                    $('#dlg').dialog('close');
-                    $('#details').datagrid('reload');
-                    $('#SubDetails').datagrid('reload');
-                } else {
-                    $.messager.show({
-                        title: '错误',
-                        msg: result.msg
-                    });
-                    $('#details').datagrid('reload');
-                }
-            }
-        });
+        try {
+            $('#fm').form('submit', {
+                url: url,
+                onSubmit: function () {
+                    return $(this).form('validate');
+                },
+                success: function (result) {
+                    var result = eval('(' + result + ')');
+                    if (result.success) {
+                        $.messager.show({
+                            title: '成功',
+                            msg: result.msg
+                        });
+                        $('#dlg').dialog('close');
+                        $('#details').datagrid('reload');
+                        $('#SubDetails').datagrid('reload');
+                    } else {
+                        $.messager.show({
+                            title: '错误',
+                            msg: result.msg
+                        });
+                        $('#details').datagrid('reload');
+                    }
+                },
+                error: function (data) { alert(''); }
+            });
+        } catch (ex) { }
     }
 </script>
 

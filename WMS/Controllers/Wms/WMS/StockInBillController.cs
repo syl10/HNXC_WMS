@@ -67,11 +67,12 @@ namespace WMS.Controllers.Wms.WMS
             string msg = bResult ? "新增成功" : "新增失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
         }
+        [HttpPost]
         public ActionResult Edit(WMS_BILL_MASTER  mast, object detail)
         {
             bool bResult = BillMasterService.Edit(mast, detail);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg), "text", JsonRequestBehavior.AllowGet);
         }
         public ActionResult Delete(string Billno) {
             bool bResult = BillMasterService.Delete(Billno);

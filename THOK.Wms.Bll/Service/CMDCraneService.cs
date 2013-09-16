@@ -59,8 +59,10 @@ namespace THOK.Wms.Bll.Service
         {
             var Crane = CraneRepository.GetQueryable().FirstOrDefault(i => i.CRANE_NO == CraneNo);
             CraneRepository.Delete(Crane);
-            CraneRepository.SaveChanges();
-            return true;
+           int rejust= CraneRepository.SaveChanges();
+           if (rejust == -1) return false;
+           else
+               return true;
         }
 
         public bool Save(string CraneNo, string CraneName, string MEMO, string isActive)
