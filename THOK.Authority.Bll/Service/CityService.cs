@@ -100,7 +100,7 @@ namespace THOK.Authority.Bll.Service
         {
             //Guid cityid = new Guid(cityID);
             //Guid systemid = new Guid(systemID);
-            var user = UserRepository.GetQueryable().FirstOrDefault(u => u.USER_NAME == userName);
+            var user = UserRepository.GetQueryable().FirstOrDefault(u => u.USER_NAME.ToLower() == userName.ToLower());
             var userSystem = UserSystemRepository.GetQueryable().Where(us => us.USER_USER_ID == user.USER_ID && us.SYSTEM_SYSTEM_ID == systemID && us.CITY_CITY_ID == cityID).Select(us => us.USER_SYSTEM_ID);
             var usersystems = UserSystemRepository.GetQueryable().Where(us => !userSystem.Any(uid => uid == us.USER_SYSTEM_ID) && us.USER_USER_ID == user.USER_ID && us.SYSTEM_SYSTEM_ID == systemID).Select(us => new { us.AUTH_CITY.CITY_ID, us.AUTH_CITY.CITY_NAME, us.AUTH_CITY.DESCRIPTION, IS_ACTIVE = us.AUTH_CITY.IS_ACTIVE == "1" ? "启用" : "禁用" });
             return usersystems.ToArray();
