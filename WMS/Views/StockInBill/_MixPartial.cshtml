@@ -148,7 +148,7 @@ function proddataload(id) {
         required: false,
         disabled: false,
         width: 110,
-        panelWidth: 150,
+        panelWidth: 210,
         url: '/StockInBill/GetMIXproduct/?page=1&rows=1000&BillNo=' + mixrow.BILL_NO,
         idField: 'PRODUCT_CODE',
         textField: 'PRODUCT_CODE',
@@ -156,8 +156,8 @@ function proddataload(id) {
         editable: false,
         fitColumns: true,
         columns: [[
-                    { field: 'PRODUCT_CODE', title: '产品代号', align: 'left', width: 40 },
-                    { field: 'PRODUCT_NAME', title: '产品名称', align: 'left', width: 30 }
+                    { field: 'PRODUCT_CODE', title: '产品代号', align: 'left', width: 90 },
+                    { field: 'PRODUCT_NAME', title: '产品名称', align: 'left', width: 40 }
                 ]]
     });
 }
@@ -204,7 +204,7 @@ function mixsave() {
     if (codestr != "") {
         $.messager.confirm('提示', '混装产品代码为:' + codestr + '超出标准重量,是否继续?', function (r) {
             if (r) {
-                $.getJSON("/StockInBill/SetMIX/?BillNo=" + mixrow.BILL_NO + '&detail=' + JSON.stringify(changesRows.inserted), function (json) {
+                $.ajax("/StockInBill/SetMIX/?BillNo=" + mixrow.BILL_NO + '&detail=' + escape( JSON.stringify(changesRows.inserted)), function (json) {
                     if (json) {
                         $.messager.show({
                             title: '提示',
@@ -218,7 +218,7 @@ function mixsave() {
         });
     }
     else {
-        $.getJSON("/StockInBill/SetMIX/?BillNo=" + mixrow.BILL_NO + '&detail=' + JSON.stringify(changesRows.inserted), function (json) {
+        $.getJSON("/StockInBill/SetMIX/?BillNo=" + mixrow.BILL_NO + '&detail=' +escape( JSON.stringify(changesRows.inserted)), function (json) {
             if (json) {
                 $.messager.show({
                     title: '提示',
