@@ -218,7 +218,7 @@ function mixsave() {
         });
     }
     else {
-        $.getJSON("/StockInBill/SetMIX/?BillNo=" + mixrow.BILL_NO + '&detail=' + JSON.stringify(changesRows.inserted), function (json) {
+        $.getJSON("/StockInBill/SetMIX/?BillNo=" + mixrow.BILL_NO + "&detail='" + JSON.stringify(changesRows.inserted)+"'", function (json) {
             if (json) {
                 $.messager.show({
                     title: '提示',

@@ -26,7 +26,7 @@ namespace THOK.Authority.Bll.Service
             LoginLog.LOGIN_PC = System.Net.Dns.Resolve(System.Net.Dns.GetHostName()).AddressList[0].ToString();
             LoginLog.LOGIN_TIME = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
             LoginLog.SYSTEM_SYSTEM_ID = SystemID;
-            LoginLog.USER_USER_ID = UserRepository.GetSingle(i => i.USER_NAME == UserName).USER_ID;
+            LoginLog.USER_USER_ID = UserRepository.GetSingle(i => i.USER_NAME.ToLower() == UserName.ToLower()).USER_ID;
 
             LoginLogRepository.Add(LoginLog);
             LoginLogRepository.SaveChanges();

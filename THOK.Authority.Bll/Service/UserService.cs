@@ -32,7 +32,7 @@ namespace THOK.Authority.Bll.Service
         public bool UpdateUserInfo(string USER_NAME)
         {
             string ipaddress=System.Net.Dns.Resolve(System.Net.Dns.GetHostName()).AddressList[0].ToString();
-            var user = UserRepository.GetSingle(i => i.USER_NAME == USER_NAME);
+            var user = UserRepository.GetSingle(i => i.USER_NAME.ToLower() == USER_NAME.ToLower());
             if (user != null)
             {
                 user.USER_NAME = USER_NAME;
@@ -50,7 +50,7 @@ namespace THOK.Authority.Bll.Service
         public string GetUserIp(string USER_NAME)
         {
             string loginPC = "";
-            var user = UserRepository.GetQueryable().Where(i => i.USER_NAME == USER_NAME).ToArray();
+            var user = UserRepository.GetQueryable().Where(i => i.USER_NAME.ToLower() == USER_NAME.ToLower()).ToArray();
             if (user.Count() > 0)
             {
                 loginPC = user[0].LOGIN_PC;
@@ -64,7 +64,7 @@ namespace THOK.Authority.Bll.Service
 
         public bool DeleteUserIp(string USER_NAME)
         {
-            var user = UserRepository.GetSingle(i => i.USER_NAME == USER_NAME);
+            var user = UserRepository.GetSingle(i => i.USER_NAME.ToLower() == USER_NAME.ToLower());
             if (user != null)
             {
                 user.LOGIN_PC = "";
@@ -146,23 +146,7 @@ namespace THOK.Authority.Bll.Service
         {
             if (String.IsNullOrEmpty(userName)) throw new ArgumentException("值不能为NULL或为空。", "userName");
             if (String.IsNullOrEmpty(password)) throw new ArgumentException("值不能为NULL或为空。", "password");
-
-            var adduser = new AUTH_USER();
-            adduser.USER_ID = "001";
-            adduser.USER_NAME = userName;
-            adduser.CHINESE_NAME = "";
-            adduser.LOGIN_PC = "";
-            adduser.MEMO = "";
-            adduser.PWD = EncryptPassword(password);
-            adduser.IS_LOCK = "0";
-            adduser.IS_ADMIN = "0";
-
-            var user = UserRepository.GetSingle(i => i.USER_NAME == userName);
-            if (user == null)
-            {
-                UserRepository.Add(adduser);
-                UserRepository.SaveChanges();
-            }
+            var user = UserRepository.GetSingle(i => i.USER_NAME.ToLower() == userName.ToLower());
             return user != null && ComparePassword(password, user.PWD);
         }
 
@@ -183,7 +167,7 @@ namespace THOK.Authority.Bll.Service
             if (string.IsNullOrEmpty(password))
             {
                 IQueryable<AUTH_USER> queryCity = UserRepository.GetQueryable();
-                var user = queryCity.Single(c => c.USER_NAME == userName);
+                var user = queryCity.Single(c => c.USER_NAME.ToLower() == userName.ToLower());
                 password = user.PWD;
             }
 
@@ -206,7 +190,7 @@ namespace THOK.Authority.Bll.Service
 
         public bool ChangePassword(string userName, string password, string newPassword)
         {
-            var user = UserRepository.GetQueryable().FirstOrDefault(u => u.USER_NAME == userName);
+            var user = UserRepository.GetQueryable().FirstOrDefault(u => u.USER_NAME.ToLower() == userName.ToLower());
             if (ComparePassword(password, user.PWD))
             {
                 user.PWD = EncryptPassword(newPassword);
@@ -225,8 +209,8 @@ namespace THOK.Authority.Bll.Service
         /// <returns></returns>
         public bool Check(string USER_NAME)
         {
-            var userNames = UserRepository.GetQueryable().Select(u => u.USER_NAME).ToArray();
-            if (userNames.Contains(USER_NAME))
+            var userNames = UserRepository.GetQueryable().Select(u => u.USER_NAME.ToLower()).ToArray();
+            if (userNames.Contains(USER_NAME.ToLower()))
             {
                 return false;
             }
