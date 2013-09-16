@@ -365,7 +365,7 @@ namespace THOK.Authority.Bll.Service
                         userModule.AUTH_MODULE.AUTH_MODULES
                             .Any(m => m.AUTH_ROLE_MODULE.Any(rm => roles.Any(r => r.ROLE_ID == rm.AUTH_ROLE_SYSTEM.AUTH_ROLE.ROLE_ID
                                 && (rm.IS_ACTIVE == "1" || rm.AUTH_ROLE_FUNCTION.Any(rf => rf.IS_ACTIVE == "1"))))) ||
-                        userModule.AUTH_USER_SYSTEM.AUTH_USER.USER_NAME == "admin"
+                        userModule.AUTH_USER_SYSTEM.AUTH_USER.USER_NAME == "Admin"
                         )
                     {
                         Menu childMenu = new Menu();
