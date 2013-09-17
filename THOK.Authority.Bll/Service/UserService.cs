@@ -182,7 +182,7 @@ namespace THOK.Authority.Bll.Service
             if (String.IsNullOrEmpty(userName)) throw new ArgumentException("值不能为NULL或为空。", "userName");
             if (String.IsNullOrEmpty(password)) throw new ArgumentException("值不能为NULL或为空。", "password");
 
-            var user = UserRepository.GetSingle(i => i.USER_NAME.ToLower() == userName.ToLower());
+            var user = UserRepository.GetSingle(i => i.USER_NAME.ToLower() == userName.ToLower() && (i.IS_LOCK=="0"||userName=="Admin"));
             return user != null && ComparePassword(password, user.PWD);
         }
 
