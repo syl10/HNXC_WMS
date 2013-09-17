@@ -24,6 +24,13 @@ namespace THOK.Authority.Bll.Service
         public ICityRepository CityRepository { get; set; }
         [Dependency]
         public IServerRepository ServerRepository { get; set; }
+        [Dependency]
+        public ILoginLogRepository LoginLogRepository { get; set; }
+        [Dependency]
+        public IUserFunctionRepository UserFunctionRepository { get; set; }
+        [Dependency]
+        public IUserModuleRepository UserModuleRepository { get; set; }
+
 
         protected override Type LogPrefix
         {
@@ -116,8 +123,37 @@ namespace THOK.Authority.Bll.Service
                 .FirstOrDefault(u => u.USER_ID == USER_ID);
             if (user != null)
             {
-                Del(UserRoleRepository, user.AUTH_USER_ROLE);
-                Del(UserSystemRepository, user.AUTH_USER_SYSTEM);
+                while (user.AUTH_USER_ROLE.Count > 0)
+                {
+                    var userRole = user.AUTH_USER_ROLE.First();
+                    UserRoleRepository.Delete(userRole);
+                    UserRoleRepository.SaveChanges();
+                }
+                while (user.AUTH_USER_SYSTEM.Count > 0)
+                {
+                    var userSystem = user.AUTH_USER_SYSTEM.First();
+
+                    while (userSystem.AUTH_USER_MODULE.Count > 0)
+                    {
+                        var userModule = userSystem.AUTH_USER_MODULE.First();
+                        while (userModule.AUTH_USER_FUNCTION.Count > 0)
+                        {
+                            var userFunction = userModule.AUTH_USER_FUNCTION.First();
+                            UserFunctionRepository.Delete(userFunction);
+                            UserFunctionRepository.SaveChanges();
+                        }
+                        UserModuleRepository.Delete(userModule);
+                        UserModuleRepository.SaveChanges();
+                    }
+                    UserSystemRepository.Delete(userSystem);
+                    UserSystemRepository.SaveChanges();
+                }
+                while (user.AUTH_LOGIN_LOG.Count > 0)
+                {
+                    var userLog = user.AUTH_LOGIN_LOG.First();
+                    LoginLogRepository.Delete(userLog);
+                    LoginLogRepository.SaveChanges();
+                }
                 UserRepository.Delete(user);
                 UserRepository.SaveChanges();
             }
