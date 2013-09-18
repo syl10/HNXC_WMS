@@ -75,6 +75,8 @@ namespace THOK.Authority.Bll.Service
             {
                 user.LOGIN_PC = "";
                 UserRepository.SaveChanges();
+                
+
                 return true;
             }
             else { return false; }
