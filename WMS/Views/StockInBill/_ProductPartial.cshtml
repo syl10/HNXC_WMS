@@ -1,6 +1,7 @@
 ﻿<script type="text/javascript">
     function ProductQueryClick() {
-        $('#productDetail').datagrid({ url: '/StockInBill/GetProductDetails/?QueryString=' + $('#queryType').combobox('getValue') + '&Value=' + $('#ProductInfo').val() });
+        $('#productDetail').datagrid('loadData', { total: 0, rows: [] });
+        $('#productDetail').datagrid({ url: '/Product/GetProductDetails/?page=1&rows=1000&QueryString=' + $('#queryType').combobox('getValue') + '&Value=' + $('#ProductInfo').val() });
         $("#productDetail").datagrid('reload');
     };
 

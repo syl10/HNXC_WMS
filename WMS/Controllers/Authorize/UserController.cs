@@ -38,7 +38,7 @@ namespace WMS.Controllers.Authority
             string IS_ADMIN = collection["IS_ADMIN"] ?? "";
             string MEMO = collection["MEMO"] ?? "";
             var users = UserService.GetDetails(page, rows, USER_NAME, CHINESE_NAME, IS_LOCK, IS_ADMIN, MEMO);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /User/GetUserRole/
@@ -46,7 +46,7 @@ namespace WMS.Controllers.Authority
         public ActionResult GetUserRole(string UserID)
         {
             var users = UserService.GetUserRole(UserID);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /User/GetRoleInfo/
@@ -54,7 +54,7 @@ namespace WMS.Controllers.Authority
         public ActionResult GetRoleInfo(string USER_ID)
         {
             var users = UserService.GetRoleInfo(USER_ID);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
 
 
@@ -65,7 +65,7 @@ namespace WMS.Controllers.Authority
             PWD = string.IsNullOrEmpty(PWD) || string.IsNullOrEmpty(PWD.Trim()) ? "123456" : PWD;
             bool bResult = UserService.Add(USER_NAME, PWD, CHINESE_NAME, IS_LOCK, IS_ADMIN, MEMO);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /User/AddUserRole/
@@ -74,7 +74,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = UserService.AddUserRole(userId, roleIDstr);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /User/Edit/
@@ -83,7 +83,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = UserService.Save(USER_ID, USER_NAME, PWD, CHINESE_NAME, IS_LOCK, IS_ADMIN, MEMO);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /User/Delete/
@@ -92,7 +92,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = UserService.Delete(USER_ID);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /User/DeleteUserRole/
@@ -101,7 +101,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = UserService.DeleteUserRole(userRoleIdStr);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /User/GetUser/
@@ -116,23 +116,23 @@ namespace WMS.Controllers.Authority
                 value = "";
             }
             var user = UserService.GetUser(page, rows, queryString, value);
-            return Json(user, "text", JsonRequestBehavior.AllowGet);
+            return Json(user, "text/html", JsonRequestBehavior.AllowGet);
         }
         public ActionResult CheckUserName(string USER_NAME)
         {
             bool bResult = UserService.Check(USER_NAME);
-            return Json(bResult, "text", JsonRequestBehavior.AllowGet);
+            return Json(bResult, "text/html", JsonRequestBehavior.AllowGet);
         }
         // POST: /User/Create/
         public ActionResult GetUserIp(string userName)
         {
             var bResult = UserService.GetUserIp(userName);
-            return Json(bResult, "text", JsonRequestBehavior.AllowGet);
+            return Json(bResult, "text/html", JsonRequestBehavior.AllowGet);
         }
         public ActionResult UpdateUserInfo(string userName)
         {
             bool bResult = UserService.UpdateUserInfo(userName);
-            return Json(bResult, "text", JsonRequestBehavior.AllowGet);
+            return Json(bResult, "text/html", JsonRequestBehavior.AllowGet);
         }
         public ActionResult DeleteUserIp(string userName,string flag)
         {
@@ -146,12 +146,12 @@ namespace WMS.Controllers.Authority
                 bResult = UserService.DeleteUserIp(userName);
 
             }
-            return Json(bResult, "text", JsonRequestBehavior.AllowGet);
+            return Json(bResult, "text/html", JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetLocalIp(string userName)
         {
             var bResult = UserService.GetLocalIp(userName);
-            return Json(bResult, "text", JsonRequestBehavior.AllowGet);
+            return Json(bResult, "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

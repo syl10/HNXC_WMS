@@ -38,7 +38,7 @@ namespace WMS.Controllers.Authority
             string MEMO = collection["MEMO"] ?? "";
             string IS_LOCK = collection["IS_LOCK"] ?? "";
             var roles = RoleService.GetDetails(page, rows, ROLE_NAME, MEMO, IS_LOCK);
-            return Json(roles,"text",JsonRequestBehavior.AllowGet);
+            return Json(roles, "text/html", JsonRequestBehavior.AllowGet);
         }    
 
         // POST: /Role/Create/
@@ -47,7 +47,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = RoleService.Add(ROLE_NAME, MEMO, IS_LOCK);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Role/Edit/
@@ -56,7 +56,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = RoleService.Save(ROLE_ID, ROLE_NAME, MEMO, IS_LOCK);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Role/Delete/
@@ -65,7 +65,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = RoleService.Delete(ROLE_ID);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Role/GetRoleUser/
@@ -73,7 +73,7 @@ namespace WMS.Controllers.Authority
         public ActionResult GetRoleUser(string ROLE_ID)
         {
             var users = RoleService.GetRoleUser(ROLE_ID);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Role/GetUserInfo/
@@ -81,7 +81,7 @@ namespace WMS.Controllers.Authority
         public ActionResult GetUserInfo(string ROLE_ID)
         {
             var users = RoleService.GetUserInfo(ROLE_ID);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Role/DeleteRoleUser/
@@ -90,7 +90,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = RoleService.DeleteRoleUser(roleUserIdStr);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Role/AddRoleUser/
@@ -99,7 +99,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = RoleService.AddRoleUser(ROLE_ID, userIDstr);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

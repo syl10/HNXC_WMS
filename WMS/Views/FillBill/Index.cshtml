@@ -6,7 +6,7 @@
             if (row) {
                 $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
                 $('#SubDetails').datagrid({ url: '/FillBill/GetSubdetail/?billno=' + row.BILL_NO });
-                $('#SubDetails').datagrid('reload');
+//                $('#SubDetails').datagrid('reload');
             }
             else {
                 $.messager.show({ title: '系统提示', msg: '失败!请检查原因！' });

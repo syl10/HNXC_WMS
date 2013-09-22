@@ -46,7 +46,7 @@ namespace WMS.Controllers.Wms.Base
             string MEMO = collection["MEMO"] ?? "";
             //string username = collection["username"] ?? "";
             var Products = ProductService.GetDetails(page, rows, PRODUCT_NAME,ORIGINAL,YEARS,GRADE,STYLE,WEIGHT,MEMO,CATEGORY_CODE);
-            return Json(Products, "text", JsonRequestBehavior.AllowGet);
+            return Json(Products, "text/html", JsonRequestBehavior.AllowGet);
         }
         // POST: /Product/Create/
         [HttpPost]
@@ -54,7 +54,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = ProductService.Add(product);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         // POST: /Product/Edit/
         [HttpPost]
@@ -62,7 +62,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = ProductService.Save(product);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         // POST: /Product/Delete/
         [HttpPost]
@@ -70,14 +70,19 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = ProductService.Delete(PRODUCT_CODE);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //获取形态列表
         public ActionResult Getstylelist(int page, int rows)
         {
             var users = Productstyle.GetDetails(page, rows);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetProductDetails(int page, int rows,string QueryString, string Value)
+        {
+            var Products = ProductService.Selectprod (page, rows,QueryString ,Value);
+            return Json(Products, "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

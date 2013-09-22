@@ -35,7 +35,7 @@ namespace WMS.Controllers.Wms.Base
             string IS_ACTIVE = collection["IS_ACTIVE"] ?? "";
             //string username = collection["username"] ?? "";
             var users = CarService.GetDetails(page, rows, CAR_NAME, CAR_MEMO, IS_ACTIVE);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Car/Create/
@@ -44,7 +44,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = CarService.Add(CAR_NAME, CAR_MEMO, IS_ACTIVE);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Car/Edit/
@@ -53,7 +53,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = CarService.Save(CAR_NO, CAR_NAME, CAR_MEMO, IS_ACTIVE);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Car/Delete/
@@ -62,7 +62,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = CarService.Delete(CAR_NO);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

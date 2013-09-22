@@ -27,7 +27,7 @@ namespace WMS.Controllers.Wms.Base
             
             //string username = collection["username"] ?? "";
             var users = SysTableStateService.GetDetails(TableName, FieldName);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
 
     }

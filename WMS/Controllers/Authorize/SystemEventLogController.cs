@@ -32,7 +32,7 @@ namespace WMS.Controllers.Authority
             string operateuser = collection["OperateUser"] ?? "";
             string targetsystem = collection["TargetSystem"] ?? "";
             var users = SystemEventLogService.GetDetails(page, rows, eventlogtime, eventtype, eventname, frompc, operateuser, targetsystem);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
 
         }
 

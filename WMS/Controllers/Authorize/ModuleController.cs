@@ -31,7 +31,7 @@ namespace WMS.Controllers.Authority
         public ActionResult Details(string SYSTEM_ID)
         {
             var modules = ModuleService.GetDetails(SYSTEM_ID);
-            return Json(modules, "text", JsonRequestBehavior.AllowGet);
+            return Json(modules, "text/html", JsonRequestBehavior.AllowGet);
         }
         public ActionResult Details2(int page, int rows, string QueryString, string Value)
         {
@@ -44,7 +44,7 @@ namespace WMS.Controllers.Authority
                 Value = "";
             }
             var product = ModuleService.GetDetails2(page, rows, QueryString, Value);
-            return Json(product, "text", JsonRequestBehavior.AllowGet);
+            return Json(product, "text/html", JsonRequestBehavior.AllowGet);
         }
         // POST: /Module/Create/
         [HttpPost]
@@ -52,7 +52,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = ModuleService.Add(moduleName, showOrder, moduleUrl, indicateImage, desktopImage, systemId, parentModuleID ?? null);
             string msg = bResult ? "新增成功" : "新增失败" ;
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Module/Edit/
@@ -61,7 +61,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = ModuleService.Save(moduleID, moduleName, showOrder, moduleUrl, indicateImage, deskTopImage);
             string msg = bResult ? "修改成功" : "修改失败" ;
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Module/Delete/
@@ -70,21 +70,21 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = ModuleService.Delete(moduleId);
             string msg = bResult ? "删除成功" : "删除失败" ;
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // GET: /Module/InitRoleSystem/
         public ActionResult InitRoleSystem(string roleId,string cityId,string systemId)
         {
             ModuleService.InitRoleSys(roleId,cityId,systemId);
-            return Json(1, "text", JsonRequestBehavior.AllowGet);
+            return Json(1, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // GET: /Module/GetRoleSystemDetails/
         public ActionResult GetRoleSystemDetails(string roleId,string cityId,string systemId)
         {
             var modules = ModuleService.GetRoleSystemDetails(roleId,cityId,systemId);
-            return Json(modules, "text", JsonRequestBehavior.AllowGet);
+            return Json(modules, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -92,7 +92,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = ModuleService.ProcessRolePermissionStr(rolePermissionStr);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Module/InitUserSystemInfo/
@@ -101,14 +101,14 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = ModuleService.InitUserSystemInfo(userID, cityID, systemID);
             string msg = bResult ? "初始化成功" : "初始化失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // GET: /Module/GetUserSystemDetails/
         public ActionResult GetUserSystemDetails(string userID,string cityID,string systemID)
         {
             var modules = ModuleService.GetUserSystemDetails(userID, cityID, systemID);
-            return Json(modules, "text", JsonRequestBehavior.AllowGet);
+            return Json(modules, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Module/ProcessUserPermissionStr/
@@ -117,7 +117,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = ModuleService.ProcessUserPermissionStr(userPermissionStr);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

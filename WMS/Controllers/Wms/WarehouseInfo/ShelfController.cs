@@ -30,13 +30,13 @@ namespace Authority.Controllers.Wms.WarehouseInfo
         public ActionResult Details(string warehouseCode, string areaCode, string shelfCode)
         {
             var shelf = ShelfService.GetDetails(warehouseCode, areaCode, shelfCode);
-            return Json(shelf, "text", JsonRequestBehavior.AllowGet);
+            return Json(shelf, "text/html", JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult Detail(string type, string id)
         {
             var shelf = ShelfService.GetDetail(type, id);
-            return Json(shelf, "text", JsonRequestBehavior.AllowGet);
+            return Json(shelf, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //查询货架信息表
@@ -45,7 +45,7 @@ namespace Authority.Controllers.Wms.WarehouseInfo
         public ActionResult FindShelf(string parameter)
         {
             var shelf = ShelfService.FindShelf(parameter);
-            return Json(shelf, "text", JsonRequestBehavior.AllowGet);
+            return Json(shelf, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //添加货架信息表
@@ -55,7 +55,7 @@ namespace Authority.Controllers.Wms.WarehouseInfo
         {
             bool bResult = ShelfService.Add(shelf);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //编辑货架表
@@ -64,7 +64,7 @@ namespace Authority.Controllers.Wms.WarehouseInfo
         {
             bool bResult = ShelfService.Save(shelf);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //删除货架表
@@ -74,7 +74,7 @@ namespace Authority.Controllers.Wms.WarehouseInfo
         {
             bool bResult = ShelfService.Delete(shelfCode);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //获取生成的货架编码
@@ -82,7 +82,7 @@ namespace Authority.Controllers.Wms.WarehouseInfo
         public ActionResult GetShelfCode(string areaCode)
         {
             var shelfCode = ShelfService.GetShelfCode(areaCode);
-            return Json(shelfCode, "text", JsonRequestBehavior.AllowGet);
+            return Json(shelfCode, "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

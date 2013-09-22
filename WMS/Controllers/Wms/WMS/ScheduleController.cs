@@ -44,21 +44,21 @@ namespace WMS.Controllers.Wms.WMS
             string CHECKER = collection["CHECKER"] ?? "";
             string CHECK_DATE = collection["CHECK_DATE"] ?? "";
             var Schedules = ScheduleService.GetDetails(page, rows,SCHEDULE_NO,SCHEDULE_DATE ,CIGARETTE ,FORMULA_CODE ,QUANTITY ,STATE ,OPERATER ,OPERATE_DATE ,CHECKER ,CHECK_DATE);
-            return Json(Schedules, "text", JsonRequestBehavior.AllowGet);
+            return Json(Schedules, "text/html", JsonRequestBehavior.AllowGet);
         }
         //
         public ActionResult Create(WMS_SCHEDULE  schedule)
         {
            bool bResult = ScheduleService .Add (schedule );
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //编辑
         public ActionResult Edit(WMS_SCHEDULE schedule)
         {
             bool bResult = ScheduleService.Save (schedule);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //获取计划生产单号
         public ActionResult GetScheduleNO(System.DateTime dtime, string SCHEDULE_NO)
@@ -66,14 +66,14 @@ namespace WMS.Controllers.Wms.WMS
             string userName = this.GetCookieValue("username");
             var ScheduleInfo = ScheduleService.GetSchedulno(userName, dtime, SCHEDULE_NO);
 
-            return Json(ScheduleInfo, "text", JsonRequestBehavior.AllowGet);
+            return Json(ScheduleInfo, "text/html", JsonRequestBehavior.AllowGet);
         }
         //删除
         public ActionResult Delet(WMS_SCHEDULE schedule)
         {
             bool bResult = ScheduleService.Delete(schedule.SCHEDULE_NO);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //审核
         public ActionResult Audit(string scheduleno)
@@ -81,14 +81,14 @@ namespace WMS.Controllers.Wms.WMS
             string checker = this.GetCookieValue("username");
             bool Result = ScheduleService.Audit(checker, scheduleno);
             string msg = Result ? "审核成功" : "审核失败";
-            return Json(JsonMessageHelper.getJsonMessage(Result, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(Result, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //反审
         public ActionResult Antitrial(string scheduleno)
         {
             bool Result = ScheduleService.Antitrial(scheduleno);
             string msg = Result ? "反审成功" : "反审失败";
-            return Json(JsonMessageHelper.getJsonMessage(Result, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(Result, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

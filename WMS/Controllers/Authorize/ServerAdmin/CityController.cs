@@ -35,7 +35,7 @@ namespace WMS.Controllers.ServerAdmin
             string IS_ACTIVE = collection["IS_ACTIVE"] ?? "";
             //string username = collection["username"] ?? "";
             var users = CityService.GetDetails(page, rows, CITY_NAME, DESCRIPTION, IS_ACTIVE);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /City/Create/
@@ -44,7 +44,7 @@ namespace WMS.Controllers.ServerAdmin
         {
             bool bResult = CityService.Add(CITY_NAME, DESCRIPTION, IS_ACTIVE);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
        
         // POST: /City/Edit/
@@ -53,7 +53,7 @@ namespace WMS.Controllers.ServerAdmin
         {
             bool bResult = CityService.Save(CITY_ID, CITY_NAME, DESCRIPTION, IS_ACTIVE);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /City/Delete/
@@ -62,7 +62,7 @@ namespace WMS.Controllers.ServerAdmin
         {
             bool bResult = CityService.Delete(CITY_ID);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // GET: /City/GetDetailsCity/
@@ -72,7 +72,7 @@ namespace WMS.Controllers.ServerAdmin
             string userName = this.User.Identity.Name;
             string systemId = this.GetCookieValue("systemid");
             var users = CityService.GetDetails(userName, cityId, systemId);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //  /LoginLog/CreateExcelToClient/

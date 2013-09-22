@@ -28,7 +28,7 @@ namespace WMS.Controllers.Wms.WMS
         public ActionResult GetSubdetail(int page, int rows,string billno)
         {
             var productstate = ProductStateService.Details(page, rows, billno);
-            return Json(productstate, "text", JsonRequestBehavior.AllowGet);
+            return Json(productstate, "text/html", JsonRequestBehavior.AllowGet);
         }
         //作业 函数
         public ActionResult Task(string BillNo, string btypecode)
@@ -41,7 +41,7 @@ namespace WMS.Controllers.Wms.WMS
              {
                  success = msg
              };
-             return Json(just, "text", JsonRequestBehavior.AllowGet);
+             return Json(just, "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -34,7 +34,7 @@ namespace WMS.Controllers.Authority
             string LoginPC = collection["LoginPC"] ?? "";
             string LoginTime = collection["LoginTime"] ?? "";
             var users = LoginLogService.GetDetails(page, rows, SystemID, UserID, LoginPC,LoginTime);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //
