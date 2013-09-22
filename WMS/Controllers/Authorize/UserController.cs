@@ -13,6 +13,9 @@ namespace WMS.Controllers.Authority
         [Dependency]
         public IUserService UserService { get; set; }
 
+        [Dependency]
+        public ILoginLogService LoginLogService { get; set; }
+
         // GET: /User/
         public ActionResult Index(string moduleID)
         {
@@ -143,7 +146,11 @@ namespace WMS.Controllers.Authority
             }
             else
             {
+                if (string.IsNullOrEmpty(userName))
+                    userName = this.User.Identity.Name;
+
                 bResult = UserService.DeleteUserIp(userName);
+                LoginLogService.UpdateValiateTime(userName);
 
             }
             return Json(bResult, "text/html", JsonRequestBehavior.AllowGet);

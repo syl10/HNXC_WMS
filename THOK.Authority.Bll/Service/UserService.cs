@@ -24,6 +24,13 @@ namespace THOK.Authority.Bll.Service
         public ICityRepository CityRepository { get; set; }
         [Dependency]
         public IServerRepository ServerRepository { get; set; }
+        [Dependency]
+        public ILoginLogRepository LoginLogRepository { get; set; }
+        [Dependency]
+        public IUserFunctionRepository UserFunctionRepository { get; set; }
+        [Dependency]
+        public IUserModuleRepository UserModuleRepository { get; set; }
+
 
         protected override Type LogPrefix
         {
@@ -32,10 +39,9 @@ namespace THOK.Authority.Bll.Service
         public bool UpdateUserInfo(string USER_NAME)
         {
             string ipaddress=System.Net.Dns.Resolve(System.Net.Dns.GetHostName()).AddressList[0].ToString();
-            var user = UserRepository.GetSingle(i => i.USER_NAME == USER_NAME);
+            var user = UserRepository.GetSingle(i => i.USER_NAME.ToLower() == USER_NAME.ToLower());
             if (user != null)
             {
-                user.USER_NAME = USER_NAME;
                 user.LOGIN_PC = ipaddress;
                 UserRepository.SaveChanges();
                 return true;
@@ -50,7 +56,7 @@ namespace THOK.Authority.Bll.Service
         public string GetUserIp(string USER_NAME)
         {
             string loginPC = "";
-            var user = UserRepository.GetQueryable().Where(i => i.USER_NAME == USER_NAME).ToArray();
+            var user = UserRepository.GetQueryable().Where(i => i.USER_NAME.ToLower() == USER_NAME.ToLower()).ToArray();
             if (user.Count() > 0)
             {
                 loginPC = user[0].LOGIN_PC;
@@ -64,11 +70,13 @@ namespace THOK.Authority.Bll.Service
 
         public bool DeleteUserIp(string USER_NAME)
         {
-            var user = UserRepository.GetSingle(i => i.USER_NAME == USER_NAME);
+            var user = UserRepository.GetSingle(i => i.USER_NAME.ToLower() == USER_NAME.ToLower());
             if (user != null)
             {
                 user.LOGIN_PC = "";
                 UserRepository.SaveChanges();
+                
+
                 return true;
             }
             else { return false; }
@@ -117,8 +125,37 @@ namespace THOK.Authority.Bll.Service
                 .FirstOrDefault(u => u.USER_ID == USER_ID);
             if (user != null)
             {
-                Del(UserRoleRepository, user.AUTH_USER_ROLE);
-                Del(UserSystemRepository, user.AUTH_USER_SYSTEM);
+                while (user.AUTH_USER_ROLE.Count > 0)
+                {
+                    var userRole = user.AUTH_USER_ROLE.First();
+                    UserRoleRepository.Delete(userRole);
+                    UserRoleRepository.SaveChanges();
+                }
+                while (user.AUTH_USER_SYSTEM.Count > 0)
+                {
+                    var userSystem = user.AUTH_USER_SYSTEM.First();
+
+                    while (userSystem.AUTH_USER_MODULE.Count > 0)
+                    {
+                        var userModule = userSystem.AUTH_USER_MODULE.First();
+                        while (userModule.AUTH_USER_FUNCTION.Count > 0)
+                        {
+                            var userFunction = userModule.AUTH_USER_FUNCTION.First();
+                            UserFunctionRepository.Delete(userFunction);
+                            UserFunctionRepository.SaveChanges();
+                        }
+                        UserModuleRepository.Delete(userModule);
+                        UserModuleRepository.SaveChanges();
+                    }
+                    UserSystemRepository.Delete(userSystem);
+                    UserSystemRepository.SaveChanges();
+                }
+                while (user.AUTH_LOGIN_LOG.Count > 0)
+                {
+                    var userLog = user.AUTH_LOGIN_LOG.First();
+                    LoginLogRepository.Delete(userLog);
+                    LoginLogRepository.SaveChanges();
+                }
                 UserRepository.Delete(user);
                 UserRepository.SaveChanges();
             }
@@ -147,22 +184,7 @@ namespace THOK.Authority.Bll.Service
             if (String.IsNullOrEmpty(userName)) throw new ArgumentException("值不能为NULL或为空。", "userName");
             if (String.IsNullOrEmpty(password)) throw new ArgumentException("值不能为NULL或为空。", "password");
 
-            var adduser = new AUTH_USER();
-            adduser.USER_ID = "001";
-            adduser.USER_NAME = userName;
-            adduser.CHINESE_NAME = "";
-            adduser.LOGIN_PC = "";
-            adduser.MEMO = "";
-            adduser.PWD = EncryptPassword(password);
-            adduser.IS_LOCK = "0";
-            adduser.IS_ADMIN = "0";
-
-            var user = UserRepository.GetSingle(i => i.USER_NAME == userName);
-            if (user == null)
-            {
-                UserRepository.Add(adduser);
-                UserRepository.SaveChanges();
-            }
+            var user = UserRepository.GetSingle(i => i.USER_NAME.ToLower() == userName.ToLower() && (i.IS_LOCK=="0"||userName=="Admin"));
             return user != null && ComparePassword(password, user.PWD);
         }
 
@@ -177,7 +199,7 @@ namespace THOK.Authority.Bll.Service
             string logOnKey = "";
             string userid = "";
             IQueryable<AUTH_USER> queryCity = UserRepository.GetQueryable();
-            var user = queryCity.Single(c => c.USER_NAME == userName);
+            var user = queryCity.Single(c => c.USER_NAME.ToLower() == userName.ToLower());
             userid = user.USER_ID;
             if (string.IsNullOrEmpty(serverId))
             {

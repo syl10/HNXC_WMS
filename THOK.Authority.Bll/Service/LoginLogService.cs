@@ -26,7 +26,7 @@ namespace THOK.Authority.Bll.Service
             LoginLog.LOGIN_PC = System.Net.Dns.Resolve(System.Net.Dns.GetHostName()).AddressList[0].ToString();
             LoginLog.LOGIN_TIME = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
             LoginLog.SYSTEM_SYSTEM_ID = SystemID;
-            LoginLog.USER_USER_ID = UserRepository.GetSingle(i => i.USER_NAME == UserName).USER_ID;
+            LoginLog.USER_USER_ID = UserRepository.GetSingle(i => i.USER_NAME.ToLower() == UserName.ToLower()).USER_ID;
 
             LoginLogRepository.Add(LoginLog);
             LoginLogRepository.SaveChanges();
@@ -58,6 +58,14 @@ namespace THOK.Authority.Bll.Service
                USER_NAME= c.AUTH_USER.USER_NAME
             });
             return new { total, rows = temp.ToArray() };
+        }
+        public void UpdateValiateTime(string UserName)
+        {
+            var LogID = LoginLogRepository.GetQueryable().Where(i => i.AUTH_USER.USER_NAME.ToLower() == UserName.ToLower()).Select(i => i.LOG_ID).Max();
+            var LoginLog = LoginLogRepository.GetQueryable().Where(i => i.LOG_ID == LogID).FirstOrDefault();
+            LoginLog.LOGOUT_TIME = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+            LoginLogRepository.SaveChanges();
+ 
         }
     }
 }

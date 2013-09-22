@@ -16,13 +16,13 @@ namespace WMS.Controllers.Authority
         // GET: /Module/
         public ActionResult Index(string moduleID)
         {
-            ViewBag.hasSearch = true;
-            ViewBag.hasAdd = true;
-            ViewBag.hasEdit = true;
-            ViewBag.hasDelete = true;
-            ViewBag.hasFunctionAdmin = true;
-            ViewBag.hasPrint = true;
-            ViewBag.hasHelp = true;
+            //ViewBag.hasSearch = true;
+            //ViewBag.hasAdd = true;
+            //ViewBag.hasEdit = true;
+            //ViewBag.hasDelete = true;
+            //ViewBag.hasFunctionAdmin = true;
+            //ViewBag.hasPrint = true;
+            //ViewBag.hasHelp = true;
             ViewBag.ModuleID = moduleID;
             return View();
         }

@@ -1,38 +1,15 @@
 ﻿
 <script type="text/javascript">
-    var flag = 0;
-    window.onbeforeunload = function (event) {
+    window.onbeforeunload = function () {
         var userNames = document.getElementById('userNames').value;
-        var n = window.event.screenX - window.screenLeft;
-        var b = n > document.documentElement.scrollWidth - 20;
-        if (b && window.event.clientY < 0 || window.event.altKey) {
+        if (event.clientX > (document.body.clientWidth - 20) && event.clientY < 0 || event.altKey) {
             $.getJSON('/User/DeleteUserIp/?userName=' + userNames, function (data) {
                 if (data) {
-                }
+                                   }
             })
         }
     }
-    var s = false;
-    window.onunload = function () {
-        var userNames = document.getElementById('userNames').value;
-        if (event.clientX <= 0 && event.clientY < 0) {
-            $.getJSON('/User/DeleteUserIp/?userName=' + userNames + '&flag=' + flag, function (data) {
-                if (data) {
-                    flag = 0;
-                }
-            })
-        }
-        else {
-            if (s) {
-            }
-            else {
-                $.getJSON('/User/DeleteUserIp/?userName=' + userNames, function (data) {
-                    if (data) {
-                    }
-                })
-            }
-        }
-    }
+   
     $(function () {
         $('#logOn').click(function () {
             $('#dlg-logon').dialog('open');
@@ -101,7 +78,6 @@
             $('#ipadress').text(data);
             $('#user').text(userName);
             if (data != "" && data != null && data != ipAdress) {
-                flag = 1;
                 $('#dlg-forcelogon').dialog('open').dialog('setTitle', '强制登陆');
             }
             else {
