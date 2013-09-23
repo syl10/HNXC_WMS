@@ -1,7 +1,20 @@
 ﻿<script type="text/javascript">
-   //产品条码产生功能 
-    function barcodeClick() { 
-       
+   //产品条码产生功能
+    function barcodeClick() {
+        $.getJSON("/StockInWork/GetPdfName/", function (json) {
+            if (json) {
+                $('#dlgPrint').dialog('open').dialog('setTitle', '新增');
+                $('#divPrint').empty();
+                $('#divPrint').append("<embed width='800' height='600' src='" + json.Message + "'></embed>");
+            }
+        });
     }
 </script>
+
+<div id="dlgPrint" class="easyui-dialog" modal="true" style="width:700px;height:450px;padding:0px 0px" closed="true" >
+ <div id="divPrint">
+ </div>
+</div>
+
+
 

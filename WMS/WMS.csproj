@@ -39,6 +39,18 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\THOK.Common.Ef\bin\Debug\EntityFramework.dll</HintPath>
     </Reference>
+    <Reference Include="FastReport">
+      <HintPath>..\Libraries\FastReport.dll</HintPath>
+    </Reference>
+    <Reference Include="FastReport.Bars">
+      <HintPath>..\Libraries\FastReport.Bars.dll</HintPath>
+    </Reference>
+    <Reference Include="FastReport.Editor">
+      <HintPath>..\Libraries\FastReport.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="FastReport.Web">
+      <HintPath>..\Libraries\FastReport.Web.dll</HintPath>
+    </Reference>
     <Reference Include="LitJson">
       <HintPath>..\Libraries\LitJson.dll</HintPath>
     </Reference>
@@ -1565,6 +1577,8 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="ContentReport\PDF\" />
+    <Folder Include="ContentReport\Report\" />
     <Folder Include="Content\Scripts\ckfinder\bin\Debug\" />
     <Folder Include="Content\Scripts\ckfinder\bin\Release\" />
     <Folder Include="Content\Scripts\ckfinder\plugins\fileeditor\bin\Debug\" />
@@ -1929,7 +1943,7 @@
         <WebProjectProperties>
           <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>1371</DevelopmentServerPort>
+          <DevelopmentServerPort>12829</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>
           </IISUrl>
