@@ -53,22 +53,30 @@ namespace WMS.Controllers.Wms.WMS
         public ActionResult GetPdfName()
         {
             string FileName = "";
-            using (Report report = new Report())
+            string Path = Server.MapPath("/");
+            try
             {
-                string Path = Server.MapPath("/");
+                 
+                using (Report report = new Report())
+                {
+                    report.Load(Path + @"ContentReport\Report\test.frx");
 
-                report.Load(Path + @"ContentReport\Report\test.frx");
+                    report.Prepare();
 
-                report.Prepare();
+                    FileName = Path + @"ContentReport\PDF\text.pdf";
+                    FastReport.Export.Pdf.PDFExport pdfExport = new FastReport.Export.Pdf.PDFExport();
 
-                FileName = Path + @"ContentReport\PDF\text.pdf";
-                FastReport.Export.Pdf.PDFExport pdfExport = new FastReport.Export.Pdf.PDFExport();
+                    report.Export(pdfExport, FileName);
+                    FileName = @"\ContentReport\PDF\text.pdf";
+                }
+            }
+            catch(Exception ex)
+            {
 
-                report.Export(pdfExport, FileName);
-                FileName = @"\ContentReport\PDF\text.pdf";
             }
 
-            return Json(JsonMessageHelper.getJsonMessage(true, FileName, null), "text", JsonRequestBehavior.AllowGet);
+
+            return Json(JsonMessageHelper.getJsonMessage(true, FileName, Path), "text", JsonRequestBehavior.AllowGet);
 
         }
     }
