@@ -6,6 +6,9 @@ using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using THOK.Wms.Bll.Interfaces;
 using THOK.WebUtil;
+using FastReport;
+using FastReport.Utils;
+using FastReport.Web;
 
 namespace WMS.Controllers.Wms.WMS
 {
@@ -42,6 +45,31 @@ namespace WMS.Controllers.Wms.WMS
                  success = msg
              };
              return Json(just, "text", JsonRequestBehavior.AllowGet);
+        }
+        /// <summary>
+        /// 获取PDF路径
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult GetPdfName()
+        {
+            string FileName = "";
+            using (Report report = new Report())
+            {
+                string Path = Server.MapPath("/");
+
+                report.Load(Path + @"ContentReport\Report\test.frx");
+
+                report.Prepare();
+
+                FileName = Path + @"ContentReport\PDF\text.pdf";
+                FastReport.Export.Pdf.PDFExport pdfExport = new FastReport.Export.Pdf.PDFExport();
+
+                report.Export(pdfExport, FileName);
+                FileName = @"\ContentReport\PDF\text.pdf";
+            }
+
+            return Json(JsonMessageHelper.getJsonMessage(true, FileName, null), "text", JsonRequestBehavior.AllowGet);
+
         }
     }
 }
