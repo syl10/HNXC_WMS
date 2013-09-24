@@ -3,16 +3,20 @@
     function barcodeClick() {
         $.getJSON("/StockInWork/GetPdfName/", function (json) {
             if (json) {
+               
                 $('#dlgPrint').dialog('open').dialog('setTitle', '新增');
-                $('#divPrint').empty();
-                $('#divPrint').append("<embed width='800' height='600' src='" + json.Message + "'></embed>");
+                $('#divPrint1').empty();
+                var src1 = "../ContentReport/PDF/" + json.msg;
+                $('#divPrint1').append("<embed width='800' height='600' src='" + src1 + "'></embed>");
+                
             }
         });
     }
 </script>
 
 <div id="dlgPrint" class="easyui-dialog" modal="true" style="width:700px;height:450px;padding:0px 0px" closed="true" >
- <div id="divPrint">
+ 
+ <div id="divPrint1">
  </div>
 </div>
 

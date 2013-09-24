@@ -67,7 +67,7 @@ namespace WMS.Controllers.Wms.WMS
                     FastReport.Export.Pdf.PDFExport pdfExport = new FastReport.Export.Pdf.PDFExport();
 
                     report.Export(pdfExport, FileName);
-                    FileName =  @"../ContentReport/PDF/text.pdf";
+                    FileName =  "text.pdf";
                 }
             }
             catch(Exception ex)
