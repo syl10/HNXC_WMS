@@ -1,4 +1,18 @@
 ﻿<script type="text/javascript">
+    $(function () {
+        $('#details').datagrid('options').onClickRow = function () {
+            $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
+            var row = $('#details').datagrid('getSelected');
+            if (row) {
+                $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
+                $('#SubDetails').datagrid({ url: '/FillBill/GetSubdetail/?billno=' + row.BILL_NO });
+                //                $('#SubDetails').datagrid('reload');
+            }
+            else {
+                $.messager.show({ title: '系统提示', msg: '失败!请检查原因！' });
+            }
+        }
+    });
 </script>
 <div region="center" split="true" border="false">    
     <table id="details" class="easyui-datagrid" url="/Inventory/Details/?flag=0" border="false" singleSelect="true"
@@ -17,14 +31,14 @@
                 <th field="STATUSNAME" width="80">单据来源</th>
                 <th field="STATE" width="60" hidden="true">单据状态</th>
                 <th field="STATENAME" width="60">单据状态</th>
-                <th field="SOURCE_BILLNO" width="80">来源单号</th>
+                <th field="SOURCE_BILLNO" width="80">入库批次</th>
         @*        <th field="LINE_NO" width="90" hidden="true">制丝线编号</th>
                 <th field="LINE_NAME" width="90">制丝线名称</th>
                 <th field="CIGARETTE_CODE" width="90" hidden="true">牌号代码</th>
                 <th field="CIGARETTE_NAME" width="90" >牌号</th>
                 <th field="FORMULA_CODE" width="90"  hidden="true">配方代号</th>
-                <th field="FORMULA_NAME" width="90"  >配方名称</th>*@
-                <th field="BATCH_WEIGHT" width="90">批次重量</th>
+                <th field="FORMULA_NAME" width="90"  >配方名称</th>
+                <th field="BATCH_WEIGHT" width="90">批次重量</th>*@
                 <th field="OPERATER" width="90">操作人</th>
                 <th field="OPERATE_DATE" width="90">操作日期</th>
                 <th field="CHECKER" width="60">审核人员</th>
@@ -51,7 +65,7 @@
                 <th field="REAL_WEIGHT" width="80">实际重量</th>
                 <th field="PACKAGE_COUNT" width="80">包数</th>
                 <th field="PRODUCT_BARCODE" width="80">产品条码</th>
-                <th field="PALLET_CODE" width="60" >托盘条码</th>
+                <th field="PALLET_CODE" width="60" >托盘RFID</th>
                 <th field="IS_MIXDESC" width="60" >是否混装</th>
             </tr>
         </thead>
