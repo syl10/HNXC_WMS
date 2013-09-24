@@ -1928,6 +1928,14 @@
     <Content Include="Views\FillBill\_SearchPartial.cshtml" />
     <Content Include="Views\FillBill\_TaskPartial.cshtml" />
     <Content Include="Views\Inventory\Index.cshtml" />
+    <Content Include="Views\Inventory\_AddPartial.cshtml" />
+    <Content Include="Views\Inventory\_CellPartial.cshtml" />
+    <Content Include="Views\Inventory\_BillPartial.cshtml" />
+    <Content Include="Views\Inventory\_DeletePartial.cshtml" />
+    <Content Include="Views\Inventory\_AuditPartial.cshtml" />
+    <Content Include="Views\Inventory\_AntiTrialPartial.cshtml" />
+    <Content Include="Views\Inventory\_EditPartial.cshtml" />
+    <Content Include="Views\Inventory\_SearchPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

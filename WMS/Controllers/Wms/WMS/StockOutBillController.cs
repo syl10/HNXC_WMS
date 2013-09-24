@@ -32,7 +32,7 @@ namespace WMS.Controllers.Wms.WMS
         }
         public ActionResult Details(int page, int rows,string flag, FormCollection collection)
         {
-            var Billmaster = BillMasterService.GetDetails(page, rows,"2",flag ,"","","","","","","","","","","","","","","");
+            var Billmaster = BillMasterService.GetDetails(page, rows,"2",flag ,"","","","","","","","","","","","","","","","");
             return Json(Billmaster, "text/html", JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetSubDetail(int page, int rows, string BillNo)
