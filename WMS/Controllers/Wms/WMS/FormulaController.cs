@@ -48,13 +48,13 @@ namespace WMS.Controllers.Wms.WMS
             string FORMULADATE = collection["FORMULADATE"] ?? "";
             string OPERATER = collection["OPERATER"] ?? "";
             var users = FormulaService.GetDetails(page, rows, BTYPE_NAME, BILL_TYPE, TASK_LEVEL, Memo, TARGET_CODE,FORMULA_CODE ,FORMULA_NAME ,CIGARETTE_CODE ,ISACTIVE ,FORMULADATE ,OPERATER );
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
         // GET: /Formula/Details/
         public ActionResult SubDetails(int page, int rows, string FORMULA_CODE)
         {
             var users = FormulaService.GetSubDetails(page, rows, FORMULA_CODE);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Formula/Create/
@@ -65,7 +65,7 @@ namespace WMS.Controllers.Wms.WMS
             master.OPERATER = userid;
             bool bResult = FormulaService.Add(master, detail);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         // POST: /Formula/Create/
         [HttpPost]
@@ -73,7 +73,7 @@ namespace WMS.Controllers.Wms.WMS
         {
             bool bResult = FormulaService.Edit(master, detail);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Formula/Delete/
@@ -82,7 +82,7 @@ namespace WMS.Controllers.Wms.WMS
         {
             bool bResult = FormulaService.Delete(FORMULA_CODE);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, "失败原因可能是该配方被使用中"), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, "失败原因可能是该配方被使用中"), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Formula/GetFormulaCode/
@@ -92,19 +92,19 @@ namespace WMS.Controllers.Wms.WMS
             string userName = this.GetCookieValue("username");
             var FormulaInfo = FormulaService.GetFormulaCode(userName, dtime, FORMULA_CODE);
 
-            return Json(FormulaInfo, "text", JsonRequestBehavior.AllowGet);
+            return Json(FormulaInfo, "text/html", JsonRequestBehavior.AllowGet);
         }
         //获取用户所选牌号的配方
         public ActionResult copy_detail(int page, int rows, string cigarettecode)
         {
             var users = FormulaService.GetSubDetailbyCigarettecode (page, rows, cigarettecode );
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
         //获取用户所选牌号的已启用配方.
         public ActionResult Getuserfull(int page, int rows, string cigarettecode)
         {
             var users = FormulaService.Getusefull(page, rows, cigarettecode);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
         //验证配方编号
         public ActionResult Checkformulacode(string formulacode)
@@ -115,7 +115,7 @@ namespace WMS.Controllers.Wms.WMS
             {
                  success=msg
             };
-            return Json(just, "text", JsonRequestBehavior.AllowGet);
+            return Json(just, "text/html", JsonRequestBehavior.AllowGet);
 
         }
     }

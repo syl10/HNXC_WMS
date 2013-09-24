@@ -14,6 +14,7 @@ namespace THOK.Wms.Bll.Interfaces
         bool Delete(string ProductCode);
 
         bool Save(CMD_PRODUCT product);
+        object Selectprod(int page, int rows, string QueryString, string value);
 
 
        

@@ -40,7 +40,7 @@ namespace WMS.Controllers.Wms.Base
             string CATEGORY_CODE = collection["CATEGORY_CODE"] ?? "";
             //string username = collection["username"] ?? "";
             var users = UnitService.GetDetails(page, rows,UNIT_NAME,CATEGORY_CODE,MEMO);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
         // POST: /Unit/Create/
         [HttpPost]
@@ -48,7 +48,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = UnitService.Add(Unit);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         // POST: /Unit/Edit/
         [HttpPost]
@@ -56,7 +56,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = UnitService.Save(Unit);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         // POST: /Unit/Delete/
         [HttpPost]
@@ -64,7 +64,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = UnitService.Delete(UNIT_CODE);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //  /LoginLog/CreateExcelToClient/

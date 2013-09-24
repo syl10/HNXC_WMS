@@ -8,7 +8,7 @@
             DataLoad();
             $('#fm').form('load', row);
             $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
-            $('#inBillDetail').datagrid({ url: '/Formula/SubDetails/?FORMULA_CODE=' + row.FORMULA_CODE });
+            $('#inBillDetail').datagrid({ url: '/Formula/SubDetails/?page=1&rows=1000&FORMULA_CODE=' + row.FORMULA_CODE });
             $('#fm .easyui-validatebox').validatebox({
                 required: true
             });

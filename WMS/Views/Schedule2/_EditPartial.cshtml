@@ -34,8 +34,8 @@
     //加载该计划单的明细.
     function loaddata(SCHEDULE_NO) {
         $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
-        $('#inBillDetail').datagrid({ url: '/Schedule2/GetSubDetail/?SCHEDULE_NO=' +SCHEDULE_NO });
-        $('#inBillDetail').datagrid('reload');
+        $('#inBillDetail').datagrid({ url: '/Schedule2/GetSubDetail/?page=1&rows=1000&SCHEDULE_NO=' + SCHEDULE_NO });
+//        $('#inBillDetail').datagrid('reload');
     }
 </script>
 

@@ -36,7 +36,7 @@ namespace WMS.Controllers.Wms.Base
             string MEMO = collection["MEMO"] ?? "";
             //string username = collection["username"] ?? "";
             var users = ProductCategoryService.GetDetails(page, rows, CATEGORY_NAME, MEMO);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
         // POST: /ProductCategory/Create/
         [HttpPost]
@@ -44,7 +44,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = ProductCategoryService.Add(CATEGORY_NAME, MEMO);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         // POST: /ProductCategory/Edit/
         [HttpPost]
@@ -52,7 +52,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = ProductCategoryService.Save(CATEGORY_CODE, CATEGORY_NAME, MEMO);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         // POST: /ProductCategory/Delete/
         [HttpPost]
@@ -60,7 +60,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = ProductCategoryService.Delete(CATEGORY_CODE);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
 

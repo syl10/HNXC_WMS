@@ -33,7 +33,7 @@
     //加载该计划单的明细.
     function loaddata(Bill_NO) {
         $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
-        $('#inBillDetail').datagrid({ url: '/FillBill/GetSubDetail/?BillNo=' + Bill_NO });
-        $('#inBillDetail').datagrid('reload');
+        $('#inBillDetail').datagrid({ url: '/FillBill/GetSubDetail/?page=1&rows=30&BillNo=' + Bill_NO });
+//        $('#inBillDetail').datagrid('reload');
     }
 </script>

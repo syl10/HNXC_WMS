@@ -36,7 +36,7 @@ namespace WMS.Controllers.ServerAdmin
             string IS_ACTIVE = collection["IS_ACTIVE"] ?? "";
             string CITY_ID = collection["CITY_ID"] ?? "";
             var users = ServerService.GetDetails(page, rows, SERVER_NAME, DESCRIPTION, URL, IS_ACTIVE, CITY_ID);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Server/Create
@@ -45,7 +45,7 @@ namespace WMS.Controllers.ServerAdmin
         {
             bool bResult = ServerService.Add(SERVER_NAME, DESCRIPTION, URL, IS_ACTIVE, CITY_CITY_ID);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Server/Edit/ 
@@ -54,7 +54,7 @@ namespace WMS.Controllers.ServerAdmin
         {
             bool bResult = ServerService.Save(SERVER_ID, SERVER_NAME, DESCRIPTION, URL, IS_ACTIVE, CITY_CITY_ID);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Server/Delete/
@@ -63,7 +63,7 @@ namespace WMS.Controllers.ServerAdmin
         {
             bool bResult = ServerService.Delete(SERVER_ID);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // GET: /Server/GetDetailsServer/
@@ -72,7 +72,7 @@ namespace WMS.Controllers.ServerAdmin
             string CITY_CITY_ID = this.GetCookieValue("cityid");
             string SERVER_ID = this.GetCookieValue("serverid");
             var server = ServerService.GetDetails(CITY_CITY_ID, SERVER_ID);
-            return Json(server, "text", JsonRequestBehavior.AllowGet);
+            return Json(server, "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

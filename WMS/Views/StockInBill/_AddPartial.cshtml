@@ -355,7 +355,7 @@
         var FORMULA_CODE = $('#FORMULA_CODE').combogrid('getValue');
         $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
          $('#inBillDetail').datagrid({
-                  url: '/StockInBill/LoadFormula/?Formulacode=' + FORMULA_CODE + '&BATCH_WEIGHT=' + $('#BATCH_WEIGHT').numberbox('getValue')
+             url: '/StockInBill/LoadFormula/?page=1&rows=1000&Formulacode=' + FORMULA_CODE + '&BATCH_WEIGHT=' + $('#BATCH_WEIGHT').numberbox('getValue')
           });
         $('#inBillDetail').datagrid('reload');
         if(clickbt=="edit")
@@ -428,7 +428,7 @@
 	<div class="easyui-layout" fit="true">
         <div region="center" border="false">
             <table class="easyui-datagrid" border="false" toolbar="#dlg-detailButtons" width="700" id="inBillDetail"
-                fit="true" fitColumns="true" singleSelect="true" rownumbers="true" pagination="true" url="" striped="true">
+                fit="true" fitColumns="true" singleSelect="true" rownumbers="true" pagination="false" url="" striped="true">
                 <thead>
                     <tr>
                         <th field="ITEM_NO" width="100" hidden="true">序号</th>
@@ -560,5 +560,4 @@
       <input type="button"  onclick="DetailSave()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
        <input type="button"  onclick="javascript:$('#dlg-AddBillDetail').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>
-
 @Html.Partial("_ProductPartial");  

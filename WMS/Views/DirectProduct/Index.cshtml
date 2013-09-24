@@ -5,7 +5,7 @@
             var row = $('#details').datagrid('getSelected');
             if (row) {
                 $('#SubDetails').datagrid({ url: '/DirectProduct/GetSubDetail/?BillNo=' + row.BILL_NO });
-                $('#SubDetails').datagrid('reload');
+//                $('#SubDetails').datagrid('reload');
             }
             else {
                 $.messager.show({ title: '系统提示', msg: '失败!请检查原因！' });

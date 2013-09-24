@@ -35,7 +35,7 @@ namespace WMS.Controllers.Wms.Base
             string IS_ACTIVE = collection["IS_ACTIVE"] ?? "";
             //string username = collection["username"] ?? "";
             var users = CraneService.GetDetails(page, rows, CRANE_NAME, CRANE_MEMO, IS_ACTIVE);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Crane/Create/
@@ -44,7 +44,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = CraneService.Add(CRANE_NAME, CRANE_MEMO, IS_ACTIVE);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Crane/Edit/
@@ -53,7 +53,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = CraneService.Save(CRANE_NO, CRANE_NAME, CRANE_MEMO, IS_ACTIVE);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Crane/Delete/
@@ -62,7 +62,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = CraneService.Delete(CRANE_NO);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

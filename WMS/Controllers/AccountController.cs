@@ -44,8 +44,8 @@ namespace WMS.Controllers
             {
                 msg = "登录失败:用户名或密码错误！";
             }
-            string url = bResult ? UserService.GetLogOnUrl(userName,password,cityId, systemId, serverId) : "";            
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, url),"text");
+            string url = bResult ? UserService.GetLogOnUrl(userName,password,cityId, systemId, serverId) : "";
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, url), "text/html");
         }
 
         public ActionResult LogOn(string logOnKey)
@@ -84,7 +84,7 @@ namespace WMS.Controllers
         {
             bool bResult = UserService.ChangePassword(userName, password, newPassword); 
             string msg = bResult ? "修改密码成功" : "修改密码失败,请确认用户名与密码输入正确！";
-            return Json(JsonMessageHelper.getJsonMessage(bResult,msg),"text");
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg), "text/html");
         }
 
         [Authorize]
@@ -111,7 +111,7 @@ namespace WMS.Controllers
             this.AddCookie("ss", serverId ?? "NULL");
 
             string url = bResult ? UserService.GetLogOnUrl(userName,null, cityId, systemId, serverId) : "";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, url),"text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, url), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         public void LogRegOff()

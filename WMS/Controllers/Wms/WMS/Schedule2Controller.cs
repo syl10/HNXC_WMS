@@ -44,14 +44,14 @@ namespace WMS.Controllers.Wms.WMS
             string CHECKER = collection["CHECKER"] ?? "";
             string CHECK_DATE = collection["CHECK_DATE"] ?? "";
             var Schedules = ScheduleMasterService.GetDetails(page, rows, SCHEDULE_NO, SCHEDULE_DATE, STATE, OPERATER, OPERATE_DATE, CHECKER, CHECK_DATE);
-            return Json(Schedules, "text", JsonRequestBehavior.AllowGet);
+            return Json(Schedules, "text/html", JsonRequestBehavior.AllowGet);
         }
 
 
         public ActionResult GetSubDetail(int page, int rows, string SCHEDULE_NO)
         {
             var subdetail = ScheduleMasterService.GetSubDetails(page, rows, SCHEDULE_NO);
-            return Json(subdetail, "text", JsonRequestBehavior.AllowGet);
+            return Json(subdetail, "text/html", JsonRequestBehavior.AllowGet);
         }
         //获取计划生产单号
         public ActionResult GetScheduleNO(System.DateTime dtime, string SCHEDULE_NO)
@@ -59,7 +59,7 @@ namespace WMS.Controllers.Wms.WMS
             string userName = this.GetCookieValue("username");
             var ScheduleInfo = ScheduleMasterService.GetSchedulno(userName, dtime, SCHEDULE_NO);
 
-            return Json(ScheduleInfo, "text", JsonRequestBehavior.AllowGet);
+            return Json(ScheduleInfo, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Add(WMS_SCHEDULE_MASTER mast, object detail)
@@ -68,21 +68,21 @@ namespace WMS.Controllers.Wms.WMS
             mast.OPERATER = userid;
             bool bResult = ScheduleMasterService.Add(mast, detail);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Edit(WMS_SCHEDULE_MASTER mast, object detail)
         {
             bool bResult = ScheduleMasterService.Edit(mast , detail);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Delete(string  scheduleno)
         {
             bool bResult = ScheduleMasterService.Delete(scheduleno );
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //审核
         public ActionResult Audit(string scheduleno)
@@ -90,25 +90,25 @@ namespace WMS.Controllers.Wms.WMS
             string checker = this.GetCookieValue("userid");
             bool Result = ScheduleMasterService.Audit(checker, scheduleno);
             string msg = Result ? "审核成功" : "审核失败";
-            return Json(JsonMessageHelper.getJsonMessage(Result, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(Result, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //反审核
         public ActionResult Antitrial(string scheduleno)
         {
             bool Result = ScheduleMasterService.Antitrial(scheduleno);
             string msg = Result ? "反审成功" : "反审失败";
-            return Json(JsonMessageHelper.getJsonMessage(Result, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(Result, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //制丝线
         public ActionResult GetLine(int page, int rows) {
             var Lines = ScheduleMasterService.GetProductLine(page, rows);
-            return Json(Lines, "text", JsonRequestBehavior.AllowGet);
+            return Json(Lines, "text/html", JsonRequestBehavior.AllowGet);
         }
         //获取明细中的序号
         public ActionResult GetSerial(string SCHEDULENO)
         {
             var rejust = ScheduleDetailService.GetSerial(SCHEDULENO);
-            return Json(rejust, "text", JsonRequestBehavior.AllowGet);
+            return Json(rejust, "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -39,25 +39,25 @@ namespace WMS.Controllers.Wms.WMS
             string userName = this.GetCookieValue("username");
             var BillnoInfo = BillMasterService.GetBillNo(userName, dtime, BILL_NO, prefix);
 
-            return Json(BillnoInfo, "text", JsonRequestBehavior.AllowGet);
+            return Json(BillnoInfo, "text/html", JsonRequestBehavior.AllowGet);
         }
         //获取某条单据下的作业任务.
         public ActionResult GetSubdetail(int page, int rows, string billno)
         {
             var productstate = ProductStateService.Details(page, rows, billno);
-            return Json(productstate, "text", JsonRequestBehavior.AllowGet);
+            return Json(productstate, "text/html", JsonRequestBehavior.AllowGet);
         }
         //查找需要补料的单据
         public ActionResult billselect(int page, int rows, string billmethod, string billno)
         {
             var Billmaster = BillMasterService.billselect(page, rows, billmethod,billno );
-            return Json(Billmaster, "text", JsonRequestBehavior.AllowGet);
+            return Json(Billmaster, "text/html", JsonRequestBehavior.AllowGet);
         }
         //查找符合的产品条码
         public ActionResult barcodeselect(int page, int rows, string soursebill)
         {
             var barcode = ProductStateService.Barcodeselect(page, rows, soursebill);
-            return Json(barcode, "text", JsonRequestBehavior.AllowGet);
+            return Json(barcode, "text/html", JsonRequestBehavior.AllowGet);
         }
         //抽检补料入库单添加
         public ActionResult Add(WMS_BILL_MASTER mast, object detail, string prefix)
@@ -66,21 +66,21 @@ namespace WMS.Controllers.Wms.WMS
             mast.OPERATER = userid;
             bool bResult = BillMasterService.FillBillAdd (mast, detail, prefix);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //编辑
         public ActionResult Edit(WMS_BILL_MASTER mast, object detail)
         {
             bool bResult = BillMasterService.FillBillEdit (mast, detail);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //删除
         public ActionResult Delete(string Billno)
         {
             bool bResult = BillMasterService.FillBillDelete (Billno);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //作业函数
         public ActionResult Task(string BillNo)
@@ -92,7 +92,7 @@ namespace WMS.Controllers.Wms.WMS
             {
                 success = msg
             };
-            return Json(just, "text", JsonRequestBehavior.AllowGet);
+            return Json(just, "text/html", JsonRequestBehavior.AllowGet);
         }
 
     }

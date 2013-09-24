@@ -35,7 +35,7 @@ namespace WMS.Controllers.Authorize
             string FunctionName = collection["FunctionName"] ?? "";
             string ExceptionalType = collection["ExceptionalType"] ?? "";
             var users = ExceptionalLogService.GetDetails(page, rows, CatchTime, ModuleName, FunctionName, ExceptionalType);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

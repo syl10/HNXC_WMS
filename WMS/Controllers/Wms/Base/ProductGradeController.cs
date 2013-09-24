@@ -34,26 +34,26 @@ namespace WMS.Controllers.Wms.Base
             string GRADE_NAME = collection["GRADE_NAME"] ?? "";
             string MEMO = collection["MEMO"] ?? "";
             var grade = ProductGradeService.Detail(page, rows, ENGLISH_CODE, USER_CODE, GRADE_NAME, MEMO);
-            return Json(grade, "text", JsonRequestBehavior.AllowGet);
+            return Json(grade, "text/html", JsonRequestBehavior.AllowGet);
         }
         public ActionResult Add(CMD_PRODUCT_GRADE  grade)
         {
             bool bResult = ProductGradeService.Add(grade);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         public ActionResult Edit(CMD_PRODUCT_GRADE grade, string GRADE_CODE)
         {
             bool bResult = ProductGradeService.Edit(grade, GRADE_CODE );
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //删除
         public ActionResult Delete(string GRADE_CODE)
         {
             bool bResult = ProductGradeService.Delete(GRADE_CODE);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
     }

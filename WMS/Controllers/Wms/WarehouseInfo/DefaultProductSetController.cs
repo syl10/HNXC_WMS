@@ -75,7 +75,7 @@ namespace Wms.Controllers.Wms.WarehouseInfo
         public ActionResult GetProductCell()
         {
             var product = CellService.GetCellInfo();
-            return Json(product, "text", JsonRequestBehavior.AllowGet);
+            return Json(product, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //查找卷烟信息
@@ -83,7 +83,7 @@ namespace Wms.Controllers.Wms.WarehouseInfo
         public ActionResult SearchProductCell(string productCode)
         {
             var product = CellService.GetCellInfo(productCode);
-            return Json(product, "text", JsonRequestBehavior.AllowGet);
+            return Json(product, "text/html", JsonRequestBehavior.AllowGet);
         }
         
         //添加货位预设编码
@@ -92,7 +92,7 @@ namespace Wms.Controllers.Wms.WarehouseInfo
         {
             bool bResult = CellService.SaveCell(wareCodes, areaCodes, shelfCodes, cellCodes, defaultProductCode, editType);
             string msg = bResult ? "保存成功" : "保存失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //获得货位勾选状态
@@ -101,7 +101,7 @@ namespace Wms.Controllers.Wms.WarehouseInfo
         {
             var wareCell = CellService.GetCellCheck(productId);
             string msg = wareCell != null ? "" : "读取仓库信息失败";
-            return Json(JsonMessageHelper.getJsonMessage(wareCell != null, msg, wareCell), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(wareCell != null, msg, wareCell), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //删除货位信息
@@ -110,7 +110,7 @@ namespace Wms.Controllers.Wms.WarehouseInfo
         {
             bool bResult = CellService.DeleteCell(productCodes);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //POST: /DefaultProductSet/SetTree2/
@@ -118,7 +118,7 @@ namespace Wms.Controllers.Wms.WarehouseInfo
         {
             bool bResult = CellService.SetTree2(strId, proCode);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         #region /DefaultProductSet/CreateExcelToClient/

@@ -28,7 +28,7 @@ namespace WMS.Controllers.Wms.Base
 
             //string username = collection["username"] ?? "";
             var users = SysBillTargetService.GetDetails();
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
 
 

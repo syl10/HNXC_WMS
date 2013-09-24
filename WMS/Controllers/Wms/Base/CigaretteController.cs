@@ -37,7 +37,7 @@ namespace WMS.Controllers.Wms.Base
             string CIGARETTE_MEMO = collection["CIGARETTE_MEMO"] ?? "";
             //string username = collection["username"] ?? "";
             var users = CigaretteService.GetDetails(page, rows, CIGARETTE_NAME, CIGARETTE_MEMO);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
         // POST: /Cigarette/Create/
         [HttpPost]
@@ -45,7 +45,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = CigaretteService.Add(CIGARETTE_NAME, CIGARETTE_MEMO);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         // POST: /Cigarette/Edit/
         [HttpPost]
@@ -53,7 +53,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = CigaretteService.Save(CIGARETTE_CODE, CIGARETTE_NAME, CIGARETTE_MEMO);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         // POST: /Cigarette/Delete/
         [HttpPost]
@@ -61,7 +61,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = CigaretteService.Delete(CIGARETTE_CODE);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //  /LoginLog/CreateExcelToClient/

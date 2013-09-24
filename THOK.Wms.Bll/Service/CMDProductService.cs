@@ -122,5 +122,45 @@ namespace THOK.Wms.Bll.Service
             return true;
         }
         #endregion
+
+
+        public object Selectprod(int page, int rows, string QueryString, string value)
+        {
+            IQueryable<CMD_PRODUCT> ProductQuery = ProductRepository.GetQueryable();
+            var products = ProductQuery.OrderBy(i => i.PRODUCT_CODE).Select(i => new
+            {
+                i.PRODUCT_CODE,
+                i.PRODUCT_NAME,
+                i.YEARS,
+                i.WEIGHT,
+                i.STYLE_NO,
+                i.CMD_PRODUCT_STYLE.STYLE_NAME,
+                i.ORIGINAL_CODE,
+                ORIGINAL = i.CMD_PRODUCT_ORIGINAL.ORIGINAL_NAME,
+                i.GRADE_CODE,
+                GRADE = i.CMD_PRODUCT_GRADE.GRADE_NAME,
+                i.MEMO,
+                i.CATEGORY_CODE,
+                CATEGORYNAME = i.CMD_PRODUCT_CATEGORY.CATEGORY_NAME
+            });
+            if (!string.IsNullOrEmpty(QueryString))
+            {
+                if (!string.IsNullOrEmpty(value))
+                {
+                    if (QueryString == "ProductCode")
+                    {
+                        products = products.Where(i => i.PRODUCT_CODE == value);
+                    }
+                    if (QueryString == "ProductName")
+                    {
+                        products = products.Where(i => i.PRODUCT_NAME.Contains(value));
+                    }
+                }
+            }
+            products = products.Where(i => i.PRODUCT_CODE != "0000");
+            int total = products.Count();
+            products = products.Skip((page - 1) * rows).Take(rows);
+            return new { total, rows = products.ToArray() };
+        }
     }
 }

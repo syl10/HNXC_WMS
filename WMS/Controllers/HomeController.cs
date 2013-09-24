@@ -67,7 +67,7 @@ namespace WMS.Controllers
         }
         public ActionResult GetUser()
         {
-            return Json(User,"text", JsonRequestBehavior.AllowGet);
+            return Json(User, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         [Authorize]
@@ -76,8 +76,8 @@ namespace WMS.Controllers
             JavaScriptSerializer serializer = new JavaScriptSerializer();
             var jmenus = serializer.Deserialize<Menu[]>(JsonHelper.getJsonMenu());
 
-            var menus = ModuleService.GetUserMenus(User.Identity.Name,this.GetCookieValue("cityid"),this.GetCookieValue("systemid"));          
-            return Json(menus,"text",JsonRequestBehavior.AllowGet);
+            var menus = ModuleService.GetUserMenus(User.Identity.Name,this.GetCookieValue("cityid"),this.GetCookieValue("systemid"));
+            return Json(menus, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         [Authorize]
@@ -100,7 +100,7 @@ namespace WMS.Controllers
                 }
             };
             var funs = ModuleService.GetModuleFuns(User.Identity.Name, this.GetCookieValue("cityid"), moduleId);
-            return Json(funs,"text",JsonRequestBehavior.AllowGet);
+            return Json(funs, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult PageNotFound()

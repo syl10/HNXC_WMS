@@ -38,7 +38,7 @@ namespace WMS.Controllers.Wms.Base
             string Memo = collection["MEMO"] ?? "";
             string TARGET_CODE = collection["TARGET_CODE"] ?? "";
             var users = BillTypeService.GetDetails(page, rows, BTYPE_NAME, BILL_TYPE, TASK_LEVEL, Memo, TARGET_CODE);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /BillType/Create/
@@ -47,7 +47,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = BillTypeService.Add(BillType);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /BillType/Edit/
@@ -56,7 +56,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = BillTypeService.Save(BillType);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /BillType/Delete/
@@ -65,7 +65,7 @@ namespace WMS.Controllers.Wms.Base
         {
             bool bResult = BillTypeService.Delete(BTYPE_CODE);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }
