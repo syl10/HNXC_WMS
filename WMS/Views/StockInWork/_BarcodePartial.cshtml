@@ -3,7 +3,6 @@
     function barcodeClick() {
         $.getJSON("/StockInWork/GetPdfName/", function (json) {
             if (json) {
-                alert(json.data);
                 $('#dlgPrint').dialog('open').dialog('setTitle', '新增');
                 $('#divPrint').empty();
                 $('#divPrint').append("<embed width='800' height='600' src='" + json.Message + "'></embed>");
