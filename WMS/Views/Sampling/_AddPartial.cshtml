@@ -20,7 +20,7 @@
             required: true,
             disabled: true
         });
-//        $('#SOURCE_BILLNO').attr('readonly', false);
+        //        $('#SOURCE_BILLNO').attr('readonly', false);
         GetBillNo(getDate()); //单据编号
         GetBillType(); //单据类型
         GetWarehouseCode();  //仓库编号
@@ -38,7 +38,7 @@
     }
     //单据编号
     function GetBillNo(date) {
-        $.getJSON("/Inventory/GetBillNo/?dtime=" + date + '&prefix=IVT', function (json) {
+        $.getJSON("/Sampling/GetBillNo/?dtime=" + date + '&prefix=SPL', function (json) {
             if (json) {
                 $('#BILL_NO').val(json.BillNo);
                 $('#OPERATER').val(json.userName);
@@ -52,7 +52,7 @@
             disabled: true,
             width: 135,
             panelWidth: 340,
-            value: '004',
+            value: '003',
             url: '/BillType/Details/?page=1&rows=1000',
             idField: 'BTYPE_CODE',
             textField: 'BTYPE_NAME',
@@ -60,7 +60,7 @@
             editable: false,
             fitColumns: true,
             queryParams: {
-                BILL_TYPE: '4'
+                BILL_TYPE: '3'
             },
             columns: [[
                     { field: 'BTYPE_CODE', title: '类型代码', align: 'left', width: 40 },
@@ -97,7 +97,7 @@
         $('#BillData').dialog('open').dialog('setTitle', '选择来源单据');
         $('#BarcodeDetail').datagrid('loadData', { total: 0, rows: [] });
         $('#BillDetail').datagrid({ url: '/FillBill/billselect/?page=1&rows=30&billmethod=3' });
-//        $("#BillDetail").datagrid('reload');
+        //        $("#BillDetail").datagrid('reload');
     }
     //明细中的添加按钮的事件
     function addBillDetailClick() {
@@ -108,7 +108,7 @@
                 cellcodestr += Rows.rows[i].CELL_CODE + ",";
             }
         }
-//        alert($('#OPERATER').val() + "   " + $('#SOURCE_BILLNO').val() + "   " + document.getElementById('SOURCE_BILLNO').value);
+        //        alert($('#OPERATER').val() + "   " + $('#SOURCE_BILLNO').val() + "   " + document.getElementById('SOURCE_BILLNO').value);
         $('#CellData').dialog('open').dialog('setTitle', '选择货位');
         $('#CellDetail').datagrid('loadData', { total: 0, rows: [] });
         $('#CellDetail').datagrid({ url: '/Inventory/GetCell/?page=1&rows=20000&soursebill=' + $('#SOURCE_BILLNO').val() + '&selectedcellcodestr=' + cellcodestr });
@@ -144,13 +144,13 @@
         }
         if (iscoderepeat) { return; }
         if (clickbt == "add") {
-            url = '/Inventory/Add/?prefix=IVT&detail=' + JSON.stringify(changesRows.inserted);
+            url = '/Sampling/Add/?prefix=SPL&detail=' + JSON.stringify(changesRows.inserted);
         }
         if (clickbt == "edit") {
-            url = '/Inventory/Edit/?detail=' + JSON.stringify(changesRows.inserted);
+            url = '/Sampling/Edit/?detail=' + JSON.stringify(changesRows.inserted);
         }
         if (clickbt == "delete") {
-            url = '/Inventory/Delete/?Billno=' + $('#BILL_NO').val();
+            url = '/Sampling/Delete/?Billno=' + $('#BILL_NO').val();
         }
         $('#fm').form('submit', {
             url: url,
@@ -178,6 +178,7 @@
         });
     }
 </script>
+
 <div id="dlg" class="easyui-dialog" modal="true"
         style="width:850px;height:450px;padding:0px 0px"
         closed="true" buttons="#dlg-buttons">
@@ -258,5 +259,3 @@
 </div>
 @Html.Partial("_BillPartial");  
 @Html.Partial("_CellPartial");
-
-
