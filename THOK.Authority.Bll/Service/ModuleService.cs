@@ -324,42 +324,81 @@ namespace THOK.Authority.Bll.Service
             if (String.IsNullOrEmpty(moduleID)) throw new ArgumentException("值不能为NULL或为空。", "moduleID");
 
             IQueryable<AUTH_USER> queryUser = UserRepository.GetQueryable();
-            IQueryable<AUTH_CITY> queryCity = CityRepository.GetQueryable();
+           
             IQueryable<AUTH_MODULE> queryModule = ModuleRepository.GetQueryable();
 
             //Guid gCityID = new Guid(cityID);
             //Guid gModuleID = new Guid(moduleID);
             var user = queryUser.Single(u => u.USER_NAME.ToLower() == userName.ToLower());
-            var city = queryCity.Single(c => c.CITY_ID == cityID);
-            // var module = queryModule.Single(m => m.ModuleID == gModuleID);
             var module = queryModule.Single(m => m.MODULE_ID == moduleID);
+             Fun fun = new Fun();
+             HashSet<Fun> moduleFunctionSet = new HashSet<Fun>();
+             if (user.IS_ADMIN == "1")
+             {
+                 var ModuleFuns = module.AUTH_FUNCTION;
 
-            var userModule = (from um in module.AUTH_USER_MODULE
-                              where um.AUTH_USER_SYSTEM.AUTH_USER.USER_ID == user.USER_ID
-                                && um.AUTH_USER_SYSTEM.AUTH_CITY.CITY_ID == city.CITY_ID
-                              select um).Single();
+                 foreach (var userFunction in ModuleFuns)
+                 {
 
-            var userFunctions = userModule.AUTH_USER_FUNCTION;
-            Fun fun = new Fun();
-            HashSet<Fun> moduleFunctionSet = new HashSet<Fun>();
-            foreach (var userFunction in userFunctions)
-            {
-                var roles = user.AUTH_USER_ROLE.Select(ur => ur.AUTH_ROLE);
-                bool bResult = userFunction.AUTH_FUNCTION.AUTH_ROLE_FUNCTION.Any(
-                        rf => roles.Any(
-                            r => r.ROLE_ID == rf.AUTH_ROLE_MODULE.AUTH_ROLE_SYSTEM.AUTH_ROLE.ROLE_ID
-                               && rf.IS_ACTIVE=="1"
-                         )
-                    );
-                moduleFunctionSet.Add(new Fun()
-                    {
-                        funid = userFunction.AUTH_FUNCTION.FUNCTION_ID,
-                        funname = userFunction.AUTH_FUNCTION.CONTROL_NAME,
-                        iconCls = userFunction.AUTH_FUNCTION.INDICATE_IMAGE,
-                        isActive = userFunction.IS_ACTIVE=="1" || bResult || user.USER_NAME == "Admin"
-                    });
+                     moduleFunctionSet.Add(new Fun()
+                     {
+                         funid = userFunction.FUNCTION_ID,
+                         funname = userFunction.CONTROL_NAME,
+                         iconCls = userFunction.INDICATE_IMAGE,
+                         isActive = true
+                     });
+                 }
+             }
+             else
+             {
+             
+                 // var module = queryModule.Single(m => m.ModuleID == gModuleID);
+               
 
-            }
+                 var userModule = (from um in module.AUTH_USER_MODULE
+                                   where um.AUTH_USER_SYSTEM.AUTH_USER.USER_ID == user.USER_ID
+                                     && um.AUTH_USER_SYSTEM.AUTH_CITY.CITY_ID == cityID
+                                   select um).Single();
+
+
+
+                 var userFunctions = userModule.AUTH_USER_FUNCTION;
+                 if (userFunctions.Count == 0)
+                 {
+                     foreach (var UF in module.AUTH_FUNCTION)  
+                     {
+                         bool bResult = UF.AUTH_ROLE_FUNCTION.Any(r => r.AUTH_ROLE_MODULE.AUTH_MODULE.MODULE_ID == moduleID && r.IS_ACTIVE == "1");
+                         moduleFunctionSet.Add(new Fun()
+                         {
+                             funid = UF.FUNCTION_ID,
+                             funname = UF.CONTROL_NAME,
+                             iconCls = UF.INDICATE_IMAGE,
+                             isActive = bResult
+                         });
+                     }
+                 }
+                 else
+                 {
+                     foreach (var userFunction in userFunctions)
+                     {
+                         var roles = user.AUTH_USER_ROLE.Select(ur => ur.AUTH_ROLE);
+                         bool bResult = userFunction.AUTH_FUNCTION.AUTH_ROLE_FUNCTION.Any(
+                                 rf => roles.Any(
+                                     r => r.ROLE_ID == rf.AUTH_ROLE_MODULE.AUTH_ROLE_SYSTEM.AUTH_ROLE.ROLE_ID
+                                        && rf.IS_ACTIVE == "1"
+                                  )
+                             );
+                         moduleFunctionSet.Add(new Fun()
+                             {
+                                 funid = userFunction.AUTH_FUNCTION.FUNCTION_ID,
+                                 funname = userFunction.AUTH_FUNCTION.CONTROL_NAME,
+                                 iconCls = userFunction.AUTH_FUNCTION.INDICATE_IMAGE,
+                                 isActive = userFunction.IS_ACTIVE == "1" || bResult || user.USER_NAME == "Admin"
+                             });
+
+                     }
+                 }
+             }
             fun.funs = moduleFunctionSet.ToArray();
             return fun;
         }
