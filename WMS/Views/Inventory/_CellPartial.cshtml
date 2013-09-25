@@ -9,7 +9,7 @@
             else {
                 for (var row = 0; row < data.length; row++) {
                     $('#inBillDetail').datagrid('appendRow', {
-                        ITEM_NO: data[row].ITEM_NO,
+                        ITEM_NO: "0",
                         CELL_CODE: data[row].CELL_CODE,
                         PRODUCT_CODE: data[row].PRODUCT_CODE,
                         WEIGHT: data[row].WEIGHT,
@@ -51,8 +51,8 @@
                 <th field="PACKAGE_COUNT" width="80">包数</th>
                 <th field="PRODUCT_BARCODE" width="160">产品条码</th>
                 <th field="PALLET_CODE" width="60" >托盘RFID</th>
-    @*            <th field="IS_MIXDESC" width="60"  hidden="true">是否混装</th>
-                <th field="IS_MIX" width="60" hidden="true">是否混装</th>*@
+                <th field="IS_MIXDESC" width="60"  hidden="true">是否混装</th>
+                <th field="IS_MIX" width="60" hidden="true">是否混装</th>
                 </tr>
             </thead>
         </table>

@@ -41,7 +41,7 @@ namespace WMS.Controllers.Wms.WMS
 
             return Json(BillnoInfo, "text/html", JsonRequestBehavior.AllowGet);
         }
-        //获取某条单据下的作业任务.
+        //获取某条单据下的明细.
         public ActionResult GetSubdetail(int page, int rows, string billno)
         {
             var productstate = ProductStateService.Details(page, rows, billno);

@@ -20,6 +20,7 @@
             required: true,
             disabled: true
         });
+//        $('#SOURCE_BILLNO').attr('readonly', false);
         GetBillNo(getDate()); //单据编号
         GetBillType(); //单据类型
         GetWarehouseCode();  //仓库编号
@@ -124,9 +125,17 @@
     }
     //明细中的添加按钮的事件
     function addBillDetailClick() {
+        var Rows = $('#inBillDetail').datagrid('getData');
+        var cellcodestr = "";
+        if (Rows.total > 0) {
+            for (var i = 0; i < Rows.total; i++) {
+                cellcodestr += Rows.rows[i].CELL_CODE + ",";
+            }
+        }
+//        alert($('#OPERATER').val() + "   " + $('#SOURCE_BILLNO').val() + "   " + document.getElementById('SOURCE_BILLNO').value);
         $('#CellData').dialog('open').dialog('setTitle', '选择货位');
         $('#CellDetail').datagrid('loadData', { total: 0, rows: [] });
-        $('#CellDetail').datagrid({ url: '/Inventory/GetCell/?page=1&rows=20000&soursebill=' + $('#SOURCE_BILLNO').val() });
+        $('#CellDetail').datagrid({ url: '/Inventory/GetCell/?page=1&rows=20000&soursebill=' + $('#SOURCE_BILLNO').val() + '&selectedcellcodestr=' + cellcodestr });
     }
     //删除明细
     function deleteBillDetailClick() {
@@ -141,11 +150,23 @@
         var changesRows = {
             inserted: []
         };
+        var cellcodestr = "";
+        var iscoderepeat = false;
         var Rows = $('#inBillDetail').datagrid('getData');
+        if (clickbt != "delete" && Rows.total > 99) { alert("明细总记录数不可超出99,请分批."); return; }
         if (Rows.total == 0 && clickbt != "delete") { alert("明细不能为空"); return; }
         for (var i = 0; i < Rows.total; i++) {
+            if (cellcodestr.search(Rows.rows[i].CELL_CODE) == -1) {
+                cellcodestr += Rows.rows[i].CELL_CODE + ",";
+            }
+            else {
+                iscoderepeat = true;
+                alert("货位号:" + Rows.rows[i].CELL_CODE + "重复");
+                break;
+            }
             changesRows.inserted.push(Rows.rows[i]);
         }
+        if (iscoderepeat) { return; }
         if (clickbt == "add") {
             url = '/Inventory/Add/?prefix=FIS&detail=' + JSON.stringify(changesRows.inserted);
         }
@@ -231,7 +252,7 @@
                 <td width="90">仓库编号</td>
                 <td width="168"><input name="WAREHOUSE_CODE"  id="WAREHOUSE_CODE" class="easyui-combogrid"/></td>
                 <td width="90">入库批次</td>
-                <td width="168"><input name="SOURCE_BILLNO"  id="SOURCE_BILLNO" /></td>
+                <td width="168"><input  name="SOURCE_BILLNO"  id="SOURCE_BILLNO"  /></td>
                 <td colspan="2"> <input type="button"  onclick="billselect()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/></td>
                  </tr>
             </table>
@@ -252,52 +273,6 @@
        <input type="button"  onclick="javascript:$('#dlg').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>
 
-<div  id="dlg-AddBillDetail" class="easyui-dialog" modal="true"
-        style="width:270px;height:230px;padding:0px 0px"
-        closed="true" buttons="#dlg-AddBillDetailbuttons">
-     <form id="fm-inBillDetail" novalidate>
-<table style="padding:10px 10px 0px 5px">
-<tr>
-    <td style="width:60px"></td>
-    <td align="left" style=" display:none">
-    <input type="text" name="ITEM_NO"    id="ITEM_NO"    />
-    <input type="text" name="WEIGHT"    id="WEIGHT"    />@*产品表中的重量*@
-    </td>
-</tr>
-  <tr>
-    <td style=" text-align:right; width:60px"> 产品代码</td>
-    <td align="left"><input type="text" name="PRODUCT_CODE" id="PRODUCT_CODE"  required="true"  readonly="true"/>
-     <a href="#" onclick="productSelect()" class="easyui-linkbutton" iconcls="icon-search" plain="true"></a></td>
-    <td></td>
-  </tr>
-  <tr>
-      <td style=" text-align:right; width:60px">产品名称</td>
-      <td align="left"><input  type="text" name="PRODUCT_NAME" id="PRODUCT_NAME"  readonly="true"/></td>
-      <td></td>
-  </tr>
-  <tr>
-    <td style=" text-align:right; width:60px">重量</td>
-    <td align="left"><input type="text" name="REAL_WEIGHT"    id="REAL_WEIGHT"  class="easyui-numberbox"  precision="2"  /></td>
-    <td></td>
-  </tr>
-
-    <tr>
-    <td style=" text-align:right; width:60px">包数</td>
-    <td align="left"><input type="text" name="PACKAGE_COUNT" id="PACKAGE_COUNT"  class="easyui-numberbox"  /></td>
-  </tr>
-
-    <tr>
-    <td style=" text-align:right; width:60px;display:none">总重量</td>
-    <td align="left" style=" display:none"><input type="text" name="TOTAL_WEIGHT" id="TOTAL_WEIGHT"  readonly="true"  /></td>
-    <td></td>
-  </tr>
-      <tr>
-    <td style=" text-align:right; width:60px">NC包数</td>
-    <td align="left"><input type="text" name="NC_COUNT" id="NC_COUNT" class="easyui-numberbox"  /></td>
-  </tr>
-</table>
- </form>
-</div>
 
 <div id="dlg-AddBillDetailbuttons">
 @*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="DetailSave()">确定</a>

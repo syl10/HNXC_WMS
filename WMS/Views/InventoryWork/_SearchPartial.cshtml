@@ -17,51 +17,6 @@
          $('#SSTATE').combobox('clear');
          $('#SBILL_METHOD').combobox('clear');
     }
-//    //仓库编号
-//    function SGetWarehouseCode() {
-//        $('#SWAREHOUSE_CODE').combogrid({
-//            required: false,
-//            disabled: false,
-//            width: 125,
-//            panelWidth: 340,
-//            url: '/StockInBill/GetWarehousecode/?page=1&rows=1000',
-//            idField: 'WAREHOUSE_CODE',
-//            textField: 'WAREHOUSE_NAME',
-//            mode: 'local',
-////            editable: false,
-//            fitColumns: true,
-//            columns: [[
-//                    { field: 'WAREHOUSE_CODE', title: '仓库编号', align: 'left', width: 40 },
-//                    { field: 'WAREHOUSE_NAME', title: '仓库名称', align: 'left', width: 30 },
-//                    { field: 'MEMO', title: '备注', align: 'left', width: 30 },
-//                ]]
-//        });
-//    }
-//    //单据类型
-//    function SGetBillType() {
-//        $('#SBTYPE_CODE').combogrid({
-//            required: false,
-//            disabled: false,
-//            width: 125,
-//            panelWidth: 340,
-//            url: '/BillType/Details/?page=1&rows=1000',
-//            idField: 'BTYPE_CODE',
-//            textField: 'BTYPE_NAME',
-//            mode: 'local',
-////            editable: false,
-//            fitColumns: true,
-//            queryParams: {
-//                  BILL_TYPE:'1'
-//            },
-//            columns: [[
-//                    { field: 'BTYPE_CODE', title: '类型代码', align: 'left', width: 40 },
-//                    { field: 'BTYPE_NAME', title: '类型名称', align: 'left', width: 30 },
-//                    { field: 'TASK_LEVEL', title: '任务等级', align: 'left', width: 30 },
-//                    { field: 'TARGET_CODE', title: '目标口', align: 'left', hidden: true, width: 30 },
-//                     { field: 'TARGETNAME', title: '目标口', align: 'left',hidden: true,width: 30 }
-//                ]]
-//        });
-//    }
      //查询
     function Sselect() {
         var queryParams = $('#details').datagrid('options').queryParams;
