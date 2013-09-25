@@ -149,8 +149,11 @@
     <Compile Include="Controllers\Wms\WMS\FormulaController.cs" />
     <Compile Include="Controllers\Wms\WMS\InventoryController.cs" />
     <Compile Include="Controllers\Wms\WMS\InventoryWorkController.cs" />
+    <Compile Include="Controllers\Wms\WMS\MoveStockController.cs" />
     <Compile Include="Controllers\Wms\WMS\PalletStockInController.cs" />
     <Compile Include="Controllers\Wms\WMS\PalletStockOutController.cs" />
+    <Compile Include="Controllers\Wms\WMS\SamplingController.cs" />
+    <Compile Include="Controllers\Wms\WMS\SamplingWorkController.cs" />
     <Compile Include="Controllers\Wms\WMS\Schedule2Controller.cs" />
     <Compile Include="Controllers\Wms\WMS\ScheduleController.cs" />
     <Compile Include="Controllers\Wms\WMS\StockInBillController.cs" />
@@ -1580,7 +1583,7 @@
     <Folder Include="Content\Scripts\ckfinder\userfiles\images\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Account\" />
-    <Folder Include="Views\Sampling\" />
+    <Folder Include="Views\MoveStock\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\THOK.Authority.Bll\THOK.Authority.Bll.csproj">
@@ -1927,6 +1930,18 @@
     <Content Include="Views\Inventory\_PrintPartial.cshtml" />
     <Content Include="Views\InventoryWork\_TaskPartial.cshtml" />
     <Content Include="Views\InventoryWork\_SearchPartial.cshtml" />
+    <Content Include="Views\Sampling\Index.cshtml" />
+    <Content Include="Views\SamplingWork\Index.cshtml" />
+    <Content Include="Views\Sampling\_AddPartial.cshtml" />
+    <Content Include="Views\Sampling\_EditPartial.cshtml" />
+    <Content Include="Views\Sampling\_DeletePartial.cshtml" />
+    <Content Include="Views\Sampling\_AuditPartial.cshtml" />
+    <Content Include="Views\Sampling\_AntiTrialPartial.cshtml" />
+    <Content Include="Views\Sampling\_PrintPartial.cshtml" />
+    <Content Include="Views\Sampling\_SearchPartial.cshtml" />
+    <Content Include="Views\SamplingWork\_TaskPartial.cshtml" />
+    <Content Include="Views\Sampling\_BillPartial.cshtml" />
+    <Content Include="Views\Sampling\_CellPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -10,10 +10,10 @@ using THOK.Wms.DbModel;
 
 namespace WMS.Controllers.Wms.WMS
 {
-    public class InventoryController : Controller
+    public class SamplingController : Controller
     {
         //
-        // GET: /Inventory/
+        // GET: /Sampling/
         [Dependency]
         public IWMSBillMasterService BillMasterService { get; set; }
 
@@ -30,7 +30,6 @@ namespace WMS.Controllers.Wms.WMS
             ViewBag.ModuleID = moduleID;
             return View();
         }
-        //
         public ActionResult Details(int page, int rows, string flag, FormCollection collection)
         {
             string BILL_NO = collection["BILL_NO"] ?? "";  //单据编号
@@ -49,7 +48,7 @@ namespace WMS.Controllers.Wms.WMS
             string BILL_DATEStar = collection["BILL_DATEStar"] ?? ""; //起始日期
             string BILL_DATEEND = collection["BILL_DATEEND"] ?? "";//截止日期
             string SOURCE_BILLNO = collection["SOURCE_BILLNO"] ?? "";//来源单号
-            var Billmaster = BillMasterService.GetDetails(page, rows, "4", flag, BILL_NO, BILL_DATE, BTYPE_CODE, WAREHOUSE_CODE, BILL_METHOD, CIGARETTE_CODE, FORMULA_CODE, STATE, OPERATER, OPERATE_DATE, CHECKER, CHECK_DATE, STATUS, BILL_DATEStar, BILL_DATEEND, SOURCE_BILLNO);
+            var Billmaster = BillMasterService.GetDetails(page, rows, "3", flag, BILL_NO, BILL_DATE, BTYPE_CODE, WAREHOUSE_CODE, BILL_METHOD, CIGARETTE_CODE, FORMULA_CODE, STATE, OPERATER, OPERATE_DATE, CHECKER, CHECK_DATE, STATUS, BILL_DATEStar, BILL_DATEEND, SOURCE_BILLNO);
             return Json(Billmaster, "text/html", JsonRequestBehavior.AllowGet);
         }
         //单据编号
@@ -59,18 +58,12 @@ namespace WMS.Controllers.Wms.WMS
             var BillnoInfo = BillMasterService.GetBillNo(userName, dtime, BILL_NO, prefix);
             return Json(BillnoInfo, "text/html", JsonRequestBehavior.AllowGet);
         }
-        //获取货位信息.
-        public ActionResult GetCell(int page, int rows, string soursebill, string queryinfo, string selectedcellcodestr)
-        {
-            var cells = BillMasterService.Cellselect(page, rows, soursebill,queryinfo ,selectedcellcodestr );
-            return Json(cells, "text/html", JsonRequestBehavior.AllowGet);
-        }
-        //盘点单添加
+        //添加
         public ActionResult Add(WMS_BILL_MASTER mast, object detail, string prefix)
         {
             string userid = this.GetCookieValue("userid");
             mast.OPERATER = userid;
-            bool bResult = BillMasterService.InventoryAdd (mast, detail, prefix);
+            bool bResult = BillMasterService.InventoryAdd(mast, detail, prefix);
             string msg = bResult ? "新增成功" : "新增失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
@@ -84,14 +77,10 @@ namespace WMS.Controllers.Wms.WMS
         //删除
         public ActionResult Delete(string Billno)
         {
-            bool bResult = BillMasterService.InventoryDelete (Billno);
+            bool bResult = BillMasterService.InventoryDelete(Billno);
             string msg = bResult ? "删除成功" : "删除失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
-        ////查找符合的货位信息.
-        //public ActionResult Cellselect(int page, int rows, string soursebill)
-        //{
- 
-        //}
+
     }
 }
