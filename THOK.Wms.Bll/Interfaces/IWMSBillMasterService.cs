@@ -41,12 +41,14 @@ namespace THOK.Wms.Bll.Interfaces
         //抽检补料入库单作业
         bool FillBillTask(string BillNo, string tasker);
         //查询所有货位上不为空的货位,soursebill为入库批次 ,queryinfo为查询条件的信息
-        object Cellselect(int page, int rows, string soursebill, string queryinfo);
+        object Cellselect(int page, int rows, string soursebill, string queryinfo, string selectedcellcodestr);
         //盘点单新增
         bool InventoryAdd(WMS_BILL_MASTER mast, object detail, string prefix);
         //盘点单修改
         bool InventoryEdit(WMS_BILL_MASTER mast, object detail);
         //盘点单删除
         bool InventoryDelete(string BillNo);
+        //盘点单作业
+        bool InventoryTask(string BillNo, string tasker);
     }
 }

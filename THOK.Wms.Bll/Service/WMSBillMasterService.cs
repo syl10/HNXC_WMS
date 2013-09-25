@@ -599,6 +599,7 @@ namespace THOK.Wms.Bll.Service
                 i.BILLMETHODNAME,
                 i.SCHEDULE_ITEMNO,
                 i.LINE_NO,
+                i.SOURCE_BILLNO,
                 i.LINE_NAME
             });
             int total = temp.Count();
@@ -748,7 +749,7 @@ namespace THOK.Wms.Bll.Service
         }
 
         //获取所有货位上不为空的货位
-        public object Cellselect(int page, int rows, string soursebill, string queryinfo)
+        public object Cellselect(int page, int rows, string soursebill, string queryinfo, string selectedcellcodestr)
         {
             IQueryable<CMD_CELL> cellquery = cellRepository.GetQueryable();
             IQueryable<WMS_PRODUCT_STATE> productstate = ProductStateRepository.GetQueryable();
@@ -802,6 +803,10 @@ namespace THOK.Wms.Bll.Service
                         temp = temp.Where(i => i.PRODUCT_BARCODE.Contains(val));
                     }
                 }
+            }
+            if (!string.IsNullOrEmpty(selectedcellcodestr))
+            {
+                temp = temp.Where(i => !selectedcellcodestr.Contains(i.CELL_CODE));
             }
             //temp = temp.OrderBy(i => i.IN_DATE);
             int total = temp.Count();
@@ -947,6 +952,48 @@ namespace THOK.Wms.Bll.Service
             int result = BillMasterRepository.SaveChanges();
             if (result == -1) return false;
             return true;
+        }
+
+        //盘点单作业
+        public bool InventoryTask(string BillNo, string tasker)
+        {
+            var billmast = BillMasterRepository.GetQueryable().FirstOrDefault(i => i.BILL_NO == BillNo);
+            var productstatequery = ProductStateRepository.GetQueryable().Where(i => i.BILL_NO == BillNo);
+            var tmp = productstatequery.ToArray().AsEnumerable().Select(i => i);
+            try
+            {
+                int serial = 1;
+                foreach (WMS_PRODUCT_STATE item in tmp)
+                {
+                    WCS_TASK task = new WCS_TASK();
+                    task.TASK_ID = billmast.BILL_NO + serial.ToString("00");
+                    task.BILL_NO = billmast.BILL_NO;
+                    task.TASK_TYPE = billmast.CMD_BILL_TYPE.TASK_TYPE;
+                    task.TASK_LEVEL = decimal.Parse(billmast.CMD_BILL_TYPE.TASK_LEVEL);
+                    task.PRODUCT_CODE = item.PRODUCT_CODE;
+                    task.PRODUCT_BARCODE = item.PRODUCT_BARCODE;
+                    task.REAL_WEIGHT = item.REAL_WEIGHT;
+                    task.TARGET_CODE = billmast.TARGET_CODE;
+                    task.STATE = "0";
+                    task.TASK_DATE = DateTime.Now;
+                    task.TASKER = tasker;
+                    task.PRODUCT_TYPE = "1";
+                    task.IS_MIX = item.IS_MIX;
+                    task.SOURCE_BILLNO = billmast .SOURCE_BILLNO ;
+                    WcsTaskRepository.Add(task);
+                    serial++;
+                }
+                billmast.TASK_DATE = DateTime.Now;
+                billmast.TASKER = tasker;
+                billmast.STATE = "3";
+                int result = BillMasterRepository.SaveChanges();
+                if (result == -1) return false;
+                else return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
         }
     }
 }

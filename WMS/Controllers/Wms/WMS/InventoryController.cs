@@ -60,9 +60,9 @@ namespace WMS.Controllers.Wms.WMS
             return Json(BillnoInfo, "text/html", JsonRequestBehavior.AllowGet);
         }
         //获取货位信息.
-        public ActionResult GetCell(int page, int rows, string soursebill, string queryinfo)
+        public ActionResult GetCell(int page, int rows, string soursebill, string queryinfo, string selectedcellcodestr)
         {
-            var cells = BillMasterService.Cellselect(page, rows, soursebill,queryinfo );
+            var cells = BillMasterService.Cellselect(page, rows, soursebill,queryinfo ,selectedcellcodestr );
             return Json(cells, "text/html", JsonRequestBehavior.AllowGet);
         }
         //抽检补料入库单添加

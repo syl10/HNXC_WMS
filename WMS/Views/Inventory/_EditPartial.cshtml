@@ -18,9 +18,11 @@
                     hasDownArrow: true,
                     required: true
                 });
+//                $('#SOURCE_BILLNO').attr('readonly', true);
                 GetBillType(); //单据类型
                 GetWarehouseCode();  //仓库编号
                 $('#fm').form('load', row);
+                $('#SOURCE_BILLNO').val(row.SOURCE_BILLNO);
             }
             else {
                 alert("该记录已" + row.STATENAME + "不能修改");
