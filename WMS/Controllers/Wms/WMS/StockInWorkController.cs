@@ -62,6 +62,7 @@ namespace WMS.Controllers.Wms.WMS
                     report.Load(Path + @"ContentReport\Report\test.frx");
 
                     report.Prepare();
+                    
 
                     FileName = Path + @"ContentReport\PDF\text.pdf";
                     FastReport.Export.Pdf.PDFExport pdfExport = new FastReport.Export.Pdf.PDFExport();
