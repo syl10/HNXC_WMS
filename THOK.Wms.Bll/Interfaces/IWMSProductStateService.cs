@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using THOK.Wms.DbModel;
 
+
 namespace THOK.Wms.Bll.Interfaces
 {
     public  interface IWMSProductStateService : IService<WMS_PRODUCT_STATE>
@@ -18,5 +19,8 @@ namespace THOK.Wms.Bll.Interfaces
         bool Task(string billno, string tasker, out string error);
         //获取要补料的单据下的产品条码(只获取可以补料的条码)
         object Barcodeselect(int page, int rows, string soursebillno);
+
+        string GetPdfName(string Path);
+        
     }
 }

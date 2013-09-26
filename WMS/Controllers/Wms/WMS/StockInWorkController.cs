@@ -52,31 +52,11 @@ namespace WMS.Controllers.Wms.WMS
         /// <returns></returns>
         public ActionResult GetPdfName()
         {
-            string FileName = "";
             string Path = Server.MapPath("/");
-            try
-            {
-                 
-                using (Report report = new Report())
-                {
-                    report.Load(Path + @"ContentReport\Report\test.frx");
-
-                    report.Prepare();
-
-                    FileName = Path + @"ContentReport\PDF\text.pdf";
-                    FastReport.Export.Pdf.PDFExport pdfExport = new FastReport.Export.Pdf.PDFExport();
-
-                    report.Export(pdfExport, FileName);
-                    FileName =  "text.pdf";
-                }
-            }
-            catch(Exception ex)
-            {
-
-            }
+            string FileName = ProductStateService.GetPdfName(Path);
 
 
-            return Json(JsonMessageHelper.getJsonMessage(true, FileName, Path), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(true, FileName, null), "text", JsonRequestBehavior.AllowGet);
 
         }
     }

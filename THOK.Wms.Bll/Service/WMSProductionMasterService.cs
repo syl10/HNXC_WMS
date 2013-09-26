@@ -230,12 +230,12 @@ namespace THOK.Wms.Bll.Service
                 mast.OUT_BILLNO = " ";
                 ProductionmasterRepository.Add(mast);
 
-                DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]);
+                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]);
                 foreach (DataRow dr in dt.Rows)
                 {
 
                     WMS_PRODUCTION_DETAIL subdetail = new WMS_PRODUCTION_DETAIL();
-                    THOK.Common.JsonData.DataBind(subdetail, dr);
+                    THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
                     //subdetail.IS_MIX = "0";
@@ -304,14 +304,14 @@ namespace THOK.Wms.Bll.Service
                 ProeductiondetailRepository.Delete(sub);
             }
 
-            DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]); //修改
+            DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]); //修改
             if (dt != null)
             {
                 int serial = 1;
                 foreach (DataRow dr in dt.Rows)
                 {
                     WMS_PRODUCTION_DETAIL subdetail = new WMS_PRODUCTION_DETAIL();
-                    THOK.Common.JsonData.DataBind(subdetail, dr);
+                    THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
                     ProeductiondetailRepository.Add(subdetail);

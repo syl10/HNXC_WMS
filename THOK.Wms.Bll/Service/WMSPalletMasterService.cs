@@ -179,12 +179,12 @@ namespace THOK.Wms.Bll.Service
                 mast.TARGET = targetcode.TARGET_CODE=="null"?"":targetcode .TARGET_CODE;
                 PalletmasterRepository.Add(mast);
 
-                DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]);
+                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]);
                 foreach (DataRow dr in dt.Rows)
                 {
 
                     WMS_PALLET_DETAIL subdetail = new WMS_PALLET_DETAIL();
-                    THOK.Common.JsonData.DataBind(subdetail, dr);
+                    THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
                     PalletdetailRepository.Add(subdetail);
@@ -241,14 +241,14 @@ namespace THOK.Wms.Bll.Service
                 PalletdetailRepository.Delete(sub);
             }
 
-            DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]); //修改
+            DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]); //修改
             if (dt != null)
             {
                 int serial = 1;
                 foreach (DataRow dr in dt.Rows)
                 {
                     WMS_PALLET_DETAIL subdetail = new WMS_PALLET_DETAIL();
-                    THOK.Common.JsonData.DataBind(subdetail, dr);
+                    THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
                     PalletdetailRepository.Add(subdetail);

@@ -154,11 +154,11 @@ namespace THOK.Wms.Bll.Service
                 mast.OPERATE_DATE = DateTime.Now;
                 ScheduleMasterRepository.Add(mast);
 
-                DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]);
+                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]);
                 foreach (DataRow dr in dt.Rows)
                 {
                     WMS_SCHEDULE_DETAIL subdetail = new WMS_SCHEDULE_DETAIL();
-                    THOK.Common.JsonData.DataBind(subdetail, dr);
+                    THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.SCHEDULE_NO = mast.SCHEDULE_NO;
                     ScheduleDetailRepository.Add(subdetail);
                 }
@@ -229,14 +229,14 @@ namespace THOK.Wms.Bll.Service
                 ScheduleDetailRepository.Delete(sub);
             }
 
-            DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]); //修改
+            DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]); //修改
             if (dt != null)
             {
                 dt.Columns.Remove("LINE_NAME");
                 foreach (DataRow dr in dt.Rows)
                 {
                     WMS_SCHEDULE_DETAIL subdetail = new WMS_SCHEDULE_DETAIL();
-                    THOK.Common.JsonData.DataBind(subdetail, dr);
+                    THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.SCHEDULE_NO  = mast.SCHEDULE_NO;
                     subdetail.BILL_NO = "";
                     ScheduleDetailRepository.Add(subdetail);

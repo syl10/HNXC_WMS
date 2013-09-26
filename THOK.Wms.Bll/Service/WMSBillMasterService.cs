@@ -306,12 +306,12 @@ namespace THOK.Wms.Bll.Service
                 mast.TARGET_CODE = targetcode.TARGET_CODE;
                 BillMasterRepository.Add(mast);
 
-                DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]);
+                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]);
                 foreach (DataRow dr in dt.Rows)
                 {
                     
                     WMS_BILL_DETAIL subdetail = new WMS_BILL_DETAIL();
-                    THOK.Common.JsonData.DataBind(subdetail, dr);
+                    THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO  = mast.BILL_NO ;
                     subdetail.IS_MIX = "0";
@@ -401,14 +401,14 @@ namespace THOK.Wms.Bll.Service
                 BillDetailRepository.Delete(sub);
             }
 
-            DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]); //修改
+            DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]); //修改
             if (dt != null)
             {
                 int serial = 1;
                 foreach (DataRow dr in dt.Rows)
                 {
                     WMS_BILL_DETAIL subdetail = new WMS_BILL_DETAIL();
-                    THOK.Common.JsonData.DataBind(subdetail, dr);
+                    THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
                     if (subdetail.FPRODUCT_CODE == "null") subdetail.FPRODUCT_CODE = "";
@@ -452,13 +452,13 @@ namespace THOK.Wms.Bll.Service
             try
             {
                 IQueryable<WMS_BILL_DETAIL> query = BillDetailRepository.GetQueryable().Where(i => i.BILL_NO == BillNo);
-                DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]); //修改
+                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]); //修改
                 if (dt != null)
                 {
                     foreach (DataRow dr in dt.Rows)
                     {
                         WMS_BILL_DETAIL subdetail = new WMS_BILL_DETAIL();
-                        THOK.Common.JsonData.DataBind(subdetail, dr);
+                        THOK.Common.ConvertData.DataBind(subdetail, dr);
                         var billdetail = query.FirstOrDefault(i => i.ITEM_NO == subdetail.ITEM_NO);
                         billdetail.IS_MIX = subdetail.IS_MIX;
                         billdetail.FPRODUCT_CODE = subdetail.FPRODUCT_CODE;
@@ -623,12 +623,12 @@ namespace THOK.Wms.Bll.Service
                 mast.TARGET_CODE = targetcode.TARGET_CODE;
                 BillMasterRepository.Add(mast);
 
-                DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]);
+                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]);
                 foreach (DataRow dr in dt.Rows)
                 {
 
                     WMS_PRODUCT_STATE subdetail = new WMS_PRODUCT_STATE();
-                    THOK.Common.JsonData.DataBind(subdetail, dr);
+                    THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
                     //if (subdetail.SCHEDULE_NO == "null") subdetail.SCHEDULE_NO = "";
@@ -663,14 +663,14 @@ namespace THOK.Wms.Bll.Service
                 ProductStateRepository.Delete(sub);
             }
 
-            DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]); //修改
+            DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]); //修改
             if (dt != null)
             {
                 int serial = 1;
                 foreach (DataRow dr in dt.Rows)
                 {
                     WMS_PRODUCT_STATE subdetail = new WMS_PRODUCT_STATE();
-                    THOK.Common.JsonData.DataBind(subdetail, dr);
+                    THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
                     if (subdetail.SCHEDULE_NO == "null") subdetail.SCHEDULE_NO = "";
@@ -831,13 +831,13 @@ namespace THOK.Wms.Bll.Service
                 mast.TARGET_CODE = targetcode.TARGET_CODE;
                 BillMasterRepository.Add(mast);
 
-                DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]);
+                DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]);
                 foreach (DataRow dr in dt.Rows)
                 {
 
                     WMS_PRODUCT_STATE subdetail = new WMS_PRODUCT_STATE();
                     WMS_BILL_DETAIL billdetail = new WMS_BILL_DETAIL();
-                    THOK.Common.JsonData.DataBind(subdetail, dr);
+                    THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
 
@@ -891,7 +891,7 @@ namespace THOK.Wms.Bll.Service
             WMS_BILL_DETAIL[] billdetaillist = billdetails.ToArray();
             BillDetailRepository.Delete(billdetaillist);
 
-            DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]); //修改
+            DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]); //修改
             if (dt != null)
             {
                 int serial = 1;
@@ -899,7 +899,7 @@ namespace THOK.Wms.Bll.Service
                 {
                     WMS_PRODUCT_STATE subdetail = new WMS_PRODUCT_STATE();
                     WMS_BILL_DETAIL billdetail = new WMS_BILL_DETAIL();
-                    THOK.Common.JsonData.DataBind(subdetail, dr);
+                    THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
                     if (subdetail.SCHEDULE_NO == "null") subdetail.SCHEDULE_NO = "";

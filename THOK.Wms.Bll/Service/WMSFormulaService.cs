@@ -129,11 +129,11 @@ namespace THOK.Wms.Bll.Service
             master.OPERATEDATE = DateTime .Now ;
             MasterRepository.Add(master);
 
-            DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]);
+            DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]);
             foreach (DataRow dr in dt.Rows)
             {
                 WMS_FORMULA_DETAIL subdetail = new WMS_FORMULA_DETAIL();
-                THOK.Common.JsonData.DataBind(subdetail, dr);
+                THOK.Common.ConvertData.DataBind(subdetail, dr);
                 subdetail.FORMULA_CODE = master.FORMULA_CODE;
                 DetailRepository.Add(subdetail);
             }
@@ -157,13 +157,13 @@ namespace THOK.Wms.Bll.Service
                 DetailRepository.Delete(sub);
             }
 
-            DataTable dt = THOK.Common.JsonData.JsonToDataTable(((System.String[])detail)[0]); //修改
+            DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]); //修改
             if (dt != null)
             {
                 foreach (DataRow dr in dt.Rows)
                 {
                     WMS_FORMULA_DETAIL subdetail = new WMS_FORMULA_DETAIL();
-                    THOK.Common.JsonData.DataBind(subdetail, dr);
+                    THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.FORMULA_CODE = master.FORMULA_CODE;
                     subdetail.OTHER = subdetail.OTHER == "null" ? "" : subdetail.OTHER;
                     DetailRepository.Add(subdetail);
