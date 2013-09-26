@@ -10,7 +10,7 @@ using System.Reflection;
 
 namespace THOK.Common
 {
-    public static class JsonData
+    public static class ConvertData
     {
         public static DataTable JsonToDataTable(string strJson)
         {
@@ -92,6 +92,45 @@ namespace THOK.Common
                     infors[i].SetValue(entity, value, null);
                 }
             }
+        }
+
+
+
+        public static DataTable LinqQueryToDataTable<T>(IEnumerable<T> query)
+        {
+            DataTable tbl = new DataTable();
+
+            PropertyInfo[] props = null;
+            foreach (T item in query)
+            {
+                if (props == null) //尚未初始化
+                {
+                    Type t = item.GetType();
+                    props = t.GetProperties();
+
+                    foreach (PropertyInfo pi in props)
+                    {
+
+                        Type colType = pi.PropertyType;
+
+                        if (colType.IsGenericType && colType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                        {
+                            colType = colType.GetGenericArguments()[0];
+                        }
+
+                        tbl.Columns.Add(pi.Name, colType);
+                    }
+                }
+                DataRow row = tbl.NewRow();
+                foreach (PropertyInfo pi in props)
+                {
+                    row[pi.Name] = pi.GetValue(item, null) ?? DBNull.Value;
+                }
+
+                tbl.Rows.Add(row);
+            }
+            return tbl;
+
         }
     }
 }
