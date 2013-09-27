@@ -1,0 +1,83 @@
+﻿<script type="text/javascript">
+  //确定按钮事件
+    function cellcomfirm() {
+        var data = $('#CellDetail').datagrid('getSelections');
+        if (data) {
+            var Rows = $('#inBillDetail').datagrid('getData');
+            if (Rows.total == 0)
+                $('#inBillDetail').datagrid('loadData', data);
+            else {
+                for (var row = 0; row < data.length; row++) {
+                    $('#inBillDetail').datagrid('appendRow', {
+                        ITEM_NO: "0",
+                        CELL_CODE: data[row].CELL_CODE,
+                        PRODUCT_CODE: data[row].PRODUCT_CODE,
+                        WEIGHT: data[row].WEIGHT,
+                        REAL_WEIGHT: data[row].REAL_WEIGHT,
+                        PACKAGE_COUNT: data[row].PACKAGE_COUNT,
+                        PRODUCT_BARCODE: data[row].PRODUCT_BARCODE,
+                        PALLET_CODE: data[row].PALLET_CODE,
+                        IS_MIXDESC: data[row].IS_MIXDESC,
+                        IS_MIX: data[row].IS_MIX
+                    });
+                }
+            }
+
+        }
+        $('#CellData').dialog('close');
+    }
+    //货位查询
+    function cellQueryClick() {
+        var queryinfo = $('#cellqueryType').combobox('getValue') + ":" + $('#cellInfo').val();
+        $('#CellDetail').datagrid('loadData', {total:0,rows:[]});
+        $('#CellDetail').datagrid({ url: '/Inventory/GetCell/?page=1&rows=50&queryinfo=' + queryinfo });
+//        $("#CellDetail").datagrid('reload');
+    }
+
+</script>
+<div id="CellData" class="easyui-dialog" modal="true" style="width: 790px; height: 500px;
+    padding: 0px 0px" closed="true" buttons="#celldlgProduct-buttons">
+    <div region="center" split="true" border="false" style="width: 770px; height: 430px">
+        <table id="CellDetail" class="easyui-datagrid" border="false" toolbar="#cellbtn-query" pageSize="50"
+            singleselect="false" selectOnCheck="true" fit="true" fitcolumns="false" pagination="true" rownumbers="true">
+            <thead>
+                <tr>
+                <th checkbox="true">选择</th>
+                 <th field="ITEM_NO" width="80"  hidden="true">序号</th>
+                <th field="CELL_CODE" width="80">货位号</th>
+                <th field="PRODUCT_CODE" width="140">产品代码</th>
+                <th field="WEIGHT" width="80">重量</th>
+                <th field="REAL_WEIGHT" width="80">实际重量</th>
+                <th field="PACKAGE_COUNT" width="80">包数</th>
+                <th field="PRODUCT_BARCODE" width="160">产品条码</th>
+                <th field="PALLET_CODE" width="60" >托盘RFID</th>
+                <th field="IS_MIXDESC" width="60"  hidden="true">是否混装</th>
+                <th field="IS_MIX" width="60" hidden="true">是否混装</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+ </div>
+ <div id="cellbtn-query">
+<table>
+<tr>
+<td>
+<select id="cellqueryType" name="QueryString" class="easyui-combobox" style="width: 100px;" >
+		                <option value="cellcode">货位号</option>
+                        <option value="productcode">产品编号</option>
+                        <option value="barcode">产品条码</option>
+	                </select>
+</td>
+<td>
+                    <input type="text" id="cellInfo"  style="width: 180px;"></td>
+                    <td>
+ <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="cellQueryClick()" id="cellQuery">查询</a>
+ </td>
+ </tr>
+ </table>
+</div>
+<div id="celldlgProduct-buttons">
+      <input type="button"  onclick="cellcomfirm() "  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#CellData').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+

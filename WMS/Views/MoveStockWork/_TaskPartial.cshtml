@@ -4,7 +4,7 @@
         var row = $('#details').datagrid('getSelected');
         if (row) {
             if (row.STATE == "2") { //已审核状态下
-                $.getJSON("/SamplingWork/Task/?BillNo=" + row.BILL_NO, function (json) {
+                $.getJSON("/MoveStockWork/Task/?BillNo=" + row.BILL_NO, function (json) {
                     if (json) {
                         $.messager.show({
                             title: '提示',

@@ -1,0 +1,38 @@
+﻿<script type="text/javascript">
+    //审核
+    function auditClick() {
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            if (row.STATE == "1") {
+                $.messager.confirm('提示', '确定要审核该记录?', function (r) {
+                    if (r) {
+                        $.getJSON("/StockInBill/Audit/?BillNo=" + row.BILL_NO, function (result) {
+                            if (result) {
+                                if (result.success) {
+                                    $.messager.show({
+                                        title: '成功',
+                                        msg: result.msg
+                                    });
+                                    $('#details').datagrid('reload');
+                                } else {
+                                    $.messager.show({
+                                        title: '错误',
+                                        msg: result.msg
+                                    });
+                                    $('#details').datagrid('reload');
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                alert('该记录已' + row.STATENAME + '无法审核！');
+            }
+        }
+        else {
+            alert('没有选择行！');
+        }
+    }
+</script>
+
