@@ -59,32 +59,34 @@ namespace WMS.Controllers.Wms.WMS
             return Json(BillnoInfo, "text/html", JsonRequestBehavior.AllowGet);
         }
         //找出空的货位
-        public ActionResult GetNullCell(int page, int rows)
+        public ActionResult GetNullCell(int page, int rows, string queryinfo)
         {
-            var cells = BillMasterService.GetNullCell(page, rows);
+            var cells = BillMasterService.GetNullCell(page, rows,queryinfo);
             return Json(cells, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //添加
         public ActionResult Add(WMS_BILL_MASTER mast, object detail, string prefix)
         {
+            string error="";
             string userid = this.GetCookieValue("userid");
             mast.OPERATER = userid;
-            bool bResult = BillMasterService.MoveStockAdd (mast, detail, prefix);
-            string msg = bResult ? "新增成功" : "新增失败";
+            bool bResult = BillMasterService.MoveStockAdd (mast, detail, prefix,out error );
+            string msg = bResult ? "新增成功" : "新增失败"+error ;
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //编辑
         public ActionResult Edit(WMS_BILL_MASTER mast, object detail)
         {
-            bool bResult = BillMasterService.MoveStockEdit (mast, detail);
-            string msg = bResult ? "修改成功" : "修改失败";
+            string error = "";
+            bool bResult = BillMasterService.MoveStockEdit (mast, detail,out error );
+            string msg = bResult ? "修改成功" : "修改失败"+error;
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //删除
         public ActionResult Delete(string Billno)
         {
-            bool bResult = BillMasterService.InventoryDelete(Billno);
+            bool bResult = BillMasterService.MoveStockDelete(Billno);
             string msg = bResult ? "删除成功" : "删除失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }

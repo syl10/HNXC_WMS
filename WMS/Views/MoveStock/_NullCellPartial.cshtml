@@ -1,4 +1,10 @@
 ﻿<script type="text/javascript">
+//查询按钮
+    function NullcellQueryClick() {
+        var queryinfo = $('#NullcellqueryType').combobox('getValue') + ":" + $('#NullcellInfo').val();
+        $('#NullCellDetail').datagrid('loadData', { total: 0, rows: [] });
+        $('#NullCellDetail').datagrid({ url: '/MoveStock/GetNullCell/?page=1&rows=50&queryinfo=' + queryinfo });
+    }
     //确定按钮事件
     function Nullcellcomfirm() {
         var data = $('#NullCellDetail').datagrid('getSelected');
@@ -45,6 +51,7 @@
 		                <option value="cellcode">货位号</option>
                         <option value="cellcolumn">列位</option>
                         <option value="cellrow">层位</option>
+                        <option value="shelfcode">货架</option>
                         <option value=""></option>
 	                </select>
 </td>

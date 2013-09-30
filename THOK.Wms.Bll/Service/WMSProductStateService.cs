@@ -32,6 +32,7 @@ namespace THOK.Wms.Bll.Service
         public ICMDCellRepository cellRepository { get; set; }
         [Dependency]
         public ICMDProuductRepository ProductRepository { get; set; }
+
         //public bool test() {
         //    OracleConnection ora = new OracleConnection(); 
         //}
@@ -40,8 +41,10 @@ namespace THOK.Wms.Bll.Service
         {
             IQueryable<WMS_PRODUCT_STATE> query = ProductStateRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
+            IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
             var details = from a in query
                           join b in statequery on a.IS_MIX equals b.STATE
+                          join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE 
                           where b.TABLE_NAME == "WMS_PRODUCT_STATE" && b.FIELD_NAME == "IS_MIX"
                           select new
                           {
@@ -49,6 +52,7 @@ namespace THOK.Wms.Bll.Service
                               a.ITEM_NO,
                               a.SCHEDULE_NO,
                               a.PRODUCT_CODE,
+                              c.PRODUCT_NAME ,
                               a.WEIGHT,
                               a.REAL_WEIGHT,
                               a.PACKAGE_COUNT,

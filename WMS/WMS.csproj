@@ -1978,6 +1978,12 @@
     <Content Include="Views\Feeding\_EditPartial.cshtml" />
     <Content Include="Views\Feeding\_DeletePartial.cshtml" />
     <Content Include="Views\Feeding\_PrintPartial.cshtml" />
+    <Content Include="Views\Feeding\_BillPartial.cshtml" />
+    <Content Include="Views\Feeding\_AntiTrialPartial.cshtml" />
+    <Content Include="Views\Feeding\_AuditPartial.cshtml" />
+    <Content Include="Views\Feeding\_OutstockbillPartial.cshtml" />
+    <Content Include="Views\Feeding\_SearchPartial.cshtml" />
+    <Content Include="Views\StockDiffer\Index.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

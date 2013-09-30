@@ -40,10 +40,10 @@ namespace THOK.Wms.Bll.Interfaces
         bool FillBillDelete(string BillNo);
         //抽检补料入库单作业
         bool FillBillTask(string BillNo, string tasker);
-        //查询所有货位上不为空的货位,soursebill为入库批次 ,queryinfo为查询条件的信息
+        //查询所有货位上不为空且处于解锁状态的货位,soursebill为入库批次 ,queryinfo为查询条件的信息
         object Cellselect(int page, int rows, string soursebill, string queryinfo, string selectedcellcodestr);
         //找出空的货位
-        object GetNullCell(int page, int rows);
+        object GetNullCell(int page, int rows,string queryinfo);
         //盘点单新增
         bool InventoryAdd(WMS_BILL_MASTER mast, object detail, string prefix);
         //盘点单修改
@@ -55,10 +55,18 @@ namespace THOK.Wms.Bll.Interfaces
         //抽检单作业
         bool SamplingTask(string BillNo, string tasker);
         //移库单新增
-        bool MoveStockAdd(WMS_BILL_MASTER mast, object detail, string prefix);
+        bool MoveStockAdd(WMS_BILL_MASTER mast, object detail, string prefix,out string error);
         //移库单修改
-        bool MoveStockEdit(WMS_BILL_MASTER mast, object detail);
+        bool MoveStockEdit(WMS_BILL_MASTER mast, object detail, out string error);
+        //移库单删除
+        bool MoveStockDelete(string BillNo);
         //移库单作业
         bool MoveStockTask(string BillNo, string tasker);
+        //获取出库批次,用于紧急补料单中的出库批次
+        object Outstockbill(int page, int rows,string queryinfo);
+        //紧急补料单新增
+        bool FeedingAdd(WMS_BILL_MASTER mast, object detail, string prefix);
+        //紧急补料单修改
+        bool FeedingEdit(WMS_BILL_MASTER mast, object detail);
     }
 }
