@@ -204,4 +204,13 @@ textarea{
    width:65px;
    font-size:12px;
 }
+.productinfo{
+   width:300px;
+   height:130px;
+   position:absolute;
+   background-color:#FFFFFF;
+   opacity:0.8;
+   display:none;
+   border:1px solid #000;
+}
 
