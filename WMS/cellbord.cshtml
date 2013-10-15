@@ -117,7 +117,7 @@
                         document.getElementById("GRADE").innerText = json.rows[0].GRADE;
                         document.getElementById("YEARS").innerText = json.rows[0].YEARS;
                         document.getElementById("STYLENO").innerText = json.rows[0].STYLENO;
-                        document.getElementById("REALWEIGHT").innerText = json.rows[0].REALWEIGHT;
+                        document.getElementById("REALWEIGHT").innerText = json.rows[0].REALWEIGHT+"公斤";
                         document.getElementById("INDATE").innerText = json.rows[0].INDATE;
                         showinfo(obj);
                     }
@@ -198,7 +198,7 @@
             var objheight = obj.clientHeight;
             var objleft = obj.offsetLeft;
             while (obj = obj.offsetParent) { objtop += obj.offsetTop; objleft += obj.offsetLeft; }
-//            alert(window.screen.height+ "  " + document.body.clientHeight);
+//            alert(document.body.scrollHeight+ "  " + document.body.clientHeight);
             if ((objtop + objheight + parseFloat(product.style.height) - xuanfu.offsetHeight) > document.body.clientHeight) {
                 product.style.top = parseFloat(objtop) * parseFloat(currZoom.replace('%', '')) / 100 - parseFloat(product.style.height) + "px";
                 product.style.left = parseFloat(objleft) * parseFloat(currZoom.replace('%', '')) / 100 + "px";
@@ -220,7 +220,7 @@
 
         // JavaScript Document
         var zoomRate = 5; //每次放缩比例增量
-        var maxRate =200; //最大放大倍数
+        var maxRate =120; //最大放大倍数
         var minRate = 60; //最小缩小倍数
         var currZoom = 100; //当前缩放比
         //        var dvWidth = 200; //构造缩放toolbar的宽度
@@ -257,7 +257,7 @@
             }
             document.body.style.zoom = 1;
             showZoom(currZoom);
-//            maxRate = (parseFloat(window.screen.height) / parseFloat(document.getElementById("main").style.height)) * 100;
+//            maxRate = (parseFloat(document.body.scrollHeight) / parseFloat(document.body.clientHeight)) * 100;
 //            alert(maxRate);
         }
         //支持键盘事件，实现点击加减号缩放
@@ -306,7 +306,8 @@
             document.body.style.zoom = zoomVal;
             document.getElementById("Rtitle").style.zoom = zoomVal;
             SetCookie("zoomVal", zoomVal);
-            closeinfo();
+             closeinfo();
+            maxRate = (parseFloat(document.body.scrollHeight) / parseFloat(document.body.clientHeight)) * 100;
         }
         //------------------move------------------------------//
         //移动
@@ -334,12 +335,18 @@
                 return false;
             }
         }
+        document.onmousewheel = function () {
+            if (event.wheelDelta > 0) { ZoomIn(); }
+            else ZoomOut();
+        }
+        //鼠标点在悬浮区域上的事件
         function msdowninxuanfu(obj) {
             if (obj.id == "xuanfu")
                 isincellarea = false;
             else
                 isincellarea = true;
         }
+       
     </script>
 </head>
 <body onload="Zoom()" class="cellamplify">
