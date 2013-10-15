@@ -752,7 +752,7 @@ namespace THOK.Wms.Bll.Service
             }
         }
 
-        //获取所有货位上不为空且处于解锁状态的货位
+        //获取所有货位上不为空且处于解锁状态的启用的货位
         public object Cellselect(int page, int rows, string soursebill, string queryinfo, string selectedcellcodestr)
         {
             IQueryable<CMD_CELL> cellquery = cellRepository.GetQueryable();
@@ -773,9 +773,11 @@ namespace THOK.Wms.Bll.Service
                             a.IN_DATE,
                             PACKAGE_COUNT = 1,
                             a.IS_LOCK ,
+                            a.IS_ACTIVE,
+                            a.ERROR_FLAG,
                             b.IS_MIX 
                         }).Distinct ();
-            var temp = cells.Where(i => i.PRODUCT_BARCODE != null&&i.IS_LOCK =="0").OrderBy(i => i.CELL_CODE ).Select(i => new
+            var temp = cells.Where(i => i.PRODUCT_CODE != null&&i.IS_LOCK =="0"&&i.IS_ACTIVE=="1"&&i.ERROR_FLAG=="0").OrderBy(i => i.CELL_CODE ).Select(i => new
             {
                 i.CELL_CODE,
                 i.CELL_NAME,
@@ -1070,7 +1072,7 @@ namespace THOK.Wms.Bll.Service
         public object GetNullCell(int page, int rows, string queryinfo)
         {
             IQueryable<CMD_CELL> cellquery = cellRepository.GetQueryable();
-            var temp = cellquery.Where(i => i.PRODUCT_BARCODE == null&&i.IS_ACTIVE=="1").OrderBy(i => i.CELL_CODE).Select(i => new { 
+            var temp = cellquery.Where(i => i.PRODUCT_CODE ==null &&i.IS_ACTIVE=="1"&&i.ERROR_FLAG=="0").OrderBy(i => i.CELL_CODE).Select(i => new { 
                 i.CELL_CODE ,
                 i.CELL_COLUMN,
                 i.CELL_NAME,
@@ -1152,6 +1154,19 @@ namespace THOK.Wms.Bll.Service
                         error= newcell.CELL_CODE + "货位已被锁定.";
                         return false;
                     }
+                    else if (newcell .PRODUCT_CODE  !=null )
+                    {
+                        error = newcell.CELL_CODE + "该货位,已有货物,请选空的货位.";
+                        return false;
+                    }
+                    else if (newcell.IS_ACTIVE == "0") {
+                        error = newcell.CELL_CODE + "该货位,已被禁用.";
+                        return false;
+                    }
+                    else if (newcell.ERROR_FLAG == "1") {
+                        error = newcell.CELL_CODE + "该货位,目前有异常.";
+                        return false;
+                    }
                     else
                     {
                         newcell.IS_LOCK = "1";
@@ -1189,7 +1204,7 @@ namespace THOK.Wms.Bll.Service
             }
             catch (Exception ex)
             {
-                error = ex.Message;
+                error = "该货位不存.";
             }
             return rejust;
         }
@@ -1240,6 +1255,11 @@ namespace THOK.Wms.Bll.Service
                     if (newcell.IS_LOCK == "1")
                     {
                         error = newcell.CELL_CODE + "货位已被锁定.";
+                        return false;
+                    }
+                    else if (newcell.PRODUCT_CODE != null)
+                    {
+                        error = newcell.CELL_CODE + "货位上已我货物.";
                         return false;
                     }
                     else
@@ -1474,11 +1494,11 @@ namespace THOK.Wms.Bll.Service
                 foreach (DataRow dr in dt.Rows)
                 {
 
-                    WMS_PRODUCT_STATE subdetail = new WMS_PRODUCT_STATE();
+                    WMS_BILL_DETAIL subdetail = new WMS_BILL_DETAIL();
                     THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
-                    ProductStateRepository.Add(subdetail);
+                    BillDetailRepository.Add(subdetail);
                     serial++;
                 }
 
@@ -1501,11 +1521,11 @@ namespace THOK.Wms.Bll.Service
             billmast.BILL_DATE = mast.BILL_DATE;
             billmast.SOURCE_BILLNO = mast.SOURCE_BILLNO;
 
-            var details = ProductStateRepository.GetQueryable().Where(i => i.BILL_NO == mast.BILL_NO);
+            var details = BillDetailRepository.GetQueryable().Where(i => i.BILL_NO == mast.BILL_NO);
             var tmp = details.ToArray().AsEnumerable().Select(i => i);
-            foreach (WMS_PRODUCT_STATE sub in tmp)
+            foreach (WMS_BILL_DETAIL  sub in tmp)
             {
-                ProductStateRepository.Delete(sub);
+                BillDetailRepository.Delete(sub);
             }
 
             DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]); //修改
@@ -1514,14 +1534,12 @@ namespace THOK.Wms.Bll.Service
                 int serial = 1;
                 foreach (DataRow dr in dt.Rows)
                 {
-                    WMS_PRODUCT_STATE subdetail = new WMS_PRODUCT_STATE();
+                    WMS_BILL_DETAIL subdetail = new WMS_BILL_DETAIL();
                     THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
-                    if (subdetail.SCHEDULE_NO == "null") subdetail.SCHEDULE_NO = "";
-                    if (subdetail.OUT_BILLNO == "null") subdetail.OUT_BILLNO = "";
-
-                    ProductStateRepository.Add(subdetail);
+                    if (subdetail.FPRODUCT_CODE == "null") subdetail.FPRODUCT_CODE = "";
+                    BillDetailRepository.Add(subdetail);
                     serial++;
                 }
             }
@@ -1529,6 +1547,46 @@ namespace THOK.Wms.Bll.Service
             if (result == -1) return false;
             else
                 return true;
+        }
+
+        //获取单据下的明细,根据产品代码,消除重复的.
+        public object GetSubDetails(int page, int rows, string BillNo)
+        {
+            IQueryable<WMS_BILL_DETAIL> detailquery = BillDetailRepository.GetQueryable();
+            IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
+            IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
+            var billdetail =from a in detailquery
+                             join b in statequery on a.IS_MIX equals b.STATE
+                             join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE
+                             where b.TABLE_NAME == "WMS_BILL_DETAIL" && b.FIELD_NAME == "IS_MIX"
+                             select new
+                             {
+                                 a.BILL_NO,
+                                 a.ITEM_NO,
+                                 a.PRODUCT_CODE,
+                                 c.PRODUCT_NAME,
+                                 c.YEARS,
+                                 c.CMD_PRODUCT_GRADE.GRADE_NAME,
+                                 c.CMD_PRODUCT_STYLE.STYLE_NAME,
+                                 c.CMD_PRODUCT_ORIGINAL.ORIGINAL_NAME,
+                                 c.CMD_PRODUCT_CATEGORY.CATEGORY_NAME,
+                                 a.WEIGHT,
+                                 a.REAL_WEIGHT,
+                                 a.IS_MIX,
+                                 a.PACKAGE_COUNT
+                             };
+            var temp = billdetail.ToArray().Where(i => i.BILL_NO == BillNo).OrderBy(i => i.ITEM_NO).Select(i => new {
+                i.BILL_NO ,
+                i.PRODUCT_CODE ,
+                i.PRODUCT_NAME ,
+                i.WEIGHT,
+                REAL_WEIGHT ="",
+                PACKAGE_COUNT="",
+                IS_MIX="0"
+            }).Distinct ();
+            int total = temp.Count();
+            temp = temp.Skip((page - 1) * rows).Take(rows);
+            return new { total, rows = temp.ToArray() };
         }
     }
 }

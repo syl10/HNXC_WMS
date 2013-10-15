@@ -74,6 +74,7 @@ textarea{
 .hearcenter{
   text-align:center;
 }
+/*确定按钮的样式*/
 .btok{
 	width:75px;
 	height:23px;
@@ -92,9 +93,11 @@ textarea{
 	border-left-width: 2px;
 	border-top-style: outset;
 }
+/*按钮背景色改变的样式*/
 .btclasschange{
   background-color:#CCCCCC;
 }
+/*取消按钮的样式*/
 .btcance{
 	width:75px;
 	height:23px;
@@ -116,3 +119,89 @@ textarea{
 .btcance2{
  background-color:#CCCCCC;
 }
+/*货架查询中 每个列标题的样式*/
+.colunmtitle{
+  width:20px;
+  height:25px;
+  text-align:center;
+  background-color:#FFFFFF
+}
+/*被选中后的列标题样式*/
+.selectedcolunmtitle{
+  width:20px;
+  height:25px;
+  text-align:center;
+  background-color:#FF00FF;
+}
+/*层的标题列样式*/
+.rowtitle{
+  height:25px;
+  text-align:center;
+}
+/*被选中后的行标题样式*/
+.selectedrowtitle{
+  height:25px;
+  text-align:center;
+  background-color:#FF00FF;
+}
+/*被锁定的空货位,(即已被选中)    用红色表示*/
+.lockemptycell{
+  width:20px;
+  height:25px;
+  background-color:#FF0000
+}
+/*处于解锁的空货位(即空闲中)     用淡蓝色表示*/
+.unlockemptycell{
+  width:20px;
+  height:25px;
+  background-color:#66FFFF
+}
+/*已被占用并处于解锁状态的货位,  用蓝色表示*/
+.unlockoccupycell{
+  width:20px;
+  height:25px;
+  background-color:#0000FF
+}
+/*已被占用并处于锁定状态的货位,  用草绿色表示*/
+.lockoccupycell{
+  width:20px;
+  height:25px;
+  background-color:#003300
+}
+/*禁用中的货位.                  用灰色表示*/
+.unactive{
+  width:20px;
+  height:25px;
+  background-color:#999999
+}
+/*error_flag 为1是 该货位有异常  用黄色表示.*/
+.error{
+  width:20px;
+  height:25px;
+  background-color:#FFFF33
+}
+.xuanfu{ 
+ width: 100%;
+ height: 30px; 
+ position:fixed;
+ top: 0;
+ left:0px; 
+ opacity:1;
+ background-color:#FFFFFF;
+
+
+}
+/*给货位加上定位图标*/
+.cellfalg{
+ background-image:url(../images/flag.png);
+ background-repeat:no-repeat;
+}
+/*放大,缩小*/
+.cellamplify{
+  zoom:1;
+}
+.cellinfo{
+   width:65px;
+   font-size:12px;
+}
+

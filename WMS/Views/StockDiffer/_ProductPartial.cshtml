@@ -1,0 +1,89 @@
+﻿<script type="text/javascript">
+    function ProductQueryClick() {
+        $('#productDetail').datagrid('loadData', {total:0,rows:[]});
+        $('#productDetail').datagrid({ url: '/Product/GetProductDetails/?page=1&rows=1000&QueryString=' + $('#queryType').combobox('getValue') + '&Value=' + $('#ProductInfo').val() });
+        $("#productDetail").datagrid('reload');
+    };
+
+    $(function () {
+        $('#queryType').combo({
+            required: true,
+            editable: false,
+            panelHeight: 45,
+            panelWidth: 100
+        });
+    })
+
+    function productSave() {
+    var data = $('#productDetail').datagrid('getSelections');
+        if (data) {
+            var Rows = $('#inBillDetail').datagrid('getData');
+            if (Rows.total == 0)
+                $('#inBillDetail').datagrid('loadData', data);
+            else {
+                for (var row = 0; row < data.length; row++) {
+                    $('#inBillDetail').datagrid('appendRow', {
+                        ITEM_NO: "0",
+                        PRODUCT_CODE: data[row].PRODUCT_CODE,
+                        PRODUCT_NAME: data[row].PRODUCT_NAME,
+                        WEIGHT: data[row].WEIGHT,
+                        REAL_WEIGHT: data[row].REAL_WEIGHT,
+                        PACKAGE_COUNT: data[row].PACKAGE_COUNT,
+                        //                        FPRODUCT_CODE: data[row].FPRODUCT_CODE,
+                        IS_MIXDESC: "",
+                        IS_MIX: "0"
+                    });
+                }
+            }
+        }
+        $('#productData').dialog('close');
+    }
+
+    $(function () {
+        $('#productDetail').datagrid({
+            onDblClickRow: function () {
+                productSave();
+            }
+        })
+    });
+</script>
+<div id="productData" class="easyui-dialog" modal="true" style="width: 680px; height: 500px;
+    padding: 0px 0px" closed="true" buttons="#dlgProduct-buttons">
+    <div split="true" border="false" style="width: 666px; height: 430px">
+        <table id="productDetail" class="easyui-datagrid" border="false" toolbar="#probtn-query" selectOnCheck="true"
+            singleselect="false" fit="true" fitcolumns="true" pagination="true" rownumbers="true">
+            <thead>
+                <tr>
+                   <th checkbox="true">选择</th>
+                    <th field="PRODUCT_CODE" width="100">
+                        商品编码
+                    </th>
+                    <th field="PRODUCT_NAME" width="150">
+                        商品名称
+                    </th>
+                    <th field="WEIGHT" width="80">
+                       重量
+                    </th>
+                     <th field="REAL_WEIGHT" width="80">
+                       实际重量
+                     </th>
+                     <th field="PACKAGE_COUNT" width="80">
+                        包数
+                     </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div id="dlgProduct-buttons">
+      <input type="button"  onclick="productSave()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#productData').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+<div id="probtn-query">
+<select id="proqueryType" name="QueryString" class="easyui-combobox" style="width: 100px;" readonly="true">
+		                <option value="ProductCode">产品代码</option>
+		                <option value="ProductName">产品名称</option>
+	                </select>
+                    <input id="ProductInfo">
+ <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="ProductQueryClick()" id="ProductQuery">查询</a>
+</div>

@@ -28,6 +28,8 @@ namespace THOK.Wms.Bll.Service
 
         [Dependency]
         public ICMDProuductRepository CMDProductRepository { get; set; }
+        [Dependency]
+        public IWMSBillMasterRepository BillMasterRepository { get; set; }
 
         
 
@@ -1352,5 +1354,63 @@ namespace THOK.Wms.Bll.Service
         //    return ds;
         //}
         //#endregion
+
+        //安排 获取货位
+        public object GetCellByshell(string shelfcode)
+        {
+            IQueryable<CMD_CELL> cellQuery = CMDCellRepository.GetQueryable();
+            var temp = cellQuery.Where(i => i.SHELF_CODE == shelfcode).Select(i => new { 
+                i.CELL_CODE ,
+                i.IS_ACTIVE,
+                i.IS_LOCK,
+                i.ERROR_FLAG,
+                i.PRODUCT_CODE 
+            });
+            temp = temp.OrderBy(i => i.CELL_CODE);
+            int total = temp.Count();
+            //temp = temp.Skip((page - 1) * rows).Take(rows);
+            return new { total, rows = temp.ToArray() };
+        }
+
+        //根据货位代码  获取对应的货物信息
+        public object Getproductbycellcode(string cellcode)
+        {
+            IQueryable<CMD_CELL> cellquery = CMDCellRepository.GetQueryable();
+            List<CellInfo> list = new List<CellInfo>();
+            var cellitem= cellquery.Where(i => i.CELL_CODE == cellcode);
+            if (cellitem.Count() > 0)//有存在该货位
+            {
+                foreach (CMD_CELL cell in cellitem)
+                {
+                    CellInfo info = new CellInfo();
+                    if (cell.PRODUCT_CODE  != null)
+                    {
+                        info.Barcode = cell.PRODUCT_BARCODE;
+                        info.BILLNO = cell.BILL_NO;
+                        info.GRADE = cell.CMD_PRODUCT.CMD_PRODUCT_GRADE.GRADE_NAME;
+                        info.INDATE = cell.IN_DATE.ToString();
+                        info.ORIGINAL = cell.CMD_PRODUCT.CMD_PRODUCT_ORIGINAL.ORIGINAL_NAME;
+                        info.REALWEIGHT = cell.REAL_WEIGHT.ToString();
+                        info.STYLENO = cell.CMD_PRODUCT.CMD_PRODUCT_STYLE.STYLE_NAME;
+                        info.YEARS = cell.CMD_PRODUCT.YEARS;
+                        var bill = BillMasterRepository.GetQueryable().FirstOrDefault(i => i.BILL_NO == cell.BILL_NO);
+                        if (bill != null)
+                        {
+                            info.FORMULA = bill.WMS_FORMULA_MASTER.FORMULA_NAME;
+                            info.CIGARETTE = bill.CMD_CIGARETTE.CIGARETTE_NAME;
+                        }
+                        else
+                        {
+                            info.FORMULA = "";
+                            info.CIGARETTE = "";
+                        }
+                        list.Add(info);
+                    }
+                }
+            }
+                var temp = list.AsEnumerable();
+                int total = temp.Count();
+                return new { total, rows = temp.ToArray() };
+        }
     }
 }

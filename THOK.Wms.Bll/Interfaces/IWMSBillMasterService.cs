@@ -68,5 +68,7 @@ namespace THOK.Wms.Bll.Interfaces
         bool FeedingAdd(WMS_BILL_MASTER mast, object detail, string prefix);
         //紧急补料单修改
         bool FeedingEdit(WMS_BILL_MASTER mast, object detail);
+        //获取单据下的明细,根据产品代码,消除重复的.
+        object GetSubDetails(int page, int rows, string BillNo);
     }
 }

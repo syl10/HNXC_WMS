@@ -40,7 +40,7 @@
     }
     //单据编号
     function GetBillNo(date) {
-        $.getJSON("/Feeding/GetBillNo/?dtime=" + date + '&prefix=FD', function (json) {
+        $.getJSON("/StockDiffer/GetBillNo/?dtime=" + date + '&prefix=DIF', function (json) {
             if (json) {
                 $('#BILL_NO').val(json.BillNo);
                 $('#OPERATER').val(json.userName);
@@ -54,7 +54,7 @@
             disabled: true,
             width: 135,
             panelWidth: 340,
-            value: '005',
+            value: '009',
             url: '/BillType/Details/?page=1&rows=1000',
             idField: 'BTYPE_CODE',
             textField: 'BTYPE_NAME',
@@ -62,7 +62,7 @@
             editable: false,
             fitColumns: true,
             queryParams: {
-                BILL_TYPE: '2'
+                BILL_TYPE: '6'
             },
             columns: [[
                     { field: 'BTYPE_CODE', title: '类型代码', align: 'left', width: 40 },
@@ -94,38 +94,6 @@
                 ]]
         });
     }
-    //明细中的添加按钮的事件
-    function addBillDetailClick() {
-        var Rows = $('#inBillDetail').datagrid('getData');
-        billselect();
-    }
-    //删除明细
-    function deleteBillDetailClick() {
-        var detailRow = $('#inBillDetail').datagrid('getSelected');
-        if (detailRow) {
-            $('#inBillDetail').datagrid('deleteRow', $('#inBillDetail').datagrid('getRowIndex', detailRow));
-        } else {
-            $.messager.confirm('错误', '没有选择行！');
-        }
-    }
-    //入库批次查询按钮点击触发的函数
-    function billselect() {
-        var outstock = $('#SCHEDULE_NO').val();
-        if (outstock == null || outstock == "" || outstock == "null") {
-            alert("请先选择出库批次");
-        }
-        else {
-            $('#BillData').dialog('open').dialog('setTitle', '选择来源单据');
-            $('#BarcodeDetail').datagrid('loadData', { total: 0, rows: [] });
-            $('#BillDetail').datagrid({ url: '/FillBill/billselect/?page=1&rows=30&billmethod=3&billno=formula:' + $('#FORMULA_CODE').val() });
-        }
-    }
-    //选择出库批次
-    function outstockbill() {
-        $('#OutstockBillData').dialog('open').dialog('setTitle', '选择来源单据');
-        $('#OutstockBillDetail').datagrid('loadData', { total: 0, rows: [] });
-        $('#OutstockBillDetail').datagrid({ url: '/Feeding/GetOutstockBill/?page=1&rows=30' });
-    }
     //明细加载
     function loaddetail(url) {
         $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
@@ -143,78 +111,122 @@
                                { field: 'PRODUCT_CODE', width: 130, title: '产品代码' },
                                { field: 'PRODUCT_NAME', width: 100, title: '产品名称' },
                                { field: 'WEIGHT', width: 50, title: '重量' },
-                               { field: 'REAL_WEIGHT', width: 60, title: '实际重量' },
-                               { field: 'PACKAGE_COUNT', width: 50, title: '包数',
+                               { field: 'REAL_WEIGHT', width: 60, title: '实际重量',
                                    formatter: function (value, row, index) {
-                                       if (clickbt != "delete")
-                                           return "<input  id='packagecount" + index + "'  class='easyui-numberbox'   style='height:20px; width:120px;'  value='" + value + "'/>";
-                                       else
+                                       if (clickbt != "delete") {
+                                           if (value == "undefined" || value == "" || value == null) {
+                                               return "<input  id='realweight" + index + "'  class='easyui-numberbox'   style='height:20px; width:120px;'  value=''/>";
+                                            }
+                                           else
+                                               return "<input  id='realweight" + index + "'  class='easyui-numberbox'   style='height:20px; width:120px;'  value='" + value + "'/>";
+                                       }
+                                       else {
                                            return value;
+                                       }
                                    }
                                },
-                               { field: 'IS_MIXDESC', width: 50, title: '是否混装' },
-                               { field: 'IS_MIX', width: 50, title: '是否混装', hidden: true },
-                               { field: 'FPRODUCT_CODE', width: 120, title: '第一笔混合产品的代码' }
+                               { field: 'PACKAGE_COUNT', width: 50, title: '包数',
+                                   formatter: function (value, row, index) {
+                                       if (clickbt != "delete") {
+                                           if (value == "undefined" || value == "" || value == null) {
+                                               return "<input  id='packagecount" + index + "'  class='easyui-numberbox'   style='height:20px; width:120px;'  value=''/>";
+                                           }
+                                           else
+                                               return "<input  id='packagecount" + index + "'  class='easyui-numberbox'   style='height:20px; width:120px;'  value='" + value + "'/>";
+                                       }
+                                       else {
+                                           return value;
+                                       }
+                                   }
+                               }
                     ]]
         });
     }
-    function save() {
-        var changesRows = {
-            inserted: []
-        };
-        var iscoderepeat = false;
-        var Rows = $('#inBillDetail').datagrid('getData');
-        if (clickbt != "delete" && Rows.total > 99) { alert("明细总记录数不可超出99,请分批."); return; }
-        if (Rows.total == 0 && clickbt != "delete") { alert("明细不能为空"); return; }
-        for (var i = 0; i < Rows.total; i++) {
-            changesRows.inserted.push(Rows.rows[i]);
-            if (clickbt != "delete") {
-                if ($('#packagecount' + i).val() > 0) {
-                    changesRows.inserted[i].PACKAGE_COUNT = $('#packagecount' + i).val();
-                }
-                else {
-                    alert("包数必须大于0");
-                    iscoderepeat = true;
-                } 
-            }
-        }
-        if (iscoderepeat) { return; }
-        if (clickbt == "add") {
-            url = '/Feeding/Add/?prefix=FD&detail=' + JSON.stringify(changesRows.inserted);
-        }
-        if (clickbt == "edit") {
-            url = '/Feeding/Edit/?detail=' + JSON.stringify(changesRows.inserted);
-        }
-        if (clickbt == "delete") {
-            url = '/Feeding/Delete/?Billno=' + $('#BILL_NO').val();
-        }
-        $('#fm').form('submit', {
-            url: url,
-            onSubmit: function () {
-                return $(this).form('validate');
-            },
-            success: function (result) {
-                var result = eval('(' + result + ')');
-                if (result.success) {
-                    $.messager.show({
-                        title: '成功',
-                        msg: result.msg
-                    });
-                    $('#dlg').dialog('close');
-                    $('#details').datagrid('reload');
-                    $('#SubDetails').datagrid('reload');
-                } else {
-                    $.messager.show({
-                        title: '错误',
-                        msg: result.msg
-                    });
-                    $('#details').datagrid('reload');
-                }
-            }
-        });
-    }
-</script>
+    //入库批次查询按钮点击触发的函数
+    function billselect() {
+            $('#BillData').dialog('open').dialog('setTitle', '选择来源单据');
+            $('#BarcodeDetail').datagrid('loadData', { total: 0, rows: [] });
+            $('#BillDetail').datagrid({ url: '/FillBill/billselect/?page=1&rows=30&billmethod=3' });
 
+        }
+        //明细中的添加按钮的事件
+        function addBillDetailClick() {
+            if ($('#SOURCE_BILLNO').val() != "") {
+                $('#productData').dialog('open').dialog('setTitle', '选择产品信息');
+                $('#productDetail').datagrid({ url: '/StockDiffer/Getbillsubdetail/?page=1&rows=100&BillNo=' + $('#SOURCE_BILLNO').val() });
+             }
+            else {
+                $('#productData').dialog('open').dialog('setTitle', '选择产品信息');
+                $('#productDetail').datagrid({ url: '/Product/Details/?page=1&rows=1000' });
+            }
+        }
+        //删除明细
+        function deleteBillDetailClick() {
+            var detailRow = $('#inBillDetail').datagrid('getSelected');
+            if (detailRow) {
+                $('#inBillDetail').datagrid('deleteRow', $('#inBillDetail').datagrid('getRowIndex', detailRow));
+            } else {
+                $.messager.confirm('错误', '没有选择行！');
+            }
+        }
+        function save() {
+            var changesRows = {
+                inserted: []
+            };
+            var iscoderepeat = false;
+            var Rows = $('#inBillDetail').datagrid('getData');
+            if (clickbt != "delete" && Rows.total > 99) { alert("明细总记录数不可超出99,请分批."); return; }
+            if (Rows.total == 0 && clickbt != "delete") { alert("明细不能为空"); return; }
+            for (var i = 0; i < Rows.total; i++) {
+                changesRows.inserted.push(Rows.rows[i]);
+                if (clickbt != "delete") {
+                    if (!isNaN( $('#packagecount' + i).val())&& $('#realweight'+i).val() > 0) {
+                        changesRows.inserted[i].PACKAGE_COUNT = $('#packagecount' + i).val();
+                        changesRows.inserted[i].REAL_WEIGHT = $('#realweight' + i).val();
+                    }
+                    else {
+                        alert("实际重量必须大于0,包数必须是数字");
+                        iscoderepeat = true;
+                        break;
+                    }
+                }
+            }
+            if (iscoderepeat) { return; }
+            if (clickbt == "add") {
+                url = '/StockDiffer/Add/?prefix=DIF&detail=' + JSON.stringify(changesRows.inserted);
+            }
+            if (clickbt == "edit") {
+                url = '/StockDiffer/Edit/?detail=' + JSON.stringify(changesRows.inserted);
+            }
+            if (clickbt == "delete") {
+                url = '/StockDiffer/Delete/?Billno=' + $('#BILL_NO').val();
+            }
+            $('#fm').form('submit', {
+                url: url,
+                onSubmit: function () {
+                    return $(this).form('validate');
+                },
+                success: function (result) {
+                    var result = eval('(' + result + ')');
+                    if (result.success) {
+                        $.messager.show({
+                            title: '成功',
+                            msg: result.msg
+                        });
+                        $('#dlg').dialog('close');
+                        $('#details').datagrid('reload');
+                        $('#SubDetails').datagrid('reload');
+                    } else {
+                        $.messager.show({
+                            title: '错误',
+                            msg: result.msg
+                        });
+                        $('#details').datagrid('reload');
+                    }
+                }
+            });
+        }
+</script>
 <div id="dlg" class="easyui-dialog" modal="true"
         style="width:900px;height:450px;padding:0px 0px"
         closed="true" buttons="#dlg-buttons">
@@ -222,17 +234,6 @@
         <div region="center" border="false">
             <table class="easyui-datagrid" border="false" toolbar="#dlg-detailButtons" width="790" id="inBillDetail"
                 fit="true" fitColumns="true" singleSelect="true" rownumbers="true" pagination="false" url="" striped="true">
-@*                <thead>
-                    <tr>
-                <th field="ITEM_NO" width="80"  hidden="true">序号</th>
-                <th field="PRODUCT_CODE" width="80">产品代码</th>
-                <th field="WEIGHT" width="80">重量</th>
-                <th field="REAL_WEIGHT" width="80">实际重量</th>
-                <th field="PACKAGE_COUNT" width="80">包数</th>
-                <th field="IS_MIXDESC" width="60" hidden="true">是否混装</th>
-                <th field="IS_MIX" width="60" hidden="true">是否混装</th>
-                    </tr>
-                </thead>*@
             </table>
         </div>
     </div>
@@ -264,12 +265,6 @@
                 <td width="168"><input name="BTYPE_CODE"  id="BTYPE_CODE" class="easyui-combogrid"/></td>
                 <td width="110">仓库编号</td>
                 <td width="168"><input name="WAREHOUSE_CODE"  id="WAREHOUSE_CODE" class="easyui-combogrid"/></td>
-                <td width="110">出库批次</td>
-                <td width="210"> 
-                      <input  name="SCHEDULE_NO"  id="SCHEDULE_NO"/>
-                     <a href="#" onclick="outstockbill()" class="easyui-linkbutton" iconcls="icon-search" plain="true"></a>
-                @*<input type="button"  onclick="billselect()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/>*@
-                </td>
                 <td width="110">入库批次</td>
                 <td width="210">
                      <input  name="SOURCE_BILLNO"  id="SOURCE_BILLNO"/>
@@ -296,10 +291,9 @@
 
 
 <div id="dlg-AddBillDetailbuttons">
-@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="DetailSave()">确定</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-AddBillDetail').dialog('close')">取消</a>*@
       <input type="button"  onclick="DetailSave()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
        <input type="button"  onclick="javascript:$('#dlg-AddBillDetail').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>
 @Html.Partial("_BillPartial");  
-@Html.Partial("_OutstockbillPartial");
+@Html.Partial("_ProductPartial");
+

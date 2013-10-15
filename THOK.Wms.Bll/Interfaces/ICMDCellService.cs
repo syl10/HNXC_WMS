@@ -59,6 +59,10 @@ namespace THOK.Wms.Bll.Interfaces
         System.Data.DataTable GetCell(int page, int rows, string type, string id);
 
         System.Data.DataTable GetCellByE(int page, int rows, string QueryString, string Value);
+        //安排 获取货位
+        object GetCellByshell(string shelfcode);
+        //根据货位代码  获取对应的货物信息
+        object Getproductbycellcode(string cellcode);
 
       //  bool uploadCell();
     }

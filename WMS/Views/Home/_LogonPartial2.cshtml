@@ -1,5 +1,6 @@
 ﻿
 <script type="text/javascript">
+    var isloginsuccess = 0; //0表示还未登陆,1表示登陆成功,2表示强制登陆
     window.onbeforeunload = function () {
         var userNames = document.getElementById('userNames').value;
         if (event.clientX > (document.body.clientWidth - 20) && event.clientY < 0 || event.altKey) {
@@ -9,7 +10,7 @@
             })
         }
     }
-   
+
     $(function () {
         $('#logOn').click(function () {
             $('#dlg-logon').dialog('open');
@@ -67,6 +68,23 @@
         //					{ field: 'IS_ACTIVE', title: '状态', align: 'left', width: 30 }
         //				]]
         //        });
+        //        $('#login-bg').onkeydown(function keyLogin() {
+        //            if (event.keyCode == 13)   //回车键的键值为13  
+        //            //                document.getElementById("input1").click(); //调用登录按钮的登录事件  
+        //                alert("");
+        //        });
+        $(document).keydown(function (e) {
+            if (event.keyCode == 13)   //回车键的键值为13   
+                if (isloginsuccess == 0) {
+                    login();
+                }
+                else if (isloginsuccess == 1) {
+                    return false;
+                }
+                else {
+                    login2();
+                }
+        });
     });
     function islogin(data2) {
         var userName = document.getElementById('username').value;
@@ -79,6 +97,7 @@
             $('#user').text(userName);
             if (data != "" && data != null && data != ipAdress) {
                 $('#dlg-forcelogon').dialog('open').dialog('setTitle', '强制登陆');
+                isloginsuccess = 2;
             }
             else {
                 if (data2.success) {
@@ -93,6 +112,7 @@
                             location.href = data2.data;
                         }
                     });
+                    isloginsuccess = 1;
                 }
                 else {
                     $.messager.confirm('系统提示', data2.msg, function (r) {
@@ -100,6 +120,7 @@
                             location.href = '/Account/LogOff';
                         }
                     });
+                    isloginsuccess = 0;
                 }
             }
         });
@@ -138,13 +159,22 @@
                         s = true;
                         $('#dlg-changepassword').dialog('close');
                         location.href = result.data;
+                        isloginsuccess = 1;
+                    }
+                    else {
+                        isloginsuccess = 0;
                     }
                 }
             }
         });
     }
+//    function keyLogin() {
+//        if (event.keyCode == 13)   //回车键的键值为13  
+//        //                document.getElementById("input1").click(); //调用登录按钮的登录事件  
+//            alert("");
+//    }
 </script>
-    <div id="login-bg">   
+    <div id="login-bg"  >   
     <div id="c" class="login2" style=" background-image:url('/Content/Images/login_bg02.jpg'); background-repeat:no-repeat; text-align:center; width:551px; height:306px;">
          <form id="fm-logon" action="/Account/LogOn" method="post">
          <table style="width:100%;" cellpadding="0" cellspacing="0">

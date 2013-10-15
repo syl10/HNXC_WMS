@@ -3,21 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using THOK.WebUtil;
 using Microsoft.Practices.Unity;
 using THOK.Wms.Bll.Interfaces;
-using THOK.WebUtil;
 using THOK.Wms.DbModel;
 
 namespace WMS.Controllers.Wms.WMS
 {
-    public class FeedingController : Controller
+    public class StockDifferController : Controller
     {
         //
-        // GET: /Feeding/
+        // GET: /StockDiffer/
         [Dependency]
         public IWMSBillMasterService BillMasterService { get; set; }
-        [Dependency]
-        public IWMSProductStateService ProductStateService { get; set; }
 
         public ActionResult Index(string moduleID)
         {
@@ -29,7 +27,7 @@ namespace WMS.Controllers.Wms.WMS
             ViewBag.hasHelp = true;
             ViewBag.hasAudit = true;
             ViewBag.hasAntiTrial = true;
-            ViewBag.hasTask = true;
+            //ViewBag.hasTask = true;
             ViewBag.ModuleID = moduleID;
             return View();
         }
@@ -51,7 +49,7 @@ namespace WMS.Controllers.Wms.WMS
             string BILL_DATEStar = collection["BILL_DATEStar"] ?? ""; //起始日期
             string BILL_DATEEND = collection["BILL_DATEEND"] ?? "";//截止日期
             string SOURCE_BILLNO = collection["SOURCE_BILLNO"] ?? "";//来源单号
-            var Billmaster = BillMasterService.GetDetails(page, rows, "2", flag, BILL_NO, BILL_DATE, BTYPE_CODE, WAREHOUSE_CODE, BILL_METHOD, CIGARETTE_CODE, FORMULA_CODE, STATE, OPERATER, OPERATE_DATE, CHECKER, CHECK_DATE, STATUS, BILL_DATEStar, BILL_DATEEND, SOURCE_BILLNO);
+            var Billmaster = BillMasterService.GetDetails(page, rows, "6", flag, BILL_NO, BILL_DATE, BTYPE_CODE, WAREHOUSE_CODE, BILL_METHOD, CIGARETTE_CODE, FORMULA_CODE, STATE, OPERATER, OPERATE_DATE, CHECKER, CHECK_DATE, STATUS, BILL_DATEStar, BILL_DATEEND, SOURCE_BILLNO);
             return Json(Billmaster, "text/html", JsonRequestBehavior.AllowGet);
         }
         //单据编号
@@ -61,24 +59,18 @@ namespace WMS.Controllers.Wms.WMS
             var BillnoInfo = BillMasterService.GetBillNo(userName, dtime, BILL_NO, prefix);
             return Json(BillnoInfo, "text/html", JsonRequestBehavior.AllowGet);
         }
-        //查询出库批次
-        public ActionResult GetOutstockBill(int page, int rows, string queryinfo)
-        {
-            var Billmaster = BillMasterService.Outstockbill(page, rows, queryinfo);
-            return Json(Billmaster, "text/html", JsonRequestBehavior.AllowGet);
-        }
-        //获取入库批次的明细
+        //某个单据下的明细.
         public ActionResult Getbillsubdetail(int page, int rows, string BillNo)
         {
-            var Billdetail = BillMasterService.GetSubDetails(page, rows, BillNo, 0);
+            var Billdetail = BillMasterService.GetSubDetails(page, rows, BillNo);
             return Json(Billdetail, "text/html", JsonRequestBehavior.AllowGet);
         }
-        //抽检补料入库单添加
+        //新增
         public ActionResult Add(WMS_BILL_MASTER mast, object detail, string prefix)
         {
             string userid = this.GetCookieValue("userid");
             mast.OPERATER = userid;
-            bool bResult = BillMasterService.FeedingAdd (mast, detail, prefix);
+            bool bResult = BillMasterService.FeedingAdd(mast, detail, prefix);
             string msg = bResult ? "新增成功" : "新增失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
@@ -92,23 +84,9 @@ namespace WMS.Controllers.Wms.WMS
         //删除
         public ActionResult Delete(string Billno)
         {
-            bool bResult = BillMasterService.Delete (Billno);
+            bool bResult = BillMasterService.Delete(Billno);
             string msg = bResult ? "删除成功" : "删除失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
-        //作业函数
-        public ActionResult Task(string BillNo)
-        {
-            string userName = this.GetCookieValue("userid");
-            string error = "";
-            bool bResult = ProductStateService.FeedingTask (BillNo, userName, out error);
-            string msg = bResult ? "作业成功" : "作业失败" + error;
-            var just = new
-            {
-                success = msg
-            };
-            return Json(just, "text/html", JsonRequestBehavior.AllowGet);
-        }
-
     }
 }

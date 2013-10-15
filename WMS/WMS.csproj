@@ -157,6 +157,7 @@
     <Compile Include="Controllers\Wms\WarehouseInfo\ShelfController.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\Warehouse2Controller.cs" />
     <Compile Include="Controllers\Wms\WarehouseInfo\WarehouseController.cs" />
+    <Compile Include="Controllers\Wms\WMS\CellStateSearchController.cs" />
     <Compile Include="Controllers\Wms\WMS\DirectProductController.cs" />
     <Compile Include="Controllers\Wms\WMS\FeedingController.cs" />
     <Compile Include="Controllers\Wms\WMS\FillBillController.cs" />
@@ -171,6 +172,7 @@
     <Compile Include="Controllers\Wms\WMS\SamplingWorkController.cs" />
     <Compile Include="Controllers\Wms\WMS\Schedule2Controller.cs" />
     <Compile Include="Controllers\Wms\WMS\ScheduleController.cs" />
+    <Compile Include="Controllers\Wms\WMS\StockDifferController.cs" />
     <Compile Include="Controllers\Wms\WMS\StockInBillController.cs" />
     <Compile Include="Controllers\Wms\WMS\StockInWorkController.cs" />
     <Compile Include="Controllers\Wms\WMS\StockOutBillController.cs" />
@@ -1773,6 +1775,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="cellbord.cshtml" />
     <None Include="Content\Scripts\ckfinder\plugins\fileeditor\codemirror\LICENSE" />
     <None Include="Content\Scripts\ckfinder\userfiles\.htaccess" />
     <Content Include="Views\Home\_ProductWarningPartial.cshtml" />
@@ -1984,6 +1987,17 @@
     <Content Include="Views\Feeding\_OutstockbillPartial.cshtml" />
     <Content Include="Views\Feeding\_SearchPartial.cshtml" />
     <Content Include="Views\StockDiffer\Index.cshtml" />
+    <Content Include="Views\Feeding\_TaskPartial.cshtml" />
+    <Content Include="Views\StockDiffer\_AddPartial.cshtml" />
+    <Content Include="Views\StockDiffer\_DeletePartial.cshtml" />
+    <Content Include="Views\StockDiffer\_EditPartial.cshtml" />
+    <Content Include="Views\StockDiffer\_AntiTrialPartial.cshtml" />
+    <Content Include="Views\StockDiffer\_AuditPartial.cshtml" />
+    <Content Include="Views\StockDiffer\_SearchPartial.cshtml" />
+    <Content Include="Views\StockDiffer\_PrintPartial.cshtml" />
+    <Content Include="Views\StockDiffer\_BillPartial.cshtml" />
+    <Content Include="Views\StockDiffer\_ProductPartial.cshtml" />
+    <Content Include="Views\CellStateSearch\Index.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

@@ -177,10 +177,16 @@ namespace THOK.Wms.Bll.Service
 
         }
 
-
-
-    
-
-
+        //紧急补料作业
+        public bool FeedingTask(string billno, string tasker, out string error)
+        {
+            string sqlstr = "begin FEEDINGWORK('" + billno + "','" + tasker + "');end;";
+            int result = ProductStateRepository.Exeprocedure(sqlstr, out  error);
+            //return ((ObjectContext)RepositoryContext).ExecuteStoreCommand("","");
+            if (result < 0)
+                return false;
+            else
+                return true;
+        }
     }
 }

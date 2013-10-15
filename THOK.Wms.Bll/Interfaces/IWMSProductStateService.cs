@@ -17,6 +17,8 @@ namespace THOK.Wms.Bll.Interfaces
         bool Task(string billno, string cigarettecode, string formulacode, string batchweight, string tasker, out string error);
         //托盘入库作业
         bool Task(string billno, string tasker, out string error);
+        //紧急补料作业
+        bool FeedingTask(string billno, string tasker, out string error);
         //获取要补料的单据下的产品条码(只获取可以补料的条码)
         object Barcodeselect(int page, int rows, string soursebillno);
 
