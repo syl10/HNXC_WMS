@@ -201,7 +201,8 @@
             //            alert((objtop + objheight + parseFloat(product.style.height) - xuanfu.offsetHeight) + "  " + document.body.clientHeight);
             if ((objtop + objheight + parseFloat(product.style.height) - xuanfu.offsetHeight) >parseFloat( main.style.height)) {
                 product.style.top = parseFloat(objtop) * parseFloat(currZoom.replace('%', '')) / 100 - parseFloat(product.style.height) + "px";
-                if ((objleft +parseFloat( product.style.width)) > document.body.clientWidth) {
+                if ((objleft + parseFloat(product.style.width)) > document.body.clientWidth) {
+                   //sdfjlskdjflsdkf
                     product.style.left = (parseFloat(objleft)) * parseFloat(currZoom.replace('%', '')) / 100 - parseFloat(product.style.width) + "px";
                 }
                 else
