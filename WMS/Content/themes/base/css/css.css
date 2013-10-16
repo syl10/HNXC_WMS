@@ -144,11 +144,11 @@ textarea{
   text-align:center;
   background-color:#FF00FF;
 }
-/*被锁定的空货位,(即已被选中)    用红色表示*/
+/*被锁定的空货位,(即已被选中)    用黄色表示*/
 .lockemptycell{
   width:20px;
   height:25px;
-  background-color:#FF0000
+  background-color:#FFFF33
 }
 /*处于解锁的空货位(即空闲中)     用淡蓝色表示*/
 .unlockemptycell{
@@ -174,11 +174,11 @@ textarea{
   height:25px;
   background-color:#999999
 }
-/*error_flag 为1是 该货位有异常  用黄色表示.*/
+/*error_flag 为1是 该货位有异常  用红色表示.*/
 .error{
   width:20px;
   height:25px;
-  background-color:#FFFF33
+  background-color:#FF0000
 }
 .xuanfu{ 
  width: 100%;

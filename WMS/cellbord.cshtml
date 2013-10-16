@@ -108,7 +108,7 @@
             $.getJSON("/CellStateSearch/Getcellinfo/?cellcode=" + cellcode, function (json) {
                 if (json) {
                     if (json.total > 0) {
-                        document.getElementById("cellcode").innerText = cellcode;
+                        document.getElementById("cellcode").innerText ="货位号:"+ cellcode;
                         document.getElementById("Barcode").innerText = json.rows[0].Barcode;
                         document.getElementById("CIGARETTE").innerText = json.rows[0].CIGARETTE;
                         document.getElementById("FORMULA").innerText = json.rows[0].FORMULA;
@@ -134,10 +134,10 @@
         //选中货位
         function selectedcell(obj) {
             if (obj.id != null) {
-                var col = parseInt(obj.id.substr(0, 3));
-                var row = parseInt(obj.id.substr(3));
+                var col = parseFloat(obj.id.substr(0, 3));
+                var row = parseFloat(obj.id.substr(3));
                 layer.value = obj.id.substr(3);
-                column.value = obj.id.substr(0, 3);
+                column.value = obj.id.substr(0, 3); 
                 if (col == 1) {
                     if (row >= 6 && row <= 10) {
                         cellselectedcss(col, row,obj);
@@ -163,12 +163,12 @@
                 
             }
             //选中货位
-            document.getElementById('col' + col).className = "selectedcolunmtitle";
-            document.getElementById('row' + row).className = "selectedrowtitle";
+            document.getElementById("col" + col).className = "selectedcolunmtitle";
+            document.getElementById("row" + row).className = "selectedrowtitle";
             $("#"+obj.id).addClass("cellfalg");
             //
-            oldselectedcol = document.getElementById('col' + col);
-            oldselectedrow = document.getElementById('row' + row);
+            oldselectedcol = document.getElementById("col" + col);
+            oldselectedrow = document.getElementById("row" + row);
             oldcell = obj;
         }
         //查询货位
@@ -177,7 +177,7 @@
                 var rowobj = document.getElementById("layer");
                 var colobj = document.getElementById("column");
                 if (colobj.options[colobj.selectedIndex].value == "001") {
-                    if (parseInt(rowobj.options[rowobj.selectedIndex].value) < 6 || parseInt(rowobj.options[rowobj.selectedIndex].value) > 10) {
+                    if (parseFloat(rowobj.options[rowobj.selectedIndex].value) < 6 || parseFloat(rowobj.options[rowobj.selectedIndex].value) > 10) {
                         alert("不存在该货位"); return;
                     }
                 }
@@ -198,14 +198,22 @@
             var objheight = obj.clientHeight;
             var objleft = obj.offsetLeft;
             while (obj = obj.offsetParent) { objtop += obj.offsetTop; objleft += obj.offsetLeft; }
-//            alert(document.body.scrollHeight+ "  " + document.body.clientHeight);
-            if ((objtop + objheight + parseFloat(product.style.height) - xuanfu.offsetHeight) > document.body.clientHeight) {
+            //            alert((objtop + objheight + parseFloat(product.style.height) - xuanfu.offsetHeight) + "  " + document.body.clientHeight);
+            if ((objtop + objheight + parseFloat(product.style.height) - xuanfu.offsetHeight) >parseFloat( main.style.height)) {
                 product.style.top = parseFloat(objtop) * parseFloat(currZoom.replace('%', '')) / 100 - parseFloat(product.style.height) + "px";
+                if ((objleft +parseFloat( product.style.width)) > document.body.clientWidth) {
+                    product.style.left = (parseFloat(objleft)) * parseFloat(currZoom.replace('%', '')) / 100 - parseFloat(product.style.width) + "px";
+                }
+                else
                 product.style.left = parseFloat(objleft) * parseFloat(currZoom.replace('%', '')) / 100 + "px";
             }
             else {
                 product.style.top = parseFloat(objtop + objheight) * parseFloat(currZoom.replace('%', '')) / 100 + "px";
-                product.style.left = parseFloat(objleft) * parseFloat(currZoom.replace('%', '')) / 100 + "px";
+                if ((objleft + parseFloat(product.style.width)) > document.body.clientWidth) {
+                    product.style.left = (parseFloat(objleft)) * parseFloat(currZoom.replace('%', '')) / 100 - parseFloat(product.style.width) + "px";
+                }
+                else
+                    product.style.left = parseFloat(objleft) * parseFloat(currZoom.replace('%', '')) / 100 + "px";
             }
                         product.style.display = "block";
 //            $('#dlg-info').dialog('open').dialog('setTitle', '查询');
@@ -305,9 +313,12 @@
         function showZoom(zoomVal) {
             document.body.style.zoom = zoomVal;
             document.getElementById("Rtitle").style.zoom = zoomVal;
+            document.getElementById("main").style.zoom = zoomVal;
             SetCookie("zoomVal", zoomVal);
              closeinfo();
-            maxRate = (parseFloat(document.body.scrollHeight) / parseFloat(document.body.clientHeight)) * 100;
+             maxRate = (parseFloat(document.body.scrollHeight) / parseFloat(document.body.clientHeight)) * 100;
+             if (maxRate < 120) { maxRate = 120; }
+             if (maxRate > 150) {maxRate = 150;}
         }
         //------------------move------------------------------//
         //移动
@@ -320,10 +331,11 @@
                 var e = arguments[0] || event;
                 var x = scrollleft + e.clientX;
                 var y = scrolltop + e.clientY;
-                document.onmousemove = function (event) {
-                    scrollTo(x - event.clientX, y - event.clientY);
-                    scrollleft = x - event.clientX;
-                    scrolltop = y - event.clientY;
+                document.onmousemove = function () {
+                    var e2 = arguments[0] || event;
+                    scrollTo(x - e2.clientX, y - e2.clientY);
+                    scrollleft = x - e2.clientX;
+                    scrolltop = y - e2.clientY;
                     return false;
                 }
                 document.onmouseup = function () {
@@ -379,7 +391,7 @@
     </select>
 </div>
 <div style=" width:600px; height:20px; float:right; color:Red">
-   <table>
+   <table  style="height:20px;">
        <tr>
           <td  class="lockemptycell"></td>
            <td>被锁定的空货位;</td>
@@ -397,17 +409,18 @@
    </table>
 </div>
 </div>
-<div id="maincontent"   onmousedown="msdowninxuanfu(this)" style=" width:1720px;">
-    <div id="Rtitle" style=" position:fixed; height:375px; width:25px; margin-top:0px;  background-color:White; zoom:1;">
+<div style="height:1px; width:1720px; "></div>
+<div id="maincontent"   onmousedown="msdowninxuanfu(this)" style=" position:absolute; width:1720px;  margin-top:50px;">
+    <div id="Rtitle" style=" position:fixed; height:375px; margin-top:0px; width:25px;  background-color:White; z-index:999; zoom:1;">
      </div>
-    <div id="main" style=" height:350px; width:1700px;  margin-top:30px;  margin-left:27px;"></div>
+    <div id="main" style=" position:absolute; height:350px; width:1700px; margin-top:0px;  padding-left:27px; "></div>
     @*<div id="Coltitle" style=" width:1700px; height:20px;margin-left:27px; margin-top:25px;">*@
       
     </div>
 </div>
-<div id="productinfo"  style=" width:300px; height:130px; position:absolute; background-color:#dbe7fd;opacity:0.8; display:none; border:1px solid #000;">
+<div id="productinfo"  style=" width:300px; height:140px; position:absolute; background-color:#dbe7fd;opacity:0.8; display:none; border:1px solid #000;">
 <div id="btclose" style=" width:100%; height:20px;">
-  <span>货位号:</span>  <span id="cellcode"></span>
+  <span id="cellcode" style="float:left"></span>
   <span onclick="closeinfo()"  style=" float:right; width:15px; height:20px;  cursor:pointer">X</span>
 </div>
 <div>
