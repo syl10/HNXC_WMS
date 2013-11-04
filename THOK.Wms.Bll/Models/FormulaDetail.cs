@@ -33,7 +33,7 @@ namespace THOK.Wms.Bll.Models
        /// <summary>
        /// 包数
        /// </summary>
-       public decimal PACKAGE_COUNT { set; get; }
+       public int  PACKAGE_COUNT { set; get; }
        /// <summary>
        /// 总重量
        /// </summary>

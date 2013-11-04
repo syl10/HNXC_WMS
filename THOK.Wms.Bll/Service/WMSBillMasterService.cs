@@ -358,11 +358,13 @@ namespace THOK.Wms.Bll.Service
                 item.REAL_WEIGHT = formula.CMD_PRODUCT.WEIGHT;
                 item.WEIGHT = formula.CMD_PRODUCT.WEIGHT;
                 item.PRODUCT_NAME = formula.CMD_PRODUCT.PRODUCT_NAME ;
-                item.PACKAGE_COUNT = (int)(((formula.PERCENT * BATCH_WEIGHT) / 100) / formula.CMD_PRODUCT.WEIGHT);
+                item.PACKAGE_COUNT =(int ) (formula.WEIGHT / formula.CMD_PRODUCT.WEIGHT);
+                //item.PACKAGE_COUNT = (int)(((formula.PERCENT * BATCH_WEIGHT) / 100) / formula.CMD_PRODUCT.WEIGHT);
                 item.TOTAL_WEIGHT = item.REAL_WEIGHT * item.PACKAGE_COUNT;
                 item.IS_MIX = "0";
                 item.FPRODUCT_CODE = "";
-                decimal lastweight = ((formula.PERCENT * BATCH_WEIGHT) / 100) - (item.PACKAGE_COUNT * formula.CMD_PRODUCT.WEIGHT); //不足一包的重量
+                decimal lastweight = formula.WEIGHT - item.PACKAGE_COUNT * formula.CMD_PRODUCT.WEIGHT;
+                //decimal lastweight = ((formula.PERCENT * BATCH_WEIGHT) / 100) - (item.PACKAGE_COUNT * formula.CMD_PRODUCT.WEIGHT); //不足一包的重量
                 if (lastweight != 0)//
                 {
                     serial++;

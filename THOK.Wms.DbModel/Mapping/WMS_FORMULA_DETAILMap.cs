@@ -22,6 +22,9 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.OTHER)
                 .HasMaxLength(50);
 
+            this.Property(t => t.MODULES)
+                .HasMaxLength(10);
+
             // Table & Column Mappings
             this.ToTable("WMS_FORMULA_DETAIL", "THOK");
             this.Property(t => t.FORMULA_CODE).HasColumnName("FORMULA_CODE");
@@ -29,6 +32,8 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.FORDER).HasColumnName("FORDER");
             this.Property(t => t.PERCENT).HasColumnName("PERCENT");
             this.Property(t => t.OTHER).HasColumnName("OTHER");
+            this.Property(t => t.WEIGHT).HasColumnName("WEIGHT");
+            this.Property(t => t.MODULES).HasColumnName("MODULES");
 
             // Relationships
             this.HasRequired(t => t.CMD_PRODUCT)

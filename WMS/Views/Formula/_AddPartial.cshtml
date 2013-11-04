@@ -84,6 +84,7 @@
         });
 
         $('#cc').combobox('setValue', "1");
+        $('#BATCH_WEIGHT').numberbox('setValue', 0);
         $('#copybt').show();//显示复制按钮
 
         //点击配方选择框中的某条记录时触发的事件
@@ -105,12 +106,19 @@
         $('#fm-inBillDetail').form('clear');
         $('form input').removeAttr("disabled");
         $('form textarea').removeAttr("disabled");
+
+        var forder = $('#inBillDetail').datagrid('getData');
+        $('#FORDER').val(forder.total + 1);
     }
     //删除入库单明细
     function deleteBillDetailClick() {
         var detailRow = $('#inBillDetail').datagrid('getSelected');
         if (detailRow) {
             $('#inBillDetail').datagrid('deleteRow', $('#inBillDetail').datagrid('getRowIndex', detailRow));
+            if (parseFloat($('#BATCH_WEIGHT').val()) > 0) {
+                var batchweight = parseFloat($('#BATCH_WEIGHT').val() )- parseFloat(detailRow.WEIGHT);
+                $('#BATCH_WEIGHT').numberbox('setValue',batchweight );
+            }
         } else {
             $.messager.confirm('错误', '没有选择行！');
         }
@@ -134,30 +142,50 @@
     }
     //保存入库细单
     function DetailSave() {
-        if (editRow==null) { //新增明细
-            $('#inBillDetail').datagrid('appendRow', {
-                PRODUCT_CODE: $('#PRODUCT_CODE').val(),
-                PRODUCT_NAME: $('#PRODUCT_NAME').val(),
-                PERCENT: $('#PERCENT').val(),
-                OTHER: $('#OTHER').val() == null ? "" : $('#OTHER').val()
-            });
-        }
-        else { //修改明细
-            $('#inBillDetail').datagrid('beginEdit', $('#inBillDetail').datagrid('getRowIndex', editRow)); 
-            $('#inBillDetail').datagrid('updateRow', {
-                index: $('#inBillDetail').datagrid('getRowIndex', editRow),
-                row: {
+        if ($('#fm-inBillDetail').form('validate')) {
+            if (editRow == null) { //新增明细
+                $('#inBillDetail').datagrid('appendRow', {
                     PRODUCT_CODE: $('#PRODUCT_CODE').val(),
                     PRODUCT_NAME: $('#PRODUCT_NAME').val(),
-                    PERCENT: $('#PERCENT').val(),
+                    FORDER: $('#FORDER').val(),
+                    WEIGHT: $('#WEIGHT').val(),
+                    MODULES: $('#MODULES').val(),
+                    //                PERCENT: $('#PERCENT').val(),
                     OTHER: $('#OTHER').val() == null ? "" : $('#OTHER').val()
+                });
+                var batchweight = parseFloat($('#BATCH_WEIGHT').val());
+                if ($('#WEIGHT').val() != null && $('#WEIGHT').val() != "") {
+                     batchweight = parseFloat($('#WEIGHT').val()) + parseFloat($('#BATCH_WEIGHT').val());
                 }
-            });
-
-            $('#inBillDetail').datagrid('endEdit', $('#inBillDetail').datagrid('getRowIndex', editRow));
-            $('#inBillDetail').datagrid('refreshRow', $('#inBillDetail').datagrid('getRowIndex', editRow)); 
-
+                //        alert($('#WEIGHT').val() + $('#BATCH_WEIGHT').val()+" "+batchweight);
+                $('#BATCH_WEIGHT').numberbox('setValue', batchweight);
             }
+            else { //修改明细
+                var batchweight = parseFloat($('#BATCH_WEIGHT').val()) - parseFloat(editRow.WEIGHT);
+                $('#inBillDetail').datagrid('beginEdit', $('#inBillDetail').datagrid('getRowIndex', editRow));
+                $('#inBillDetail').datagrid('updateRow', {
+                    index: $('#inBillDetail').datagrid('getRowIndex', editRow),
+                    row: {
+                        PRODUCT_CODE: $('#PRODUCT_CODE').val(),
+                        PRODUCT_NAME: $('#PRODUCT_NAME').val(),
+                        FORDER: $('#FORDER').val(),
+                        WEIGHT: $('#WEIGHT').val(),
+                        MODULES: $('#MODULES').val(),
+                        //                    PERCENT: $('#PERCENT').val(),
+                        OTHER: $('#OTHER').val() == null ? "" : $('#OTHER').val()
+                    }
+                });
+
+                $('#inBillDetail').datagrid('endEdit', $('#inBillDetail').datagrid('getRowIndex', editRow));
+                $('#inBillDetail').datagrid('refreshRow', $('#inBillDetail').datagrid('getRowIndex', editRow));
+
+                if ($('#WEIGHT').val() != null && $('#WEIGHT').val() != "") {
+                    batchweight += parseFloat($('#WEIGHT').val()) ;
+                }
+//                alert($('#WEIGHT').val() + $('#BATCH_WEIGHT').val() + " " + parseFloat(editRow.WEIGHT));
+                $('#BATCH_WEIGHT').numberbox('setValue', batchweight);
+            } 
+        }
         $('#dlg-AddBillDetail').dialog('close');
     }
 
@@ -176,6 +204,7 @@
 //        }
         if (Rows.total == 0 && status != "delete") { alert("明细不能为空"); return; }
         for (var i = 0; i < Rows.total; i++) {
+            Rows.rows[i].PERCENT = "0";
             changesRows.inserted.push(Rows.rows[i])
             Percent += eval(Rows.rows[i].PERCENT);
             for (var j = i + 1; j < Rows.total; j++) {
@@ -208,10 +237,10 @@
                             $.messager.alert('配方单明细', '产品代码重复');
                             return false;
                         }
-                        if (Percent != 100) {
-                            $.messager.alert('配方单明细', '比例合计不等于100');
-                            return false;
-                        }
+//                        if (Percent != 100) {
+//                            $.messager.alert('配方单明细', '比例合计不等于100');
+//                            return false;
+//                        }
                     }
                     return true;
                 }
@@ -267,7 +296,10 @@
                 $('#inBillDetail').datagrid('appendRow', {
                     PRODUCT_CODE: row.PRODUCT_CODE,
                     PRODUCT_NAME: row.PRODUCT_NAME,
-                    PERCENT: row.PERCENT,
+//                    PERCENT: row.PERCENT,
+                    FORDER: row.FORDER,
+                    WEIGHT: row.WEIGHT,
+                    MODULES: row.MODULES,
                     OTHER: row.OTHER==null?"":row.OTHER
                 });
             });
@@ -316,8 +348,11 @@
                     <tr>
                         <th field="FORMULA_CODE" hidden="true" width="100">细单ID</th>
                         <th field="PRODUCT_CODE" width="100">产品代码</th>
-                        <th field="PRODUCT_NAME" width="120" align="right">产品名称</th>
-                        <th field="PERCENT" width="80" align="right">百分比</th>
+                        <th field="PRODUCT_NAME" >产品名称</th>
+                        <th field="FORDER">投料顺序</th>
+                        <th field="WEIGHT">重量</th>
+                        <th field="MODULES">模块号</th>
+                        @*<th field="PERCENT" width="80" align="right">百分比</th>*@
                         <th field="OTHER" width="80" align="right">其它</th>
                     </tr>
                 </thead>
@@ -350,7 +385,7 @@
                 <td width="15"></td>
                  <td width="20"></td>
                  <td width="60">批次重量</td>
-                 <td width="168"><input id="BATCH_WEIGHT" name="BATCH_WEIGHT" class="easyui-numberbox"  precision="2"></td>
+                 <td width="168"><input id="BATCH_WEIGHT" name="BATCH_WEIGHT" class="easyui-numberbox"   precision="2"  required="true" readonly="true"></td>
                 </tr>
                 <tr>
                 <td width="60">操作日期</td>
@@ -385,7 +420,7 @@
 </div>
 
 <div  id="dlg-AddBillDetail" class="easyui-dialog" modal="true"
-        style="width:270px;height:200px;padding:0px 0px"
+        style="width:270px;height:250px;padding:0px 0px"
         closed="true" buttons="#dlg-AddBillDetailbuttons">
      <form id="fm-inBillDetail">
 <table style="padding:10px 10px 0px 5px">
@@ -401,8 +436,20 @@
     <td></td>
   </tr>
   <tr>
-    <td style=" text-align:right">百分比</td>
-    <td align="left"><input type="text" name="PERCENT" class="easyui-numberbox" min="0" max="100" id="PERCENT" precision="2" required="true"/></td>
+     <td style=" text-align:right">投料顺序</td>
+    <td align="left"><input type="text" name="FORDER" class="easyui-validatebox" required="true" id="FORDER" readonly="true"/></td>
+    <td></td>
+  </tr>
+  <tr>
+@*    <td style=" text-align:right">百分比</td>
+    <td align="left"><input type="text" name="PERCENT" class="easyui-numberbox" min="0" max="100" id="PERCENT" precision="2" required="true"/></td>*@
+    <td style="text-align:right">重量</td>
+    <td align="left"><input type="text" name="WEIGHT" class="easyui-numberbox"   id="WEIGHT" required="true" precision="2" /></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td style="text-align:right">模块号</td>
+    <td align="left"><input type="text" name="MODULES"  id="MODULES"  /></td>
     <td></td>
   </tr>
   <tr>
@@ -454,7 +501,10 @@
                 <th field="FORMULA_CODE" width="50" align="left" hidden="true">ID</th>
                 <th field="PRODUCT_CODE" width="100">产品编码</th>
                 <th field="PRODUCT_NAME" width="80" align="right">产品名称</th>
-                <th field="PERCENT" width="80" align="right">百分比</th>
+                <th field="FORDER" width="80" align="right">投料顺序</th>
+                <th field="WEIGHT">重量</th>
+               <th field="MODULES">模块号</th>
+                @*<th field="PERCENT" width="80" align="right">百分比</th>*@
                 <th field="OTHER" width="80" align="right">其他</th>
             </tr>
         </thead>

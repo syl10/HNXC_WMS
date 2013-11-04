@@ -112,6 +112,9 @@ namespace THOK.Wms.Bll.Service
                   i.CMD_PRODUCT .CMD_PRODUCT_STYLE.STYLE_NAME ,
                   i.CMD_PRODUCT .CMD_PRODUCT_ORIGINAL .ORIGINAL_NAME ,
                   i.CMD_PRODUCT .CMD_PRODUCT_CATEGORY .CATEGORY_NAME ,
+                  i.FORDER ,
+                  i.MODULES ,
+                  i.WEIGHT ,
                   i.PERCENT,
                   i.OTHER});
             Details = Details.Where(i => i.FORMULA_CODE == FORMULA_CODE);
@@ -166,6 +169,7 @@ namespace THOK.Wms.Bll.Service
                     THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.FORMULA_CODE = master.FORMULA_CODE;
                     subdetail.OTHER = subdetail.OTHER == "null" ? "" : subdetail.OTHER;
+                    subdetail.PERCENT = subdetail.PERCENT == null ? decimal .Parse ("") : subdetail.PERCENT;
                     DetailRepository.Add(subdetail);
                 }
             }

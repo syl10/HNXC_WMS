@@ -232,40 +232,94 @@ namespace THOK.Wms.Bll.Service
                 return true;
         }
 
-        //作业查询
-        //public object Worksearch(int page, int rows, string BILL_NO, string TASK_DATE, string BTYPE_CODE, string BILLMETHOD, string CIGARETTE_CODE, string FORMULA_CODE, string PRODUCT_BARCODE)
-        //{
-        //    IQueryable<WORKSELECT> query = WorkselectRepository.GetQueryable();
-        //    var work = query.OrderBy(i => i.TASK_DATE).Select(i => new { 
-        //        i.BILL_NO ,
-        //        i.PRODUCT_CODE,
-        //        i.PRODUCT_BARCODE,
-        //        i.REAL_WEIGHT,
-        //        i.TARGET_CODE,
-        //        i.STATE,
-        //        i.TASK_DATE,
-        //        i.TASKER,
-        //        i.MIXNAME,
-        //        i.PRODUCT_NAME,
-        //        i.CATEGORY_NAME,
-        //        i.ORIGINAL_NAME,
-        //        i.GRADE_NAME,
-        //        i.STYLE_NAME,
-        //        i.BTYPE_CODE ,
-        //        i.BTYPE_NAME,
-        //        i.BILL_METHOD ,
-        //        i.CIGARETTE_CODE,
-        //        i.CIGARETTE_NAME,
-        //        i.FORMULA_CODE ,
-        //        i.FORMULA_NAME 
-
-        //    });
-        //}
-
-
+       // 作业查询
         public object Worksearch(int page, int rows, string BILL_NO, string TASK_DATE, string BTYPE_CODE, string BILLMETHOD, string CIGARETTE_CODE, string FORMULA_CODE, string PRODUCT_BARCODE)
         {
-            throw new NotImplementedException();
+            IQueryable<WORKSELECT> query = WorkselectRepository.GetQueryable();
+            var work = query.OrderBy(i => i.TASK_DATE).Select(i => new
+            {
+                i.BILL_NO,
+                i.PRODUCT_CODE,
+                i.PRODUCT_BARCODE,
+                i.REAL_WEIGHT,
+                i.TARGET_CODE,
+                i.STATE,
+                i.TASK_DATE,
+                i.TASKER,
+                i.MIXNAME,
+                i.PRODUCT_NAME,
+                i.CATEGORY_NAME,
+                i.ORIGINAL_NAME,
+                i.GRADE_NAME,
+                i.STYLE_NAME,
+                i.BTYPE_CODE,
+                i.BTYPE_NAME,
+                i.BILL_METHOD,
+                i.BILLMETHOD,
+                i.CIGARETTE_CODE,
+                i.CIGARETTE_NAME,
+                i.FORMULA_CODE,
+                i.FORMULA_NAME
+            });
+            if (!string.IsNullOrEmpty(BILL_NO))
+            {
+                work = work.Where(i => i.BILL_NO == BILL_NO);
+            }
+            if (!string.IsNullOrEmpty(TASK_DATE))
+            {
+                DateTime date = DateTime.Parse(TASK_DATE);
+                DateTime date2 = date.AddDays(1);
+                work = work.Where(i => i.TASK_DATE.Value.CompareTo(date) >= 0);
+                work = work.Where(i => i.TASK_DATE.Value.CompareTo(date2) < 0);
+            }
+            if (!string.IsNullOrEmpty(BTYPE_CODE)) {
+                work = work.Where(i => i.BTYPE_CODE == BTYPE_CODE);
+            }
+            if (!string.IsNullOrEmpty(BILLMETHOD)) {
+                work = work.Where(i => i.BILL_METHOD == BILLMETHOD);
+            }
+            if (!string.IsNullOrEmpty(CIGARETTE_CODE)) {
+                work = work.Where(i => i.CIGARETTE_CODE == CIGARETTE_CODE);
+            }
+            if (!string.IsNullOrEmpty(FORMULA_CODE)) {
+                work = work.Where(i => i.FORMULA_CODE == FORMULA_CODE);
+            }
+            if (!string.IsNullOrEmpty(PRODUCT_BARCODE)) {
+                work = work.Where(i => i.PRODUCT_BARCODE == PRODUCT_BARCODE);
+            }
+            var temp = work.ToArray().Select(i => new {
+                i.BILL_NO,
+                i.PRODUCT_CODE,
+                i.PRODUCT_BARCODE,
+                i.REAL_WEIGHT,
+                i.TARGET_CODE,
+                i.STATE,
+                TASK_DATE = i.TASK_DATE == null ? "" : ((DateTime)i.TASK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+                i.TASKER,
+                i.MIXNAME,
+                i.PRODUCT_NAME,
+                i.CATEGORY_NAME,
+                i.ORIGINAL_NAME,
+                i.GRADE_NAME,
+                i.STYLE_NAME,
+                i.BTYPE_CODE,
+                i.BTYPE_NAME,
+                i.BILL_METHOD,
+                i.BILLMETHOD,
+                i.CIGARETTE_CODE,
+                i.CIGARETTE_NAME,
+                i.FORMULA_CODE,
+                i.FORMULA_NAME
+            });
+            int total = temp.Count();
+            temp = temp.Skip((page - 1) * rows).Take(rows);
+            return new { total, rows = temp.ToArray() };
         }
+
+
+        //public object Worksearch(int page, int rows, string BILL_NO, string TASK_DATE, string BTYPE_CODE, string BILLMETHOD, string CIGARETTE_CODE, string FORMULA_CODE, string PRODUCT_BARCODE)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }
