@@ -1,20 +1,56 @@
 ﻿<script type="text/javascript">
    //产品条码产生功能
-    function barcodeClick() {
-        $.getJSON("/StockInWork/GetPdfName/", function (json) {
-            if (json) {
-               
-                $('#dlgPrint').dialog('open').dialog('setTitle', '新增');
-                $('#divPrint1').empty();
-                var src1 = "../ContentReport/PDF/" + json.msg;
-                $('#divPrint1').append("<embed width='800' height='600' src='" + src1 + "'></embed>");
-                
+   var  cout=0;
+   function barcodeClick() {
+        var row = $('#details').datagrid('getSelected');
+        var barcodestr = "";
+        if (row) {
+            var details = $('#SubDetails').datagrid('getSelections');
+            if (details.length>0) {
+                for (var i = 0; i < details.length; i++) {
+                    barcodestr += details[i].PRODUCT_BARCODE+',';
+                }
+                //                alert(barcodestr);
+                loadpdf(barcodestr,row);
             }
-        });
+            else {
+                $.messager.confirm('提示', '是否打印选中的整批次的条码?', function (r) {
+                    if (r) {
+                        var alldetails = $('#SubDetails').datagrid('getData');
+                        if (alldetails.total == 0) {
+                            alert("无法获取条码,可能该批次未作业");
+                        }
+                        else {
+                            for (var n = 0; n < alldetails.total; n++) {
+                                barcodestr += alldetails.rows[n].PRODUCT_BARCODE + ",";
+                            }
+                            loadpdf(barcodestr,row);
+                        }
+                    }
+                });
+            }
+        }
+        else {
+            alert("请选择批次");
+        }
+    }
+    var PrintCount=0;
+    function loadpdf(barcodestr, row) {
+         PrintCount=PrintCount+1;
+         $.getJSON("/StockInWork/GetPdfName/?barcodes=" + barcodestr + "&billno=" + row.BILL_NO + "&PrintCount=" + PrintCount, function (json) {
+             if (json) {
+                 var src1 = "../ContentReport/PDF/" + json.msg;
+                 //                document.getElementById("dlgPrint").innerHTML = "<div id='divPrint1'><embed width='800' height='600' src='" + src1 + "'></embed></div>";
+                 $('#dlgPrint').dialog('open').dialog('setTitle', '条码打印');
+                 $('#divPrint1').empty();
+
+                 $('#divPrint1').append("<embed width='800' height='600' src='" + src1 + "'></embed>");
+             }
+         });
     }
 </script>
 
-<div id="dlgPrint" class="easyui-dialog" modal="true" style="width:700px;height:450px;padding:0px 0px" closed="true" >
+<div id="dlgPrint" class="easyui-dialog" modal="true" style="width:800px;height:450px;padding:0px 0px" closed="true" >
  
  <div id="divPrint1">
  </div>

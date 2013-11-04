@@ -5,7 +5,7 @@
             var row = $('#details').datagrid('getSelected');
             if (row) {
                 $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
-                $('#SubDetails').datagrid({ url: '/StockInWork/GetSubdetail/?billno=' + row.BILL_NO });
+                $('#SubDetails').datagrid({ url: '/StockInWork/GetSubdetail/?page=1&rows=1000&billno=' + row.BILL_NO });
 //                $('#SubDetails').datagrid('reload');
             }
             else {
@@ -56,10 +56,11 @@
 </div>
 
 <div region="south" split="true" border="false" style="height: 250px; border-top-style: solid; border-top-width: 1px; border-top-color: 99BBE8;">
-    <table class="easyui-datagrid" border="false" singleSelect="true" id="SubDetails" url="" pageSize="50"
-        fit="true" fitColumns="true"  pagination="true" rownumbers="true" striped="true">
+    <table class="easyui-datagrid" border="false" singleSelect="false" id="SubDetails" url="" 
+        fit="true" fitColumns="true"  pagination="false" rownumbers="true" striped="true">
         <thead>
             <tr>
+                <th  checkbox="true">选择</th>
                 <th field="BILL_NO" width="100" >单据编号</th>
                 <th field="ITEM_NO" width="40" >序号</th>
                 <th field="PRODUCT_CODE" width="80">产品代码</th>

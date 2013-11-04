@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/17/2013 16:25:46" ReportInfo.Modified="10/18/2013 12:48:04" ReportInfo.CreatorVersion="1.9.9.0" PrintSettings.Copies="2">
+  <Dictionary>
+    <ViewDataSource Name="printreport" ReferenceName="printreport" DataType="System.Int32" Enabled="true">
+      <Column Name="PRODUCT_BARCODE" DataType="System.String"/>
+      <Column Name="BILL_NO" DataType="System.String"/>
+      <Column Name="FORMULA_NAME" DataType="System.String"/>
+      <Column Name="CIGARETTE_NAME" DataType="System.String"/>
+      <Column Name="PRODUCT_CODE" DataType="System.String"/>
+      <Column Name="REAL_WEIGHT" DataType="System.Decimal"/>
+      <Column Name="PRODUCT_NAME" DataType="System.String"/>
+      <Column Name="YEARS" DataType="System.String"/>
+      <Column Name="ORIGINAL_NAME" DataType="System.String"/>
+      <Column Name="CATEGORY_NAME" DataType="System.String"/>
+      <Column Name="GRADE_NAME" DataType="System.String"/>
+      <Column Name="STYLE_NAME" DataType="System.String"/>
+      <Column Name="BILL_DATE" DataType="System.DateTime"/>
+    </ViewDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1" PaperWidth="105" PaperHeight="75" LeftMargin="3" TopMargin="3" RightMargin="2" BottomMargin="2" Fill.Color="White">
+    <DataBand Name="Data1" Width="378" Height="264.6" DataSource="printreport">
+      <TableObject Name="Table1" Left="4.72" Top="28.35" Width="369" Height="66.15">
+        <TableColumn Name="Column1" Width="40.54"/>
+        <TableColumn Name="Column2" Width="85.92"/>
+        <TableColumn Name="Column3" Width="41.49"/>
+        <TableColumn Name="Column4" Width="84.04"/>
+        <TableColumn Name="Column5" Width="39.6"/>
+        <TableColumn Name="Column6" Width="77.41"/>
+        <TableRow Name="Row1" Height="22.05">
+          <TableCell Name="Cell1" Text="牌号:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell2" Text="[printreport.CIGARETTE_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell3" Text="配方:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell4" Text="[printreport.FORMULA_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell5" Font="宋体, 9pt"/>
+          <TableCell Name="Cell16" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row2" Height="22.05">
+          <TableCell Name="Cell6" Text="产地:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell7" Text="[printreport.ORIGINAL_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell8" Text="等级:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell9" Text="[printreport.GRADE_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell10" Text="年份:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell17" Text="[printreport.YEARS]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row3" Height="22.05">
+          <TableCell Name="Cell11" Text="形态:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell12" Text="[printreport.STYLE_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell13" Text="总量:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell14" Text="[printreport.REAL_WEIGHT]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell15" Text="日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell18" Text="[printreport.BILL_DATE]" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <BarcodeObject Name="Barcode1" Left="10.41" Top="109.62" Width="354.01" Height="137.04" AutoSize="false" DataColumn="printreport.PRODUCT_BARCODE" Barcode="Code128" Barcode.AutoEncode="true"/>
+      <TextObject Name="Text1" Left="9.45" Top="5.66" Width="66.15" Height="11.34" Text="入库批次:" Padding="0, 0, 0, 0" Font="宋体, 9pt"/>
+      <TextObject Name="Text2" Left="75.6" Top="5.66" Width="207.9" Height="11.34" Text="[printreport.BILL_NO]" Padding="0, 0, 0, 0" Font="宋体, 9pt"/>
+    </DataBand>
+  </ReportPage>
+</Report>

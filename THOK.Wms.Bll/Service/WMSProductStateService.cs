@@ -32,6 +32,10 @@ namespace THOK.Wms.Bll.Service
         public ICMDCellRepository cellRepository { get; set; }
         [Dependency]
         public ICMDProuductRepository ProductRepository { get; set; }
+        [Dependency]
+        public IPrintReportRepository PrintReportRepository { get; set; }
+        [Dependency]
+        public IWorkSelectRepository WorkselectRepository { get; set; }
 
         //public bool test() {
         //    OracleConnection ora = new OracleConnection(); 
@@ -141,32 +145,63 @@ namespace THOK.Wms.Bll.Service
             temp = temp.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = temp.ToArray() };
         }
-
-        public string GetPdfName(string Path)
+        
+        public string GetPdfName(string Path, string username, string barcodes, string billno,string PrintCount)
         {
             string FileName = "";
-
             try
             {
-
+                IQueryable<PRINTREPORT> query = PrintReportRepository.GetQueryable();
+                var que2 = query.Where(i => i.BILL_NO == billno && barcodes.Contains(i.PRODUCT_BARCODE)).Select(i => new
+                {
+                    i.BILL_NO,
+                    i.PRODUCT_BARCODE,
+                    i.BILL_DATE,
+                    i.CATEGORY_NAME,
+                    i.CIGARETTE_NAME,
+                    i.FORMULA_NAME,
+                    i.GRADE_NAME,
+                    i.ORIGINAL_NAME,
+                    i.PRODUCT_CODE,
+                    i.PRODUCT_NAME,
+                    i.REAL_WEIGHT,
+                    i.STYLE_NAME,
+                    i.YEARS
+                });
+                var que = que2.ToArray().Select(i => new
+                {
+                    i.BILL_NO,
+                    PRODUCT_BARCODE = i.PRODUCT_BARCODE + "00000000000000",
+                    BILL_DATE = i.BILL_DATE.Value.ToString("yyyy-MM-dd"),
+                    i.CATEGORY_NAME,
+                    i.CIGARETTE_NAME,
+                    i.FORMULA_NAME,
+                    i.GRADE_NAME,
+                    i.ORIGINAL_NAME,
+                    i.PRODUCT_CODE,
+                    i.PRODUCT_NAME,
+                    i.REAL_WEIGHT,
+                    i.STYLE_NAME,
+                    i.YEARS
+                });
+                DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(que);
                 using (Report report = new Report())
                 {
-                    report.Load(Path + @"ContentReport\Report\test.frx");
+                    report.Load(Path + @"ContentReport\Report\barcodeprint.frx");
 
-                    IQueryable<WMS_PRODUCT_STATE> query = ProductStateRepository.GetQueryable();
-                    var que = query.Where(i => i.PRODUCT_BARCODE == "IS2013091600001201309161").Select(i => i);
-                    DataTable dt=THOK.Common.ConvertData.LinqQueryToDataTable(que);
-                    report.RegisterData(dt.DefaultView, "productState");
-                  
-
+                    
+                    report.RegisterData(dt.DefaultView, "printreport");
 
                     report.Prepare();
-
-                    FileName = Path + @"ContentReport\PDF\text.pdf";
+                    report.FinishReport += new EventHandler(report_FinishReport);
+                    FileName = Path + @"ContentReport\PDF\barcodeprint_" + username + "_" + PrintCount + ".pdf";
                     FastReport.Export.Pdf.PDFExport pdfExport = new FastReport.Export.Pdf.PDFExport();
-
+                    //if (System.IO.File.Exists(FileName))
+                    //    System.IO.File.Delete(FileName);
                     report.Export(pdfExport, FileName);
-                    FileName = "text.pdf";
+                    //string st = report.FinishReportEvent;
+                    //report.OnFinishReport(new EventArgs());
+                    FileName = "barcodeprint_" + username + "_" + PrintCount + ".pdf";
                 }
             }
             catch (Exception ex)
@@ -176,6 +211,14 @@ namespace THOK.Wms.Bll.Service
             return FileName;
 
         }
+
+        void report_FinishReport(object sender, EventArgs e)
+        {
+            Report obj = (Report)sender;
+            if (obj.Operation == ReportOperation.Exporting) { }
+            //throw new NotImplementedException();
+        }
+
 
         //紧急补料作业
         public bool FeedingTask(string billno, string tasker, out string error)
@@ -187,6 +230,42 @@ namespace THOK.Wms.Bll.Service
                 return false;
             else
                 return true;
+        }
+
+        //作业查询
+        //public object Worksearch(int page, int rows, string BILL_NO, string TASK_DATE, string BTYPE_CODE, string BILLMETHOD, string CIGARETTE_CODE, string FORMULA_CODE, string PRODUCT_BARCODE)
+        //{
+        //    IQueryable<WORKSELECT> query = WorkselectRepository.GetQueryable();
+        //    var work = query.OrderBy(i => i.TASK_DATE).Select(i => new { 
+        //        i.BILL_NO ,
+        //        i.PRODUCT_CODE,
+        //        i.PRODUCT_BARCODE,
+        //        i.REAL_WEIGHT,
+        //        i.TARGET_CODE,
+        //        i.STATE,
+        //        i.TASK_DATE,
+        //        i.TASKER,
+        //        i.MIXNAME,
+        //        i.PRODUCT_NAME,
+        //        i.CATEGORY_NAME,
+        //        i.ORIGINAL_NAME,
+        //        i.GRADE_NAME,
+        //        i.STYLE_NAME,
+        //        i.BTYPE_CODE ,
+        //        i.BTYPE_NAME,
+        //        i.BILL_METHOD ,
+        //        i.CIGARETTE_CODE,
+        //        i.CIGARETTE_NAME,
+        //        i.FORMULA_CODE ,
+        //        i.FORMULA_NAME 
+
+        //    });
+        //}
+
+
+        public object Worksearch(int page, int rows, string BILL_NO, string TASK_DATE, string BTYPE_CODE, string BILLMETHOD, string CIGARETTE_CODE, string FORMULA_CODE, string PRODUCT_BARCODE)
+        {
+            throw new NotImplementedException();
         }
     }
 }

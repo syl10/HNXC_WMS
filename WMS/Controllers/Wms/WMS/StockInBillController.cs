@@ -51,7 +51,7 @@ namespace WMS.Controllers.Wms.WMS
             string BILL_DATEEND = collection["BILL_DATEEND"] ?? "";//截止日期
             string SOURCE_BILLNO = collection["SOURCE_BILLNO"] ?? "";//来源单号
             var Billmaster = BillMasterService.GetDetails(page, rows,"1", flag,
-                BILL_NO, BILL_DATE,BTYPE_CODE,WAREHOUSE_CODE,BILL_METHOD,CIGARETTE_CODE ,FORMULA_CODE ,STATE ,OPERATER ,OPERATE_DATE ,CHECKER ,CHECK_DATE,STATUS ,BILL_DATEStar ,BILL_DATEEND ,SOURCE_BILLNO  );
+                BILL_NO, BILL_DATE,BTYPE_CODE,WAREHOUSE_CODE,BILL_METHOD,CIGARETTE_CODE ,FORMULA_CODE ,STATE ,OPERATER ,OPERATE_DATE ,CHECKER ,CHECK_DATE,STATUS ,BILL_DATEStar ,BILL_DATEEND ,SOURCE_BILLNO,"" );
             return Json(Billmaster, "text/html", JsonRequestBehavior.AllowGet);
         }
         public ActionResult GetSubDetail(int page, int rows, string BillNo)

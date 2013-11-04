@@ -30,7 +30,7 @@ namespace WMS.Controllers.Wms.WMS
         //获取某条单据下的作业任务.
         public ActionResult GetSubdetail(int page, int rows,string billno)
         {
-            var productstate = ProductStateService.Details(page, rows, billno);
+            var productstate = ProductStateService.Details(page ,rows, billno);
             return Json(productstate, "text/html", JsonRequestBehavior.AllowGet);
         }
         //作业 函数
@@ -50,11 +50,12 @@ namespace WMS.Controllers.Wms.WMS
         /// 获取PDF路径
         /// </summary>
         /// <returns></returns>
-        public ActionResult GetPdfName()
+       
+        public ActionResult GetPdfName(string barcodes, string billno,string PrintCount)
         {
             string Path = Server.MapPath("/");
-            string FileName = ProductStateService.GetPdfName(Path);
-
+            string userName = this.GetCookieValue("username");
+            string FileName = ProductStateService.GetPdfName(Path, userName, barcodes, billno, PrintCount);
 
             return Json(JsonMessageHelper.getJsonMessage(true, FileName, null), "text", JsonRequestBehavior.AllowGet);
 

@@ -12,7 +12,7 @@ namespace WMS.Controllers.Wms.WMS
 {
     public class FillBillController : Controller
     {
-        //
+        //抽检补料入库单
         // GET: /FillBill/
         [Dependency]
         public IWMSBillMasterService BillMasterService { get; set; }

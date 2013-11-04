@@ -65,6 +65,7 @@
     <Compile Include="EntityRepository\CMDUnitCategoryRepository.cs" />
     <Compile Include="EntityRepository\CMDUnitRepository.cs" />
     <Compile Include="EntityRepository\CMDWarehouseRepository.cs" />
+    <Compile Include="EntityRepository\PrintReportRepository.cs" />
     <Compile Include="EntityRepository\SysBillTargetRepository.cs" />
     <Compile Include="EntityRepository\SysTableStateRepository.cs" />
     <Compile Include="EntityRepository\WCSTaskRepository.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="EntityRepository\WMSScheduleDetailRepository.cs" />
     <Compile Include="EntityRepository\WMSScheduleMasterRepository.cs" />
     <Compile Include="EntityRepository\WMSScheduleRespository.cs" />
+    <Compile Include="EntityRepository\WorkSelectRepository.cs" />
     <Compile Include="Interfaces\ICmdBillTypeRepository.cs" />
     <Compile Include="Interfaces\ICMDCarRepository.cs" />
     <Compile Include="Interfaces\ICMDCigaretteRepository.cs" />
@@ -96,6 +98,7 @@
     <Compile Include="Interfaces\ICMDUnitCategoryRepository.cs" />
     <Compile Include="Interfaces\ICMDUnitRepository.cs" />
     <Compile Include="Interfaces\ICMDWarehouseRepository.cs" />
+    <Compile Include="Interfaces\IPrintReportRepository.cs" />
     <Compile Include="Interfaces\ISysBillTargetRepository.cs" />
     <Compile Include="Interfaces\ISysTableStateRepository.cs" />
     <Compile Include="Interfaces\IWCSTaskRepository.cs" />
@@ -111,6 +114,7 @@
     <Compile Include="Interfaces\IWMSScheduleDetailRepository.cs" />
     <Compile Include="Interfaces\IWMSScheduleMasterRepository.cs" />
     <Compile Include="Interfaces\IWMSScheduleRepository.cs" />
+    <Compile Include="Interfaces\IWorkSelectRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

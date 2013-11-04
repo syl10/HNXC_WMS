@@ -39,7 +39,7 @@ namespace THOK.Wms.Bll.Service
         public IWMSProductStateRepository ProductStateRepository { get; set; }
         [Dependency]
         public IWCSTaskRepository WcsTaskRepository { get; set; }
-        public object GetDetails(int page, int rows, string billtype, string flag, string BILL_NO, string BILL_DATE, string BTYPE_CODE, string WAREHOUSE_CODE, string BILL_METHOD, string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE, string STATUS, string BILL_DATEStar, string BILL_DATEEND, string SOURCE_BILLNO)
+        public object GetDetails(int page, int rows, string billtype, string flag, string BILL_NO, string BILL_DATE, string BTYPE_CODE, string WAREHOUSE_CODE, string BILL_METHOD, string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE, string STATUS, string BILL_DATEStar, string BILL_DATEEND, string SOURCE_BILLNO, string LINENO)
         {
             IQueryable<WMS_BILL_MASTER > billquery = BillMasterRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
@@ -154,6 +154,9 @@ namespace THOK.Wms.Bll.Service
             if (!string.IsNullOrEmpty(SOURCE_BILLNO)) {
                 billmaster = billmaster.Where(i => i.SOURCE_BILLNO.Contains(SOURCE_BILLNO));
             }
+            if (!string.IsNullOrEmpty(LINENO)) {
+                billmaster = billmaster.Where(i => i.LINE_NO == LINENO);
+            }
             var temp = billmaster.ToArray().OrderByDescending(i => i.OPERATE_DATE ).Select(i => new
             {
                  i.BILL_NO ,
@@ -204,6 +207,10 @@ namespace THOK.Wms.Bll.Service
                 {//紧急补料单
                     temp = temp.Where(i => i.BTYPE_CODE == "005");
                 }
+                if (flag == "3") {//倒库单
+                    temp = temp.Where(i => i.BTYPE_CODE == "006");
+                }
+
             }
             int total = temp.Count();
             temp = temp.Skip((page - 1) * rows).Take(rows);
