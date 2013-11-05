@@ -37,13 +37,13 @@
 </div>
 <div region="south" split="true" border="false" style="height: 250px; border-top-style: solid; border-top-width: 1px; border-top-color: 99BBE8;">
     <table class="easyui-datagrid" border="false" singleSelect="true" id="SubDetails" url="" pageSize="50"
-        fit="true" fitColumns="true"  pagination="true" rownumbers="true"  striped="true">
+       sortName= "FORDER" sortOrder="asc" remoteSort="false"  fit="true" fitColumns="true"  pagination="true" rownumbers="true"  striped="true">
         <thead>
             <tr>
                 <th field="ID" width="50" align="left" hidden="true" >ID</th>
-                <th field="FORDER">投料顺序</th>
                 <th field="PRODUCT_CODE" width="100" >产品编码</th>
                 <th field="PRODUCT_NAME" width="80" >产品名称</th>
+                <th field="FORDER">投料顺序</th>
                 <th field="YEARS" width="80" >年份</th>
                 <th field="GRADE_NAME" width="80" >等级</th>
                 <th field="STYLE_NAME" width="80" >形态</th>
