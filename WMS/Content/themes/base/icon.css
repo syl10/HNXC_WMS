@@ -85,6 +85,12 @@
 .x-tabs-close{
 	background:url('images/tabs_close.gif') no-repeat 2px 2px;
 }
+.icon-up{
+   background:url('images/up.png') no-repeat 2px 2px;
+}
+.icon-down{
+    background:url('images/down.png') no-repeat 2px 2px;
+}
 
 /*background: url('icons/tabicons.png') no-repeat;*/
 .icon

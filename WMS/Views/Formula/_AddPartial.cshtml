@@ -66,6 +66,7 @@
         $('#fm').form('clear');
         $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
         DataLoad();
+//        updateforder('');
 
         $('#FORMULA_CODE').attr("readonly", false);
         $('#OPERATE_DATE').attr("readonly", true);
@@ -119,6 +120,9 @@
                 var batchweight = parseFloat($('#BATCH_WEIGHT').val() )- parseFloat(detailRow.WEIGHT);
                 $('#BATCH_WEIGHT').numberbox('setValue',batchweight );
             }
+            updateforder();
+//            var data = $('#inBillDetail').datagrid('getData');
+//            $('#inBillDetail').datagrid('loadData', data);
         } else {
             $.messager.confirm('错误', '没有选择行！');
         }
@@ -153,9 +157,13 @@
                     //                PERCENT: $('#PERCENT').val(),
                     OTHER: $('#OTHER').val() == null ? "" : $('#OTHER').val()
                 });
+//                var data = $('#inBillDetail').datagrid('getData');
+//                $('#inBillDetail').datagrid('loadData', data);
+             
+
                 var batchweight = parseFloat($('#BATCH_WEIGHT').val());
                 if ($('#WEIGHT').val() != null && $('#WEIGHT').val() != "") {
-                     batchweight = parseFloat($('#WEIGHT').val()) + parseFloat($('#BATCH_WEIGHT').val());
+                    batchweight = parseFloat($('#WEIGHT').val()) + parseFloat($('#BATCH_WEIGHT').val());
                 }
                 //        alert($('#WEIGHT').val() + $('#BATCH_WEIGHT').val()+" "+batchweight);
                 $('#BATCH_WEIGHT').numberbox('setValue', batchweight);
@@ -180,15 +188,137 @@
                 $('#inBillDetail').datagrid('refreshRow', $('#inBillDetail').datagrid('getRowIndex', editRow));
 
                 if ($('#WEIGHT').val() != null && $('#WEIGHT').val() != "") {
-                    batchweight += parseFloat($('#WEIGHT').val()) ;
+                    batchweight += parseFloat($('#WEIGHT').val());
                 }
-//                alert($('#WEIGHT').val() + $('#BATCH_WEIGHT').val() + " " + parseFloat(editRow.WEIGHT));
+                //                alert($('#WEIGHT').val() + $('#BATCH_WEIGHT').val() + " " + parseFloat(editRow.WEIGHT));
                 $('#BATCH_WEIGHT').numberbox('setValue', batchweight);
-            } 
+            }
+            $('#dlg-AddBillDetail').dialog('close');
         }
-        $('#dlg-AddBillDetail').dialog('close');
     }
+    //修改投料顺序序号
+    function updateforder() {
+        var data = $('#inBillDetail').datagrid('getData');
+        for (var i = 0; i < data.total; i++) {
+            $('#inBillDetail').datagrid('beginEdit', i);
+            $('#inBillDetail').datagrid('updateRow', {
+                index: i,
+                row: {
+                    PRODUCT_CODE: data.rows[i].PRODUCT_CODE,
+                    PRODUCT_NAME: data.rows[i].PRODUCT_NAME,
+                    FORDER:i+1,
+                    WEIGHT: data.rows[i].WEIGHT,
+                    MODULES: data.rows[i].MODULES,
+                    //                    PERCENT: $('#PERCENT').val(),
+                    OTHER: data.rows[i].OTHER
+                }
+            });
 
+            $('#inBillDetail').datagrid('endEdit', i);
+            $('#inBillDetail').datagrid('refreshRow', i);
+        }
+        $('#inBillDetail').datagrid('loadData', data);
+    }
+    //向上移动行
+    function rowmoveup() {
+        var SelectRow = $('#inBillDetail').datagrid('getSelected');
+        if (SelectRow) {
+            var data = $('#inBillDetail').datagrid('getData');
+            var index = $('#inBillDetail').datagrid('getRowIndex', SelectRow);
+            if (index !=0) {//选中的不是第一行
+                //修改选中行的投料顺序值
+                $('#inBillDetail').datagrid('beginEdit', index);
+                $('#inBillDetail').datagrid('updateRow', {
+                    index: index,
+                    row: {
+                        PRODUCT_CODE: SelectRow.PRODUCT_CODE,
+                        PRODUCT_NAME: SelectRow.PRODUCT_NAME,
+                        FORDER: SelectRow.FORDER -1,
+                        WEIGHT: SelectRow.WEIGHT,
+                        MODULES: SelectRow.MODULES,
+                        //                    PERCENT: $('#PERCENT').val(),
+                        OTHER: SelectRow.OTHER
+                    }
+                });
+                $('#inBillDetail').datagrid('endEdit', index);
+                $('#inBillDetail').datagrid('refreshRow', index);
+
+                //修改上一行的投料顺序值
+                $('#inBillDetail').datagrid('beginEdit', index - 1);
+                $('#inBillDetail').datagrid('updateRow', {
+                    index: index -1,
+                    row: {
+                        PRODUCT_CODE: data.rows[index -1].PRODUCT_CODE,
+                        PRODUCT_NAME: data.rows[index - 1].PRODUCT_NAME,
+                        FORDER: data.rows[index - 1].FORDER +1,
+                        WEIGHT: data.rows[index - 1].WEIGHT,
+                        MODULES: data.rows[index - 1].MODULES,
+                        //                    PERCENT: $('#PERCENT').val(),
+                        OTHER: data.rows[index- 1].OTHER
+                    }
+                });
+                $('#inBillDetail').datagrid('endEdit', index -1);
+                $('#inBillDetail').datagrid('refreshRow', index - 1);
+                //重新加载数据
+                $('#inBillDetail').datagrid('loadData', data);
+                //原来的行处于选中状态
+                $('#inBillDetail').datagrid('selectRow', index - 1);
+            }
+        }
+        else {
+            $.messager.confirm('错误', '请先选择要移动的行！');
+        }
+    }
+    //向下移动行
+    function rowmovedown() {
+        var SelectRow = $('#inBillDetail').datagrid('getSelected');
+        if (SelectRow) {
+            var data = $('#inBillDetail').datagrid('getData');
+            var index = $('#inBillDetail').datagrid('getRowIndex', SelectRow);
+            if (index < data.total - 1) {//选中的不是最后一行
+                //修改选中行的投料顺序值
+                $('#inBillDetail').datagrid('beginEdit', index);
+                $('#inBillDetail').datagrid('updateRow', {
+                    index: index,
+                    row: {
+                        PRODUCT_CODE: SelectRow.PRODUCT_CODE,
+                        PRODUCT_NAME: SelectRow.PRODUCT_NAME,
+                        FORDER: SelectRow.FORDER + 1,
+                        WEIGHT: SelectRow.WEIGHT,
+                        MODULES: SelectRow.MODULES,
+                        //                    PERCENT: $('#PERCENT').val(),
+                        OTHER: SelectRow.OTHER
+                    }
+                });
+                $('#inBillDetail').datagrid('endEdit', index);
+                $('#inBillDetail').datagrid('refreshRow', index);
+
+                //修改下一行的投料顺序值
+                $('#inBillDetail').datagrid('beginEdit', index + 1);
+                $('#inBillDetail').datagrid('updateRow', {
+                    index: index + 1,
+                    row: {
+                        PRODUCT_CODE: data.rows[index + 1].PRODUCT_CODE,
+                        PRODUCT_NAME: data.rows[index + 1].PRODUCT_NAME,
+                        FORDER: data.rows[index + 1].FORDER - 1,
+                        WEIGHT: data.rows[index + 1].WEIGHT,
+                        MODULES: data.rows[index + 1].MODULES,
+                        //                    PERCENT: $('#PERCENT').val(),
+                        OTHER: data.rows[index + 1].OTHER
+                    }
+                });
+                $('#inBillDetail').datagrid('endEdit', index + 1);
+                $('#inBillDetail').datagrid('refreshRow', index + 1);
+                //重新加载数据
+                $('#inBillDetail').datagrid('loadData', data);
+                //原来的行处于选中状态
+                $('#inBillDetail').datagrid('selectRow', index + 1);
+            }
+        }
+        else {
+            $.messager.confirm('错误', '请先选择要移动的行！');
+        }
+    }
 
     //保存入库单
     function save() {
@@ -342,8 +472,9 @@
         closed="true" buttons="#dlg-buttons">
 	<div class="easyui-layout" fit="true">
         <div region="center" border="false">
+        @*<table class="easyui-datagrid"  id="inBillDetail"></table>*@
             <table class="easyui-datagrid" border="false" toolbar="#dlg-detailButtons" width="700" id="inBillDetail"
-                fit="true" fitColumns="true" singleSelect="true" rownumbers="true" pagination="false" url="" striped="true">
+                fit="true" fitColumns="true"  sortName= "FORDER" sortOrder="asc" remoteSort="false",  singleSelect="true" rownumbers="true" pagination="false" url="" striped="true">
                 <thead>
                     <tr>
                         <th field="FORMULA_CODE" hidden="true" width="100">细单ID</th>
@@ -352,7 +483,7 @@
                         <th field="FORDER">投料顺序</th>
                         <th field="WEIGHT">重量</th>
                         <th field="MODULES">模块号</th>
-                        @*<th field="PERCENT" width="80" align="right">百分比</th>*@
+                       @* <th field="PERCENT" width="80" align="right">百分比</th>*@
                         <th field="OTHER" width="80" align="right">其它</th>
                     </tr>
                 </thead>
@@ -409,6 +540,8 @@
 	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addBillDetailClick()" id="btnAddBillDetail">添加明细</a>
 	    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteBillDetailClick()" id="btnDeleteBillDetail">删除明细</a>
         <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editBillDetailClick()" id="btnEditBillDetail">修改明细</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-up" plain="true" onclick="rowmoveup()" id="btnmoveup">上移</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-down" plain="true" onclick="rowmovedown()" id="btnmovedown">下移</a>
     </div>
 </div>
 
