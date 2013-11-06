@@ -4,6 +4,8 @@
               hasDownArrow: true
           });
           GetCigarette();
+          GetBillType();
+          GetFormula('');
         $('#dlg-search').dialog('open').dialog('setTitle', '查询');
 //         $('#SSTATE').combobox('clear');
         $('#SBILLMETHOD').combobox('clear');
@@ -17,7 +19,6 @@
             disabled: false,
             width: 125,
             panelWidth: 340,
-            value:'001',
             url: '/BillType/Details/?page=1&rows=1000',
             idField: 'BTYPE_CODE',
             textField: 'BTYPE_NAME',
