@@ -2034,6 +2034,7 @@
     <Content Include="Views\WorkSearch\Index.cshtml" />
     <Content Include="Views\WorkSearch\_SearchPartial.cshtml" />
     <Content Include="Views\WorkSearch\_PrintPartial.cshtml" />
+    <Content Include="Views\InvertedTreasury\_SearchPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

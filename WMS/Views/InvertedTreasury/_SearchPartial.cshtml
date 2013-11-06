@@ -13,10 +13,29 @@
           SGetWarehouseCode() ;//仓库编号
           SGetBillType() ;//单据类型
           SGetCigarette();//牌号
-
+          SGetLineNo();//制丝线
         $('#dlg-search').dialog('open').dialog('setTitle', '查询');
          $('#SSTATE').combobox('clear');
-         $('#SBILL_METHOD').combobox('clear');
+    }
+    //    制丝线
+    function SGetLineNo() {
+        $('#SLINE_NO').combogrid({
+            required: false,
+            disabled: false,
+            width: 125,
+            panelWidth: 340,
+            url: '/Schedule2/GetLine/?page=1&rows=1000',
+            idField: 'LINE_NO',
+            textField: 'LINE_NAME',
+            mode: 'local',
+            editable: true,
+            fitColumns: true,
+            columns: [[
+                        { field: 'LINE_NO', title: '制丝线编号', align: 'left', width: 40 },
+                        { field: 'LINE_NAME', title: '制丝线名称', align: 'left', width: 30 },
+                        { field: 'MEMO', title: '备注', align: 'left', width: 30 }
+                    ]]
+        });
     }
     //牌号
     function SGetCigarette() {
@@ -29,7 +48,7 @@
             idField: 'CIGARETTE_CODE',
             textField: 'CIGARETTE_CODE',
             mode: 'local',
-//            editable: true,
+            editable: true,
             fitColumns: true,
             columns: [[
                     { field: 'CIGARETTE_CODE', title: '牌号编码', align: 'left', width: 40 },
@@ -53,7 +72,7 @@
             idField: 'FORMULA_CODE',
             textField: 'FORMULA_CODE',
             mode: 'local',
-//            editable: true,
+            editable: true,
             fitColumns: true,
             columns: [[
                     { field: 'FORMULA_CODE', title: '配方代码', align: 'left', width: 40 },
@@ -73,7 +92,7 @@
             idField: 'WAREHOUSE_CODE',
             textField: 'WAREHOUSE_NAME',
             mode: 'local',
-//            editable: false,
+            editable: true,
             fitColumns: true,
             columns: [[
                     { field: 'WAREHOUSE_CODE', title: '仓库编号', align: 'left', width: 40 },
@@ -93,31 +112,32 @@
             idField: 'BTYPE_CODE',
             textField: 'BTYPE_NAME',
             mode: 'local',
-//            editable: false,
+            editable: true,
             fitColumns: true,
             queryParams: {
-                  BILL_TYPE:'1'
+                BILL_TYPE: '2'
             },
             columns: [[
                     { field: 'BTYPE_CODE', title: '类型代码', align: 'left', width: 40 },
                     { field: 'BTYPE_NAME', title: '类型名称', align: 'left', width: 30 },
                     { field: 'TASK_LEVEL', title: '任务等级', align: 'left', width: 30 },
                     { field: 'TARGET_CODE', title: '目标口', align: 'left', hidden: true, width: 30 },
-                     { field: 'TARGETNAME', title: '目标口', align: 'left',hidden: true,width: 30 }
+                     { field: 'TARGETNAME', title: '目标口', align: 'left', hidden: true, width: 30 }
                 ]]
         });
     }
-     //查询
+  //查询
     function Sselect() {
         var queryParams = $('#details').datagrid('options').queryParams;
         queryParams.BILL_NO = $('#SBILL_NO').val();
         queryParams.BILL_DATE = $('#SBILL_DATE').datebox('getValue');
-        queryParams.BTYPE_CODE=$('#SBTYPE_CODE').combogrid('getValue');
+        if($('#SBTYPE_CODE').combogrid('getText')!=null&&$('#SBTYPE_CODE').combogrid('getText')!=""){
+          queryParams.BTYPE_CODE=$('#SBTYPE_CODE').combogrid('getValue');
+        }
+        else
+          queryParams.BTYPE_CODE="";
         queryParams.WAREHOUSE_CODE=$('#SWAREHOUSE_CODE').combogrid('getValue');
-        if($('#SBILL_METHOD').combobox('getText')!=null&&$('#SBILL_METHOD').combobox('getText')!=""){
-            queryParams.BILL_METHOD=$('#SBILL_METHOD').combobox('getValue'); }
-         else
-          queryParams.BILL_METHOD="";
+         queryParams.LINE_NO=$('#SLINE_NO').combogrid('getValue');
         queryParams.CIGARETTE_CODE=$('#SCIGARETTE_CODE').combogrid('getValue');
         queryParams.FORMULA_CODE=$('#SFORMULA_CODE').combogrid('getValue');
         if($('#SSTATE').combobox('getText')!=null&&$('#SSTATE').combobox('getText')!=""){
@@ -133,8 +153,6 @@
         $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
         $('#details').datagrid('reload');
         $('#SSTATE').combobox('clear');
-        $('#SCIGARETTE_CODE').combogrid('clear');
-        $('#SFORMULA_CODE').combogrid('clear');
         $('#SSCHEDULE_DATE').datebox('clear');
         $('#SOPERATE_DATE').datebox('clear');
         $('#SCHECK_DATE').datebox('clear');
@@ -142,6 +160,7 @@
         $('#dlg-search').dialog('close');
      }
 </script>
+
 
 <div id="dlg-search" class="easyui-dialog" modal="true" style="width:430px;height:260px;padding:2px 2px"
 		closed="true" buttons="#dlg-buttons-search">
@@ -151,23 +170,16 @@
                       <tr>
                         <td style="width:50px" align="right">单据编号</td>
                         <td style="width:138px"><input id="SBILL_NO" style="width:125px"  /></td>
-                        <td style="width:50px" align="right">入库日期</td>
+                        <td style="width:50px" align="right">出库日期</td>
                         <td style="width:138px"><input id="SBILL_DATE" style="width:125px" ></td>
                       </tr>
                       <tr>
-                        <td style="width:50px" align="right">入库类型</td>
+                        <td style="width:50px" align="right">出库类型</td>
                         <td style="width:138px"><input id="SBTYPE_CODE" style="width:125px"  /></td>
                         <td style="width:50px" align="right">仓库编号</td>
                         <td style="width:138px"><input id="SWAREHOUSE_CODE" style="width:125px" ></td>
                       </tr>
                       <tr>
-                          <td width="50">入库方式</td>
-                          <td width="125" >
-                               <select  name="SBILL_METHOD" id="SBILL_METHOD"  class="easyui-combobox"  style="width:125px">
-                                   <option value="0">批次</option>
-		                           <option value="1">等级</option>
-                              </select>
-                            </td>
                         <td style="width:50px" align="right">单据状态</td>
                         <td style="width:138px">
                              <select id="SSTATE"  class="easyui-combobox" style="width:125px" >		                
@@ -175,6 +187,8 @@
 		                            <option value="2">审核</option>
 	                         </select>
                         </td>
+                       <td width="50">制丝线</td>
+                       <td  style="width:138px"><input name="SLINE_NO" id="SLINE_NO" class="easyui-combogrid"/></td>
                       </tr>
                       <tr>
                             <td width="50">牌   号</td>
@@ -205,3 +219,4 @@
       <input type="button"  onclick="Sselect()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/>
       <input type="button"  onclick="javascript:$('#dlg-search').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>
+
