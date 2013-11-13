@@ -193,7 +193,7 @@ namespace THOK.Wms.Bll.Service
                     report.RegisterData(dt.DefaultView, "printreport");
 
                     report.Prepare();
-                    report.FinishReport += new EventHandler(report_FinishReport);
+                    //report.FinishReport += new EventHandler(report_FinishReport);
                     FileName = Path + @"ContentReport\PDF\barcodeprint_" + username + "_" + PrintCount + ".pdf";
                     FastReport.Export.Pdf.PDFExport pdfExport = new FastReport.Export.Pdf.PDFExport();
                     //if (System.IO.File.Exists(FileName))
@@ -212,12 +212,12 @@ namespace THOK.Wms.Bll.Service
 
         }
 
-        void report_FinishReport(object sender, EventArgs e)
-        {
-            Report obj = (Report)sender;
-            if (obj.Operation == ReportOperation.Exporting) { }
-            //throw new NotImplementedException();
-        }
+        //void report_FinishReport(object sender, EventArgs e)
+        //{
+        //    Report obj = (Report)sender;
+        //    if (obj.Operation == ReportOperation.Exporting) { }
+        //    //throw new NotImplementedException();
+        //}
 
 
         //紧急补料作业

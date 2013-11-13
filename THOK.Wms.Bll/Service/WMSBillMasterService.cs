@@ -636,17 +636,39 @@ namespace THOK.Wms.Bll.Service
                 mast.TARGET_CODE = targetcode.TARGET_CODE;
                 BillMasterRepository.Add(mast);
 
+                List<WMS_BILL_DETAIL> detaillist = new List<WMS_BILL_DETAIL>();
+
                 DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]);
                 foreach (DataRow dr in dt.Rows)
                 {
 
                     WMS_PRODUCT_STATE subdetail = new WMS_PRODUCT_STATE();
+                    WMS_BILL_DETAIL billdetail = new WMS_BILL_DETAIL();
                     THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
+
+
+                    billdetail.BILL_NO = mast.BILL_NO;
+                    billdetail.ITEM_NO = serial;
+                    billdetail.PRODUCT_CODE = subdetail.PRODUCT_CODE;
+                    billdetail.WEIGHT = subdetail.WEIGHT;
+                    billdetail.REAL_WEIGHT = subdetail.REAL_WEIGHT;
+                    billdetail.PACKAGE_COUNT = subdetail.PACKAGE_COUNT;
+                    billdetail.IS_MIX = subdetail.IS_MIX;
+                    WMS_BILL_DETAIL exits = detaillist.Find(i => i.PRODUCT_CODE == subdetail.PRODUCT_CODE);
+                    if (exits != null) exits.PACKAGE_COUNT += 1;
+                    else detaillist.Add(billdetail);
                     //if (subdetail.SCHEDULE_NO == "null") subdetail.SCHEDULE_NO = "";
                     //if (subdetail.OUT_BILLNO == "null") subdetail.OUT_BILLNO = "";
                     ProductStateRepository.Add(subdetail);
+                    serial++;
+                }
+                serial = 1;
+                foreach (WMS_BILL_DETAIL item in detaillist)
+                {
+                    item.ITEM_NO = serial;
+                    BillDetailRepository.Add(item);
                     serial++;
                 }
 
@@ -669,12 +691,17 @@ namespace THOK.Wms.Bll.Service
             billmast.BILL_DATE = mast.BILL_DATE;
             billmast.SOURCE_BILLNO = mast.SOURCE_BILLNO;
 
+            List<WMS_BILL_DETAIL> detaillist = new List<WMS_BILL_DETAIL>();
+
             var details = ProductStateRepository.GetQueryable().Where(i => i.BILL_NO == mast.BILL_NO);
             var tmp = details.ToArray().AsEnumerable().Select(i => i);
             foreach (WMS_PRODUCT_STATE  sub in tmp)
             {
                 ProductStateRepository.Delete(sub);
             }
+            var billdetails = BillDetailRepository.GetQueryable().Where(i => i.BILL_NO == mast.BILL_NO);
+            WMS_BILL_DETAIL[] billdetaillist = billdetails.ToArray();
+            BillDetailRepository.Delete(billdetaillist);
 
             DataTable dt = THOK.Common.ConvertData.JsonToDataTable(((System.String[])detail)[0]); //修改
             if (dt != null)
@@ -683,13 +710,32 @@ namespace THOK.Wms.Bll.Service
                 foreach (DataRow dr in dt.Rows)
                 {
                     WMS_PRODUCT_STATE subdetail = new WMS_PRODUCT_STATE();
+                    WMS_BILL_DETAIL billdetail = new WMS_BILL_DETAIL();
                     THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
                     if (subdetail.SCHEDULE_NO == "null") subdetail.SCHEDULE_NO = "";
                     if (subdetail.OUT_BILLNO == "null") subdetail.OUT_BILLNO = "";
+
+                    billdetail.BILL_NO = mast.BILL_NO;
+                    billdetail.ITEM_NO = serial;
+                    billdetail.PRODUCT_CODE = subdetail.PRODUCT_CODE;
+                    billdetail.WEIGHT = subdetail.WEIGHT;
+                    billdetail.REAL_WEIGHT = subdetail.REAL_WEIGHT;
+                    billdetail.PACKAGE_COUNT = subdetail.PACKAGE_COUNT;
+                    billdetail.IS_MIX = subdetail.IS_MIX;
+                    WMS_BILL_DETAIL exits = detaillist.Find(i => i.PRODUCT_CODE == subdetail.PRODUCT_CODE);
+                    if (exits != null) exits.PACKAGE_COUNT += 1;
+                    else detaillist.Add(billdetail);
                     
                     ProductStateRepository.Add(subdetail);
+                    serial++;
+                }
+                serial = 1;
+                foreach (WMS_BILL_DETAIL item in detaillist)
+                {
+                    item.ITEM_NO = serial;
+                    BillDetailRepository.Add(item);
                     serial++;
                 }
             }
@@ -709,6 +755,10 @@ namespace THOK.Wms.Bll.Service
             {
                 ProductStateRepository.Delete(sub);
             }
+            var billdetails = BillDetailRepository.GetQueryable().Where(i => i.BILL_NO == BillNo);
+            WMS_BILL_DETAIL[] billdetaillist = billdetails.ToArray();
+            BillDetailRepository.Delete(billdetaillist);
+
             BillMasterRepository.Delete(deletbillno);
             int result = BillMasterRepository.SaveChanges();
             if (result == -1) return false;

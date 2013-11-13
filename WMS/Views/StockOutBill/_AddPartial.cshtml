@@ -55,6 +55,7 @@
     }
     //单据类型
     function GetBillType() {
+        var isreload = false;
         $('#BTYPE_CODE').combogrid({
             required: true,
             disabled: false,
@@ -76,8 +77,24 @@
                     { field: 'TASK_LEVEL', title: '任务等级', align: 'left', width: 30 },
                     { field: 'TARGET_CODE', title: '目标口', align: 'left', hidden: true, width: 30 },
                      { field: 'TARGETNAME', title: '目标口', align: 'left', hidden: true, width: 30 }
-                ]]
+                ]],
+            onLoadSuccess: function (data) {
+                var data2 = [];
+                for (var i = 0; i < data.rows.length; i++) {
+                    if (data.rows[i].BTYPE_CODE != '005') {
+                        data2.push(data.rows[i]);
+                    }
+                }
+                if (!isreload) {
+                    isreload = true;
+                    $('#BTYPE_CODE').combogrid('grid').datagrid('loadData', data2);
+                }
+            }
         });
+//        var g = $('#BTYPE_CODE').combogrid('grid');
+//        var data = g.datagrid('getData');
+//        alert(g.rows[0].BTYPE_CODE);
+//        $('#BTYPE_CODE').combogrid('deleteRow', $('#BTYPE_CODE').combogrid('getRowIndex', '005'));
     }
     //仓库编号
     function GetWarehouseCode() {

@@ -71,6 +71,8 @@
     <Compile Include="Interfaces\IService.cs" />
     <Compile Include="Interfaces\ISysBillTargetService.cs" />
     <Compile Include="Interfaces\ISysTableStateService.cs" />
+    <Compile Include="Interfaces\IWMSBalanceDetailService.cs" />
+    <Compile Include="Interfaces\IWMSBalanceMasterService.cs" />
     <Compile Include="Interfaces\IWMSBillMasterService.cs" />
     <Compile Include="Interfaces\IWMSFormulaService.cs" />
     <Compile Include="Interfaces\IWMSPalletMasterService.cs" />
@@ -118,6 +120,8 @@
     <Compile Include="Service\ServiceBase.cs" />
     <Compile Include="Service\SysBillTargetService.cs" />
     <Compile Include="Service\SysTableStateService.cs" />
+    <Compile Include="Service\WMSBalanceDetailService.cs" />
+    <Compile Include="Service\WMSBalanceMasterService.cs" />
     <Compile Include="Service\WMSBillMasterService.cs" />
     <Compile Include="Service\WMSFormulaService.cs" />
     <Compile Include="Service\WMSPalletMasterService.cs" />

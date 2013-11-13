@@ -1,0 +1,41 @@
+﻿<script type="text/javascript">
+//反审
+    function antitrialClick() {
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            if (row.STATE == "1") {
+                $.messager.confirm('提示', '确定要反审该记录?', function (r) {
+                    if (r) {
+                        $.getJSON("/ProductMonthly/Antitrial/?BALANCENO=" + row.BALANCE_NO, function (result) {
+                            if (result) {
+                                if (result.success) {
+                                    $.messager.show({
+                                        title: '成功',
+                                        msg: result.msg
+                                    });
+                                    $('#details').datagrid('reload');
+                                } else {
+                                    $.messager.show({
+                                        title: '错误',
+                                        msg: result.msg
+                                    });
+                                    $('#details').datagrid('reload');
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+            else if (row.STATE == "0") {
+                alert( '该记录还未审核无法反审！');
+            }
+            else {
+                alert('该记录已' + row.STATE_DESC + '无法反审！');
+            }
+        }
+        else {
+            alert('没有选择行！');
+        }
+    }
+</script>
+

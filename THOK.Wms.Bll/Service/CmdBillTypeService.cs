@@ -55,6 +55,10 @@ namespace THOK.Wms.Bll.Service
                 {
                     CmdBillTypes = CmdBillTypes.Where(i => BILL_TYPE .Contains (i.BILL_TYPE ));
                 }
+              //else if(BILL_TYPE =="2")
+              //  {
+              //      CmdBillTypes = CmdBillTypes.Where(i => i.BILL_TYPE == BILL_TYPE&&i.BTYPE_CODE !="005");
+              //   }
                 else
                     CmdBillTypes = CmdBillTypes.Where(i => i.BILL_TYPE == BILL_TYPE);
             }
