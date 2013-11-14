@@ -31,10 +31,10 @@ namespace WMS.Controllers.Wms.WMS
             var nos = BalanceMasterService.GetBalanceNo();
             return Json(nos, "text/html", JsonRequestBehavior.AllowGet);
         }
-        //产品总账
+        //产品明细账
         public ActionResult Detailed(int page, int rows, string begin, string end)
         {
-            var ledger = BalanceDetailService.Ledger(page, rows, begin, end);
+            var ledger = BalanceDetailService.Detailed(page, rows, begin, end);
             return Json(ledger, "text/html", JsonRequestBehavior.AllowGet);
         }
 

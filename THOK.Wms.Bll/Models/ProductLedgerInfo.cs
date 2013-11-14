@@ -11,11 +11,11 @@ namespace THOK.Wms.Bll.Models
     public  class ProductLedgerInfo
     {
         /// <summary>
-        /// 
+        /// 开始年月
         /// </summary>
         public string BEGINMONTH { get; set; }
         /// <summary>
-        /// 
+        /// 结束年月
         /// </summary>
         public string ENDMONTH { get; set; }
         /// <summary>
@@ -23,7 +23,7 @@ namespace THOK.Wms.Bll.Models
         /// </summary>
         public string WAREHOUSE_CODE { get; set; }
         /// <summary>
-        /// 仓库编号
+        /// 仓库名称
         /// </summary>
         public string WAREHOUSE_NAME { get; set; }
         /// <summary>
@@ -34,6 +34,14 @@ namespace THOK.Wms.Bll.Models
         ///产品名称
         /// </summary>
         public string PRODUCT_NAME { get; set; }
+        /// <summary>
+        /// 单据日期
+        /// </summary>
+        public string  BILLDATE { get; set; }
+        /// <summary>
+        /// 单据号
+        /// </summary>
+        public string BILL_NO { get; set; }
         /// <summary>
         /// 入库数量
         /// </summary>

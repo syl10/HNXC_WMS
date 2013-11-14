@@ -33,7 +33,9 @@
     function Sselect() {
       var begin = $('#BEGINMONTH').combobox('getValue');
       var end = $('#ENDMONTH').combobox('getValue');
+      $('#details').datagrid('loadData', { total: 0, rows: [] });
       $('#details').datagrid({ url: '/ProductDetails/Detailed/?begin=' + begin + '&end=' + end });
+      $('#dlg-search').dialog('close');
     }
 </script>
 <div id="dlg-search" class="easyui-dialog" modal="true" style="width:430px;height:190px;padding:2px 2px"

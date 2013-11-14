@@ -22,6 +22,10 @@ namespace THOK.Wms.Bll.Service
         public ICMDProuductRepository ProductRepository { get; set; }
         [Dependency]
         public ICMDWarehouseRepository CMDWarehouseRepository { get; set; }
+        [Dependency]
+        public IWMSBillMasterRepository BillMasterRepository { get; set; }
+        [Dependency]
+        public IWMSBillDetailRepository BillDetailRepository { get; set; }
 
         public object GetSubDetails(int page, int rows, string Balanceno)
         {
@@ -138,7 +142,110 @@ namespace THOK.Wms.Bll.Service
         //产品明细
         public object Detailed(int page, int rows, string begin, string end)
         {
-            throw new NotImplementedException();
+            IQueryable<WMS_BALANCE_DETAIL> detailquery = BalanceDetailRepository.GetQueryable();
+            IQueryable<WMS_BILL_MASTER> billquery = BillMasterRepository.GetQueryable();
+            IQueryable<WMS_BILL_DETAIL> billdetailquery = BillDetailRepository.GetQueryable();
+             IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
+            List<ProductLedgerInfo> list = new List<ProductLedgerInfo>();
+            //从月结明细表中找出,在该时间段的哪些仓库中的哪些产品代码
+            var balance = detailquery.Where(i => int.Parse(i.BALANCE_NO) >= int.Parse(begin) && int.Parse(i.BALANCE_NO) <= int.Parse(end));
+
+            //
+            var bill = from a in billquery
+                       join b in billdetailquery on a.BILL_NO equals b.BILL_NO
+                        join c in productquery on b.PRODUCT_CODE  equals c.PRODUCT_CODE
+                       select new { 
+                           a.BILL_NO ,
+                           a.BILL_DATE ,
+                           a.WAREHOUSE_CODE ,
+                           a.CMD_WAREHOUSE .WAREHOUSE_NAME ,
+                           b.PRODUCT_CODE ,
+                           c.PRODUCT_NAME ,
+                           a.BTYPE_CODE ,
+                           a.BILL_METHOD ,
+                           b.PACKAGE_COUNT ,
+                           b.REAL_WEIGHT,
+                           b.IS_MIX 
+                       };
+             var   bills = bill.ToArray ().Where(i => int.Parse((i.BILL_DATE.ToString("yyyyMM"))) >= int.Parse(begin) && int.Parse((i.BILL_DATE.ToString("yyyyMM"))) <= int.Parse(end));
+             for (int n = 0; n <bills.Count(); n++)
+             {
+                 string warehouse = bills.ToArray()[n].WAREHOUSE_CODE;
+                 string warehousename = bills.ToArray()[n].WAREHOUSE_NAME;
+                 string productcode = bills.ToArray()[n].PRODUCT_CODE;
+                 string product = bills.ToArray()[n].PRODUCT_NAME;
+                 string btypecode = bills.ToArray()[n].BTYPE_CODE;
+                 decimal packagecout = bills.ToArray()[n].PACKAGE_COUNT;
+                 decimal realweight = bills.ToArray()[n].REAL_WEIGHT;
+                var obj = balance.Where  (i => i.WAREHOUSE_CODE == warehouse && i.PRODUCT_CODE == productcode);
+                if (obj != null) //该单据符合条件
+                {
+                    ProductLedgerInfo item = new ProductLedgerInfo();
+                    item.WAREHOUSE_CODE = warehouse;
+                    item.PRODUCT_CODE = productcode;
+                    item.WAREHOUSE_NAME = warehousename;
+                    item.PRODUCT_NAME = product;
+                    item.BEGINMONTH = begin;
+                    item.ENDMONTH = end;
+                    item.BILL_NO = bills.ToArray()[n].BILL_NO;
+                    item.BILLDATE = bills.ToArray()[n].BILL_DATE.ToString("yyyy-MM-dd");
+
+                    var isexit = list.FirstOrDefault (i => i.WAREHOUSE_CODE == warehouse && i.PRODUCT_CODE == productcode && i.BILL_NO == item.BILL_NO);
+                    if (btypecode == "001" || btypecode == "007") { //入库单 包括退库单,抽检补料入库单
+                        if (bills.ToArray()[n].BILL_METHOD == "0" || bills.ToArray()[n].BILL_METHOD == "1")
+                        { //入库单和退库单
+                            if (isexit == null)
+                                item.IN_QUANTITY = packagecout * realweight;
+                            else
+                                isexit.IN_QUANTITY += packagecout * realweight;
+                        }
+                        if (bills.ToArray()[n].BILL_METHOD == "2" || bills.ToArray()[n].BILL_METHOD == "3")
+                        { //抽检补料入库单
+                            if (isexit == null)
+                                item.INSPECTIN_QUANTITY = packagecout * realweight;
+                            else
+                                isexit.INSPECTIN_QUANTITY += packagecout * realweight;
+                        }
+                    }
+                    else if (btypecode == "002" || btypecode == "006") { //出库单包括倒库单
+                        if (isexit == null)
+                            item.OUT_QUANTITY = packagecout * realweight;
+                        else
+                            isexit.OUT_QUANTITY += packagecout * realweight;
+                    }
+                    else if (btypecode == "003") { //抽检单
+                        if (isexit == null)
+                            item.INSPECTOUT_QUANTITY = packagecout * realweight;
+                        else
+                            isexit.INSPECTOUT_QUANTITY += packagecout * realweight;
+                    }
+                    else if (btypecode == "009") { //损益单
+                        if (isexit == null)
+                            item.INCOME_QUANTITY = packagecout * realweight;
+                        else
+                            isexit.INCOME_QUANTITY  += packagecout * realweight;
+                    }
+                    else if (btypecode == "005")
+                    { //紧急补料单
+                        if (isexit == null)
+                            item.FEEDING_QUANTITY = packagecout * realweight;
+                        else
+                            isexit.FEEDING_QUANTITY += packagecout * realweight;
+                    }
+                    else { 
+                    }
+                    if (isexit == null)
+                        list.Add(item);
+
+                }
+                else { // 不符合条件
+
+                }
+            }
+            int total = list.Count();
+            var tmp = list.OrderBy(i => i.PRODUCT_CODE ).Select(i => i);
+            tmp = tmp.Skip((page - 1) * rows).Take(rows);
+            return new { total, rows = tmp.ToArray() };
         }
     }
 }

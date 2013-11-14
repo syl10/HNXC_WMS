@@ -33,6 +33,7 @@
     function Sselect() {
       var begin = $('#BEGINMONTH').combobox('getValue');
       var end = $('#ENDMONTH').combobox('getValue');
+      $('#details').datagrid('loadData', { total: 0, rows: [] });
       $('#details').datagrid({ url: '/ProductLedger/Ledger/?begin=' + begin + '&end=' + end });
       $('#dlg-search').dialog('close');
     }

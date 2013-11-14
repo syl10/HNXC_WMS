@@ -191,7 +191,7 @@ namespace THOK.Wms.Bll.Service
 
                     
                     report.RegisterData(dt.DefaultView, "printreport");
-
+                  
                     report.Prepare();
                     //report.FinishReport += new EventHandler(report_FinishReport);
                     FileName = Path + @"ContentReport\PDF\barcodeprint_" + username + "_" + PrintCount + ".pdf";
