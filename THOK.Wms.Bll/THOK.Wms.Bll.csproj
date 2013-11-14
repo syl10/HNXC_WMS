@@ -83,6 +83,7 @@
     <Compile Include="Interfaces\IWMSScheduleService.cs" />
     <Compile Include="Models\CellInfo.cs" />
     <Compile Include="Models\FormulaDetail.cs" />
+    <Compile Include="Models\ProductLedgerInfo.cs" />
     <Compile Include="Service\CmdBillTypeService.cs" />
     <Compile Include="Service\CMDCarService.cs" />
     <Compile Include="Service\CMDCraneService.cs" />

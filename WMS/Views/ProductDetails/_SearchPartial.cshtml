@@ -12,7 +12,7 @@
     }
     //加载开始年月和结束年月
     function loadmonths() {
-        $.getJSON("/ProductLedger/GetBalanceNo/", function (json) {
+        $.getJSON("/ProductDetails/GetBalanceNo/", function (json) {
             if (json) {
                 $('#BEGINMONTH').combobox({
                     data: json.rows,
@@ -33,8 +33,7 @@
     function Sselect() {
       var begin = $('#BEGINMONTH').combobox('getValue');
       var end = $('#ENDMONTH').combobox('getValue');
-      $('#details').datagrid({ url: '/ProductLedger/Ledger/?begin=' + begin + '&end=' + end });
-      $('#dlg-search').dialog('close');
+      $('#details').datagrid({ url: '/ProductDetails/Detailed/?begin=' + begin + '&end=' + end });
     }
 </script>
 <div id="dlg-search" class="easyui-dialog" modal="true" style="width:430px;height:190px;padding:2px 2px"

@@ -6,6 +6,7 @@ using THOK.Wms.DbModel;
 using THOK.Wms.Bll.Interfaces;
 using THOK.Wms.Dal.Interfaces;
 using Microsoft.Practices.Unity;
+using THOK.Wms.Bll.Models;
 
 namespace THOK.Wms.Bll.Service
 {
@@ -59,49 +60,85 @@ namespace THOK.Wms.Bll.Service
             IQueryable<WMS_BALANCE_DETAIL> detailquery = BalanceDetailRepository.GetQueryable();
             IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
             IQueryable<CMD_WAREHOUSE> warehousequery = CMDWarehouseRepository.GetQueryable();
-            List<WMS_BALANCE_DETAIL> list = new List<WMS_BALANCE_DETAIL>();
+            List<ProductLedgerInfo> list = new List<ProductLedgerInfo>();
             var details = from a in detailquery
                           join b in warehousequery on a.WAREHOUSE_CODE equals b.WAREHOUSE_CODE
                           join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE
+                          //group a by new {a.PRODUCT_CODE ,a.WAREHOUSE_CODE } into gp
                           select new
                           {
                               BEGINMONTH = begin,
                               ENDMONTH = end,
-                              //gp .Key ,
-                             
+                              //gp.Key,
+                              //IN_QUANTITY = a.IN_QUANTITY + a.INSPECTIN_QUANTITY
+
                               a.BALANCE_NO, //月结编号
                               a.WAREHOUSE_CODE, //仓库编号
                               b.WAREHOUSE_NAME,
                               a.PRODUCT_CODE, //产品代码
                               c.PRODUCT_NAME,
-                              a.IN_QUANTITY, //入库数量
+                              IN_QUANTITY = a.IN_QUANTITY + a.INSPECTIN_QUANTITY, //入库数量
                               a.INCOME_QUANTITY,//损益数量
                               a.INSPECTIN_QUANTITY,//抽检补料入数量
                               a.INSPECTOUT_QUANTITY,//抽检出数量
-                              a.OUT_QUANTITY,//出库数量
+                              OUT_QUANTITY = a.OUT_QUANTITY + a.INSPECTOUT_QUANTITY + a.FEEDING_QUANTITY,//出库数量
                               a.DIFF_QUANTITY,//差异数量
                               a.ENDQUANTITY,//期末数量
                               a.BEGIN_QUANTITY,//期初数量
                               a.FEEDING_QUANTITY //补料出数量
                           };
-            //details = details.Where(i => int.Parse(i.BALANCE_NO) >=int .Parse ( begin) && int.Parse(i.BALANCE_NO) <= int.Parse (end));
-            //foreach () { 
-
-            //}
             var temp = details.ToArray().OrderBy(i => i.WAREHOUSE_CODE).Select(i => i);
             temp = temp.Where(i => int.Parse(i.BALANCE_NO) >= int.Parse(begin) && int.Parse(i.BALANCE_NO) <= int.Parse(end));
-            //for (int i = 0; i < temp.Count(); i++) {
-            //    string product = temp.ToArray()[i].PRODUCT_CODE;
-            //    string warehouse = temp.ToArray()[i].WAREHOUSE_CODE;
-            //    var obj = list.FirstOrDefault (n=> n.PRODUCT_CODE == product && n.WAREHOUSE_CODE == warehouse);
-            //    if (obj!=null ) { 
-            //        obj .
-            //    }
-            //}
-           
-            int total = temp.Count();
-            temp = temp.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp.ToArray() };
+            for (int i = 0; i < temp.Count(); i++) {
+                string product = temp.ToArray()[i].PRODUCT_CODE;
+                string warehouse = temp.ToArray()[i].WAREHOUSE_CODE;
+                string balanceno=temp .ToArray ()[i].BALANCE_NO ;
+                var obj = list.FirstOrDefault (n=> n.PRODUCT_CODE == product && n.WAREHOUSE_CODE == warehouse);
+                if (obj != null)
+                {
+                    obj.IN_QUANTITY += temp.ToArray()[i].IN_QUANTITY;
+                    obj.INCOME_QUANTITY += temp.ToArray()[i].INCOME_QUANTITY;
+                    obj.INSPECTIN_QUANTITY += temp.ToArray()[i].INSPECTIN_QUANTITY;
+                    obj.INSPECTOUT_QUANTITY += temp.ToArray()[i].INSPECTOUT_QUANTITY;
+                    obj.OUT_QUANTITY += temp.ToArray()[i].OUT_QUANTITY;
+                    obj.DIFF_QUANTITY += temp.ToArray()[i].DIFF_QUANTITY;
+                    obj.FEEDING_QUANTITY += temp.ToArray()[i].FEEDING_QUANTITY;
+                    obj.BEGIN_QUANTITY += temp.ToArray()[i].BEGIN_QUANTITY;
+                    obj.ENDQUANTITY += temp.ToArray()[i].ENDQUANTITY;
+
+                }
+                else {
+                    ProductLedgerInfo item = new ProductLedgerInfo();
+                    //item.BALANCE_NO = temp.ToArray()[i].BALANCE_NO;
+                    item.BEGINMONTH = begin;
+                    item.ENDMONTH = end;
+                    item.BEGIN_QUANTITY = temp.ToArray()[i].BEGIN_QUANTITY;
+                    item.DIFF_QUANTITY = temp.ToArray()[i].DIFF_QUANTITY;
+                    item.ENDQUANTITY = temp.ToArray()[i].ENDQUANTITY;
+                    item.FEEDING_QUANTITY = temp.ToArray()[i].FEEDING_QUANTITY;
+                    item.IN_QUANTITY = temp.ToArray()[i].IN_QUANTITY;
+                    item.INCOME_QUANTITY = temp.ToArray()[i].INCOME_QUANTITY;
+                    item.INSPECTIN_QUANTITY = temp.ToArray()[i].INSPECTIN_QUANTITY;
+                    item.INSPECTOUT_QUANTITY = temp.ToArray()[i].INSPECTOUT_QUANTITY;
+                    item.OUT_QUANTITY = temp.ToArray()[i].OUT_QUANTITY;
+                    item.PRODUCT_CODE = temp.ToArray()[i].PRODUCT_CODE;
+                    item.PRODUCT_NAME = temp.ToArray()[i].PRODUCT_NAME;
+                    item.WAREHOUSE_NAME = temp.ToArray()[i].WAREHOUSE_NAME;
+                    item.WAREHOUSE_CODE = temp.ToArray()[i].WAREHOUSE_CODE;
+                    list.Add(item);
+                }
+            }
+          
+            int total = list.Count();
+            var tmp = list.OrderBy(i => i.PRODUCT_CODE).Select(i => i);
+            tmp = tmp.Skip((page - 1) * rows).Take(rows);
+            return new { total, rows = tmp.ToArray() };
+        }
+
+        //产品明细
+        public object Detailed(int page, int rows, string begin, string end)
+        {
+            throw new NotImplementedException();
         }
     }
 }
