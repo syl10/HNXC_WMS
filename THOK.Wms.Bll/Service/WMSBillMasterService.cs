@@ -788,6 +788,7 @@ namespace THOK.Wms.Bll.Service
                     task.TASK_LEVEL = decimal.Parse(billmast.CMD_BILL_TYPE.TASK_LEVEL);
                     task.PRODUCT_CODE = item.PRODUCT_CODE;
                     task.PRODUCT_BARCODE = item.PRODUCT_BARCODE;
+                    task.PALLET_CODE = item.PRODUCT_BARCODE;
                     task.REAL_WEIGHT = item.REAL_WEIGHT;
                     task.TARGET_CODE = billmast.TARGET_CODE;
                     task.STATE = "0";
@@ -906,6 +907,7 @@ namespace THOK.Wms.Bll.Service
                     THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
+                    subdetail.PALLET_CODE = subdetail.PRODUCT_BARCODE;
 
                     billdetail.BILL_NO = mast.BILL_NO;
                     billdetail.ITEM_NO = serial;
@@ -975,6 +977,7 @@ namespace THOK.Wms.Bll.Service
                     THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
+                    subdetail.PALLET_CODE = subdetail.PRODUCT_BARCODE;
                     if (subdetail.SCHEDULE_NO == "null") subdetail.SCHEDULE_NO = "";
                     if (subdetail.OUT_BILLNO == "null") subdetail.OUT_BILLNO = "";
 
@@ -1052,6 +1055,7 @@ namespace THOK.Wms.Bll.Service
                     task.TASK_LEVEL = decimal.Parse(billmast.CMD_BILL_TYPE.TASK_LEVEL);
                     task.PRODUCT_CODE = item.PRODUCT_CODE;
                     task.PRODUCT_BARCODE = item.PRODUCT_BARCODE;
+                    task.PALLET_CODE = item.PALLET_CODE;
                     task.REAL_WEIGHT = item.REAL_WEIGHT;
                     task.TARGET_CODE = billmast.TARGET_CODE;
                     task.STATE = "0";
@@ -1099,6 +1103,7 @@ namespace THOK.Wms.Bll.Service
                     task.TASK_LEVEL = decimal.Parse(billmast.CMD_BILL_TYPE.TASK_LEVEL);
                     task.PRODUCT_CODE = item.PRODUCT_CODE;
                     task.PRODUCT_BARCODE = item.PRODUCT_BARCODE;
+                    task.PALLET_CODE = item.PALLET_CODE;
                     task.REAL_WEIGHT = item.REAL_WEIGHT;
                     task.TARGET_CODE = billmast.TARGET_CODE;
                     task.STATE = "0";
@@ -1203,6 +1208,7 @@ namespace THOK.Wms.Bll.Service
                     THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
+                    subdetail.PALLET_CODE = subdetail.PRODUCT_BARCODE;
                     //锁定所要移库的货位
                     var cell = cellRepository.GetQueryable().FirstOrDefault(i => i.CELL_CODE == subdetail.CELL_CODE);
                     cell.IS_LOCK = "1";
@@ -1303,6 +1309,7 @@ namespace THOK.Wms.Bll.Service
                     THOK.Common.ConvertData.DataBind(subdetail, dr);
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
+                    subdetail.PALLET_CODE = subdetail.PRODUCT_BARCODE;
                     if (subdetail.SCHEDULE_NO == "null") subdetail.SCHEDULE_NO = "";
                     if (subdetail.OUT_BILLNO == "null") subdetail.OUT_BILLNO = "";
                     //锁定要移库的货位
@@ -1372,6 +1379,7 @@ namespace THOK.Wms.Bll.Service
                     task.TASK_LEVEL = decimal.Parse(billmast.CMD_BILL_TYPE.TASK_LEVEL);
                     task.PRODUCT_CODE = item.PRODUCT_CODE;
                     task.PRODUCT_BARCODE = item.PRODUCT_BARCODE;
+                    task.PALLET_CODE = item.PALLET_CODE;
                     task.REAL_WEIGHT = item.REAL_WEIGHT;
                     task.TARGET_CODE = billmast.TARGET_CODE;
                     task.STATE = "0";
