@@ -18,5 +18,8 @@ namespace THOK.Wms.DbModel
         public string CATEGORY_NAME { get; set; }
         public string GRADE_NAME { get; set; }
         public string STYLE_NAME { get; set; }
+        public string MODULES { get; set; }
+        public string PACKAGECOUNT { get; set; }
+        public string IS_MIX { get; set; }
     }
 }

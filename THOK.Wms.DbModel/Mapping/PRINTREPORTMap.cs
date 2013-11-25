@@ -50,6 +50,13 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.STYLE_NAME)
                 .HasMaxLength(20);
 
+            this.Property(t => t.MODULES)
+                .HasMaxLength(10);
+            this.Property(t => t.PACKAGECOUNT)
+                .HasMaxLength(3);
+            this.Property(t => t.IS_MIX)
+                .HasMaxLength(1);
+
             // Table & Column Mappings
             this.ToTable("PRINTREPORT", "THOK");
             this.Property(t => t.PRODUCT_BARCODE).HasColumnName("PRODUCT_BARCODE");
@@ -65,6 +72,9 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.CATEGORY_NAME).HasColumnName("CATEGORY_NAME");
             this.Property(t => t.GRADE_NAME).HasColumnName("GRADE_NAME");
             this.Property(t => t.STYLE_NAME).HasColumnName("STYLE_NAME");
+            this.Property(t => t.MODULES).HasColumnName("MODULES");
+            this.Property(t => t.PACKAGECOUNT).HasColumnName("PACKAGECOUNT");
+            this.Property(t => t.IS_MIX).HasColumnName("IS_MIX");
         }
     }
 }

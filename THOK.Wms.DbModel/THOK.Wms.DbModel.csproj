@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BILLREPORT.cs" />
     <Compile Include="CMD_AREA.cs" />
     <Compile Include="CMD_BILL_TYPE.cs" />
     <Compile Include="CMD_CAR.cs" />
@@ -64,6 +65,7 @@
     <Compile Include="CMD_UNIT.cs" />
     <Compile Include="CMD_UNIT_CATEGORY.cs" />
     <Compile Include="CMD_WAREHOUSE.cs" />
+    <Compile Include="Mapping\BILLREPORTMap.cs" />
     <Compile Include="Mapping\CMD_AREAMap.cs" />
     <Compile Include="Mapping\CMD_BILL_TYPEMap.cs" />
     <Compile Include="Mapping\CMD_CARMap.cs" />

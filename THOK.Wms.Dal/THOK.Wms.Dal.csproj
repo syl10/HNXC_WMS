@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EntityRepository\BillReportRepository.cs" />
     <Compile Include="EntityRepository\CMDAreaRepository.cs" />
     <Compile Include="EntityRepository\CmdBillTypeRepository.cs" />
     <Compile Include="EntityRepository\CMDCarRepository.cs" />
@@ -84,6 +85,7 @@
     <Compile Include="EntityRepository\WMSScheduleMasterRepository.cs" />
     <Compile Include="EntityRepository\WMSScheduleRespository.cs" />
     <Compile Include="EntityRepository\WorkSelectRepository.cs" />
+    <Compile Include="Interfaces\IBillReportRepository.cs" />
     <Compile Include="Interfaces\ICmdBillTypeRepository.cs" />
     <Compile Include="Interfaces\ICMDCarRepository.cs" />
     <Compile Include="Interfaces\ICMDCigaretteRepository.cs" />

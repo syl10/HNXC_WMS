@@ -23,6 +23,7 @@ namespace THOK.Wms.Bll.Interfaces
         object Barcodeselect(int page, int rows, string soursebillno);
         //作业查询
         object Worksearch(int page, int rows, string BILL_NO, string TASK_DATE, string BTYPE_CODE, string BILLMETHOD, string CIGARETTE_CODE, string FORMULA_CODE, string PRODUCT_BARCODE);
+        //
         string GetPdfName(string Path, string username, string barcodes, string billno,string PrintCount);
         
     }

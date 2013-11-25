@@ -548,3 +548,33 @@
 .icon-delete{background-position:-140px -120px;}
 .icon-magic{background-position:0px -500px;}
 .icon-database{background-position:-20px -140px;}
+.icon-menu_producgrade{
+  background:url('icons/productgrade.png') no-repeat;
+}
+.icon-menu_productinfo{
+  background:url('icons/productinfo.gif') no-repeat;
+}
+.icon-menu_productstyle{
+  background:url('icons/preductstyle.gif') no-repeat;
+}
+.icon-menu_SamplingSearch{
+   background:url('icons/SamplingSearch.gif') no-repeat;
+}
+.icon-menu_car{
+   background:url('icons/car.png') no-repeat;
+}
+.icon-menu_BillType{
+   background:url('icons/BillType.gif') no-repeat;
+}
+.icon-menu_ProductOriginal{
+   background:url('icons/ProductOriginal.gif') no-repeat;
+}
+.icon-menu_Schedule{
+  background:url('icons/Schedule.gif') no-repeat;
+}
+.icon-menu_DirectProduct{
+  background:url('icons/DirectProduct.gif') no-repeat;
+}
+.icon-menu_WorkSearch{
+ background:url('icons/WorkSearch.gif') no-repeat;
+}

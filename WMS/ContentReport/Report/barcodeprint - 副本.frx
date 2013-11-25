@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/17/2013 16:25:46" ReportInfo.Modified="11/22/2013 17:09:57" ReportInfo.CreatorVersion="1.9.9.0" PrintSettings.Copies="2">
+  <Dictionary/>
+  <ReportPage Name="Page1" PaperWidth="105" PaperHeight="75" LeftMargin="3" TopMargin="1" RightMargin="2" BottomMargin="1" Fill.Color="White">
+    <DataBand Name="Data1" Width="378" Height="278.12">
+      <BarcodeObject Name="Barcode1" Left="-4" Top="-9.5" Width="148" Height="148" Text="131119002003a00000200220080020001k" ShowText="false" Barcode="QR Code" Barcode.ErrorCorrection="L" Barcode.Encoding="UTF8" Barcode.QuietZone="true"/>
+      <BarcodeObject Name="Barcode2" Left="222.84" Top="-10.86" Width="148" Height="148" Text="131119002003a00000200220080020001k" ShowText="false" Barcode="QR Code" Barcode.ErrorCorrection="L" Barcode.Encoding="UTF8" Barcode.QuietZone="true"/>
+      <BarcodeObject Name="Barcode3" Left="221.68" Top="130.12" Width="148" Height="148" Text="131119002003a00000200220080020001k" ShowText="false" Barcode="QR Code" Barcode.ErrorCorrection="L" Barcode.Encoding="UTF8" Barcode.QuietZone="true"/>
+      <BarcodeObject Name="Barcode4" Left="6.71" Top="127.82" Width="148" Height="148" Text="131119002003a00000200220080020001k" ShowText="false" Barcode="QR Code" Barcode.ErrorCorrection="L" Barcode.Encoding="UTF8" Barcode.QuietZone="true"/>
+    </DataBand>
+  </ReportPage>
+</Report>

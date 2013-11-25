@@ -83,6 +83,7 @@ namespace THOK.Wms.Repository
 
             modelBuilder.Configurations.Add(new PRINTREPORTMap());
             modelBuilder.Configurations.Add(new WORKSELECTMap());
+            modelBuilder.Configurations.Add(new BILLREPORTMap());
 
             
             #endregion

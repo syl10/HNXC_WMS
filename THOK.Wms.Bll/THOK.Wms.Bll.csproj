@@ -60,6 +60,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IBillReportService.cs" />
     <Compile Include="Interfaces\ICmdBillTypeService.cs" />
     <Compile Include="Interfaces\ICMDCarService.cs" />
     <Compile Include="Interfaces\ICMDPorductStyleService.cs" />
@@ -83,7 +84,9 @@
     <Compile Include="Interfaces\IWMSScheduleService.cs" />
     <Compile Include="Models\CellInfo.cs" />
     <Compile Include="Models\FormulaDetail.cs" />
+    <Compile Include="Models\Productinfo.cs" />
     <Compile Include="Models\ProductLedgerInfo.cs" />
+    <Compile Include="Service\BillReportService.cs" />
     <Compile Include="Service\CmdBillTypeService.cs" />
     <Compile Include="Service\CMDCarService.cs" />
     <Compile Include="Service\CMDCraneService.cs" />

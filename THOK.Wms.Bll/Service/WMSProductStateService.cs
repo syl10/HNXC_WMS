@@ -14,6 +14,7 @@ using FastReport;
 using FastReport.Utils;
 using FastReport.Web;
 using System.Reflection;
+using THOK.Wms.Bll.Models;
 
 
 namespace THOK.Wms.Bll.Service
@@ -36,6 +37,8 @@ namespace THOK.Wms.Bll.Service
         public IPrintReportRepository PrintReportRepository { get; set; }
         [Dependency]
         public IWorkSelectRepository WorkselectRepository { get; set; }
+        [Dependency]
+        public IWMSBillDetailRepository BillDetailRepository { get; set; }
 
         //public bool test() {
         //    OracleConnection ora = new OracleConnection(); 
@@ -149,9 +152,48 @@ namespace THOK.Wms.Bll.Service
         public string GetPdfName(string Path, string username, string barcodes, string billno,string PrintCount)
         {
             string FileName = "";
+            string packagecount="";
             try
             {
                 IQueryable<PRINTREPORT> query = PrintReportRepository.GetQueryable();
+                IQueryable<WMS_BILL_DETAIL> detailquery = BillDetailRepository.GetQueryable();
+                IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
+                List<Productinfo> list = new List<Productinfo>();
+                var detail=BillDetailRepository .GetQueryable ().Where (i=>i.BILL_NO ==billno);
+               packagecount = detail .Sum (i=>i.PACKAGE_COUNT ).ToString ();
+               var detail2 = from a in detailquery
+                             join b in productquery on a.PRODUCT_CODE equals b.PRODUCT_CODE
+                             where a.BILL_NO == billno && a.IS_MIX == "1"
+                             select new { 
+                                 a.PRODUCT_CODE ,
+                                 a.FPRODUCT_CODE ,
+                                 a.REAL_WEIGHT ,
+                                 b.YEARS ,
+                                 b.CMD_PRODUCT_STYLE .STYLE_NAME ,
+                                 b.CMD_PRODUCT_ORIGINAL .ORIGINAL_NAME ,
+                                 b.CMD_PRODUCT_GRADE .GRADE_NAME 
+                             };
+               for (int n = 0; n < detail2.Count(); n++) {
+                   var obj = list.FirstOrDefault (i => i.PRODUCT_CODE == detail2.ToArray()[n].FPRODUCT_CODE);
+                   if (obj == null)
+                   {
+                       Productinfo item = new Productinfo();
+                       item.PRODUCT_CODE = detail2.ToArray()[n].FPRODUCT_CODE;
+                       item.ORIGINAL_NAME = detail2.ToArray()[n].ORIGINAL_NAME;
+                       item.GRADE_NAME = detail2.ToArray()[n].GRADE_NAME;
+                       item.YEARS = detail2.ToArray()[n].YEARS;
+                       item.WEIGHT = detail2.ToArray()[n].REAL_WEIGHT.ToString ();
+                       item.STYLE = detail2.ToArray()[n].STYLE_NAME;
+                       list.Add(item);
+                   }
+                   else {
+                       obj.ORIGINAL_NAME +=","+ detail2.ToArray()[n].ORIGINAL_NAME;
+                       obj.GRADE_NAME +=","+ detail2.ToArray()[n].GRADE_NAME;
+                       obj.YEARS += "," + detail2.ToArray()[n].YEARS;
+                       obj.WEIGHT += "," + detail2.ToArray()[n].REAL_WEIGHT;
+                       obj.STYLE += "," + detail2.ToArray()[n].STYLE_NAME;
+                   }
+               }
                 var que2 = query.Where(i => i.BILL_NO == billno && barcodes.Contains(i.PRODUCT_BARCODE)).Select(i => new
                 {
                     i.BILL_NO,
@@ -166,23 +208,28 @@ namespace THOK.Wms.Bll.Service
                     i.PRODUCT_NAME,
                     i.REAL_WEIGHT,
                     i.STYLE_NAME,
-                    i.YEARS
+                    i.YEARS,
+                    i.IS_MIX ,
+                    i.MODULES
                 });
                 var que = que2.ToArray().Select(i => new
                 {
                     i.BILL_NO,
-                    PRODUCT_BARCODE = i.PRODUCT_BARCODE + "00000000000000",
+                    PRODUCT_BARCODE = i.PRODUCT_BARCODE ,
                     BILL_DATE = i.BILL_DATE.Value.ToString("yyyy-MM-dd"),
                     i.CATEGORY_NAME,
                     i.CIGARETTE_NAME,
                     i.FORMULA_NAME,
-                    i.GRADE_NAME,
-                    i.ORIGINAL_NAME,
+                    GRADE_NAME=i.IS_MIX =="1"?list.FirstOrDefault (t=>t.PRODUCT_CODE==i.PRODUCT_CODE ) .GRADE_NAME:i.GRADE_NAME ,
+                    ORIGINAL_NAME=i.IS_MIX =="1"?list .FirstOrDefault (t=>t.PRODUCT_CODE==i.PRODUCT_CODE ) .ORIGINAL_NAME :i.ORIGINAL_NAME ,
                     i.PRODUCT_CODE,
                     i.PRODUCT_NAME,
-                    i.REAL_WEIGHT,
-                    i.STYLE_NAME,
-                    i.YEARS
+                    REAL_WEIGHT=i.IS_MIX=="1"?list .FirstOrDefault (t=>t.PRODUCT_CODE==i.PRODUCT_CODE).WEIGHT:i.REAL_WEIGHT.ToString () ,
+                    STYLE_NAME=i.IS_MIX =="1"?list .FirstOrDefault (t=>t.PRODUCT_CODE==i.PRODUCT_CODE ).STYLE :i.STYLE_NAME,
+                    YEARS=i.IS_MIX =="1"?list .FirstOrDefault (t=>t.PRODUCT_CODE==i.PRODUCT_CODE ).YEARS :i.YEARS ,
+                    IS_MIX=i.IS_MIX =="1"?"是":"否",
+                    MODULES= i.MODULES==null ?"A":i.MODULES  ,
+                    PACKAGECOUNT = packagecount
                 });
                 DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(que);
                 using (Report report = new Report())
