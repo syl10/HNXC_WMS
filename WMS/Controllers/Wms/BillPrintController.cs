@@ -19,10 +19,11 @@ namespace WMS.Controllers.Wms
             string Path = Server.MapPath("/");
             Path += @"ContentReport\Report\" + frxname;
             SetReport(Path, dataname);
-            webReport.Width = 800;
-            webReport.Height = 420;
+            webReport.Width = 1020;
+            webReport.Height = 390;
             webReport.ToolbarStyle = ToolbarStyle.Small;
             webReport.ToolbarIconsStyle = ToolbarIconsStyle.Blue;
+           
             webReport.ToolbarBackgroundStyle = ToolbarBackgroundStyle.Light;
             ViewBag.WebReport = webReport;
             return View();

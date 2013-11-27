@@ -259,7 +259,7 @@ namespace THOK.Wms.Bll.Service
         //获取某个单据下明细
         public object GetSubDetails(int page, int rows, string BillNo)
         {
-            IQueryable<WMS_PRODUCTION_DETAIL> detailquery =ProeductiondetailRepository.GetQueryable();
+            IQueryable<WMS_PRODUCTION_DETAIL> detailquery = ProeductiondetailRepository.GetQueryable();
             //IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
             IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
             var billdetail = from a in detailquery
@@ -321,6 +321,140 @@ namespace THOK.Wms.Bll.Service
           int result=  ProductionmasterRepository.SaveChanges();
           if (result == -1) return false;
             return true;
+        }
+
+        //打印
+        public bool Print(string BILL_NO, string WAREHOUSE_CODE, string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string BILL_DATEStar, string BILL_DATEEND, string SCHEDULENO, string IN_BILLNO, string OUT_BILLNO)
+        {
+            IQueryable<WMS_PRODUCTION_MASTER> query = ProductionmasterRepository.GetQueryable();
+            IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
+            IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
+            IQueryable<WMS_PRODUCTION_DETAIL> detailquery = ProeductiondetailRepository.GetQueryable();
+            IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
+            try
+            {
+                var directproduct = from a in query
+                                    join b in detailquery on a.BILL_NO equals b.BILL_NO
+                                    join c in statequery on a.STATE equals c.STATE into cf
+                                    from c in cf.DefaultIfEmpty()
+                                    join d in userquery on a.OPERATER equals d.USER_ID into df
+                                    from d in df.DefaultIfEmpty()
+                                    join e in userquery on a.CHECKER equals e.USER_ID into ef
+                                    from e in ef.DefaultIfEmpty()
+                                    join f in productquery on b.PRODUCT_CODE equals f.PRODUCT_CODE
+                                    where c.TABLE_NAME == "WMS_PRODUCTION_MASTER" && c.FIELD_NAME == "STATE"
+                                    select new
+                                    {
+                                        a.BILL_NO,
+                                        a.SCHEDULE_NO,
+                                        a.WAREHOUSE_CODE,
+                                        a.IN_BILLNO,
+                                        a.OUT_BILLNO,
+                                        a.CMD_WAREHOUSE.WAREHOUSE_NAME,
+                                        a.BILL_DATE,
+                                        a.CIGARETTE_CODE,
+                                        a.CMD_CIGARETTE.CIGARETTE_NAME,
+                                        a.FORMULA_CODE,
+                                        a.WMS_FORMULA_MASTER.FORMULA_NAME,
+                                        a.BATCH_WEIGHT,
+                                        a.LINE_NO,
+                                        a.CMD_PRODUCTION_LINE.LINE_NAME,
+                                        a.STATE,
+                                        c.STATE_DESC,
+                                        OPERATER = d.USER_NAME,
+                                        a.OPERATE_DATE,
+                                        CHECKER = e.USER_NAME,
+                                        a.CHECK_DATE,
+                                        b.ITEM_NO,
+                                        b.PRODUCT_CODE,
+                                        f.PRODUCT_NAME,
+                                        f.YEARS,
+                                        f.CMD_PRODUCT_GRADE.GRADE_NAME,
+                                        f.CMD_PRODUCT_CATEGORY.CATEGORY_NAME,
+                                        f.CMD_PRODUCT_ORIGINAL.ORIGINAL_NAME,
+                                        f.CMD_PRODUCT_STYLE.STYLE_NAME,
+                                        b.WEIGHT,
+                                        b.REAL_WEIGHT,
+                                        b.PACKAGE_COUNT,
+                                        b.NC_COUNT
+                                    };
+                if (!string.IsNullOrEmpty(BILL_NO))
+                {
+                    directproduct = directproduct.Where(i => i.BILL_NO == BILL_NO);
+                }
+                if (!string.IsNullOrEmpty(WAREHOUSE_CODE))
+                {
+                    directproduct = directproduct.Where(i => i.WAREHOUSE_CODE == WAREHOUSE_CODE);
+                }
+                if (!string.IsNullOrEmpty(CIGARETTE_CODE))
+                {
+                    directproduct = directproduct.Where(i => i.CIGARETTE_CODE == CIGARETTE_CODE);
+                }
+                if (!string.IsNullOrEmpty(FORMULA_CODE))
+                {
+                    directproduct = directproduct.Where(i => i.FORMULA_CODE == FORMULA_CODE);
+                }
+                if (!string.IsNullOrEmpty(STATE))
+                {
+                    directproduct = directproduct.Where(i => i.STATE == STATE);
+                }
+                if (!string.IsNullOrEmpty(SCHEDULENO))
+                {
+                    directproduct = directproduct.Where(i => i.SCHEDULE_NO == SCHEDULENO);
+                }
+                if (!string.IsNullOrEmpty(IN_BILLNO))
+                {
+                    directproduct = directproduct.Where(i => i.IN_BILLNO == IN_BILLNO);
+                }
+                if (!string.IsNullOrEmpty(OUT_BILLNO))
+                {
+                    directproduct = directproduct.Where(i => i.OUT_BILLNO == OUT_BILLNO);
+                }
+                if (!string.IsNullOrEmpty(BILL_DATEStar))
+                {
+                    DateTime datestare = DateTime.Parse(BILL_DATEStar);
+                    directproduct = directproduct.Where(i => i.BILL_DATE.CompareTo(datestare) >= 0);
+                }
+                if (!string.IsNullOrEmpty(BILL_DATEEND))
+                {
+                    DateTime dateend = DateTime.Parse(BILL_DATEEND);
+                    directproduct = directproduct.Where(i => i.BILL_DATE.CompareTo(dateend) <= 0);
+                }
+                var temp = directproduct.ToArray().OrderBy(i => i.BILL_NO).Select(i => new
+                {
+                    i.BILL_NO,
+                    i.WAREHOUSE_NAME,
+                    BILL_DATE = i.BILL_DATE.ToString("yyyy-MM-dd"),
+                    i.CIGARETTE_NAME,
+                    i.FORMULA_NAME,
+                    i.BATCH_WEIGHT,
+                    i.LINE_NAME,
+                    i.OPERATER,
+                    i.STATE_DESC,
+                    i.OPERATE_DATE,
+                    i.CHECKER,
+                    i.CHECK_DATE,
+                    i.ITEM_NO,
+                    i.PRODUCT_CODE,
+                    i.PRODUCT_NAME,
+                    i.YEARS,
+                    i.GRADE_NAME,
+                    i.CATEGORY_NAME,
+                    i.STYLE_NAME,
+                    i.ORIGINAL_NAME,
+                    i.WEIGHT,
+                    i.REAL_WEIGHT,
+                    i.PACKAGE_COUNT,
+                    i.NC_COUNT
+                });
+                DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(temp);
+                THOK.Common.PrintHandle.dt = dt;
+                return true;
+            }
+            catch (Exception ex) {
+                return false;
+            }
+
         }
     }
 }

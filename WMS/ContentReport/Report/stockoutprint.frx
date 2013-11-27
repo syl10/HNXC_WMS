@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="11/15/2013 16:47:18" ReportInfo.Modified="11/21/2013 10:57:26" ReportInfo.CreatorVersion="1.9.9.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/15/2013 16:47:18" ReportInfo.Modified="11/26/2013 10:15:33" ReportInfo.CreatorVersion="1.9.9.0">
   <Dictionary>
     <ViewDataSource Name="billreportprint" ReferenceName="billreportprint" DataType="System.Int32" Enabled="true">
       <Column Name="MBILL_NO" DataType="System.String"/>
@@ -46,6 +46,7 @@
       <Column Name="CATEGORY_NAME" DataType="System.String"/>
       <Column Name="STYLE_NAME" DataType="System.String"/>
       <Column Name="BILLMETHODCODE" DataType="System.String"/>
+      <Column Name="BILL_TYPE" DataType="System.String"/>
     </ViewDataSource>
   </Dictionary>
   <ReportPage Name="Page1">
@@ -138,7 +139,7 @@
           <TableCell Name="Cell75" Text="混装第一笔产品代码" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <LineObject Name="Line1" Left="-0.94" Top="104.26" Width="718.2" Height="0.18" Diagonal="true"/>
+      <LineObject Name="Line1" Left="-1.86" Top="111.87" Width="729.62"/>
       <DataBand Name="Data1" Top="153.84" Width="718.2" Height="33.67" DataSource="billreportprint">
         <TableObject Name="Table1" Left="3.38" Top="2.1" Width="737.63" Height="28.35">
           <TableColumn Name="Column2" Width="34.97"/>

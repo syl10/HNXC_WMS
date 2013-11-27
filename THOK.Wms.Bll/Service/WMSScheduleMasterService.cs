@@ -37,7 +37,7 @@ namespace THOK.Wms.Bll.Service
             var schedule = from a in ScheduleMaster
                            join b in statequery on a.STATUS equals b.STATE 
                            join c in statequery on a.STATE equals c.STATE
-                           join d in userquery on a.OPERATER equals d.USER_ID 
+                           join d in userquery on a.OPERATER equals d.USER_ID into df from d in df.DefaultIfEmpty ()
                            join e in userquery on a.CHECKER equals e.USER_ID into g from e in g.DefaultIfEmpty ()
                            where b.TABLE_NAME == "WMS_SCHEDULE_MASTER" && b.FIELD_NAME == "STATUS" && c.TABLE_NAME == "WMS_SCHEDULE_MASTER" && c.FIELD_NAME == "STATE"
                            select new
@@ -264,6 +264,91 @@ namespace THOK.Wms.Bll.Service
             ScheduleMasterRepository.Delete(editmaster);
             ScheduleMasterRepository.SaveChanges();
             return true;
+        }
+
+        //计划单打印
+        public bool SchedulePrint(string SCHEDULENO, string BILLDATEFROM, string BILLDATETO, string STATE)
+        {
+            IQueryable<WMS_SCHEDULE_MASTER> ScheduleMaster = ScheduleMasterRepository.GetQueryable();
+            IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
+            IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
+            IQueryable<WMS_SCHEDULE_DETAIL> ScheduleDetail = ScheduleDetailRepository.GetQueryable();
+            try
+            {
+                var schedule = from a in ScheduleMaster
+                               join b in ScheduleDetail on a.SCHEDULE_NO equals b.SCHEDULE_NO
+                               join c in userquery on a.OPERATER equals c.USER_ID into cf
+                               from c in cf.DefaultIfEmpty ()
+                               join d in userquery on a.CHECKER equals d.USER_ID into df
+                               from d in df.DefaultIfEmpty ()
+                               join e in statequery on a.STATUS equals e.STATE
+                               join f in statequery on a.STATE equals f.STATE
+                               where e.TABLE_NAME == "WMS_SCHEDULE_MASTER" && e.FIELD_NAME == "STATUS" && f.TABLE_NAME == "WMS_SCHEDULE_MASTER" && f.FIELD_NAME == "STATE"
+                               select new
+                               {
+                                   a.SCHEDULE_NO,
+                                   a.SCHEDULE_DATE,
+                                   STATUNAME = e.STATE_DESC,
+                                   STATU= a.STATUS,
+                                   STATENAME = f.STATE_DESC,
+                                   STATE = a.STATE,
+                                   OPERATER = c.USER_NAME,
+                                   a.OPERATE_DATE,
+                                   CHECKER = d.USER_NAME,
+                                   a.CHECK_DATE,
+                                   b.ITEM_NO,
+                                   b.CIGARETTE_CODE,
+                                   b.CMD_CIGARETTE.CIGARETTE_NAME,
+                                   b.FORMULA_CODE,
+                                   b.WMS_FORMULA_MASTER.FORMULA_NAME,
+                                   b.BILL_NO,
+                                   b.QUANTITY,
+                                   b.CMD_PRODUCTION_LINE.LINE_NAME
+                               };
+                if (!string.IsNullOrEmpty(SCHEDULENO))
+                {
+                    schedule = schedule.Where(i => i.SCHEDULE_NO == SCHEDULENO);
+                }
+                if (!string.IsNullOrEmpty(BILLDATEFROM))
+                {
+                    DateTime datestare = DateTime.Parse(BILLDATEFROM);
+                    schedule = schedule.Where(i => i.SCHEDULE_DATE.CompareTo(datestare) >= 0);
+                }
+                if (!string.IsNullOrEmpty(BILLDATETO))
+                {
+                    DateTime dateend = DateTime.Parse(BILLDATETO);
+                    schedule = schedule.Where(i => i.SCHEDULE_DATE.CompareTo(dateend) <= 0);
+                }
+                if (!string.IsNullOrEmpty(STATE))
+                {
+                    schedule = schedule.Where(i => i.STATE== STATE);
+                }
+                var temp = schedule.ToArray().OrderBy(i => i.SCHEDULE_NO).Select(i => new
+                {
+                    i.SCHEDULE_NO,
+                    SCHEDULE_DATE = i.SCHEDULE_DATE.ToString("yyyy-MM-dd"),
+                    i.STATUNAME ,
+                    i.STATENAME ,
+                    i.OPERATER,
+                    OPERATE_DATE = i.OPERATE_DATE == null ? "" : ((DateTime)i.OPERATE_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+                    i.CHECKER,
+                    CHECK_DATE = i.CHECK_DATE == null ? "" : ((DateTime)i.CHECK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+                    i.ITEM_NO,
+                    i.CIGARETTE_CODE,
+                    i.CIGARETTE_NAME,
+                    i.FORMULA_CODE,
+                    i.FORMULA_NAME,
+                    i.BILL_NO,
+                    i.QUANTITY,
+                    i.LINE_NAME
+                });
+                DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(temp);
+                THOK.Common.PrintHandle.dt = dt;
+                return true;
+            }
+            catch (Exception ex) {
+                return false;
+            }
         }
     }
 }

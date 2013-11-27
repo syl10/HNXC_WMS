@@ -16,6 +16,8 @@ namespace WMS.Controllers.Wms.WMS
         // GET: /StockOutBill/
         [Dependency]
         public IWMSBillMasterService BillMasterService { get; set; }
+        [Dependency]
+        public IBillReportService BillReportService { get; set; }
 
         public ActionResult Index(string moduleID)
         {
@@ -102,6 +104,19 @@ namespace WMS.Controllers.Wms.WMS
             var BillnoInfo = BillMasterService.GetBillNo(userName, dtime, BILL_NO, prefix);
 
             return Json(BillnoInfo, "text/html", JsonRequestBehavior.AllowGet);
+        }
+        //打印
+        public ActionResult Print(string BILLNO, string BILLDATEFROM, string BILLDATETO, string BTYPECODE, string LINENO, string STATE, string CIGARETTECODE, string FORMULACODE)
+        {
+            //string Path = Server.MapPath("/");
+            string userName = this.GetCookieValue("username");
+            bool Result = BillReportService.StockoutPrint(BILLNO, BILLDATEFROM, BILLDATETO, BTYPECODE, LINENO, STATE, CIGARETTECODE, FORMULACODE);
+            string msg = Result ? "成功" : "失败";
+            var just = new
+            {
+                success = msg
+            };
+            return Json(just, "text", JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -118,5 +118,18 @@ namespace WMS.Controllers.Wms.WMS
             return Json(just, "text/html", JsonRequestBehavior.AllowGet);
 
         }
+        //打印
+        public ActionResult Print(string FORMULACODE, string BILLDATEFROM, string BILLDATETO, string FORMULANAME, string ISACTIVE, string CIGARETTE_CODE)
+        {
+            //string Path = Server.MapPath("/");
+            string userName = this.GetCookieValue("username");
+            bool Result = FormulaService.FormulaPrint(FORMULACODE, BILLDATEFROM, BILLDATETO, FORMULANAME, ISACTIVE, CIGARETTE_CODE);
+            string msg = Result ? "成功" : "失败";
+            var just = new
+            {
+                success = msg
+            };
+            return Json(just, "text", JsonRequestBehavior.AllowGet);
+        }
     }
 }

@@ -26,5 +26,7 @@ namespace THOK.Wms.Bll.Interfaces
         bool Checkformulacode(string formulacode);
         //获取所有有效的配方
         object Getallusefull(int page, int rows);
+        //配方单打印
+        bool FormulaPrint(string FORMULACODE, string BILLDATEFROM, string BILLDATETO, string FORMULANAME, string ISACTIVE, string CIGARETTE_CODE);
     }
 }

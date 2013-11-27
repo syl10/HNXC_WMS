@@ -26,6 +26,8 @@ namespace THOK.Wms.Bll.Interfaces
         bool Antitrial(string scheduleno);
        //获取制丝线
         object GetProductLine(int page, int rows);
+       //计划单打印
+        bool SchedulePrint(string SCHEDULENO, string BILLDATEFROM, string BILLDATETO, string STATE);
 
     }
 }

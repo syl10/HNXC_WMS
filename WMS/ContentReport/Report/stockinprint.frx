@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="11/15/2013 16:47:18" ReportInfo.Modified="11/25/2013 14:01:34" ReportInfo.CreatorVersion="2013.4.1.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/15/2013 16:47:18" ReportInfo.Modified="11/25/2013 14:35:37" ReportInfo.CreatorVersion="2013.4.1.0">
   <Dictionary>
     <ViewDataSource Name="billreportprint" ReferenceName="billreportprint" DataType="System.Int32" Enabled="true">
       <Column Name="MBILL_NO" DataType="System.String"/>
@@ -138,7 +138,7 @@
           <TableCell Name="Cell75" Text="混装第一笔产品代码" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <LineObject Name="Line1" Left="-0.94" Top="104.26" Width="718.2" Height="0.38"/>
+      <LineObject Name="Line1" Left="0.21" Top="109.04" Width="729.61"/>
       <DataBand Name="Data1" Top="153.84" Width="718.2" Height="33.67" DataSource="billreportprint">
         <TableObject Name="Table1" Left="3.38" Top="2.1" Width="737.63" Height="28.35">
           <TableColumn Name="Column2" Width="34.97"/>

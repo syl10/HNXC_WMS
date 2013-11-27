@@ -9,20 +9,18 @@
           });
 //        PGetBillType(); //单据类型
         PGetCigarette(); //牌号
-       $('#PSTATE').combobox('clear');
+       $('#PISACTIVE').combobox('clear');
        $('#PBILL_METHOD').combobox('clear');
     }
-      var PrintCount=0;
-    function loadpdf(BILLNO,BILLDATEFROM,BILLDATETO,BTYPECODE,BILLMETHOD,STATE,CIGARETTECODE,FORMULACODE) {
-        PrintCount = PrintCount + 1;
-        $.getJSON("/StockInBill/Print/?flag=2&BILLNO=" + BILLNO + 
-        "&BILLDATEFROM=" + BILLDATEFROM + "&BILLDATETO=" + BILLDATETO+"&BTYPECODE="+BTYPECODE+"&BILLMETHOD="+BILLMETHOD+"&STATE="+STATE+"&CIGARETTECODE="+CIGARETTECODE+"&FORMULACODE="+FORMULACODE +"&PrintCount=" + PrintCount, 
+    function loadpdf(FORMULACODE,BILLDATEFROM,BILLDATETO,FORMULANAME,ISACTIVE,CIGARETTE_CODE) {
+        $.getJSON("/Formula/Print/?FORMULACODE=" + FORMULACODE + 
+        "&BILLDATEFROM=" + BILLDATEFROM + "&BILLDATETO=" + BILLDATETO+"&FORMULANAME="+FORMULANAME+"&ISACTIVE="+ISACTIVE+"&CIGARETTE_CODE="+CIGARETTE_CODE, 
         function (json) {
             if (json) {
                 //                document.getElementById("dlgPrint").innerHTML = "<div id='divPrint1'><embed width='800' height='600' src='" + src1 + "'></embed></div>";
                 $('#dlgPrint').dialog('open').dialog('setTitle', '打印');
                 $('#divPrint1').empty();
-                $('#divPrint1').append("<iframe id='billreportframe'   scrolling='no'  width='100%'  height='100%'   style='   padding:0px;' frameborder='0' src='../BillPrint/?frxname=stockinprint.frx&dataname=billreportprint'></iframe>");
+                $('#divPrint1').append("<iframe id='billreportframe'   scrolling='no'  width='100%'  height='100%'   style='   padding:0px;' frameborder='0' src='../BillPrint/?frxname=formulaprint.frx&dataname=formulaprint'></iframe>");
             }
         });
     }
@@ -101,24 +99,20 @@
     function BillQueryClick() {
     }
     function Print() { 
-        var  BILL_NO = $('#PBILL_NO').val();
+        var  FORMULACODE = $('#PFORMULA_CODE').val();
         var BILLDATEFROM = $('#BILLDATEFROM').datebox('getValue');
         var BILLDATETO = $('#BILLDATETO').datebox('getValue');
-        var BTYPE_CODE="";
-        var BILL_METHOD="";
-        var STATE ="";
-        if($('#PBILL_METHOD').combobox('getText')!=null&&$('#PBILL_METHOD').combobox('getText')!=""){
-             BILL_METHOD=$('#PBILL_METHOD').combobox('getValue'); }
+        var FORMULANAME=$('#PFORMULA_NAME').val();
+        var ISACTIVE ="";
         var CIGARETTE_CODE=$('#PCIGARETTE_CODE').combogrid('getValue');
-        var FORMULA_CODE=$('#PFORMULA_CODE').combogrid('getValue');
-        if($('#PSTATE').combobox('getText')!=null&&$('#PSTATE').combobox('getText')!=""){
-           STATE = $('#PSTATE').combobox('getValue');}
+        if($('#PISACTIVE').combobox('getText')!=null&&$('#PISACTIVE').combobox('getText')!=""){
+           ISACTIVE = $('#PISACTIVE').combobox('getValue');}
 
-        loadpdf(BILL_NO,BILLDATEFROM,BILLDATETO,BTYPE_CODE,BILL_METHOD,STATE,CIGARETTE_CODE,FORMULA_CODE);
-        $('#PSTATE').combobox('clear');
-//        $('#PBTYPE_CODE').combobox('clear');
+        loadpdf(FORMULACODE,BILLDATEFROM,BILLDATETO,FORMULANAME,ISACTIVE,CIGARETTE_CODE);
+        $('#PISACTIVE').combobox('clear');
         $('#BILLDATEFROM').datebox('clear');
         $('#BILLDATETO').datebox('clear');
+        $('#PCIGARETTE_CODE').combogrid('clear');
         $('#dlg-print').dialog('close');
     }
 </script>
@@ -128,24 +122,16 @@
 @*<iframe id='reportframe' scrolling="no"  height='100%'   style=' width:100%;  padding:0px;' frameborder='0' src='../../WebForm1.aspx'></iframe>*@
 </div>
 </div>
-<div id="dlg-print" class="easyui-dialog" modal="true" style="width:430px;height:210px;padding:2px 2px"
+<div id="dlg-print" class="easyui-dialog" modal="true" style="width:430px;height:190px;padding:2px 2px"
 		closed="true" buttons="#dlg-buttons-print">
         <div class="easyui-layout" fit="true">
 			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
            <table width="400px">
                       <tr>
-                        <td style="width:50px" align="right">单据编号</td>
-                        <td style="width:138px"><input id="PBILL_NO" style="width:125px"  /></td>
-                        <td style="width:50px" align="right">单据状态</td>
-                        <td style="width:138px">
-                             <select id="PSTATE"  class="easyui-combobox" style="width:125px" >		                
-                                     <option value="1">保存</option>
-		                            <option value="2">审核</option>
-                                    <option value="3">作业</option>
-                                    <option value="4">执行中</option>
-                                    <option value="5">完成</option>
-	                         </select>
-                        </td>
+                         <td style="width:50px" align="right">配方代码</td>
+                        <td style="width:138px"><input id="PFORMULA_CODE" style="width:125px"  /></td>
+                        <td style="width:50px" align="right">配方名称</td>
+                        <td style="width:138px"><input id="PFORMULA_NAME" style="width:125px" ></td>
                       </tr>
                       <tr>
                         <td style="width:50px" align="right">日期从:</td>
@@ -156,17 +142,13 @@
                       <tr>
                             <td width="50">牌   号</td>
                            <td width="138"><input id="PCIGARETTE_CODE" name="PCIGARETTE_CODE" ></td>
-                           <td width="50">配方代号</td>
-                           <td width="138"><input id="PFORMULA_CODE" name="PFORMULA_CODE" class="easyui-combogrid" style="width:125px" ></td>
-                      </tr>
-                      <tr>
-                          <td width="50">入库方式</td>
-                          <td width="125" >
-                               <select  name="PBILL_METHOD" id="PBILL_METHOD"  class="easyui-combobox"  style="width:125px">
-                                     <option value="2">抽检</option>
-		                             <option value="3">补料</option>
-                              </select>
-                            </td>
+                        <td style="width:50px" align="right">状态</td>
+                        <td style="width:138px">
+                             <select id="PISACTIVE"  class="easyui-combobox" style="width:125px" >		                
+                                     <option value="1">启用</option>
+		                            <option value="0">禁用</option>
+	                         </select>
+                        </td>
                       </tr>
                     </table>
             </div>

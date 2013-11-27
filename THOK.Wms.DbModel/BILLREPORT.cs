@@ -51,5 +51,6 @@ namespace THOK.Wms.DbModel
         public string ISMIX { get; set; }
         public string FPRODUCT_CODE { get; set; }
         public string BILLMETHODCODE { get; set; }
+        public string BILL_TYPE { get; set; }
     }
 }

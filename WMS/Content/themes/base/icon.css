@@ -564,7 +564,7 @@
    background:url('icons/car.png') no-repeat;
 }
 .icon-menu_BillType{
-   background:url('icons/BillType.gif') no-repeat;
+   background:url('icons/BillType.png') no-repeat;
 }
 .icon-menu_ProductOriginal{
    background:url('icons/ProductOriginal.gif') no-repeat;
@@ -577,4 +577,22 @@
 }
 .icon-menu_WorkSearch{
  background:url('icons/WorkSearch.gif') no-repeat;
+}
+.icon-menu-warehouse{
+  background:url('icons/warehouse.png') no-repeat;
+}
+.icon-menu_crane{
+background:url('icons/Crane.png') no-repeat;
+}
+.icon-menu_CellStateSearch{
+  background:url('icons/CellStateSearch.png') no-repeat;
+}
+.icon-menu_Formula{
+  background:url('icons/Formula.gif') no-repeat;
+}
+.icon-menu_MoveStock{
+  background:url('icons/MoveStock.gif') no-repeat;
+}
+.icon-menu_allsearch{
+  background:url('icons/allsearch.png') no-repeat;
 }

@@ -110,5 +110,18 @@ namespace WMS.Controllers.Wms.WMS
             var rejust = ScheduleDetailService.GetSerial(SCHEDULENO);
             return Json(rejust, "text/html", JsonRequestBehavior.AllowGet);
         }
+        //打印
+        public ActionResult Print(string SCHEDULENO, string BILLDATEFROM, string BILLDATETO, string STATE)
+        {
+            //string Path = Server.MapPath("/");
+            string userName = this.GetCookieValue("username");
+            bool Result = ScheduleMasterService.SchedulePrint(SCHEDULENO, BILLDATEFROM, BILLDATETO, STATE);
+            string msg = Result ? "成功" : "失败";
+            var just = new
+            {
+                success = msg
+            };
+            return Json(just, "text", JsonRequestBehavior.AllowGet);
+        }
     }
 }

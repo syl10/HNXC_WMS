@@ -97,6 +97,19 @@ namespace WMS.Controllers.Wms.WMS
             string msg = Result ? "反审成功" : "反审失败";
             return Json(JsonMessageHelper.getJsonMessage(Result, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
+        //打印
+        public ActionResult Print(string BILLNO,string WAREHOUSECODE, string CIGARETTECODE, string FORMULACODE, string STATE, string BILLDATEFROM, string BILLDATETO,string  SCHEDULENO,string  IN_BILLNO,string  OUT_BILLNO)
+        {
+            //string Path = Server.MapPath("/");
+            string userName = this.GetCookieValue("username");
+            bool Result = ProductionmastService.Print(BILLNO, WAREHOUSECODE, CIGARETTECODE, FORMULACODE, STATE, BILLDATEFROM, BILLDATETO, SCHEDULENO, IN_BILLNO, OUT_BILLNO);
+            string msg = Result ? "成功" : "失败";
+            var just = new
+            {
+                success = msg
+            };
+            return Json(just, "text", JsonRequestBehavior.AllowGet);
+        }
 
     }
 }

@@ -24,5 +24,7 @@ namespace THOK.Wms.Bll.Interfaces
          bool Antitrial(string billno);
          //删除
          bool Delete(string billno);
+        //打印
+         bool Print(string BILL_NO,string WAREHOUSE_CODE, string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string BILL_DATEStar, string BILL_DATEEND,string  SCHEDULENO,string  IN_BILLNO,string  OUT_BILLNO);
     }
 }

@@ -142,11 +142,11 @@ namespace WMS.Controllers.Wms.WMS
             return Json(just, "text/html", JsonRequestBehavior.AllowGet);
         }
         //打印
-        public ActionResult Print(string PrintCount,string BILLNO, string BILLDATEFROM, string BILLDATETO, string BTYPECODE, string BILLMETHOD, string STATE, string CIGARETTECODE, string FORMULACODE)
+        public ActionResult Print(string PrintCount,string flag,string BILLNO, string BILLDATEFROM, string BILLDATETO, string BTYPECODE, string BILLMETHOD, string STATE, string CIGARETTECODE, string FORMULACODE)
         {
-            string Path = Server.MapPath("/");
+            //string Path = Server.MapPath("/");
             string userName = this.GetCookieValue("username");
-            bool Result = BillReportService.StockinPrint(Path, userName, PrintCount, BILLNO, BILLDATEFROM, BILLDATETO, BTYPECODE, BILLMETHOD, STATE, CIGARETTECODE, FORMULACODE);
+            bool Result = BillReportService.StockinPrint(flag, userName, PrintCount, BILLNO, BILLDATEFROM, BILLDATETO, BTYPECODE, BILLMETHOD, STATE, CIGARETTECODE, FORMULACODE);
              string msg = Result ? "成功" : "失败";
             var just = new { 
                 success=msg

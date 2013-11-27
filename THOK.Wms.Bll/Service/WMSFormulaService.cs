@@ -302,5 +302,102 @@ namespace THOK.Wms.Bll.Service
             });
             return new { total, rows = tmp.ToArray() };
         }
+
+        //配方单打印
+        public bool FormulaPrint(string FORMULACODE, string BILLDATEFROM, string BILLDATETO, string FORMULANAME, string ISACTIVE, string CIGARETTE_CODE)
+        {
+            IQueryable<WMS_FORMULA_MASTER> masterQuery = MasterRepository.GetQueryable();
+            IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
+            IQueryable<WMS_FORMULA_DETAIL> DetailQuery = DetailRepository.GetQueryable();
+            try
+            {
+                var formulas = from a in masterQuery
+                               join b in DetailQuery on a.FORMULA_CODE equals b.FORMULA_CODE
+                               join c in userquery on a.OPERATER equals c.USER_ID into users
+                               from c in users.DefaultIfEmpty()
+                               select new
+                               {
+                                   a.FORMULA_CODE,
+                                   a.FORMULA_DATE,
+                                   a.FORMULA_NAME,
+                                   a.FORMULANO,
+                                   a.IS_ACTIVE,
+                                   a.OPERATER,
+                                   c.USER_NAME,
+                                   a.OPERATEDATE,
+                                   a.USE_COUNT,
+                                   a.CIGARETTE_CODE,
+                                   a.CMD_CIGARETTE.CIGARETTE_NAME,
+                                   a.BATCH_WEIGHT,
+                                   b.PRODUCT_CODE,
+                                   b.CMD_PRODUCT .PRODUCT_NAME ,
+                                   b.CMD_PRODUCT.YEARS,
+                                   b.CMD_PRODUCT.CMD_PRODUCT_CATEGORY.CATEGORY_NAME,
+                                   b.CMD_PRODUCT.CMD_PRODUCT_GRADE.GRADE_NAME,
+                                   b.CMD_PRODUCT.CMD_PRODUCT_ORIGINAL.ORIGINAL_NAME,
+                                   b.CMD_PRODUCT.CMD_PRODUCT_STYLE.STYLE_NAME,
+                                   b.WEIGHT,
+                                   b.MODULES,
+                                   b.FORDER,
+                                   b.OTHER
+                               };
+                if (!string.IsNullOrEmpty(FORMULACODE))
+                {
+                    formulas = formulas.Where(i => i.FORMULA_CODE == FORMULACODE);
+                }
+                if (!string.IsNullOrEmpty(BILLDATEFROM))
+                {
+                    DateTime datestare = DateTime.Parse(BILLDATEFROM);
+                    formulas = formulas.Where(i => i.FORMULA_DATE.CompareTo(datestare) >= 0);
+                }
+                if (!string.IsNullOrEmpty(BILLDATETO))
+                {
+                    DateTime dateend = DateTime.Parse(BILLDATETO);
+                    formulas = formulas.Where(i => i.FORMULA_DATE.CompareTo(dateend) <= 0);
+                }
+                if (!string.IsNullOrEmpty(FORMULANAME))
+                {
+                    formulas = formulas.Where(i => i.FORMULA_NAME.Contains(FORMULANAME));
+                }
+                if (!string.IsNullOrEmpty(ISACTIVE))
+                {
+                    formulas = formulas.Where(i => i.IS_ACTIVE == ISACTIVE);
+                }
+                if (!string.IsNullOrEmpty(CIGARETTE_CODE))
+                {
+                    formulas = formulas.Where(i => i.CIGARETTE_CODE == CIGARETTE_CODE);
+                }
+                var temp = formulas.ToArray().OrderBy(i => i.FORMULA_CODE).Select(i => new
+                {
+                    i.FORMULA_CODE,
+                    FORMULA_DATE = i.FORMULA_DATE.ToString("yyyy-MM-dd"),
+                    i.FORMULA_NAME,
+                    i.FORMULANO,
+                    IS_ACTIVE = i.IS_ACTIVE == "1" ? "启用" : "禁用",
+                    i.USER_NAME,
+                    i.OPERATEDATE,
+                    i.USE_COUNT,
+                    i.CIGARETTE_NAME,
+                    i.BATCH_WEIGHT,
+                    i.PRODUCT_CODE,
+                    i.PRODUCT_NAME ,
+                    i.YEARS,
+                    i.ORIGINAL_NAME,
+                    i.GRADE_NAME,
+                    i.STYLE_NAME,
+                    i.CATEGORY_NAME,
+                    i.WEIGHT,
+                    i.FORDER,
+                    i.MODULES,
+                    i.OTHER
+                });
+                DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(temp);
+                THOK.Common.PrintHandle.dt = dt;
+                return true;
+            }
+            catch (Exception ex) {
+                return false;
+            }
+        }
     }
 }

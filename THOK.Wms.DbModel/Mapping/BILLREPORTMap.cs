@@ -123,6 +123,8 @@ namespace THOK.Wms.DbModel.Mapping
                 .HasMaxLength(20);
             this.Property(t => t.BILLMETHODCODE)
                 .HasMaxLength(1);
+            this.Property(t => t.BILL_TYPE)
+                .HasMaxLength(1);
 
             // Table & Column Mappings
             this.ToTable("BILLREPORT", "THOK");
@@ -170,6 +172,7 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.ISMIX).HasColumnName("ISMIX");
             this.Property(t => t.FPRODUCT_CODE).HasColumnName("FPRODUCT_CODE");
             this.Property(t => t.BILLMETHODCODE).HasColumnName("BILLMETHODCODE");
+            this.Property(t => t.BILL_TYPE).HasColumnName("BILL_TYPE");
         }
     }
 }
