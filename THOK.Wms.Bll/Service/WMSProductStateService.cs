@@ -287,14 +287,19 @@ namespace THOK.Wms.Bll.Service
             {
                 i.BILL_NO,
                 i.PRODUCT_CODE,
+                i.PRODUCT_NAME ,
+                i.YEARS ,
+                i.CELL_CODE ,
                 i.PRODUCT_BARCODE,
                 i.REAL_WEIGHT,
                 i.TARGET_CODE,
                 i.STATE,
+                i.STATENAME ,//状态
                 i.TASK_DATE,
                 i.TASKER,
                 i.MIXNAME,
-                i.PRODUCT_NAME,
+                i.IN_DATE ,
+                i.BATCH_WEIGHT ,
                 i.CATEGORY_NAME,
                 i.ORIGINAL_NAME,
                 i.GRADE_NAME,
@@ -337,10 +342,15 @@ namespace THOK.Wms.Bll.Service
             var temp = work.ToArray().Select(i => new {
                 i.BILL_NO,
                 i.PRODUCT_CODE,
+                i.CELL_CODE ,
+                i.YEARS ,
+                IN_DATE =i.IN_DATE ==null ?"":((DateTime )i.IN_DATE ).ToString ("yyyy-MM-dd HH:mm:ss"),
                 i.PRODUCT_BARCODE,
                 i.REAL_WEIGHT,
                 i.TARGET_CODE,
                 i.STATE,
+                i.STATENAME ,
+                i.BATCH_WEIGHT ,
                 TASK_DATE = i.TASK_DATE == null ? "" : ((DateTime)i.TASK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
                 i.TASKER,
                 i.MIXNAME,
@@ -359,6 +369,8 @@ namespace THOK.Wms.Bll.Service
                 i.FORMULA_NAME
             });
             int total = temp.Count();
+            DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(temp);
+            THOK.Common.PrintHandle.dt = dt;
             temp = temp.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = temp.ToArray() };
         }

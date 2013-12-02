@@ -24,5 +24,7 @@ namespace THOK.Wms.Bll.Interfaces
        bool Audit(string checker, string BillNo);
        //反审
        bool Antitrial(string BillNo);
+       //打印
+       bool Print(string flag, string BILLNO, string BILLDATEFROM, string BILLDATETO, string BTYPECODE, string STATE);
     }
 }

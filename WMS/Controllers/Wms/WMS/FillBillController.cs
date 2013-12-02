@@ -18,6 +18,8 @@ namespace WMS.Controllers.Wms.WMS
         public IWMSBillMasterService BillMasterService { get; set; }
         [Dependency]
         public IWMSProductStateService ProductStateService { get; set; }
+        [Dependency]
+        public IBillReportService BillReportService { get; set; }
 
         public ActionResult Index(string moduleID)
         {
@@ -93,6 +95,19 @@ namespace WMS.Controllers.Wms.WMS
                 success = msg
             };
             return Json(just, "text/html", JsonRequestBehavior.AllowGet);
+        }
+        //打印
+        public ActionResult Print(string BILLNO, string BILLDATEFROM, string BILLDATETO, string BTYPECODE, string BILLMETHOD, string STATE, string CIGARETTECODE, string FORMULACODE)
+        {
+            //string Path = Server.MapPath("/");
+            string userName = this.GetCookieValue("username");
+            bool Result = BillReportService.FillbillPrint (BILLNO, BILLDATEFROM, BILLDATETO, BILLMETHOD, STATE, CIGARETTECODE, FORMULACODE);
+            string msg = Result ? "成功" : "失败";
+            var just = new
+            {
+                success = msg
+            };
+            return Json(just, "text", JsonRequestBehavior.AllowGet);
         }
 
     }

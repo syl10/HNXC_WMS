@@ -96,5 +96,18 @@ namespace WMS.Controllers.Wms.WMS
             };
             return Json(just, "text/html", JsonRequestBehavior.AllowGet);
         }
+        //打印
+        public ActionResult Print(string flag,string BILLNO, string BILLDATEFROM, string BILLDATETO, string BTYPECODE, string STATE)
+        {
+            //string Path = Server.MapPath("/");
+            string userName = this.GetCookieValue("username");
+            bool Result = PalletmasterService.Print(flag,BILLNO, BILLDATEFROM, BILLDATETO, BTYPECODE, STATE);
+            string msg = Result ? "成功" : "失败";
+            var just = new
+            {
+                success = msg
+            };
+            return Json(just, "text", JsonRequestBehavior.AllowGet);
+        }
     }
 }

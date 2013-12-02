@@ -11,6 +11,7 @@ namespace THOK.Wms.DbModel
         public System.DateTime BILL_DATE { get; set; }
         public string BTYPE_CODE { get; set; }
         public string BTYPE_NAME { get; set; }
+        public string BILL_TYPE { get; set; }
         public string SCHEDULE_NO { get; set; }
         public string WAREHOUSE_CODE { get; set; }
         public string WAREHOUSE_NAME { get; set; }
@@ -26,6 +27,7 @@ namespace THOK.Wms.DbModel
         public string TASKER { get; set; }
         public Nullable<System.DateTime> TASK_DATE { get; set; }
         public string BILL_METHOD { get; set; }
+        public string BILLMETHODCODE { get; set; }
         public decimal SCHEDULE_ITEMNO { get; set; }
         public string LINE_NO { get; set; }
         public string LINE_NAME { get; set; }
@@ -50,7 +52,6 @@ namespace THOK.Wms.DbModel
         public string IS_MIX { get; set; }
         public string ISMIX { get; set; }
         public string FPRODUCT_CODE { get; set; }
-        public string BILLMETHODCODE { get; set; }
-        public string BILL_TYPE { get; set; }
+        public Nullable<decimal> TOTALWEIGHT { get; set; }
     }
 }

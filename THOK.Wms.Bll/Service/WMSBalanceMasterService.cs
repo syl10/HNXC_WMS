@@ -8,6 +8,7 @@ using Microsoft.Practices.Unity;
 using THOK.Wms.Dal.Interfaces;
 using THOK.Authority.Dal.Interfaces;
 using THOK.Authority.DbModel;
+using System.Data;
 
 namespace THOK.Wms.Bll.Service
 {
@@ -20,11 +21,17 @@ namespace THOK.Wms.Bll.Service
         [Dependency]
         public IWMSBalanceMasterRepository BalanceMasterRepository { get; set; }
         [Dependency]
+        public IWMSBalanceDetailRepository BalanceDetailRepository { get; set; }
+        [Dependency]
         public ISysTableStateRepository SysTableStateRepository { get; set; }
         [Dependency]
         public IWMSProductStateRepository ProductStateRepository { get; set; }
         [Dependency]
         public IUserRepository UserRepository { get; set; }
+        [Dependency]
+        public ICMDProuductRepository ProductRepository { get; set; }
+        [Dependency]
+        public ICMDWarehouseRepository CMDWarehouseRepository { get; set; }
 
         public object GetDetails(int page, int rows, string BALANCENO, string BALANCEDATE, string STATE, string OPERATER, string CHECKER, string CHECKDATE)
         {
@@ -143,6 +150,102 @@ namespace THOK.Wms.Bll.Service
             int total = temp.Count();
             //temp = temp.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = temp.ToArray() };
+        }
+
+        //月结单打印
+        public bool BalancePrint(string BEGINMONTH, string ENDMONTH, string STATE, string BALANCENO)
+        {
+            IQueryable<WMS_BALANCE_MASTER> query = BalanceMasterRepository.GetQueryable();
+            IQueryable <WMS_BALANCE_DETAIL > detailquery=BalanceDetailRepository .GetQueryable ();
+            IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
+            IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
+            IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
+            IQueryable<CMD_WAREHOUSE> warehousequery = CMDWarehouseRepository.GetQueryable();
+            try
+            {
+                var balance = from a in query
+                              join k in detailquery on a.BALANCE_NO equals k.BALANCE_NO
+                              join b in statequery on a.STATE equals b.STATE
+                              join c in userquery on a.OPERATER equals c.USER_ID into cf
+                              from c in cf.DefaultIfEmpty()
+                              join d in userquery on a.CHECKER equals d.USER_ID into df
+                              from d in df.DefaultIfEmpty()
+                              join e in productquery on k.PRODUCT_CODE equals e.PRODUCT_CODE
+                              join g in warehousequery on k.WAREHOUSE_CODE equals g.WAREHOUSE_CODE
+                              where b.TABLE_NAME == "WMS_BALANCE_MASTER" && b.FIELD_NAME == "STATE"
+                              select new
+                              {
+                                  a.BALANCE_NO,
+                                  a.BALANCE_DATE,
+                                  a.STATE,
+                                  STATENAME = b.STATE_DESC,
+                                  a.OPERATER,
+                                  OPERATERNAME = c.USER_NAME,
+                                  a.CHECKER,
+                                  CHECKERNAME = d.USER_NAME,
+                                  a.CHECK_DATE,
+                                  k.WAREHOUSE_CODE,
+                                  g.WAREHOUSE_NAME,
+                                  k.PRODUCT_CODE,
+                                  e.PRODUCT_NAME,
+                                  k.BEGIN_QUANTITY,
+                                  k.IN_QUANTITY,
+                                  k.OUT_QUANTITY,
+                                  k.DIFF_QUANTITY,
+                                  k.ENDQUANTITY,
+                                  k.INSPECTIN_QUANTITY,
+                                  k.INSPECTOUT_QUANTITY,
+                                  k.INCOME_QUANTITY,
+                                  k.FEEDING_QUANTITY
+                              };
+                var temp = balance.ToArray().OrderBy(i => i.BALANCE_NO).Select(i => new
+                {
+                    i.BALANCE_NO,
+                    BALANCE_DATE = i.BALANCE_DATE == null ? "" : ((DateTime)i.BALANCE_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+                    i.STATE,
+                    i.STATENAME,
+                    i.OPERATER,
+                    i.OPERATERNAME,
+                    i.CHECKER,
+                    i.CHECKERNAME,
+                    CHECK_DATE = i.CHECK_DATE == null ? "" : ((DateTime)i.CHECK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+                    i.WAREHOUSE_CODE,
+                    i.WAREHOUSE_NAME,
+                    i.PRODUCT_CODE,
+                    i.PRODUCT_NAME,
+                    i.BEGIN_QUANTITY,
+                    i.IN_QUANTITY,
+                    i.OUT_QUANTITY,
+                    i.DIFF_QUANTITY,
+                    i.ENDQUANTITY,
+                    i.INSPECTIN_QUANTITY,
+                    i.INSPECTOUT_QUANTITY,
+                    i.INCOME_QUANTITY,
+                    i.FEEDING_QUANTITY
+                });
+                if (!string.IsNullOrEmpty(BEGINMONTH))
+                {
+                    temp = temp.Where(i => int.Parse(i.BALANCE_NO) >= int.Parse(BEGINMONTH));
+                }
+                if (!string.IsNullOrEmpty(ENDMONTH))
+                {
+                    temp = temp.Where(i => int.Parse(i.BALANCE_NO) <= int.Parse(ENDMONTH));
+                }
+                if (!string.IsNullOrEmpty(STATE))
+                {
+                    temp = temp.Where(i => i.STATE == STATE);
+                }
+                if (!string.IsNullOrEmpty(BALANCENO))
+                {
+                    temp = temp.Where(i => i.BALANCE_NO == BALANCENO);
+                }
+                DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(temp);
+                THOK.Common.PrintHandle.dt = dt;
+                return true;
+            }
+            catch (Exception ex) {
+                return false;
+            }
         }
     }
 }

@@ -79,6 +79,7 @@ namespace THOK.Wms.Bll.Service
                products = products.Where(i => i.CATEGORY_CODE == CATEGORY_CODE);
            }
            products = products.Where(i => i.PRODUCT_CODE != "0000");
+           THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(products);
             int total = products.Count();
             products = products.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = products.ToArray() };

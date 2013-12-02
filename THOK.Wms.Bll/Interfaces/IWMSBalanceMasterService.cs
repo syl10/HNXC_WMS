@@ -18,5 +18,7 @@ namespace THOK.Wms.Bll.Interfaces
        bool Balance(string Balanceno, DateTime dt, string operater, out string error);
        //获取已月结的年月
        object GetBalanceNo();
+       //月结单打印
+       bool BalancePrint(string BEGINMONTH, string ENDMONTH, string STATE, string BALANCENO);
     }
 }

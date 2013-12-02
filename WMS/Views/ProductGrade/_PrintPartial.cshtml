@@ -1,6 +1,21 @@
-﻿<script type="text/javascript" >
-    function printClick() { 
-       
+﻿<script type="text/javascript">
+    function printClick() {
+        var isprint = true;
+        var str = "";
+        var opts = $('#details').datagrid('getColumnFields');
+        //    var titles = $('#details').datagrid('getColumnOption', 'CRANE_NO');
+        $('#details').datagrid('loaded');
+        $('#details').datagrid('reload');
+        $('#details').datagrid('options').onLoadSuccess = function () {
+            if (isprint) {
+                for (var i = 0; i < opts.length; i++) {
+                    var coltitle = $('#details').datagrid('getColumnOption', opts[i]).title;
+                    str += opts[i] + ":" + coltitle + ";";
+                }
+                window.location.href = "/Crane/CreateExcelToClient/?tablestructstr=" + str + "&heard=产品等级信息";
+            }
+            isprint = false;
+            $('#details').datagrid('loading');
+        }
     }
 </script>
-

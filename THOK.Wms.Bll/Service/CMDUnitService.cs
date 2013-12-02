@@ -34,6 +34,7 @@ namespace THOK.Wms.Bll.Service
             {
                 Units = Units.Where(i => i.MEMO.Contains(MEMO));
             }
+            THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(Units);
             int total = Units.Count();
             Units = Units.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = Units.ToArray() };

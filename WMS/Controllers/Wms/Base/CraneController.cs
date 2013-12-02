@@ -64,5 +64,17 @@ namespace WMS.Controllers.Wms.Base
             string msg = bResult ? "删除成功" : "删除失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
+        //转换成execl;
+        public FileStreamResult CreateExcelToClient()
+        {
+            string tablestructstr = Request.QueryString["tablestructstr"];
+            string head = Request.QueryString["heard"];
+            THOK.NPOI.Models.ExportParam ep = new THOK.NPOI.Models.ExportParam();
+            THOK.Common.PrintHandle.setbaseinfodata(tablestructstr);
+            ep.DT1 = THOK.Common.PrintHandle.baseinfoprint;
+            ep.HeadTitle1 = head;
+            System.IO.MemoryStream ms = THOK.NPOI.Service.ExportExcel.ExportDT(ep);
+            return new FileStreamResult(ms, "application/ms-excel");
+        } 
     }
 }

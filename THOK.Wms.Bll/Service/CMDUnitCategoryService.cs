@@ -30,6 +30,7 @@ namespace THOK.Wms.Bll.Service
             {
                 UnitCategorys = UnitCategorys.Where(i => i.MEMO.Contains(MEMO));
             }
+            THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(UnitCategorys);
             int total = UnitCategorys.Count();
             UnitCategorys = UnitCategorys.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = UnitCategorys.ToArray() };

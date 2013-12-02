@@ -7,6 +7,7 @@ using THOK.Wms.Bll.Interfaces;
 using THOK.Wms.Dal.Interfaces;
 using Microsoft.Practices.Unity;
 using THOK.Wms.Bll.Models;
+using System.Data;
 
 namespace THOK.Wms.Bll.Service
 {
@@ -132,9 +133,10 @@ namespace THOK.Wms.Bll.Service
                     list.Add(item);
                 }
             }
-          
             int total = list.Count();
             var tmp = list.OrderBy(i => i.PRODUCT_CODE).Select(i => i);
+            DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(tmp);
+            THOK.Common.PrintHandle.dt = dt;
             tmp = tmp.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = tmp.ToArray() };
         }
@@ -244,6 +246,8 @@ namespace THOK.Wms.Bll.Service
             }
             int total = list.Count();
             var tmp = list.OrderBy(i => i.PRODUCT_CODE ).Select(i => i);
+            DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(tmp);
+            THOK.Common.PrintHandle.dt = dt;
             tmp = tmp.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = tmp.ToArray() };
         }

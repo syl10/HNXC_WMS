@@ -32,6 +32,7 @@ namespace THOK.Wms.Bll.Service
             if (!string.IsNullOrEmpty(MEMO)) {
                 temp = temp.Where(i => i.MEMO.Contains(MEMO));
             }
+            THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(temp );
             int total = temp.Count();
             temp = temp.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = temp.ToArray() };

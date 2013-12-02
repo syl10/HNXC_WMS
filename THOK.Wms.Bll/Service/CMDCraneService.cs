@@ -35,11 +35,11 @@ namespace THOK.Wms.Bll.Service
             {
                 Cranes = Cranes.Where(i => i.IS_ACTIVE == isActive);
             }
+            THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(Cranes);
             int total = Cranes.Count();
             Cranes = Cranes.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = Cranes.ToArray() };
         }
-
         public bool Add(string CraneName, string MEMO, string isActive)
         {
             var Crane = new CMD_CRANE()

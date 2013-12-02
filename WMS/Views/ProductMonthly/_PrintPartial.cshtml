@@ -1,44 +1,54 @@
 ﻿<script type="text/javascript">
     function printClick() {
         $('#dlg-print').dialog('open').dialog('setTitle', '打印');
-         $('#BILLDATEFROM').datebox({
-              hasDownArrow: true,
-          });
-         $('#BILLDATETO').datebox({
-              hasDownArrow: true,
-          });
+          loadmonths();
        $('#PSTATE').combobox('clear');
     }
       var PrintCount=0;
-    function loadpdf(BILLNO,BILLDATEFROM,BILLDATETO,STATE,SOURSEBILL) {
+      function loadpdf(BEGINMONTH, ENDMONTH, STATE, BALANCENO) {
         PrintCount = PrintCount + 1;
-        $.getJSON("/Inventory/Print/?btypecode=008&BILLNO=" + BILLNO + 
-        "&BILLDATEFROM=" + BILLDATEFROM + "&BILLDATETO=" + BILLDATETO+"&STATE="+STATE+"&SOURSEBILL="+SOURSEBILL, 
+        $.getJSON("/ProductMonthly/Print/?BALANCENO=" + BALANCENO +
+        "&BEGINMONTH=" + BEGINMONTH + "&ENDMONTH=" + ENDMONTH + "&STATE=" + STATE , 
         function (json) {
             if (json) {
                 //                document.getElementById("dlgPrint").innerHTML = "<div id='divPrint1'><embed width='800' height='600' src='" + src1 + "'></embed></div>";
                 $('#dlgPrint').dialog('open').dialog('setTitle', '打印');
                 $('#divPrint1').empty();
-                $('#divPrint1').append("<iframe id='billreportframe'   scrolling='no'  width='100%'  height='100%'   style='   padding:0px;' frameborder='0' src='../BillPrint/?frxname=movestock.frx&dataname=movestock'></iframe>");
+                $('#divPrint1').append("<iframe id='billreportframe'   scrolling='no'  width='100%'  height='100%'   style='   padding:0px;' frameborder='0' src='../BillPrint/?frxname=balance.frx&dataname=balance'></iframe>");
             }
         });
     }
-
+    //加载开始年月和结束年月
+    function loadmonths() {
+        $.getJSON("/ProductLedger/GetBalanceNo/", function (json) {
+            if (json) {
+                $('#BEGINMONTH').combobox({
+                    data: json.rows,
+                    valueField: 'BALANCE_NO',
+                    textField: 'BALANCE_NO',
+                    value: json.rows[0].BALANCE_NO
+                });
+                $('#ENDMONTH').combobox({
+                    data: json.rows,
+                    valueField: 'BALANCE_NO',
+                    textField: 'BALANCE_NO',
+                    value: json.rows[0].BALANCE_NO
+                });
+            }
+        });
+    }
     //
     function BillQueryClick() {
     }
     function Print() { 
-        var  BILL_NO = $('#PBILL_NO').val();
-        var BILLDATEFROM = $('#BILLDATEFROM').datebox('getValue');
-        var BILLDATETO = $('#BILLDATETO').datebox('getValue');
+        var BEGINMONTH = $('#BEGINMONTH').combobox('getValue');
+        var ENDMONTH = $('#ENDMONTH').combobox('getValue');
         var STATE ="";
         if($('#PSTATE').combobox('getText')!=null&&$('#PSTATE').combobox('getText')!=""){
            STATE = $('#PSTATE').combobox('getValue');}
-       var SOURSEBILL=$('#PSOURCE_BILLNO').val();
-        loadpdf(BILL_NO,BILLDATEFROM,BILLDATETO,STATE,SOURSEBILL);
+       var BALANCENO = $('#PBALANCE_NO').val();
+       loadpdf(BEGINMONTH, ENDMONTH, STATE, BALANCENO);
         $('#PSTATE').combobox('clear');
-        $('#BILLDATEFROM').datebox('clear');
-        $('#BILLDATETO').datebox('clear');
         $('#dlg-print').dialog('close');
     }
 </script>
@@ -48,34 +58,27 @@
 @*<iframe id='reportframe' scrolling="no"  height='100%'   style=' width:100%;  padding:0px;' frameborder='0' src='../../WebForm1.aspx'></iframe>*@
 </div>
 </div>
-<div id="dlg-print" class="easyui-dialog" modal="true" style="width:430px;height:210px;padding:2px 2px"
+<div id="dlg-print" class="easyui-dialog" modal="true" style="width:430px;height:160px;padding:2px 2px"
 		closed="true" buttons="#dlg-buttons-print">
         <div class="easyui-layout" fit="true">
 			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
            <table width="400px">
                       <tr>
-                        <td style="width:50px" align="right">单据编号</td>
-                        <td style="width:138px"><input id="PBILL_NO" style="width:125px"  /></td>
-                          <td width="50">入库批次</td>
-                          <td width="125" >
-                                <input id="PSOURCE_BILLNO" style="width:125px" >
-                            </td>
-                      </tr>
-                      <tr>
-                        <td style="width:50px" align="right">日期从:</td>
-                        <td style="width:138px"><input id="BILLDATEFROM" style="width:125px" ></td>
-                        <td style="width:50px" align="right">至:</td>
-                        <td style="width:138px"><input id="BILLDATETO" style="width:125px" ></td>
-                      </tr>
-                      <tr>
-                        <td style="width:50px" align="right">单据状态</td>
+                        <td style="width:50px" align="right">月结编号</td>
+                        <td style="width:138px"><input id="PBALANCE_NO" style="width:125px"  /></td>
+                        <td style="width:50px" align="right">状态</td>
                         <td style="width:138px">
                              <select id="PSTATE"  class="easyui-combobox" style="width:125px" >		                
-                                     <option value="1">保存</option>
-		                            <option value="2">审核</option>
-                                    <option value ="3">作业</option>
+                                     <option value="0">未审核</option>
+		                            <option value="1">审核</option>
 	                         </select>
                         </td>
+                      </tr>
+                      <tr>
+                        <td style="width:50px" align="right">开始年月</td>
+                        <td style="width:138px"><input id="BEGINMONTH" style="width:125px"  /></td>
+                        <td style="width:50px" align="right">结束年月</td>
+                        <td style="width:138px"><input id="ENDMONTH" style="width:125px"/></td>
                       </tr>
                     </table>
             </div>

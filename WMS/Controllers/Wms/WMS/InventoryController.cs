@@ -16,6 +16,8 @@ namespace WMS.Controllers.Wms.WMS
         // GET: /Inventory/
         [Dependency]
         public IWMSBillMasterService BillMasterService { get; set; }
+        [Dependency]
+        public IBillReportService BillReportService { get; set; }
 
         public ActionResult Index(string moduleID)
         {
@@ -87,6 +89,19 @@ namespace WMS.Controllers.Wms.WMS
             bool bResult = BillMasterService.InventoryDelete (Billno);
             string msg = bResult ? "删除成功" : "删除失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
+        }
+        //打印
+        public ActionResult Print(string btypecode, string BILLNO, string BILLDATEFROM, string BILLDATETO,string STATE, string SOURSEBILL)
+        {
+            //string Path = Server.MapPath("/");
+            string userName = this.GetCookieValue("username");
+            bool Result = BillReportService.InventoryPrint(BILLNO, BILLDATEFROM, BILLDATETO, STATE, SOURSEBILL,btypecode);
+            string msg = Result ? "成功" : "失败";
+            var just = new
+            {
+                success = msg
+            };
+            return Json(just, "text", JsonRequestBehavior.AllowGet);
         }
         ////查找符合的货位信息.
         //public ActionResult Cellselect(int page, int rows, string soursebill)

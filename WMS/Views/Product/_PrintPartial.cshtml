@@ -1,11 +1,21 @@
 ﻿<script type="text/javascript">
     function printClick() {
-        var CATEGORY_NAME = null, MEMO = null;
-        if ($('#CATEGORY_NAME').val() == null) { loginPC = ""; } else { CITY_NAME = $('#CATEGORY_NAME').val() }
-        if ($('#MEMO').val() == null) { loginTime = ""; } else { DESCRIPTION = $('#MEMO').val() }
-
-        window.location.href = "/ProductCategory/CreateExcelToClient/"
-                                + "?CATEGORY_NAME=" + CATEGORY_NAME
-                                + "&MEMO=" +MEMO;
+        var isprint = true;
+        var str = "";
+        var opts = $('#details').datagrid('getColumnFields');
+        //    var titles = $('#details').datagrid('getColumnOption', 'CRANE_NO');
+        $('#details').datagrid('loaded');
+        $('#details').datagrid('reload');
+        $('#details').datagrid('options').onLoadSuccess = function () {
+            if (isprint) {
+                for (var i = 0; i < opts.length; i++) {
+                    var coltitle = $('#details').datagrid('getColumnOption', opts[i]).title;
+                    str += opts[i] + ":" + coltitle + ";";
+                }
+                window.location.href = "/Crane/CreateExcelToClient/?tablestructstr=" + str + "&heard=产品信息";
+            }
+            isprint = false;
+            $('#details').datagrid('loading');
+        }
     }
 </script>

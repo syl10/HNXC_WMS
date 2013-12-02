@@ -80,5 +80,18 @@ namespace WMS.Controllers.Wms.WMS
             };
             return Json(just, "text/html", JsonRequestBehavior.AllowGet);
         }
+        //打印
+        public ActionResult Print( string BEGINMONTH, string ENDMONTH, string STATE, string BALANCENO)
+        {
+            //string Path = Server.MapPath("/");
+            string userName = this.GetCookieValue("username");
+            bool Result = BalanceMasterService.BalancePrint(BEGINMONTH, ENDMONTH, STATE, BALANCENO);
+            string msg = Result ? "成功" : "失败";
+            var just = new
+            {
+                success = msg
+            };
+            return Json(just, "text", JsonRequestBehavior.AllowGet);
+        }
     }
 }

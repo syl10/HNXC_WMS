@@ -31,8 +31,11 @@ namespace WMS.Controllers.Wms
 
         private void SetReport(string frxpath, string dataname)
         {
-            webReport.Report.RegisterData(PrintHandle.dt.DefaultView, dataname);
-            webReport.Report.Load(frxpath);
+            if (PrintHandle.dt.DefaultView.Count > 0)
+            {
+                webReport.Report.RegisterData(PrintHandle.dt.DefaultView, dataname);
+                webReport.Report.Load(frxpath);
+            }
         }
 
     }

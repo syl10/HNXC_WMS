@@ -287,5 +287,117 @@ namespace THOK.Wms.Bll.Service
         {
             throw new NotImplementedException();
         }
+
+        //打印
+        public bool Print(string flag,string BILLNO, string BILLDATEFROM, string BILLDATETO, string BTYPECODE, string STATE)
+        {
+            IQueryable<WMS_PALLET_MASTER> palletquery = PalletmasterRepository.GetQueryable();
+            IQueryable<SYS_TABLE_STATE> tatequery = SysTableStateRepository.GetQueryable();
+            IQueryable<CMD_BILL_TYPE> btypequery = CmdBillTypeRepository.GetQueryable();
+            IQueryable<SYS_BILL_TARGET> billtargetquery = SysBillTargetRepository.GetQueryable();
+            IQueryable<CMD_WAREHOUSE> warehousequery = CMDWarehouseRepository.GetQueryable();
+            IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
+            IQueryable<WMS_PALLET_DETAIL> palletdetailquery = PalletdetailRepository.GetQueryable();
+            try
+            {
+                var pallet = from a in palletquery
+                             join b in palletdetailquery on a.BILL_NO equals b.BILL_NO
+                             join c in btypequery on a.BTYPE_CODE equals c.BTYPE_CODE
+                             join d in warehousequery on a.WAREHOUSE_CODE equals d.WAREHOUSE_CODE
+                             join e in billtargetquery on a.TARGET equals e.TARGET_CODE into ef from e in ef .DefaultIfEmpty ()
+                             join f in userquery on a.OPERATER equals f.USER_ID into ff
+                             from f in ff.DefaultIfEmpty()
+                             join g in userquery on a.TASKER equals g.USER_ID into gf
+                             from g in gf.DefaultIfEmpty()
+                             join h in tatequery on a.STATUS equals h.STATE into hf
+                             from h in hf.DefaultIfEmpty()
+                             join k in tatequery on a.STATE equals k.STATE into kf
+                             from k in kf.DefaultIfEmpty()
+                             where h.TABLE_NAME == "WMS_PALLET_MASTER" && h.FIELD_NAME == "STATUS" && 
+                             k.TABLE_NAME == "WMS_PALLET_MASTER" && k.FIELD_NAME == "STATE" 
+                             select new
+                             {
+                                 a.BILL_NO,
+                                 a.BILL_DATE,
+                                 a.BTYPE_CODE,
+                                 c.BTYPE_NAME,
+                                 c.BILL_TYPE ,
+                                 a.WAREHOUSE_CODE,
+                                 d.WAREHOUSE_NAME,
+                                 a.TARGET,
+                                 e.TARGET_NAME,
+                                 a.STATUS,
+                                 STATUSNAME = h.STATE_DESC,
+                                 a.STATE,
+                                 STATENAME = k.STATE_DESC,
+                                 OPERATER = f.USER_NAME,
+                                 a.OPERATE_DATE,
+                                 TASKER = g.USER_NAME,
+                                 a.TASK_DATE,
+                                 b.ITEM_NO,
+                                 b.PRODUCT_CODE,
+                                 b.QUANTITY,
+                                 b.PACKAGES
+                             };
+                if (!string.IsNullOrEmpty(BILLNO))
+                {
+                    pallet = pallet.Where(i => i.BILL_NO == BILLNO);
+                }
+                if (!string.IsNullOrEmpty(BILLDATEFROM))
+                {
+                    DateTime datestare = DateTime.Parse(BILLDATEFROM);
+                    pallet = pallet.Where(i => i.BILL_DATE.CompareTo(datestare) >= 0);
+                }
+                if (!string.IsNullOrEmpty(BILLDATETO))
+                {
+                    DateTime dateend = DateTime.Parse(BILLDATETO);
+                    pallet = pallet.Where(i => i.BILL_DATE.CompareTo(dateend) <= 0);
+                }
+                if (!string.IsNullOrEmpty(BTYPECODE))
+                {
+                    pallet = pallet.Where(i => i.BTYPE_CODE == BTYPECODE);
+                }
+                if (!string.IsNullOrEmpty(STATE))
+                {
+                    pallet = pallet.Where(i => i.STATE == STATE);
+                }
+                if (flag == "1")
+                { //托盘组入库
+                    pallet = pallet.Where(i => "7,8".Contains(i.BILL_TYPE));
+                }
+                else {
+                    pallet = pallet.Where(i => i.BILL_TYPE == "9");
+                }
+                var temp = pallet.ToArray().OrderBy(i => i.BILL_NO).Select(i => new
+                {
+                    i.BILL_NO,
+                    BILL_DATE = i.BILL_DATE.ToString("yyyy-MM-dd"),
+                    i.BTYPE_CODE,
+                    i.BTYPE_NAME,
+                    i.WAREHOUSE_CODE,
+                    i.WAREHOUSE_NAME,
+                    i.TARGET,
+                    i.TARGET_NAME,
+                    i.STATUS,
+                    i.STATUSNAME,
+                    i.STATE,
+                    i.STATENAME,
+                    i.OPERATER,
+                    OPERATE_DATE = i.OPERATE_DATE == null ? "" : ((DateTime)i.OPERATE_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+                    i.TASKER,
+                    TASK_DATE = i.TASK_DATE == null ? "" : ((DateTime)i.TASK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+                    i.ITEM_NO,
+                    i.PRODUCT_CODE,
+                    i.QUANTITY,
+                    i.PACKAGES
+                });
+                DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(temp);
+                THOK.Common.PrintHandle.dt = dt;
+                return true;
+            }
+            catch (Exception ex) {
+                return false;
+            }
+        }
     }
 }

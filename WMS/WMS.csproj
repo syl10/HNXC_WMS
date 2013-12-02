@@ -2052,6 +2052,12 @@
     <Content Include="Views\ProductDetails\_SearchPartial.cshtml" />
     <Content Include="Views\BillPrint\Index.cshtml" />
     <Content Include="Views\Formula\_PrintPartial.cshtml" />
+    <Content Include="Views\ProductMonthly\_PrintPartial.cshtml" />
+    <Content Include="Views\Crane\_PrintPartial.cshtml" />
+    <Content Include="Views\Car\_PrintPartial.cshtml" />
+    <Content Include="Views\BillType\_PrintPartial.cshtml" />
+    <Content Include="Views\ProductLedger\_PrintPartial.cshtml" />
+    <Content Include="Views\ProductDetails\_PrintPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

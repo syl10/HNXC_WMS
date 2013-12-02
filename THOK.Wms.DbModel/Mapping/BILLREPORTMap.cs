@@ -8,7 +8,7 @@ namespace THOK.Wms.DbModel.Mapping
         public BILLREPORTMap()
         {
             // Primary Key
-            this.HasKey(t => new { t.MBILL_NO, t.BILL_DATE, t.BTYPE_CODE, t.SCHEDULE_ITEMNO, t.BATCH_WEIGHT });
+            this.HasKey(t => new { t.MBILL_NO, t.BILL_DATE, t.BTYPE_CODE, t.BILLMETHODCODE, t.SCHEDULE_ITEMNO, t.BATCH_WEIGHT });
 
             // Properties
             this.Property(t => t.MBILL_NO)
@@ -22,6 +22,10 @@ namespace THOK.Wms.DbModel.Mapping
 
             this.Property(t => t.BTYPE_NAME)
                 .HasMaxLength(20);
+
+            this.Property(t => t.BILL_TYPE)
+                .IsFixedLength()
+                .HasMaxLength(1);
 
             this.Property(t => t.SCHEDULE_NO)
                 .HasMaxLength(20);
@@ -60,6 +64,11 @@ namespace THOK.Wms.DbModel.Mapping
 
             this.Property(t => t.BILL_METHOD)
                 .HasMaxLength(50);
+
+            this.Property(t => t.BILLMETHODCODE)
+                .IsRequired()
+                .IsFixedLength()
+                .HasMaxLength(1);
 
             this.Property(t => t.SCHEDULE_ITEMNO)
                 .HasDatabaseGeneratedOption(DatabaseGeneratedOption.None);
@@ -121,10 +130,6 @@ namespace THOK.Wms.DbModel.Mapping
 
             this.Property(t => t.FPRODUCT_CODE)
                 .HasMaxLength(20);
-            this.Property(t => t.BILLMETHODCODE)
-                .HasMaxLength(1);
-            this.Property(t => t.BILL_TYPE)
-                .HasMaxLength(1);
 
             // Table & Column Mappings
             this.ToTable("BILLREPORT", "THOK");
@@ -132,6 +137,7 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.BILL_DATE).HasColumnName("BILL_DATE");
             this.Property(t => t.BTYPE_CODE).HasColumnName("BTYPE_CODE");
             this.Property(t => t.BTYPE_NAME).HasColumnName("BTYPE_NAME");
+            this.Property(t => t.BILL_TYPE).HasColumnName("BILL_TYPE");
             this.Property(t => t.SCHEDULE_NO).HasColumnName("SCHEDULE_NO");
             this.Property(t => t.WAREHOUSE_CODE).HasColumnName("WAREHOUSE_CODE");
             this.Property(t => t.WAREHOUSE_NAME).HasColumnName("WAREHOUSE_NAME");
@@ -147,6 +153,7 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.TASKER).HasColumnName("TASKER");
             this.Property(t => t.TASK_DATE).HasColumnName("TASK_DATE");
             this.Property(t => t.BILL_METHOD).HasColumnName("BILL_METHOD");
+            this.Property(t => t.BILLMETHODCODE).HasColumnName("BILLMETHODCODE");
             this.Property(t => t.SCHEDULE_ITEMNO).HasColumnName("SCHEDULE_ITEMNO");
             this.Property(t => t.LINE_NO).HasColumnName("LINE_NO");
             this.Property(t => t.LINE_NAME).HasColumnName("LINE_NAME");
@@ -171,8 +178,7 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.IS_MIX).HasColumnName("IS_MIX");
             this.Property(t => t.ISMIX).HasColumnName("ISMIX");
             this.Property(t => t.FPRODUCT_CODE).HasColumnName("FPRODUCT_CODE");
-            this.Property(t => t.BILLMETHODCODE).HasColumnName("BILLMETHODCODE");
-            this.Property(t => t.BILL_TYPE).HasColumnName("BILL_TYPE");
+            this.Property(t => t.TOTALWEIGHT).HasColumnName("TOTALWEIGHT");
         }
     }
 }
