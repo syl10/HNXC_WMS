@@ -141,6 +141,14 @@ namespace THOK.Wms.Bll.Service
                     i.FPRODUCT_CODE
                 }).OrderBy (I=>I.ITEM_NO );
                 DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(printdata);
+                if (THOK.Common.PrintHandle.issearch)
+                { //判断是否是综合查询里的打印
+                    var query1 = from a in dt.AsEnumerable() select a;
+                    var query2 = from b in THOK.Common.PrintHandle.searchdt.AsEnumerable() select b.Field <string>("BILL_NO");
+                    query1 =query1 .Where (i=>query2.Contains(i.Field <string >("MBILL_NO")));
+                    THOK.Common.PrintHandle.issearch = false;
+                    dt = query1.CopyToDataTable();
+                }
                 THOK.Common.PrintHandle.dt = dt;
                 //THOK.Common.PrintHandle.Onstockinprint(dt, "billreportprint");
                 return true;
@@ -282,6 +290,14 @@ namespace THOK.Wms.Bll.Service
                     i.FPRODUCT_CODE
                 }).OrderBy(I => I.ITEM_NO);
                 DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(printdata);
+                if (THOK.Common.PrintHandle.issearch)
+                { //判断是否是综合查询里的打印
+                    var query1 = from a in dt.AsEnumerable() select a;
+                    var query2 = from b in THOK.Common.PrintHandle.searchdt.AsEnumerable() select b.Field<string>("BILL_NO");
+                    query1 = query1.Where(i => query2.Contains(i.Field<string>("MBILL_NO")));
+                    THOK.Common.PrintHandle.issearch = false;
+                    dt = query1.CopyToDataTable();
+                }
                 THOK.Common.PrintHandle.dt = dt;
                 //THOK.Common.PrintHandle.Onstockinprint(dt, "billreportprint");
                 return true;
@@ -394,6 +410,14 @@ namespace THOK.Wms.Bll.Service
                     i.ISMIXNAME
                 });
                 DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(printdata);
+                if (THOK.Common.PrintHandle.issearch)
+                { //判断是否是综合查询里的打印
+                    var query1 = from a in dt.AsEnumerable() select a;
+                    var query2 = from b in THOK.Common.PrintHandle.searchdt.AsEnumerable() select b.Field<string>("BILL_NO");
+                    query1 = query1.Where(i => query2.Contains(i.Field<string>("BILL_NO")));
+                    THOK.Common.PrintHandle.issearch = false;
+                    dt = query1.CopyToDataTable();
+                }
                 THOK.Common.PrintHandle.dt = dt;
                 return true;
             }
@@ -519,6 +543,14 @@ namespace THOK.Wms.Bll.Service
                     i.FPRODUCT_CODE
                 }).OrderBy(I => I.ITEM_NO);
                 DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(printdata);
+                if (THOK.Common.PrintHandle.issearch)
+                { //判断是否是综合查询里的打印
+                    var query1 = from a in dt.AsEnumerable() select a;
+                    var query2 = from b in THOK.Common.PrintHandle.searchdt.AsEnumerable() select b.Field<string>("BILL_NO");
+                    query1 = query1.Where(i => query2.Contains(i.Field<string>("MBILL_NO")));
+                    THOK.Common.PrintHandle.issearch = false;
+                    dt = query1.CopyToDataTable();
+                }
                 THOK.Common.PrintHandle.dt = dt;
                 //THOK.Common.PrintHandle.Onstockinprint(dt, "billreportprint");
                 return true;

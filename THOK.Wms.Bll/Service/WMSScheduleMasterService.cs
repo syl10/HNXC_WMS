@@ -9,6 +9,7 @@ using  THOK.Wms.Dal.Interfaces;
 using System.Data;
 using THOK.Authority.Dal.Interfaces;
 using THOK.Authority.DbModel;
+using System.Reflection;
 
 namespace THOK.Wms.Bll.Service
 {
@@ -28,6 +29,12 @@ namespace THOK.Wms.Bll.Service
         public ICMDProductionLineRepository ProductionLineRepository { get; set; }
         [Dependency]
         public IUserRepository UserRepository { get; set; }
+        [Dependency]
+        public IWMSBillMasterRepository BillMasterRepository { get; set; }
+        [Dependency]
+        public IWMSBillDetailRepository BillDetailRepository { get; set; }
+        [Dependency]
+        public IWMSBillMasterService BillMasterService { get; set; }
 
         public object GetDetails(int page, int rows, string SCHEDULE_NO, string SCHEDULE_DATE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE)
         {
@@ -349,6 +356,71 @@ namespace THOK.Wms.Bll.Service
             catch (Exception ex) {
                 return false;
             }
+        }
+
+        //生成出库单
+        public bool CreateOutBill(string Scheduleno,string userid)
+        {
+            bool rejust = false;
+            string billno = "";
+            IQueryable<WMS_SCHEDULE_DETAIL> ScheduleDetail = ScheduleDetailRepository.GetQueryable();
+            var Schedulemast = ScheduleMasterRepository.GetQueryable().FirstOrDefault(i => i.SCHEDULE_NO == Scheduleno);
+            Schedulemast.STATE = "3";
+            var formules = ScheduleDetail.Where(i => i.SCHEDULE_NO == Scheduleno).OrderBy (i=>i.ITEM_NO );
+            foreach (WMS_SCHEDULE_DETAIL item in formules) {
+                WMS_BILL_MASTER mast = new WMS_BILL_MASTER();
+                mast.BILL_NO = BillMasterRepository.GetNewID("OS", DateTime .Now.Date ,billno);
+                mast.BILL_DATE = DateTime.Now;
+                mast.BTYPE_CODE = "002";
+                mast.SCHEDULE_NO = Scheduleno;
+                mast.SCHEDULE_ITEMNO = item.ITEM_NO;
+                mast.TARGET_CODE = "001";
+                mast.STATUS = "0";
+                mast.STATE = "2";
+                mast.OPERATER = userid;
+                mast.OPERATE_DATE = DateTime.Now;
+                mast.CHECK_DATE = DateTime.Now;
+                mast.CHECKER = userid;
+                mast.BILL_METHOD = "0";
+                mast.LINE_NO = item.LINE_NO;
+                mast.CIGARETTE_CODE = item.CIGARETTE_CODE;
+                mast.FORMULA_CODE = item.FORMULA_CODE;
+                mast.BATCH_WEIGHT = item.QUANTITY;
+                BillMasterRepository.Add(mast);
+                billno ="OS"+ (double .Parse ( mast.BILL_NO.Substring (2))+1).ToString ();
+                item.BILL_NO = mast.BILL_NO;
+
+                var  formulobj = BillMasterService.LoadFormulaDetail(1, 1000, item.FORMULA_CODE, item.QUANTITY);
+                THOK.Wms.Bll.Models.FormulaDetail[] items;
+                Type detailtype = formulobj.GetType();
+                try
+                {
+                    PropertyInfo[] aa = detailtype.GetProperties();
+                    items = (THOK.Wms.Bll.Models.FormulaDetail[])aa[1].GetValue(formulobj, null);
+                    foreach (THOK.Wms.Bll.Models.FormulaDetail  obj in items) {
+                        WMS_BILL_DETAIL detail = new WMS_BILL_DETAIL();
+                        detail.BILL_NO = mast.BILL_NO;
+                        detail.ITEM_NO = obj.ITEM_NO;
+                        detail.PRODUCT_CODE = obj.PRODUCT_CODE;
+                        detail.WEIGHT = obj.WEIGHT;
+                        detail.REAL_WEIGHT = obj.REAL_WEIGHT;
+                        detail.PACKAGE_COUNT = obj.PACKAGE_COUNT;
+                        detail.IS_MIX = obj.IS_MIX;
+                        detail.FPRODUCT_CODE = obj.FPRODUCT_CODE;
+                        BillDetailRepository.Add(detail);
+                    }
+                }
+                catch (Exception ex) { }
+            }
+            int brs = BillMasterRepository.SaveChanges();
+            if (brs == -1) rejust = false;
+            else
+            {
+               ScheduleDetailRepository.SaveChanges();
+               ScheduleMasterRepository.SaveChanges();
+                rejust = true;
+            }
+            return rejust;
         }
     }
 }

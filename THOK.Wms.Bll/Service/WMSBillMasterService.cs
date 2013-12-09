@@ -212,6 +212,10 @@ namespace THOK.Wms.Bll.Service
                 }
 
             }
+            if (THOK.Common.PrintHandle.issearch) {//
+                THOK.Common.PrintHandle.searchdt = THOK.Common.ConvertData.LinqQueryToDataTable(temp);
+                THOK.Common.PrintHandle.issearch = false;
+            }
             int total = temp.Count();
             temp = temp.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = temp.ToArray() };

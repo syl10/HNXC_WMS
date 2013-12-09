@@ -116,7 +116,8 @@ namespace WMS.Controllers.Wms.WMS
         //批次入库时,载入配方.
         public ActionResult LoadFormula(int page, int rows, string Formulacode, decimal BATCH_WEIGHT)
         {
-            var Billdetail = BillMasterService.LoadFormulaDetail(page, rows, Formulacode, BATCH_WEIGHT);
+            var Billdetail = BillMasterService.LoadFormulaDetail(page, rows, Formulacode, BATCH_WEIGHT); 
+           
             return Json(Billdetail, "text/html", JsonRequestBehavior.AllowGet);
         }
         //获取明细中的序号
@@ -146,6 +147,7 @@ namespace WMS.Controllers.Wms.WMS
         {
             //string Path = Server.MapPath("/");
             string userName = this.GetCookieValue("username");
+            THOK.Common.PrintHandle.issearch = true;
             bool Result = BillReportService.StockinPrint(flag, userName, PrintCount, BILLNO, BILLDATEFROM, BILLDATETO, BTYPECODE, BILLMETHOD, STATE, CIGARETTECODE, FORMULACODE);
              string msg = Result ? "成功" : "失败";
             var just = new { 

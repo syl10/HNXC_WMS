@@ -9,6 +9,8 @@ namespace THOK.Common
     public   class PrintHandle
     {
         public static DataTable dt;
+        public static DataTable searchdt;
+        public static bool issearch=false;
         public static DataTable baseinfoprint;
         public static bool issuccess = false;
         /// <summary>

@@ -110,6 +110,14 @@ namespace WMS.Controllers.Wms.WMS
             var rejust = ScheduleDetailService.GetSerial(SCHEDULENO);
             return Json(rejust, "text/html", JsonRequestBehavior.AllowGet);
         }
+        //生成出库单
+        public ActionResult CreateOutbill(string scheduleno)
+        {
+            string userid = this.GetCookieValue("userid");
+            var rejust = ScheduleMasterService.CreateOutBill(scheduleno,userid);
+            string msg = rejust ? "生成成功" : "生成失败";
+            return Json(JsonMessageHelper.getJsonMessage(rejust, msg, null), "text/html", JsonRequestBehavior.AllowGet);
+        }
         //打印
         public ActionResult Print(string SCHEDULENO, string BILLDATEFROM, string BILLDATETO, string STATE)
         {
