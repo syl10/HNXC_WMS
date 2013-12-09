@@ -8,12 +8,17 @@
         $('#details').datagrid('reload');
         $('#details').datagrid('options').onLoadSuccess = function () {
             if (isprint) {
-                for (var i = 0; i < opts.length; i++) {
-                    var coltitle = $('#details').datagrid('getColumnOption', opts[i]).title;
-                    if ($('#details').datagrid('getColumnOption', opts[i]).hidden !=true)
-                        str += opts[i] + ":" + coltitle + ";";
+                var row = $('#details').datagrid('getData');
+                if (row.total > 0) {
+                    for (var i = 0; i < opts.length; i++) {
+                        var coltitle = $('#details').datagrid('getColumnOption', opts[i]).title;
+                        if ($('#details').datagrid('getColumnOption', opts[i]).hidden != true)
+                            str += opts[i] + ":" + coltitle + ";";
+                    }
+                    window.location.href = "/Crane/CreateExcelToClient/?tablestructstr=" + str + "&heard=计量单位信息";
+                } else {
+                    $.messager.confirm('错误', '当前无数据！');
                 }
-                window.location.href = "/Crane/CreateExcelToClient/?tablestructstr=" + str + "&heard=计量单位信息";
             }
             isprint = false;
             $('#details').datagrid('loading');
