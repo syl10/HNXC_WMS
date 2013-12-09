@@ -29,7 +29,7 @@ namespace THOK.Authority.DbModel.Mapping
                 .HasMaxLength(1);
 
             // Table & Column Mappings
-            this.ToTable("AUTH_CITY", "THOK");
+            this.ToTable("AUTH_CITY","HNXC");
             this.Property(t => t.CITY_ID).HasColumnName("CITY_ID");
             this.Property(t => t.CITY_NAME).HasColumnName("CITY_NAME");
             this.Property(t => t.DESCRIPTION).HasColumnName("DESCRIPTION");

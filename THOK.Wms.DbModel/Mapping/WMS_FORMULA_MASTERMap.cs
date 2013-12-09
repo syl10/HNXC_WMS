@@ -37,7 +37,7 @@ namespace THOK.Wms.DbModel.Mapping
                 
 
             // Table & Column Mappings
-            this.ToTable("WMS_FORMULA_MASTER", "THOK");
+            this.ToTable("WMS_FORMULA_MASTER","HNXC");
             this.Property(t => t.FORMULA_CODE).HasColumnName("FORMULA_CODE");
             this.Property(t => t.FORMULA_NAME).HasColumnName("FORMULA_NAME");
             this.Property(t => t.FORMULA_DATE).HasColumnName("FORMULA_DATE");

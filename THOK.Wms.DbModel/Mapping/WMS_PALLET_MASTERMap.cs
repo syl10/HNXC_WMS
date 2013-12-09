@@ -48,7 +48,7 @@ namespace THOK.Wms.DbModel.Mapping
                 .HasMaxLength(10);
 
             // Table & Column Mappings
-            this.ToTable("WMS_PALLET_MASTER", "THOK");
+            this.ToTable("WMS_PALLET_MASTER","HNXC");
             this.Property(t => t.BILL_NO).HasColumnName("BILL_NO");
             this.Property(t => t.BILL_DATE).HasColumnName("BILL_DATE");
             this.Property(t => t.BTYPE_CODE).HasColumnName("BTYPE_CODE");

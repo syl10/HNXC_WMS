@@ -33,7 +33,7 @@ namespace THOK.Authority.DbModel.Mapping
                 .HasMaxLength(6);
 
             // Table & Column Mappings
-            this.ToTable("AUTH_FUNCTION", "THOK");
+            this.ToTable("AUTH_FUNCTION","HNXC");
             this.Property(t => t.FUNCTION_ID).HasColumnName("FUNCTION_ID");
             this.Property(t => t.FUNCTION_NAME).HasColumnName("FUNCTION_NAME");
             this.Property(t => t.CONTROL_NAME).HasColumnName("CONTROL_NAME");

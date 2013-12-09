@@ -27,7 +27,7 @@ namespace THOK.Wms.DbModel.Mapping
                 .HasMaxLength(50);
 
             // Table & Column Mappings
-            this.ToTable("SYS_TABLE_STATE", "THOK");
+            this.ToTable("SYS_TABLE_STATE","HNXC");
             this.Property(t => t.TABLE_NAME).HasColumnName("TABLE_NAME");
             this.Property(t => t.FIELD_NAME).HasColumnName("FIELD_NAME");
             this.Property(t => t.STATE).HasColumnName("STATE");

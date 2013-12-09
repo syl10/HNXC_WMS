@@ -26,7 +26,7 @@ namespace THOK.Wms.DbModel.Mapping
                 .HasMaxLength(1);
 
             // Table & Column Mappings
-            this.ToTable("CMD_PRODUCT_STYLE", "THOK");
+            this.ToTable("CMD_PRODUCT_STYLE","HNXC");
             this.Property(t => t.STYLE_NO).HasColumnName("STYLE_NO");
             this.Property(t => t.STYLE_NAME).HasColumnName("STYLE_NAME");
             this.Property(t => t.SORT_LEVEL).HasColumnName("SORT_LEVEL");

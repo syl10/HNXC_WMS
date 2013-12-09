@@ -30,7 +30,7 @@ namespace THOK.Wms.DbModel.Mapping
                 .HasMaxLength(20);
 
             // Table & Column Mappings
-            this.ToTable("WMS_BALANCE_DETAIL", "THOK");
+            this.ToTable("WMS_BALANCE_DETAIL","HNXC");
             this.Property(t => t.BALANCE_NO).HasColumnName("BALANCE_NO");
             this.Property(t => t.WAREHOUSE_CODE).HasColumnName("WAREHOUSE_CODE");
             this.Property(t => t.PRODUCT_CODE).HasColumnName("PRODUCT_CODE");

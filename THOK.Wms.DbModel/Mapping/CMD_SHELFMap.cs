@@ -47,7 +47,7 @@ namespace  THOK.Wms.DbModel.Mapping
                 .HasMaxLength(12);
 
             // Table & Column Mappings
-            this.ToTable("CMD_SHELF", "THOK");
+            this.ToTable("CMD_SHELF","HNXC");
             this.Property(t => t.SHELF_CODE).HasColumnName("SHELF_CODE");
             this.Property(t => t.SHELF_NAME).HasColumnName("SHELF_NAME");
             this.Property(t => t.ROW_COUNT).HasColumnName("ROW_COUNT");

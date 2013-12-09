@@ -132,7 +132,7 @@ namespace THOK.Wms.DbModel.Mapping
                 .HasMaxLength(20);
 
             // Table & Column Mappings
-            this.ToTable("BILLREPORT", "THOK");
+            this.ToTable("BILLREPORT","HNXC");
             this.Property(t => t.MBILL_NO).HasColumnName("MBILL_NO");
             this.Property(t => t.BILL_DATE).HasColumnName("BILL_DATE");
             this.Property(t => t.BTYPE_CODE).HasColumnName("BTYPE_CODE");

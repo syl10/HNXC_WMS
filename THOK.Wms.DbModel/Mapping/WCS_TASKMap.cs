@@ -82,7 +82,7 @@ namespace THOK.Wms.DbModel.Mapping
                 .HasMaxLength(20);
 
             // Table & Column Mappings
-            this.ToTable("WCS_TASK", "THOK");
+            this.ToTable("WCS_TASK","HNXC");
             this.Property(t => t.TASK_ID).HasColumnName("TASK_ID");
             this.Property(t => t.TASK_TYPE).HasColumnName("TASK_TYPE");
             this.Property(t => t.TASK_LEVEL).HasColumnName("TASK_LEVEL");

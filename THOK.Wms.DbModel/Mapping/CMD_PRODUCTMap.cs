@@ -43,7 +43,7 @@ namespace THOK.Wms.DbModel.Mapping
                 .HasMaxLength(3);
 
             // Table & Column Mappings
-            this.ToTable("CMD_PRODUCT", "THOK");
+            this.ToTable("CMD_PRODUCT","HNXC");
             this.Property(t => t.PRODUCT_CODE).HasColumnName("PRODUCT_CODE");
             this.Property(t => t.PRODUCT_NAME).HasColumnName("PRODUCT_NAME");
             this.Property(t => t.ORIGINAL_CODE).HasColumnName("ORIGINAL_CODE");
