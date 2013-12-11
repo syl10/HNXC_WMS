@@ -69,7 +69,7 @@ namespace WMS.Controllers.Wms.Base
         public ActionResult Delete(string PRODUCT_CODE)
         {
             bool bResult = ProductService.Delete(PRODUCT_CODE);
-            string msg = bResult ? "删除成功" : "删除失败";
+            string msg = bResult ? "删除成功" : "无法删除,可能原因是该产品正被使用中";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
