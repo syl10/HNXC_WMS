@@ -98,16 +98,18 @@ namespace THOK.Wms.Bll.Service
         }
         public bool Delete(string ProductCode)
         {
+            int rejust = 0;
             var product = ProductRepository.GetQueryable()
                 .FirstOrDefault(b => b.PRODUCT_CODE == ProductCode);
             if (ProductCode != null)
             {
                 ProductRepository.Delete(product);
-                ProductRepository.SaveChanges();
+                rejust= ProductRepository.SaveChanges();
+                if (rejust == -1) return false;
+                else return true;
             }
             else
                 return false;
-            return true;
         }
         public bool Save(CMD_PRODUCT product)
         {
