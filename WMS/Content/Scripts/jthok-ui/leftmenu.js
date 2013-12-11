@@ -213,7 +213,6 @@
                     }
                 }]
             });
-
             $('#tabs').tabs('select', subtitle);
             var currTab = $('#tabs').tabs('getSelected');
             currTab.data("src", url);
