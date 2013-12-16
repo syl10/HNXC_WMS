@@ -33,6 +33,15 @@ namespace WMS.Controllers.Wms.Base
             string CRANE_NAME = collection["CRANE_NAME"] ?? "";
             string CRANE_MEMO = collection["MEMO"] ?? "";
             string IS_ACTIVE = collection["IS_ACTIVE"] ?? "";
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.isbase = true;
+            }
+            else
+            {
+                THOK.Common.PrintHandle.isbase = false;
+            }
             //string username = collection["username"] ?? "";
             var users = CraneService.GetDetails(page, rows, CRANE_NAME, CRANE_MEMO, IS_ACTIVE);
             return Json(users, "text/html", JsonRequestBehavior.AllowGet);

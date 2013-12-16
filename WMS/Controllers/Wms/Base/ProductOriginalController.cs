@@ -33,6 +33,15 @@ namespace WMS.Controllers.Wms.Base
             string ORIGINAL_NAME = collection["ORIGINAL_NAME"] ?? "";
             string DISTRICT_CODE = collection["DISTRICT_CODE"] ?? "";
             string MEMO = collection["MEMO"] ?? "";
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.isbase = true;
+            }
+            else
+            {
+                THOK.Common.PrintHandle.isbase = false;
+            }
             var originals = ProductOriginalService.Detail(page, rows, ORIGINAL_NAME ,DISTRICT_CODE ,MEMO );
             return Json(originals, "text/html", JsonRequestBehavior.AllowGet);
         }

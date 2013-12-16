@@ -33,6 +33,15 @@ namespace WMS.Controllers.Wms.Base
             string USER_CODE = collection["USER_CODE"] ?? "";
             string GRADE_NAME = collection["GRADE_NAME"] ?? "";
             string MEMO = collection["MEMO"] ?? "";
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.isbase = true;
+            }
+            else
+            {
+                THOK.Common.PrintHandle.isbase = false;
+            }
             var grade = ProductGradeService.Detail(page, rows, ENGLISH_CODE, USER_CODE, GRADE_NAME, MEMO);
             return Json(grade, "text/html", JsonRequestBehavior.AllowGet);
         }

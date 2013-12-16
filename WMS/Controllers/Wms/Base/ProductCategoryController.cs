@@ -34,6 +34,15 @@ namespace WMS.Controllers.Wms.Base
         {
             string CATEGORY_NAME = collection["CATEGORY_NAME"] ?? "";
             string MEMO = collection["MEMO"] ?? "";
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.isbase = true;
+            }
+            else
+            {
+                THOK.Common.PrintHandle.isbase = false;
+            }
             //string username = collection["username"] ?? "";
             var users = ProductCategoryService.GetDetails(page, rows, CATEGORY_NAME, MEMO);
             return Json(users, "text/html", JsonRequestBehavior.AllowGet);

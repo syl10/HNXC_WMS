@@ -451,7 +451,7 @@ namespace THOK.Wms.Bll.Service
                     DateTime dateend = DateTime.Parse(BILL_DATEEND);
                     directproduct = directproduct.Where(i => i.BILL_DATE.CompareTo(dateend) <= 0);
                 }
-                var temp = directproduct.ToArray().OrderBy(i => i.BILL_NO).Select(i => new
+                var temp = directproduct.ToArray () .OrderBy(i => i.BILL_NO).Select(i => new
                 {
                     i.BILL_NO,
                     i.WAREHOUSE_NAME,
@@ -478,7 +478,7 @@ namespace THOK.Wms.Bll.Service
                     i.PACKAGE_COUNT,
                     i.NC_COUNT
                 });
-                DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(temp);
+                DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(directproduct);
                 THOK.Common.PrintHandle.dt = dt;
                 return true;
             }

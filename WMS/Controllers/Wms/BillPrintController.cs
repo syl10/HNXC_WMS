@@ -31,10 +31,18 @@ namespace WMS.Controllers.Wms
 
         private void SetReport(string frxpath, string dataname)
         {
-            if (PrintHandle.dt.DefaultView.Count > 0)
+            try
             {
-                webReport.Report.RegisterData(PrintHandle.dt.DefaultView, dataname);
-                webReport.Report.Load(frxpath);
+                if (PrintHandle.dt.DefaultView.Count > 0)
+                {
+                    webReport.Report.RegisterData(PrintHandle.dt.DefaultView, dataname);
+                    webReport.Report.Load(frxpath);
+                }
+            }
+            catch (Exception ex) {
+                string Path = Server.MapPath("/");
+                Path += @"ContentReport\Report\errorreport.frx";
+                webReport.Report.Load(Path);
             }
         }
 

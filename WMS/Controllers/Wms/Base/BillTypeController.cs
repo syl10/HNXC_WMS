@@ -37,6 +37,15 @@ namespace WMS.Controllers.Wms.Base
             string TASK_LEVEL = collection["TASK_LEVEL"] ?? "";
             string Memo = collection["MEMO"] ?? "";
             string TARGET_CODE = collection["TARGET_CODE"] ?? "";
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.isbase = true;
+            }
+            else
+            {
+                THOK.Common.PrintHandle.isbase = false;
+            }
             var users = BillTypeService.GetDetails(page, rows, BTYPE_NAME, BILL_TYPE, TASK_LEVEL, Memo, TARGET_CODE);
             return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }

@@ -21,7 +21,10 @@ namespace THOK.Wms.Bll.Service
         {
             IQueryable<CMD_PRODUCT_STYLE > query = Productstylerepository.GetQueryable();
             var Styles = query.OrderBy(i => i.STYLE_NO).Select(i => new { i.STYLE_NO ,i.STYLE_NAME});
-            THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(Styles);
+            if (THOK.Common.PrintHandle.isbase)
+            {
+                THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(Styles);
+            }
             int total = Styles.Count();
             Styles = Styles.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = Styles.ToArray() };

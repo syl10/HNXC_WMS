@@ -30,7 +30,10 @@ namespace THOK.Wms.Bll.Service
             {
                 CMDCigarettes = CMDCigarettes.Where(i => i.CIGARETTE_MEMO.Contains(CIGARETTE_MEMO));
             }
-            THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(CMDCigarettes);
+            if (THOK.Common.PrintHandle.isbase)
+            {
+                THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(CMDCigarettes);
+            }
             int total = CMDCigarettes.Count();
             CMDCigarettes = CMDCigarettes.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = CMDCigarettes.ToArray() };

@@ -4,11 +4,11 @@
         var str = "";
         var opts = $('#details').datagrid('getColumnFields');
 //    var titles = $('#details').datagrid('getColumnOption', 'CRANE_NO');
-    $('#details').datagrid('loaded');
+        $('#details').datagrid('loaded');
+        var queryParams = $('#details').datagrid('options').queryParams;
+        queryParams.PRINT = "1";
+        $('#details').datagrid('options').queryParams = queryParams;
     $('#details').datagrid('reload');
-    var queryParams = $('#details').datagrid('options').queryParams;
-    queryParams.PRINT = "1";
-    $('#details').datagrid('options').queryParams = queryParams;
     $('#details').datagrid('options').onLoadSuccess = function () {
         if (isprint) {
             var row = $('#details').datagrid('getData');

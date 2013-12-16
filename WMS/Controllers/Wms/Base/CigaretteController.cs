@@ -35,6 +35,15 @@ namespace WMS.Controllers.Wms.Base
         {
             string CIGARETTE_NAME = collection["CIGARETTE_NAME"] ?? "";
             string CIGARETTE_MEMO = collection["CIGARETTE_MEMO"] ?? "";
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.isbase = true;
+            }
+            else
+            {
+                THOK.Common.PrintHandle.isbase = false;
+            }
             //string username = collection["username"] ?? "";
             var users = CigaretteService.GetDetails(page, rows, CIGARETTE_NAME, CIGARETTE_MEMO);
             return Json(users, "text/html", JsonRequestBehavior.AllowGet);

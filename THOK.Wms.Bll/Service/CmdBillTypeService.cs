@@ -75,7 +75,10 @@ namespace THOK.Wms.Bll.Service
                 CmdBillTypes = CmdBillTypes.Where(i => i.TARGET_CODE==TARGET_CODE);
             }
             CmdBillTypes = CmdBillTypes.OrderBy(i => i.BTYPE_CODE).Select(i => i);
-            THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(CmdBillTypes );
+            if (THOK.Common.PrintHandle.isbase)
+            {
+                THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(CmdBillTypes);
+            }
             int total = CmdBillTypes.Count();
             CmdBillTypes = CmdBillTypes.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = CmdBillTypes.ToArray() };

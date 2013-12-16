@@ -44,6 +44,15 @@ namespace WMS.Controllers.Wms.Base
             string WEIGHT = collection["WEIGHT"] ?? "";
             string CATEGORY_CODE = collection["CATEGORY_CODE"] ?? "";
             string MEMO = collection["MEMO"] ?? "";
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.isbase = true;
+            }
+            else
+            {
+                THOK.Common.PrintHandle.isbase = false;
+            }
             //string username = collection["username"] ?? "";
             var Products = ProductService.GetDetails(page, rows, PRODUCT_NAME,ORIGINAL,YEARS,GRADE,STYLE,WEIGHT,MEMO,CATEGORY_CODE);
             return Json(Products, "text/html", JsonRequestBehavior.AllowGet);
