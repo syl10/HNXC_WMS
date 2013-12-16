@@ -95,7 +95,7 @@ namespace THOK.Wms.Bll.Service
                 i.BATCH_WEIGHT,
                 i.FORMULANO
             });
-            return new { total, rows = tmp.ToArray() };
+            return new { total, rows = tmp };
         }
 
         public object GetSubDetails(int page, int rows, string FORMULA_CODE)

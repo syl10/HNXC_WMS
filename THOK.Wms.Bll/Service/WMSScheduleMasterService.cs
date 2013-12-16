@@ -97,7 +97,10 @@ namespace THOK.Wms.Bll.Service
                 schedule = schedule.Where(i => i.CHECK_DATE.Value .CompareTo (checkdt )>=0);
                 schedule = schedule.Where(i => i.CHECK_DATE.Value.CompareTo(checkdt2) < 0);
             }
-            var temp = schedule.ToArray().OrderByDescending(i=>i.OPERATE_DATE).Select(i => new
+            schedule = schedule.OrderByDescending(i => i.OPERATE_DATE);
+            int total = schedule.Count();
+            schedule = schedule.Skip((page - 1) * rows).Take(rows);
+            var temp = schedule.ToArray().Select(i => new
             {
                 i.SCHEDULE_NO,
                 SCHEDULE_DATE = i.SCHEDULE_DATE.ToString("yyyy-MM-dd"),
@@ -111,9 +114,7 @@ namespace THOK.Wms.Bll.Service
                 STATECODE=i.STATECODE,
                 STATUSCODE=i.STATUSCODE
             });
-            int total = schedule.Count();
-            schedule = schedule.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp.ToArray() };
+            return new { total, rows = temp};
         }
 
 

@@ -52,10 +52,11 @@ namespace THOK.Wms.Bll.Service
                               a.BEGIN_QUANTITY ,//期初数量
                               a.FEEDING_QUANTITY //补料出数量
                           };
-            var temp = details.ToArray().Where(i => i.BALANCE_NO== Balanceno ).OrderBy(i => i.WAREHOUSE_CODE ).Select(i => i);
-            int total = temp.Count();
-            temp = temp.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp.ToArray() };
+            details = details.Where(i => i.BALANCE_NO == Balanceno).OrderBy(i => i.WAREHOUSE_CODE);
+            int total = details.Count();
+            details = details.Skip((page - 1) * rows).Take(rows);
+            var temp = details.ToArray().Select(i => i);
+            return new { total, rows = temp};
 
         }
 

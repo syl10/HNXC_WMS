@@ -33,6 +33,14 @@ namespace WMS.Controllers.Wms.Base
             string CAR_NAME = collection["CAR_NAME"] ?? "";
             string CAR_MEMO = collection["MEMO"] ?? "";
             string IS_ACTIVE = collection["IS_ACTIVE"] ?? "";
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.isbase = true;
+            }
+            else {
+                THOK.Common.PrintHandle.isbase = false;
+            }
             //string username = collection["username"] ?? "";
             var users = CarService.GetDetails(page, rows, CAR_NAME, CAR_MEMO, IS_ACTIVE);
             return Json(users, "text/html", JsonRequestBehavior.AllowGet);

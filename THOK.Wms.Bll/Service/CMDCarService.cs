@@ -22,7 +22,7 @@ namespace THOK.Wms.Bll.Service
         public object GetDetails(int page, int rows, string CarName, string MEMO, string isActive)
         {
             IQueryable<CMD_CAR> Query = CarRepository.GetQueryable();
-            var Cranes = Query.OrderBy(i => i.CAR_NO).Select(i => new { i.CAR_NO, i.CAR_NAME, i.MEMO, IS_ACTIVE = i.IS_ACTIVE == "1" ? "启用" : "禁用" });
+            var Cranes = Query.OrderBy(i => i.CAR_NO).Select(i => new { i.CAR_NO, i.CAR_NAME, i.MEMO,IS_ACTIVECODE=i .IS_ACTIVE, IS_ACTIVE = i.IS_ACTIVE == "1" ? "启用" : "禁用" });
             if (!string.IsNullOrEmpty(CarName))
             {
                 Cranes = Cranes.Where(i => i.CAR_NAME.Contains(CarName));
@@ -33,9 +33,12 @@ namespace THOK.Wms.Bll.Service
             }
             if (!string.IsNullOrEmpty(isActive))
             {
-                Cranes = Cranes.Where(i => i.IS_ACTIVE == isActive);
+                Cranes = Cranes.Where(i => i.IS_ACTIVECODE  == isActive);
             }
-            THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(Cranes);
+            if (THOK.Common.PrintHandle.isbase)
+            {
+                THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(Cranes);
+            }
             int total = Cranes.Count();
             Cranes = Cranes.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = Cranes.ToArray() };

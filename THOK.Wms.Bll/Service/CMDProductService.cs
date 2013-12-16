@@ -88,6 +88,7 @@ namespace THOK.Wms.Bll.Service
         public bool Add(CMD_PRODUCT product)
         {
             product.PRODUCT_CODE = ProductRepository.GetNewID("CMD_PRODUCT", "PRODUCT_CODE");
+            if(!string.IsNullOrEmpty (product .PRODUCT_CODE)) 
             product.PRODUCT_CODE = product.PRODUCT_CODE.Substring(product.PRODUCT_CODE.Length - 10);
             ProductRepository.Add(product);
             ProductRepository.SaveChanges();

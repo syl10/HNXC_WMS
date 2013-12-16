@@ -10,9 +10,10 @@ namespace THOK.Common
     {
         public static DataTable dt;
         public static DataTable searchdt;
-        public static bool issearch=false;
+        public static bool issearch=false;  //判断用户是否点击了  综合查询中的打印
+        public static bool isbase = false;//判断用户是否点击了  基本资料中的打印
         public static DataTable baseinfoprint;
-        public static bool issuccess = false;
+        //public static bool issuccess = false;
         /// <summary>
         /// 设置表结构,并
         /// </summary>

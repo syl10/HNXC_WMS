@@ -157,68 +157,70 @@ namespace THOK.Wms.Bll.Service
             if (!string.IsNullOrEmpty(LINENO)) {
                 billmaster = billmaster.Where(i => i.LINE_NO == LINENO);
             }
-            var temp = billmaster.ToArray().OrderByDescending(i => i.OPERATE_DATE ).Select(i => new
-            {
-                 i.BILL_NO ,
-                 BILL_DATE = i.BILL_DATE.ToString("yyyy-MM-dd"),
-                 i.BTYPE_CODE ,
-                 i.BTYPE_NAME ,
-                 i.SCHEDULE_NO ,
-                 i.WAREHOUSE_CODE ,
-                 i.WAREHOUSE_NAME ,
-                 i.TARGET_CODE ,
-                 i.TARGET_NAME ,
-                 i.STATUS ,
-                 i.STATUSNAME ,
-                 i.STATE ,
-                 i.STATENAME ,
-                 i.SOURCE_BILLNO ,
-                 i.CIGARETTE_CODE,
-                 i.CIGARETTE_NAME,//牌号名称
-                 i.FORMULA_CODE,
-                 i.FORMULA_NAME, //配方名称
-                 i.BATCH_WEIGHT,
-                 i.OPERATER ,
-                 OPERATE_DATE = i.OPERATE_DATE == null ? "" : ((DateTime)i.OPERATE_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
-                 i.CHECKER ,
-                 CHECK_DATE = i.CHECK_DATE == null ? "" : ((DateTime)i.CHECK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
-                 i.TASKER ,
-                 TASK_DATE = i.TASK_DATE == null ? "" : ((DateTime)i.TASK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
-                 i.BILL_METHOD ,
-                 i.BILLMETHODNAME ,
-                 i.SCHEDULE_ITEMNO ,
-                 i.LINE_NO ,
-                 i.LINE_NAME 
-            });
             if (flag == "2")
             {  //属于抽检补料入库单
-                temp = temp.Where(i => "2,3".Contains(i.BILL_METHOD));
+                billmaster = billmaster.Where(i => "2,3".Contains(i.BILL_METHOD));
             }
             else
             {
                 //temp = temp.Where(i => i.BILL_METHOD != "2");
                 //temp = temp.Where(i => i.BILL_METHOD != "3");
-                temp = temp.Where(i => !("2,3".Contains(i.BILL_METHOD)));
+                billmaster = billmaster.Where(i => !("2,3".Contains(i.BILL_METHOD)));
                 if (flag == "1")
                 {  //入库,出库作业  获取的记录即状态不是保存的
-                    temp = temp.Where(i => i.STATE != "1");
+                    billmaster = billmaster.Where(i => i.STATE != "1");
                 }
                 if (flag == "4")
                 {//紧急补料单
-                    temp = temp.Where(i => i.BTYPE_CODE == "005");
+                    billmaster = billmaster.Where(i => i.BTYPE_CODE == "005");
                 }
                 if (flag == "3") {//倒库单
-                    temp = temp.Where(i => i.BTYPE_CODE == "006");
+                    billmaster = billmaster.Where(i => i.BTYPE_CODE == "006");
                 }
 
             }
-            if (THOK.Common.PrintHandle.issearch) {//
-                THOK.Common.PrintHandle.searchdt = THOK.Common.ConvertData.LinqQueryToDataTable(temp);
+            if (THOK.Common.PrintHandle.issearch)
+            {//用于单据查询中的打印
+                THOK.Common.PrintHandle.searchdt = THOK.Common.ConvertData.LinqQueryToDataTable(billmaster);
                 THOK.Common.PrintHandle.issearch = false;
             }
-            int total = temp.Count();
-            temp = temp.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp.ToArray() };
+            billmaster = billmaster.OrderByDescending(i => i.OPERATE_DATE); 
+            int total = billmaster.Count();
+            billmaster = billmaster.Skip((page - 1) * rows).Take(rows);
+            var temp = billmaster.ToArray().Select(i => new
+            {
+                i.BILL_NO,
+                BILL_DATE = i.BILL_DATE.ToString("yyyy-MM-dd"),
+                i.BTYPE_CODE,
+                i.BTYPE_NAME,
+                i.SCHEDULE_NO,
+                i.WAREHOUSE_CODE,
+                i.WAREHOUSE_NAME,
+                i.TARGET_CODE,
+                i.TARGET_NAME,
+                i.STATUS,
+                i.STATUSNAME,
+                i.STATE,
+                i.STATENAME,
+                i.SOURCE_BILLNO,
+                i.CIGARETTE_CODE,
+                i.CIGARETTE_NAME,//牌号名称
+                i.FORMULA_CODE,
+                i.FORMULA_NAME, //配方名称
+                i.BATCH_WEIGHT,
+                i.OPERATER,
+                OPERATE_DATE = i.OPERATE_DATE == null ? "" : ((DateTime)i.OPERATE_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+                i.CHECKER,
+                CHECK_DATE = i.CHECK_DATE == null ? "" : ((DateTime)i.CHECK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+                i.TASKER,
+                TASK_DATE = i.TASK_DATE == null ? "" : ((DateTime)i.TASK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+                i.BILL_METHOD,
+                i.BILLMETHODNAME,
+                i.SCHEDULE_ITEMNO,
+                i.LINE_NO,
+                i.LINE_NAME
+            });
+            return new { total, rows = temp};
         }
         //获取单据明细
         public object GetSubDetails(int page, int rows, string BillNo, int  flag)
@@ -252,10 +254,11 @@ namespace THOK.Wms.Bll.Service
             if (flag == 1) { //获取混装产品的信息.
                 billdetail = billdetail.Where(i => i.WEIGHT != i.REAL_WEIGHT);
             }
-            var temp = billdetail.ToArray().Where(i => i.BILL_NO == BillNo).OrderBy(i => i.ITEM_NO).Select (i=> i );
-            int total = temp.Count(); 
-            temp = temp.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp.ToArray() };
+            billdetail = billdetail.Where(i => i.BILL_NO == BillNo).OrderBy(i => i.ITEM_NO);
+            int total = billdetail.Count();
+            billdetail = billdetail.Skip((page - 1) * rows).Take(rows);
+            var temp = billdetail.ToArray().Select (i=> i );
+            return new { total, rows = temp };
         }
 
         //审核
@@ -621,7 +624,7 @@ namespace THOK.Wms.Bll.Service
             });
             int total = temp.Count();
             temp = temp.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp.ToArray() };
+            return new { total, rows = temp };
         }
 
         //抽检补料入库单添加
@@ -1505,7 +1508,10 @@ namespace THOK.Wms.Bll.Service
                 }
             }
             billmaster =billmaster .Where (i=>!("1,2".Contains (i.STATE ))&&i.BTYPE_CODE !="005");//状态为作业以上的.
-            var temp = billmaster.ToArray().OrderByDescending(i => i.OPERATE_DATE).Select(i => new
+            billmaster = billmaster.OrderByDescending(i => i.OPERATE_DATE);
+            int total = billmaster.Count();
+            billmaster = billmaster.Skip((page - 1) * rows).Take(rows);
+            var temp = billmaster.ToArray().Select(i => new
             {
                 i.BILL_NO,
                 BILL_DATE = i.BILL_DATE.ToString("yyyy-MM-dd"),
@@ -1539,9 +1545,7 @@ namespace THOK.Wms.Bll.Service
                 i.SOURCE_BILLNO,
                 i.LINE_NAME
             });
-            int total = temp.Count();
-            temp = temp.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp.ToArray() };
+            return new { total, rows = temp};
         }
 
         //紧急补料单新增
@@ -1657,7 +1661,7 @@ namespace THOK.Wms.Bll.Service
             }).Distinct ();
             int total = temp.Count();
             temp = temp.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp.ToArray() };
+            return new { total, rows = temp};
         }
     }
 }

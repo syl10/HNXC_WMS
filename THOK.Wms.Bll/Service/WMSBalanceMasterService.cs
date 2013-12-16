@@ -77,7 +77,10 @@ namespace THOK.Wms.Bll.Service
                 balance = balance.Where(i => i.CHECK_DATE .Value.CompareTo(operatedt) >= 0);
                 balance = balance.Where(i => i.CHECK_DATE .Value.CompareTo(operatedt2) < 0);
             }
-            var temp = balance.OrderBy(i => i.BALANCE_NO).ToArray().Select(i => new
+            balance = balance.OrderBy(i => i.BALANCE_NO);
+            int total = balance.Count();
+            balance = balance.Skip((page - 1) * rows).Take(rows);
+            var temp = balance.ToArray().Select(i => new
             { 
                 i.BALANCE_NO ,
                 BALANCE_DATE=i.BALANCE_DATE == null ? "" : ((DateTime)i.BALANCE_DATE ).ToString("yyyy-MM-dd HH:mm:ss") ,
@@ -88,9 +91,7 @@ namespace THOK.Wms.Bll.Service
                 i.STATE ,
                 i.STATE_DESC
             });
-            int total = temp.Count();
-            temp = temp.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp.ToArray() };
+            return new { total, rows = temp};
         }
 
         //审核

@@ -6,6 +6,9 @@
 //    var titles = $('#details').datagrid('getColumnOption', 'CRANE_NO');
     $('#details').datagrid('loaded');
     $('#details').datagrid('reload');
+    var queryParams = $('#details').datagrid('options').queryParams;
+    queryParams.PRINT = "1";
+    $('#details').datagrid('options').queryParams = queryParams;
     $('#details').datagrid('options').onLoadSuccess = function () {
         if (isprint) {
             var row = $('#details').datagrid('getData');
@@ -20,8 +23,9 @@
                 $.messager.confirm('错误', '当前无数据！');
             }
         }
+        queryParams.PRINT = "0";
         isprint = false;
         $('#details').datagrid('loading');
     }
-    }
+ }
 </script>

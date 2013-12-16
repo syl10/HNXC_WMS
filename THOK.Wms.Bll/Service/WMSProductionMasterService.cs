@@ -38,8 +38,8 @@ namespace THOK.Wms.Bll.Service
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
             IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
             var detail = from a in query
-                       join b in statequery on a.STATE equals b.STATE
-                       join d in userquery on a.OPERATER equals d.USER_ID 
+                       join b in statequery on a.STATE equals b.STATE into bf from b in bf.DefaultIfEmpty ()
+                       join d in userquery on a.OPERATER equals d.USER_ID into df from d in df.DefaultIfEmpty ()
                        join c in userquery on a.CHECKER equals c.USER_ID into e from c in e.DefaultIfEmpty ()
                        where b.TABLE_NAME == "WMS_PRODUCTION_MASTER" && b.FIELD_NAME == "STATE"
                        select new { 
@@ -121,7 +121,35 @@ namespace THOK.Wms.Bll.Service
                 DateTime dateend = DateTime.Parse(BILL_DATEEND);
                 detail = detail.Where(i => i.BILL_DATE.CompareTo(dateend) <= 0);
             }
-           var  temp = detail.ToArray().OrderByDescending (i => i.OPERATE_DATE ).Select(i => new
+
+            detail = detail.OrderByDescending(i => i.OPERATE_DATE).Select(i => new
+            {
+                i.BILL_NO,
+                i.BILL_DATE,
+                i.SCHEDULE_NO,
+                i.WAREHOUSE_CODE,
+                i.WAREHOUSE_NAME,
+                i.CIGARETTE_CODE,
+                i.CIGARETTE_NAME,
+                i.FORMULA_CODE,
+                i.FORMULA_NAME,
+                i.BATCH_WEIGHT,
+                i.IN_BILLNO,
+                i.OUT_BILLNO,
+                i.STATE,
+                i.LINE_NO,
+                i.LINE_NAME,
+                i.STATENAME,
+                i.OPERATER,
+                i.OPERATE_DATE,
+                i.CHECK_DATE,
+                i.CHECKER
+
+            });
+            int total = detail.Count();
+            detail = detail.Skip((page - 1) * rows).Take(rows);
+            //total = detail.Count();
+           var  temp = detail.ToArray ().OrderByDescending (i => i.OPERATE_DATE ).Select(i => new
             {
                 i.BILL_NO,
                 BILL_DATE = i.BILL_DATE.ToString("yyyy-MM-dd"),
@@ -145,9 +173,9 @@ namespace THOK.Wms.Bll.Service
                 i.CHECKER 
 
             });
-            int total = temp .Count();
-            temp = temp.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp.ToArray() };
+           //int total = temp.Count();
+           //temp = temp.Skip((page - 1) * rows).Take(rows);
+           return new { total, rows = temp };
               
         }
 
@@ -281,10 +309,13 @@ namespace THOK.Wms.Bll.Service
                                  a.NC_COUNT,
                                  TOTAL_WEIGHT = a.PACKAGE_COUNT * a.REAL_WEIGHT
                              };
-            var temp = billdetail.ToArray().Where(i => i.BILL_NO == BillNo).OrderBy(i => i.ITEM_NO).Select(i => i);
-            int total = temp.Count();
-            temp = temp.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp.ToArray() };
+            billdetail = billdetail.Where(i => i.BILL_NO == BillNo).OrderBy(i => i.ITEM_NO).Select(i => i);
+            int total = billdetail.Count();
+            billdetail = billdetail.Skip((page - 1) * rows).Take(rows);
+            var temp = billdetail.ToArray();
+            //int total = temp.Count();
+            //temp = temp.Skip((page - 1) * rows).Take(rows);
+            return new { total, rows = temp };
         }
 
         //修改
