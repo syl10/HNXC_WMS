@@ -12,6 +12,7 @@ namespace THOK.Wms.DbModel
             this.WMS_PRODUCTION_MASTER = new List<WMS_PRODUCTION_MASTER>();
             this.WMS_SCHEDULE = new List<WMS_SCHEDULE>();
             this.WMS_SCHEDULE_DETAIL = new List<WMS_SCHEDULE_DETAIL>();
+            this.WMS_BILL_MASTERH = new List<WMS_BILL_MASTERH>();
         }
 
         public string CIGARETTE_CODE { get; set; }
@@ -22,5 +23,6 @@ namespace THOK.Wms.DbModel
         public virtual ICollection<WMS_PRODUCTION_MASTER> WMS_PRODUCTION_MASTER { get; set; }
         public virtual ICollection<WMS_SCHEDULE> WMS_SCHEDULE { get; set; }
         public virtual ICollection<WMS_SCHEDULE_DETAIL> WMS_SCHEDULE_DETAIL { get; set; }
+        public virtual ICollection<WMS_BILL_MASTERH> WMS_BILL_MASTERH { get; set; }
     }
 }

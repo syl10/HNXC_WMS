@@ -122,60 +122,37 @@ namespace THOK.Wms.Bll.Service
                 detail = detail.Where(i => i.BILL_DATE.CompareTo(dateend) <= 0);
             }
 
-            detail = detail.OrderByDescending(i => i.OPERATE_DATE).Select(i => new
-            {
-                i.BILL_NO,
-                i.BILL_DATE,
-                i.SCHEDULE_NO,
-                i.WAREHOUSE_CODE,
-                i.WAREHOUSE_NAME,
-                i.CIGARETTE_CODE,
-                i.CIGARETTE_NAME,
-                i.FORMULA_CODE,
-                i.FORMULA_NAME,
-                i.BATCH_WEIGHT,
-                i.IN_BILLNO,
-                i.OUT_BILLNO,
-                i.STATE,
-                i.LINE_NO,
-                i.LINE_NAME,
-                i.STATENAME,
-                i.OPERATER,
-                i.OPERATE_DATE,
-                i.CHECK_DATE,
-                i.CHECKER
-
-            });
+            detail = detail.OrderByDescending(i => i.OPERATE_DATE);
             int total = detail.Count();
             detail = detail.Skip((page - 1) * rows).Take(rows);
             //total = detail.Count();
-           var  temp = detail.ToArray ().OrderByDescending (i => i.OPERATE_DATE ).Select(i => new
-            {
-                i.BILL_NO,
-                BILL_DATE = i.BILL_DATE.ToString("yyyy-MM-dd"),
-                i.SCHEDULE_NO,
-                i.WAREHOUSE_CODE,
-                i.WAREHOUSE_NAME,
-                i.CIGARETTE_CODE,
-                i.CIGARETTE_NAME,
-                i.FORMULA_CODE,
-                i.FORMULA_NAME,
-               i.BATCH_WEIGHT,
-                i.IN_BILLNO,
-                i.OUT_BILLNO,
-                i.STATE,
-                i.LINE_NO ,
-                i.LINE_NAME ,
-                STATENAME = i.STATENAME ,
-                i.OPERATER,
-                OPERATE_DATE = i.OPERATE_DATE == null ? "" : ((DateTime)i.OPERATE_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
-                CHECK_DATE = i.CHECK_DATE == null ? "" : ((DateTime)i.CHECK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
-                i.CHECKER 
+            var temp = detail.ToArray().Select(i => new
+             {
+                 i.BILL_NO,
+                 BILL_DATE = i.BILL_DATE.ToString("yyyy-MM-dd"),
+                 i.SCHEDULE_NO,
+                 i.WAREHOUSE_CODE,
+                 i.WAREHOUSE_NAME,
+                 i.CIGARETTE_CODE,
+                 i.CIGARETTE_NAME,
+                 i.FORMULA_CODE,
+                 i.FORMULA_NAME,
+                 i.BATCH_WEIGHT,
+                 i.IN_BILLNO,
+                 i.OUT_BILLNO,
+                 i.STATE,
+                 i.LINE_NO,
+                 i.LINE_NAME,
+                 STATENAME = i.STATENAME,
+                 i.OPERATER,
+                 OPERATE_DATE = i.OPERATE_DATE == null ? "" : ((DateTime)i.OPERATE_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+                 CHECK_DATE = i.CHECK_DATE == null ? "" : ((DateTime)i.CHECK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+                 i.CHECKER
 
-            });
+             });
            //int total = temp.Count();
            //temp = temp.Skip((page - 1) * rows).Take(rows);
-           return new { total, rows = temp };
+            return new { total, rows = temp };
               
         }
 

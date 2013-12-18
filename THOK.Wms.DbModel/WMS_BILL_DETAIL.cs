@@ -16,5 +16,6 @@ namespace THOK.Wms.DbModel
         public decimal NC_COUNT { get; set; }
         public string IS_MIX { get; set; }
         public string FPRODUCT_CODE { get; set; }
+        public Nullable<decimal> FORDER { get; set; }
     }
 }

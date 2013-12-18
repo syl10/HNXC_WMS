@@ -408,6 +408,7 @@ namespace THOK.Wms.Bll.Service
                         detail.PACKAGE_COUNT = obj.PACKAGE_COUNT;
                         detail.IS_MIX = obj.IS_MIX;
                         detail.FPRODUCT_CODE = obj.FPRODUCT_CODE;
+                        detail.FORDER = obj.FORDER;
                         BillDetailRepository.Add(detail);
                     }
                 }

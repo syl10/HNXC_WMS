@@ -32,9 +32,6 @@ namespace THOK.Wms.DbModel.Mapping
                 .IsRequired()
                 .IsFixedLength()
                 .HasMaxLength(1);
-            this.Property(t => t.BATCH_WEIGHT)
-                .IsRequired();
-                
 
             // Table & Column Mappings
             this.ToTable("WMS_FORMULA_MASTER","HNXC");

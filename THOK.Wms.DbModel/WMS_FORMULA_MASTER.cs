@@ -8,6 +8,7 @@ namespace THOK.Wms.DbModel
         public WMS_FORMULA_MASTER()
         {
             this.WMS_BILL_MASTER = new List<WMS_BILL_MASTER>();
+            this.WMS_BILL_MASTERH = new List<WMS_BILL_MASTERH>();
             this.WMS_PRODUCTION_MASTER = new List<WMS_PRODUCTION_MASTER>();
             this.WMS_SCHEDULE = new List<WMS_SCHEDULE>();
             this.WMS_SCHEDULE_DETAIL = new List<WMS_SCHEDULE_DETAIL>();
@@ -22,9 +23,10 @@ namespace THOK.Wms.DbModel
         public decimal USE_COUNT { get; set; }
         public decimal FORMULANO { get; set; }
         public string IS_ACTIVE { get; set; }
-        public decimal  BATCH_WEIGHT { get; set; }
+        public decimal BATCH_WEIGHT { get; set; }
         public virtual CMD_CIGARETTE CMD_CIGARETTE { get; set; }
         public virtual ICollection<WMS_BILL_MASTER> WMS_BILL_MASTER { get; set; }
+        public virtual ICollection<WMS_BILL_MASTERH> WMS_BILL_MASTERH { get; set; }
         public virtual ICollection<WMS_PRODUCTION_MASTER> WMS_PRODUCTION_MASTER { get; set; }
         public virtual ICollection<WMS_SCHEDULE> WMS_SCHEDULE { get; set; }
         public virtual ICollection<WMS_SCHEDULE_DETAIL> WMS_SCHEDULE_DETAIL { get; set; }

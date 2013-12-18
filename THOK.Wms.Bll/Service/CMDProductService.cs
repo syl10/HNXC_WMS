@@ -84,9 +84,9 @@ namespace THOK.Wms.Bll.Service
            {
                try
                {
-                   if (total > 100000)
+                   if (total > 10000)
                    {
-                       var printdata = products.Skip(0).Take(100000);
+                       var printdata = products.Skip(0).Take(10000);
                        THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(printdata);
                    }
                    else {
@@ -96,7 +96,7 @@ namespace THOK.Wms.Bll.Service
                catch (Exception ex) { }
            }
            products = products.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = products.ToArray() };
+            return new { total, rows = products };
         }
        
         public bool Add(CMD_PRODUCT product)

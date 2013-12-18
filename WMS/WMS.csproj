@@ -184,6 +184,7 @@
     <Compile Include="Controllers\Wms\WMS\SamplingWorkController.cs" />
     <Compile Include="Controllers\Wms\WMS\Schedule2Controller.cs" />
     <Compile Include="Controllers\Wms\WMS\ScheduleController.cs" />
+    <Compile Include="Controllers\Wms\WMS\ScheduleSearchController.cs" />
     <Compile Include="Controllers\Wms\WMS\StockDifferController.cs" />
     <Compile Include="Controllers\Wms\WMS\StockDifferSearchController.cs" />
     <Compile Include="Controllers\Wms\WMS\StockDifferWorkController.cs" />
@@ -2061,6 +2062,8 @@
     <Content Include="Views\ProductDetails\_PrintPartial.cshtml" />
     <Content Include="Views\InvertedTreasury\_PrintPartial.cshtml" />
     <Content Include="Views\StockDifferWork\Index.cshtml" />
+    <Content Include="Views\ScheduleSearch\Index.cshtml" />
+    <Content Include="Views\ScheduleSearch\_SearchPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

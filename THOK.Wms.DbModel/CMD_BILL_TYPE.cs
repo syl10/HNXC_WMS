@@ -8,6 +8,7 @@ namespace THOK.Wms.DbModel
         public CMD_BILL_TYPE()
         {
             this.WMS_BILL_MASTER = new List<WMS_BILL_MASTER>();
+            this.WMS_BILL_MASTERH = new List<WMS_BILL_MASTERH>();
         }
 
         public string BTYPE_CODE { get; set; }
@@ -19,5 +20,6 @@ namespace THOK.Wms.DbModel
         public string TARGET_CODE { get; set; }
         public string TASK_TYPE { get; set; }
         public virtual ICollection<WMS_BILL_MASTER> WMS_BILL_MASTER { get; set; }
+        public virtual ICollection<WMS_BILL_MASTERH> WMS_BILL_MASTERH { get; set; }
     }
 }

@@ -46,5 +46,9 @@ namespace THOK.Wms.Bll.Models
        /// 混装产品代码
        /// </summary>
        public string FPRODUCT_CODE { get; set; }
+       /// <summary>
+       ///投料顺序
+       /// </summary>
+       public decimal FORDER { get; set; }
     }
 }

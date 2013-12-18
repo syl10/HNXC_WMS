@@ -89,6 +89,7 @@
     <Compile Include="Mapping\WMS_BALANCE_DETAILMap.cs" />
     <Compile Include="Mapping\WMS_BALANCE_MASTERMap.cs" />
     <Compile Include="Mapping\WMS_BILL_DETAILMap.cs" />
+    <Compile Include="Mapping\WMS_BILL_MASTERHMap.cs" />
     <Compile Include="Mapping\WMS_BILL_MASTERMap.cs" />
     <Compile Include="Mapping\WMS_FORMULA_DETAILMap.cs" />
     <Compile Include="Mapping\WMS_FORMULA_MASTERMap.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="WMS_BALANCE_MASTER.cs" />
     <Compile Include="WMS_BILL_DETAIL.cs" />
     <Compile Include="WMS_BILL_MASTER.cs" />
+    <Compile Include="WMS_BILL_MASTERH.cs" />
     <Compile Include="WMS_FORMULA_DETAIL.cs" />
     <Compile Include="WMS_FORMULA_MASTER.cs" />
     <Compile Include="WMS_PALLET_DETAIL.cs" />

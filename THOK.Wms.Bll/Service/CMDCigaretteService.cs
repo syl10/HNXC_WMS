@@ -34,8 +34,13 @@ namespace THOK.Wms.Bll.Service
             {
                 THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(CMDCigarettes);
             }
-            int total = CMDCigarettes.Count();
-            CMDCigarettes = CMDCigarettes.Skip((page - 1) * rows).Take(rows);
+            int total = 0;
+            try
+            {
+                 total = CMDCigarettes.Count();
+                CMDCigarettes = CMDCigarettes.Skip((page - 1) * rows).Take(rows);
+            }
+            catch (Exception ex) { }
             return new { total, rows = CMDCigarettes.ToArray() };
         }
 

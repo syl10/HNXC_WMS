@@ -257,8 +257,12 @@ namespace THOK.Wms.Bll.Service
             billdetail = billdetail.Where(i => i.BILL_NO == BillNo).OrderBy(i => i.ITEM_NO);
             int total = billdetail.Count();
             billdetail = billdetail.Skip((page - 1) * rows).Take(rows);
-            var temp = billdetail.ToArray().Select (i=> i );
-            return new { total, rows = temp };
+            try
+            {
+                var temp = billdetail.ToArray().Select(i => i);
+            }
+            catch (Exception ex) { }
+            return new { total, rows = billdetail };
         }
 
         //审核
@@ -361,6 +365,7 @@ namespace THOK.Wms.Bll.Service
             {
                 FormulaDetail item = new FormulaDetail();
                 item.ITEM_NO = serial ;
+                item.FORDER = formula.FORDER;
                 item.PRODUCT_CODE = formula.PRODUCT_CODE;
                 item.REAL_WEIGHT = formula.CMD_PRODUCT.WEIGHT;
                 item.WEIGHT = formula.CMD_PRODUCT.WEIGHT;
@@ -377,6 +382,7 @@ namespace THOK.Wms.Bll.Service
                     serial++;
                     FormulaDetail subitem = new FormulaDetail();
                     subitem.ITEM_NO = serial;
+                    subitem.FORDER = formula.FORDER;
                     subitem.PRODUCT_CODE = formula.PRODUCT_CODE;
                     subitem.PRODUCT_NAME = formula.CMD_PRODUCT.PRODUCT_NAME;
                     subitem.REAL_WEIGHT  = lastweight;

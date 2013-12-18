@@ -34,7 +34,7 @@ namespace THOK.Wms.DbModel.Mapping
                 .HasMaxLength(20);
 
             // Table & Column Mappings
-            this.ToTable("WMS_BILL_DETAIL","HNXC");
+            this.ToTable("WMS_BILL_DETAIL", "HNXC");
             this.Property(t => t.BILL_NO).HasColumnName("BILL_NO");
             this.Property(t => t.ITEM_NO).HasColumnName("ITEM_NO");
             this.Property(t => t.PRODUCT_CODE).HasColumnName("PRODUCT_CODE");
@@ -44,6 +44,7 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.NC_COUNT).HasColumnName("NC_COUNT");
             this.Property(t => t.IS_MIX).HasColumnName("IS_MIX");
             this.Property(t => t.FPRODUCT_CODE).HasColumnName("FPRODUCT_CODE");
+            this.Property(t => t.FORDER).HasColumnName("FORDER");
         }
     }
 }

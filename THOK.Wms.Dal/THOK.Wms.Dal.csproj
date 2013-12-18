@@ -73,6 +73,7 @@
     <Compile Include="EntityRepository\WMSBalanceDetailRepository.cs" />
     <Compile Include="EntityRepository\WMSBalanceMasterRepository.cs" />
     <Compile Include="EntityRepository\WMSBillDetailRepository.cs" />
+    <Compile Include="EntityRepository\WMSBillMasterHRepository.cs" />
     <Compile Include="EntityRepository\WMSBillMasterRepository.cs" />
     <Compile Include="EntityRepository\WMSFormulaDetailRepository.cs" />
     <Compile Include="EntityRepository\WMSFormulaMasterRepository.cs" />
@@ -109,6 +110,7 @@
     <Compile Include="Interfaces\IWMSBalanceDetailRepository.cs" />
     <Compile Include="Interfaces\IWMSBalanceMasterRepository.cs" />
     <Compile Include="Interfaces\IWMSBillDetailRepository.cs" />
+    <Compile Include="Interfaces\IWMSBillMasterHRepository.cs" />
     <Compile Include="Interfaces\IWMSBillMasterRepository.cs" />
     <Compile Include="Interfaces\IWMSFormulaDetailRepository.cs" />
     <Compile Include="Interfaces\IWMSFormulaMasterRepository.cs" />
