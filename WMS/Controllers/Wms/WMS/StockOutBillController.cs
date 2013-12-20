@@ -110,7 +110,7 @@ namespace WMS.Controllers.Wms.WMS
         {
             //string Path = Server.MapPath("/");
             string userName = this.GetCookieValue("username");
-            THOK.Common.PrintHandle.issearch = true;
+            //THOK.Common.PrintHandle.issearch = true;
             bool Result = BillReportService.StockoutPrint(BILLNO, BILLDATEFROM, BILLDATETO, BTYPECODE, LINENO, STATE, CIGARETTECODE, FORMULACODE, SOURSEBILL, SCHEDULENO);
             string msg = Result ? "成功" : "失败";
             var just = new

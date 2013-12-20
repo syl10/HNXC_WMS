@@ -97,6 +97,11 @@ namespace THOK.Wms.Bll.Service
                 schedule = schedule.Where(i => i.CHECK_DATE.Value .CompareTo (checkdt )>=0);
                 schedule = schedule.Where(i => i.CHECK_DATE.Value.CompareTo(checkdt2) < 0);
             }
+            if (THOK.Common.PrintHandle.issearch)
+            {//用于单据查询中的打印
+                THOK.Common.PrintHandle.searchdt = THOK.Common.ConvertData.LinqQueryToDataTable(schedule);
+                //THOK.Common.PrintHandle.issearch = false;
+            }
             schedule = schedule.OrderByDescending(i => i.OPERATE_DATE);
             int total = schedule.Count();
             schedule = schedule.Skip((page - 1) * rows).Take(rows);
@@ -331,12 +336,20 @@ namespace THOK.Wms.Bll.Service
                 {
                     schedule = schedule.Where(i => i.STATE== STATE);
                 }
+                if (THOK.Common.PrintHandle.issearch)
+                { //判断是否是综合查询里的打印
+                    //var query1 = from a in dt.AsEnumerable() select a;
+                    var query2 = from b in THOK.Common.PrintHandle.searchdt.AsEnumerable() select b.Field<string>("SCHEDULE_NO");
+                    schedule = schedule.Where(i => query2.Contains(i.SCHEDULE_NO));
+                    THOK.Common.PrintHandle.issearch = false;
+                    //dt = query1.CopyToDataTable();
+                }
                 var temp = schedule.ToArray().OrderBy(i => i.SCHEDULE_NO).Select(i => new
                 {
                     i.SCHEDULE_NO,
                     SCHEDULE_DATE = i.SCHEDULE_DATE.ToString("yyyy-MM-dd"),
-                    i.STATUNAME ,
-                    i.STATENAME ,
+                    i.STATUNAME,
+                    i.STATENAME,
                     i.OPERATER,
                     OPERATE_DATE = i.OPERATE_DATE == null ? "" : ((DateTime)i.OPERATE_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
                     i.CHECKER,
@@ -355,6 +368,7 @@ namespace THOK.Wms.Bll.Service
                 return true;
             }
             catch (Exception ex) {
+                THOK.Common.PrintHandle.dt = null;
                 return false;
             }
         }

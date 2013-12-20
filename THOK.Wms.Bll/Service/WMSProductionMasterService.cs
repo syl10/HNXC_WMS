@@ -121,7 +121,11 @@ namespace THOK.Wms.Bll.Service
                 DateTime dateend = DateTime.Parse(BILL_DATEEND);
                 detail = detail.Where(i => i.BILL_DATE.CompareTo(dateend) <= 0);
             }
-
+            if (THOK.Common.PrintHandle.issearch)
+            {//用于单据查询中的打印
+                THOK.Common.PrintHandle.searchdt = THOK.Common.ConvertData.LinqQueryToDataTable(detail);
+                //THOK.Common.PrintHandle.issearch = false;
+            }
             detail = detail.OrderByDescending(i => i.OPERATE_DATE);
             int total = detail.Count();
             detail = detail.Skip((page - 1) * rows).Take(rows);
@@ -428,7 +432,20 @@ namespace THOK.Wms.Bll.Service
                     DateTime dateend = DateTime.Parse(BILL_DATEEND);
                     directproduct = directproduct.Where(i => i.BILL_DATE.CompareTo(dateend) <= 0);
                 }
-                var temp = directproduct.ToArray () .OrderBy(i => i.BILL_NO).Select(i => new
+                //var temp = directproduct;
+                DataTable dt;
+                if (THOK.Common.PrintHandle.issearch)
+                { //判断是否是综合查询里的打印
+                    //var query1 = from a in dt.AsEnumerable() select a;
+                    var query2 = from b in THOK.Common.PrintHandle.searchdt.AsEnumerable() select b.Field<string>("BILL_NO");
+                    directproduct = directproduct.Where(i => query2.Contains(i.BILL_NO));
+                    THOK.Common.PrintHandle.issearch = false;
+                    //dt = THOK.Common.ConvertData.LinqQueryToDataTable(query1);
+                }
+                else {
+                    //dt = THOK.Common.ConvertData.LinqQueryToDataTable(temp);
+                }
+                var temp = directproduct.ToArray().OrderBy(i => i.BILL_NO).Select(i => new
                 {
                     i.BILL_NO,
                     i.WAREHOUSE_NAME,
@@ -439,9 +456,9 @@ namespace THOK.Wms.Bll.Service
                     i.LINE_NAME,
                     i.OPERATER,
                     i.STATE_DESC,
-                    i.OPERATE_DATE,
+                    OPERATE_DATE = i.OPERATE_DATE == null ? "" : ((DateTime)i.OPERATE_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
                     i.CHECKER,
-                    i.CHECK_DATE,
+                    CHECK_DATE = i.CHECK_DATE == null ? "" : ((DateTime)i.CHECK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
                     i.ITEM_NO,
                     i.PRODUCT_CODE,
                     i.PRODUCT_NAME,
@@ -455,11 +472,12 @@ namespace THOK.Wms.Bll.Service
                     i.PACKAGE_COUNT,
                     i.NC_COUNT
                 });
-                DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(directproduct);
+                dt = THOK.Common.ConvertData.LinqQueryToDataTable(temp);
                 THOK.Common.PrintHandle.dt = dt;
                 return true;
             }
             catch (Exception ex) {
+                THOK.Common.PrintHandle.dt = null;
                 return false;
             }
 

@@ -182,7 +182,7 @@ namespace THOK.Wms.Bll.Service
             if (THOK.Common.PrintHandle.issearch)
             {//用于单据查询中的打印
                 THOK.Common.PrintHandle.searchdt = THOK.Common.ConvertData.LinqQueryToDataTable(billmaster);
-                THOK.Common.PrintHandle.issearch = false;
+                //THOK.Common.PrintHandle.issearch = false;
             }
             billmaster = billmaster.OrderByDescending(i => i.OPERATE_DATE); 
             int total = billmaster.Count();

@@ -95,7 +95,7 @@ namespace WMS.Controllers.Wms.WMS
         {
             //string Path = Server.MapPath("/");
             string userName = this.GetCookieValue("username");
-            THOK.Common.PrintHandle.issearch = true;
+            //THOK.Common.PrintHandle.issearch = true;
             bool Result = BillReportService.InventoryPrint(BILLNO, BILLDATEFROM, BILLDATETO, STATE, SOURSEBILL,btypecode);
             string msg = Result ? "成功" : "失败";
             var just = new

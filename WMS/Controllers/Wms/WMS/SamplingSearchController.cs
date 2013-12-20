@@ -41,7 +41,15 @@ namespace WMS.Controllers.Wms.WMS
             string BILL_DATEStar = collection["BILL_DATEStar"] ?? ""; //起始日期
             string BILL_DATEEND = collection["BILL_DATEEND"] ?? "";//截止日期
             string SOURCE_BILLNO = collection["SOURCE_BILLNO"] ?? "";//来源单号
-            THOK.Common.PrintHandle.issearch = true;
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.issearch = true;
+            }
+            else
+            {
+                THOK.Common.PrintHandle.issearch = false;
+            }
             var Billmaster = BillMasterService.GetDetails(page, rows, "3", flag, BILL_NO, BILL_DATE, BTYPE_CODE, WAREHOUSE_CODE, BILL_METHOD, CIGARETTE_CODE, FORMULA_CODE, STATE, OPERATER, OPERATE_DATE, CHECKER, CHECK_DATE, STATUS, BILL_DATEStar, BILL_DATEEND, SOURCE_BILLNO,"");
             return Json(Billmaster, "text/html", JsonRequestBehavior.AllowGet);
         }

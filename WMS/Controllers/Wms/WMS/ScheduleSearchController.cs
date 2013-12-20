@@ -32,6 +32,15 @@ namespace WMS.Controllers.Wms.WMS
             string OPERATE_DATE = collection["OPERATE_DATE"] ?? "";
             string CHECKER = collection["CHECKER"] ?? "";
             string CHECK_DATE = collection["CHECK_DATE"] ?? "";
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.issearch  = true;
+            }
+            else
+            {
+                THOK.Common.PrintHandle.issearch = false;
+            }
             var Schedules = ScheduleMasterService.GetDetails(page, rows, SCHEDULE_NO, SCHEDULE_DATE, STATE, OPERATER, OPERATE_DATE, CHECKER, CHECK_DATE);
             return Json(Schedules, "text/html", JsonRequestBehavior.AllowGet);
         }

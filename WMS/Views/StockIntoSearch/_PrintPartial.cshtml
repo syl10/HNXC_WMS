@@ -1,11 +1,15 @@
 ﻿<script type="text/javascript">
     function printClick() {
         var isprint = true;
+        var queryParams = $('#details').datagrid('options').queryParams;
+        queryParams.PRINT = "1";
+        $('#details').datagrid('options').queryParams = queryParams;
         $('#details').datagrid('reload');
         $('#details').datagrid('options').onLoadSuccess = function () {
             if (isprint) {
                 loadpdf();
             }
+            queryParams.PRINT = "0";
             isprint = false;
         }
     }
