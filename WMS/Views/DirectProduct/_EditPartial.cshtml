@@ -29,6 +29,8 @@
                 $('#btnAddBillDetail').linkbutton('disable');
                 $('#btnDeleteBillDetail').linkbutton('disable');
                 $('#btnEditBillDetail').linkbutton('disable');
+
+                $('#btLoadFormula').attr('disabled', false);
             }
             else {
                 alert("该记录已" + row.STATENAME + "不能修改");

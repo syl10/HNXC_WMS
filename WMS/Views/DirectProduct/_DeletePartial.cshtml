@@ -2,6 +2,7 @@
     function deleteClick() {
         clickbt = "delete";
         serial = 1;
+        ischang = false;
         var row = $('#details').datagrid('getSelected');
         index = $('#details').datagrid('getRowIndex', row);
         if (row) {
@@ -23,11 +24,12 @@
                 GetCigarette(); //加载牌号
                 GetFormula(""); //加载配方
                 GetLineNo(); //制丝线
+                $('#fm').form('load', row);
                 //禁用明细按钮
                 $('#btnAddBillDetail').linkbutton('disable');
                 $('#btnDeleteBillDetail').linkbutton('disable');
                 $('#btnEditBillDetail').linkbutton('disable');
-                $('#fm').form('load', row);
+                $('#btLoadFormula').attr('disabled',true);
             }
             else {
                 alert("该记录已" + row.STATENAME + "不能删除");

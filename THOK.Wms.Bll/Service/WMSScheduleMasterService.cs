@@ -390,6 +390,7 @@ namespace THOK.Wms.Bll.Service
                 mast.SCHEDULE_NO = Scheduleno;
                 mast.SCHEDULE_ITEMNO = item.ITEM_NO;
                 mast.TARGET_CODE = "001";
+                mast.WAREHOUSE_CODE = "001";
                 mast.STATUS = "0";
                 mast.STATE = "2";
                 mast.OPERATER = userid;

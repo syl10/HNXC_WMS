@@ -35,6 +35,8 @@
         $('#btnDeleteBillDetail').linkbutton('disable');
         $('#btnEditBillDetail').linkbutton('disable');
 
+        $('#btLoadFormula').attr('disabled', false);
+
     }
     //获取时间字符串
     function getDate() {
@@ -145,7 +147,7 @@
                     { field: 'USE_COUNT', title: '次数', align: 'left', width: 30 }
                 ]],
             onLoadSuccess: function () {
-                if (clickbt == "edit" && !ischang) {
+                if ("edit,delete".search(clickbt) != -1 && !ischang) {
                     var row = $('#details').datagrid('getSelected');
                     resetformulavalue(row.FORMULA_CODE);
                     isresetvalue = false;
@@ -292,7 +294,7 @@
                 <td width="168"><input id="FORMULA_CODE" name="FORMULA_CODE"  class="easyui-combogrid" readonly="true"></td>
                 <td colspan="6" >
                      @*<a href="#" class="easyui-linkbutton"   onclick="Loadformula()" id="btLoadFormula"  style="width:66px ">载入配方</a> *@
-                     <input type="button"  onclick="Loadformula()" id="btLoadFormula" style="width:100px "  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="载入配方"/>
+                     <input type="button"  onclick="Loadformula()"   id="btLoadFormula" style="width:100px "  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="载入配方"/>
                   </td>
                 </tr>
                 <tr>
