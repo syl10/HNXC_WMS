@@ -25,6 +25,9 @@
                 GetFormula(""); //加载配方
                 GetLineNo(); //制丝线
                 setbtdisable();
+                $('#btnAddBillDetail').linkbutton('disable');
+                $('#btnDeleteBillDetail').linkbutton('disable');
+                $('#btnEditBillDetail').linkbutton('disable');
 
                 $('#fm').form('load', row);
             }

@@ -403,7 +403,7 @@ namespace THOK.Wms.Bll.Service
                 mast.FORMULA_CODE = item.FORMULA_CODE;
                 mast.BATCH_WEIGHT = item.QUANTITY;
                 BillMasterRepository.Add(mast);
-                billno ="OS"+ (double .Parse ( mast.BILL_NO.Substring (2))+1).ToString ();
+                billno ="OS"+ (double .Parse ( mast.BILL_NO.Substring(2))+1).ToString ();
                 item.BILL_NO = mast.BILL_NO;
 
                 var  formulobj = BillMasterService.LoadFormulaDetail(1, 1000, item.FORMULA_CODE, item.QUANTITY);
