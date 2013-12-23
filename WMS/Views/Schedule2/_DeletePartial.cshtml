@@ -17,13 +17,17 @@
                     required: true
                 });
             }
-            else {
+            else if (row.STATECODE == "2") {
                 alert("改记录已审核不能删除");
+            }
+            else {
+                alert("改记录已生成出库单不能删除");
             }
         }
         else {
             $.messager.confirm('错误', '没有选择行！');
         }
+        setbtdisable();
     }
     //加载该计划单的明细.
     function loaddata(SCHEDULE_NO) {

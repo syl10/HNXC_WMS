@@ -21,6 +21,7 @@
                 GetBillType(); //单据类型
                 GetWarehouseCode();  //仓库编号
                 $('#fm').form('load', row);
+                setbtdisable();
             }
             else {
                 alert("该记录已" + row.STATENAME + "不能删除");
@@ -29,6 +30,7 @@
         else {
             alert('没有选择行！');
         }
+
     }
 </script>
 

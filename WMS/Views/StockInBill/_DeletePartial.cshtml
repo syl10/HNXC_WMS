@@ -27,6 +27,7 @@
                 method(row.BILL_METHOD); //入库方式的控件启禁用判断
                 $('#BILL_METHOD').combobox('disable');
                 $('#fm').form('load', row);
+                $('#btLoadFormula').attr('disabled', true);
             }
             else {
                 alert("该记录已" + row.STATENAME + "不能删除");

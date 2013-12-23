@@ -86,7 +86,8 @@
 
         $('#cc').combobox('setValue', "1");
         $('#BATCH_WEIGHT').numberbox('setValue', 0);
-        $('#copybt').show();//显示复制按钮
+        $('#copybt').show(); //显示复制按钮
+        setbtdisable();
 
         //点击配方选择框中的某条记录时触发的事件
         $('#copy_details').datagrid('options').onClickRow = function () {
@@ -318,6 +319,25 @@
         else {
             $.messager.confirm('错误', '请先选择要移动的行！');
         }
+    }
+    //设置按钮的可用属性
+    function setbtdisable() {
+        if (status == "delete") {
+            //禁用明细按钮
+            $('#btnAddBillDetail').linkbutton('disable');
+            $('#btnDeleteBillDetail').linkbutton('disable');
+            $('#btnEditBillDetail').linkbutton('disable');
+            $('#btnmoveup').linkbutton('disable');
+            $('#btnmovedown').linkbutton('disable');
+        } else {
+            //启用明细按钮
+            $('#btnAddBillDetail').linkbutton('enable');
+            $('#btnDeleteBillDetail').linkbutton('enable');
+            $('#btnEditBillDetail').linkbutton('enable');
+            $('#btnmoveup').linkbutton('enable');
+            $('#btnmovedown').linkbutton('enable');
+        }
+
     }
 
     //保存入库单

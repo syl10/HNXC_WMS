@@ -30,6 +30,7 @@
         $('#btnAddBillDetail').linkbutton('disable');
         $('#btnDeleteBillDetail').linkbutton('disable');
         $('#btnEditBillDetail').linkbutton('disable');
+        setbtdisable();
 
         $('#BILL_DATE').datebox('setValue', getDate());
         $('#OPERATE_DATE').datebox('setValue', getDate());
@@ -186,7 +187,7 @@
                     { field: 'USE_COUNT', title: '次数', align: 'left', width: 30 }
                 ]],
             onLoadSuccess: function () {
-                if (clickbt == "edit" && !ischang) {
+                if ("edit,delete".search(clickbt) != -1 && !ischang) {
                     var row = $('#details').datagrid('getSelected');
                     resetformulavalue(row.FORMULA_CODE);
                      isresetvalue=false;
@@ -232,6 +233,17 @@
             $('#BILL_NO').val(row.BILL_NO);
             $('#OPERATER').val(row.OPERATER);
         }
+    }
+    //设置按钮的可用属性
+    function setbtdisable() {
+        if (clickbt == "delete") {
+            //禁用载入配方按钮
+            $('#btLoadFormula').attr('disabled', true);
+        } else {
+            //启用载入配方按钮
+            $('#btLoadFormula').attr('disabled', false);
+        }
+
     }
 
     function save() {

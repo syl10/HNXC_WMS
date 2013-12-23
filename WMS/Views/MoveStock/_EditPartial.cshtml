@@ -24,6 +24,7 @@
                 GetWarehouseCode();  //仓库编号
                 $('#fm').form('load', row);
                 $('#SOURCE_BILLNO').val(row.SOURCE_BILLNO);
+                setbtdisable();
             }
             else {
                 alert("该记录已" + row.STATENAME + "不能修改");

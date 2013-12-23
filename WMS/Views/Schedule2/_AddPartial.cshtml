@@ -28,7 +28,8 @@
         $('#OPERATE_DATE').datebox('setValue', getDate());
         $('#SCHEDULE_DATE').datebox('setValue', getDate());
         GetScheduleno(getDate());//计划单号
-        $('#STATUS').attr('readonly','true');
+        $('#STATUS').attr('readonly', 'true');
+        setbtdisable();
       }
 
       //牌号
@@ -223,7 +224,21 @@
         $('#LINE_NO').combogrid('clear');
         }
      }
+     //设置按钮的可用属性
+     function setbtdisable() {
+         if (clickbt == "delete") {
+             //禁用明细按钮
+             $('#btnAddBillDetail').linkbutton('disable');
+             $('#btnDeleteBillDetail').linkbutton('disable');
+             $('#btnEditBillDetail').linkbutton('disable');
+         } else {
+             //启用明细按钮
+             $('#btnAddBillDetail').linkbutton('enable');
+             $('#btnDeleteBillDetail').linkbutton('enable');
+             $('#btnEditBillDetail').linkbutton('enable');
+         }
 
+     }
 
 
      function  save(){

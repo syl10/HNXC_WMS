@@ -27,6 +27,7 @@
         GetWarehouseCode();  //仓库编号
         $('#BILL_DATE').datebox('setValue', getDate());
         $('#OPERATE_DATE').datebox('setValue', getDate());
+        setbtdisable();
     }
     //获取时间字符串
     function getDate() {
@@ -123,6 +124,25 @@
             $.messager.confirm('错误', '没有选择行！');
         }
     }
+
+    //设置按钮的可用属性
+    function setbtdisable() {
+        if (clickbt == "delete") {
+            //禁用明细按钮
+            $('#btnAddBillDetail').linkbutton('disable');
+            $('#btnDeleteBillDetail').linkbutton('disable');
+            //            $('#btnEditBillDetail').linkbutton('disable');
+            $('#_btsearch').attr('disabled', true);
+        } else {
+            //启用明细按钮
+            $('#btnAddBillDetail').linkbutton('enable');
+            $('#btnDeleteBillDetail').linkbutton('enable');
+            //            $('#btnEditBillDetail').linkbutton('enable');
+            $('#_btsearch').attr('disabled', false);
+        }
+
+    }
+
     function save() {
         var changesRows = {
             inserted: []
@@ -231,7 +251,7 @@
                 <td width="168"><input name="WAREHOUSE_CODE"  id="WAREHOUSE_CODE" class="easyui-combogrid"/></td>
                 <td width="90">入库批次</td>
                 <td width="168"><input  name="SOURCE_BILLNO"  id="SOURCE_BILLNO"  /></td>
-                <td colspan="2"> <input type="button"  onclick="billselect()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/></td>
+                <td colspan="2"> <input type="button" id="_btsearch"  onclick="billselect()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/></td>
                  </tr>
             </table>
 	    </form>

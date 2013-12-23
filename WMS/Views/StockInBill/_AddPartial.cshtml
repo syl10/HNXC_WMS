@@ -22,7 +22,7 @@
                 //启用批次重量控件
                 $('#BATCH_WEIGHT').numberbox('enable');
                 //启用载入配方按钮
-                $('#btLoadFormula').linkbutton('enable');
+                $('#btLoadFormula').attr('disabled', false);
                 //禁用明细按钮
                 $('#btnAddBillDetail').linkbutton('disable');
                 $('#btnDeleteBillDetail').linkbutton('disable');
@@ -44,7 +44,7 @@
                 $('#BATCH_WEIGHT').numberbox('disable');
                 $('#BATCH_WEIGHT').numberbox('clear');
                 //禁用载入配方按钮
-                $('#btLoadFormula').linkbutton('disable');
+                $('#btLoadFormula').attr('disabled', true);
                 //启用明细按钮
                 $('#btnAddBillDetail').linkbutton('enable');
                 $('#btnDeleteBillDetail').linkbutton('enable');
@@ -93,7 +93,7 @@
         //启用单据方式控件
         $('#BILL_METHOD').combobox('enable');
        //启用载入配方按钮
-        $('#btLoadFormula').linkbutton('enable');
+        $('#btLoadFormula').attr('disabled', false);
          //启用批次重量控件
       $('#BATCH_WEIGHT').numberbox('enable');
     }
@@ -215,7 +215,7 @@
                 $('#BATCH_WEIGHT').numberbox('setValue', data.BATCH_WEIGHT);
             },
             onLoadSuccess: function () {
-                if (clickbt == "edit" && !ischang) {
+                if ( "edit,delete".search(clickbt)!=-1 && !ischang) {
                     var row = $('#details').datagrid('getSelected');
                     resetformulavalue(row.FORMULA_CODE);
                     isresetvalue = false;
@@ -485,7 +485,7 @@
                 <td width="168"><input id="FORMULA_CODE" name="FORMULA_CODE"  readonly="true"></td>
                 <td colspan="4">
                    @* <a href="#" class="easyui-linkbutton"  onclick="Loadformula()" id="btLoadFormula"  style="width:66px ">载入配方</a> *@
-                   <input type="button"  onclick="Loadformula()" style="width:100px "  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="载入配方"/>
+                   <input type="button" id="btLoadFormula"   onclick="Loadformula()" style="width:100px "  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="载入配方"/>
                 </td>
                 </tr>
                 <tr>

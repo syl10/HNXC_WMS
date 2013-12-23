@@ -27,6 +27,7 @@
         GetWarehouseCode();  //仓库编号
         $('#BILL_DATE').datebox('setValue', getDate());
         $('#OPERATE_DATE').datebox('setValue', getDate());
+        setbtdisable();
         loaddetail('');
     }
     //获取时间字符串
@@ -169,6 +170,25 @@
                 $.messager.confirm('错误', '没有选择行！');
             }
         }
+
+        //设置按钮的可用属性
+        function setbtdisable() {
+            if (clickbt == "delete") {
+                //禁用明细按钮
+                $('#btnAddBillDetail').linkbutton('disable');
+                $('#btnDeleteBillDetail').linkbutton('disable');
+                //            $('#btnEditBillDetail').linkbutton('disable');
+                $('#_btsearch').linkbutton('disable');
+            } else {
+                //启用明细按钮
+                $('#btnAddBillDetail').linkbutton('enable');
+                $('#btnDeleteBillDetail').linkbutton('enable');
+                //            $('#btnEditBillDetail').linkbutton('enable');
+                $('#_btsearch').linkbutton('enable');
+            }
+
+        }
+
         function save() {
             var changesRows = {
                 inserted: []
@@ -268,7 +288,7 @@
                 <td width="110">入库批次</td>
                 <td width="210">
                      <input  name="SOURCE_BILLNO"  id="SOURCE_BILLNO"/>
-                     <a href="#" onclick="billselect()" class="easyui-linkbutton" iconcls="icon-search" plain="true"></a>
+                     <a href="#" onclick="billselect()" id="_btsearch" class="easyui-linkbutton" iconcls="icon-search" plain="true"></a>
                 </td>
                  </tr>
             </table>

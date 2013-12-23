@@ -27,6 +27,7 @@
         GetWarehouseCode();  //仓库编号
         $('#BILL_DATE').datebox('setValue', getDate());
         $('#OPERATE_DATE').datebox('setValue', getDate());
+        setbtdisable();
         loaddetail('');
     }
     //获取时间字符串
@@ -213,6 +214,26 @@
             }
         });
     }
+
+    //设置按钮的可用属性
+    function setbtdisable() {
+        if (clickbt == "delete") {
+            //禁用明细按钮
+            $('#btnAddBillDetail').linkbutton('disable');
+            $('#btnDeleteBillDetail').linkbutton('disable');
+            //            $('#btnEditBillDetail').linkbutton('disable');
+            $('#out_btsearch').linkbutton('disable');
+            $('#int_btsearch').linkbutton('disable');
+        } else {
+            //启用明细按钮
+            $('#btnAddBillDetail').linkbutton('enable');
+            $('#btnDeleteBillDetail').linkbutton('enable');
+            //            $('#btnEditBillDetail').linkbutton('enable');
+            $('#out_btsearch').linkbutton('enable');
+            $('#int_btsearch').linkbutton('enable');
+        }
+
+    }
 </script>
 
 <div id="dlg" class="easyui-dialog" modal="true"
@@ -267,13 +288,13 @@
                 <td width="110">出库批次</td>
                 <td width="210"> 
                       <input  name="SCHEDULE_NO"  id="SCHEDULE_NO"/>
-                     <a href="#" onclick="outstockbill()" class="easyui-linkbutton" iconcls="icon-search" plain="true"></a>
+                     <a href="#" onclick="outstockbill()" id="out_btsearch" class="easyui-linkbutton" iconcls="icon-search" plain="true"></a>
                 @*<input type="button"  onclick="billselect()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/>*@
                 </td>
                 <td width="110">入库批次</td>
                 <td width="210">
                      <input  name="SOURCE_BILLNO"  id="SOURCE_BILLNO"/>
-                     <a href="#" onclick="billselect()" class="easyui-linkbutton" iconcls="icon-search" plain="true"></a>
+                     <a href="#" onclick="billselect()" id="int_btsearch" class="easyui-linkbutton" iconcls="icon-search" plain="true"></a>
                 </td>
                  </tr>
             </table>
