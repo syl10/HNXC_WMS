@@ -24,9 +24,9 @@ namespace THOK.Wms.Bll.Service
         [Dependency]
         public ICMDWarehouseRepository CMDWarehouseRepository { get; set; }
         [Dependency]
-        public IWMSBillMasterRepository BillMasterRepository { get; set; }
+        public IWMSBillMasterHRepository BillMasterRepository { get; set; }
         [Dependency]
-        public IWMSBillDetailRepository BillDetailRepository { get; set; }
+        public IWMSBillDetailHRepository BillDetailRepository { get; set; }
 
         public object GetSubDetails(int page, int rows, string Balanceno)
         {
@@ -146,8 +146,8 @@ namespace THOK.Wms.Bll.Service
         public object Detailed(int page, int rows, string begin, string end)
         {
             IQueryable<WMS_BALANCE_DETAIL> detailquery = BalanceDetailRepository.GetQueryable();
-            IQueryable<WMS_BILL_MASTER> billquery = BillMasterRepository.GetQueryable();
-            IQueryable<WMS_BILL_DETAIL> billdetailquery = BillDetailRepository.GetQueryable();
+            IQueryable<WMS_BILL_MASTERH> billquery = BillMasterRepository.GetQueryable();
+            IQueryable<WMS_BILL_DETAILH> billdetailquery = BillDetailRepository.GetQueryable();
              IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
             List<ProductLedgerInfo> list = new List<ProductLedgerInfo>();
             //从月结明细表中找出,在该时间段的哪些仓库中的哪些产品代码

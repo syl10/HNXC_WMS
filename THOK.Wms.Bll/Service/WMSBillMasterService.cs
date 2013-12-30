@@ -26,6 +26,8 @@ namespace THOK.Wms.Bll.Service
         [Dependency]
         public IWMSBillDetailRepository BillDetailRepository { get; set; }
         [Dependency]
+        public IWMSBillDetailHRepository BillDetailHRepository { get; set; }
+        [Dependency]
         public IWMSFormulaDetailRepository FormulaDetailRepository { get; set; }
         [Dependency]
         public ICMDProuductRepository ProductRepository { get; set; }
@@ -179,11 +181,11 @@ namespace THOK.Wms.Bll.Service
                 }
 
             }
-            if (THOK.Common.PrintHandle.issearch)
-            {//用于单据查询中的打印
-                THOK.Common.PrintHandle.searchdt = THOK.Common.ConvertData.LinqQueryToDataTable(billmaster);
-                //THOK.Common.PrintHandle.issearch = false;
-            }
+            //if (THOK.Common.PrintHandle.issearch)
+            //{//用于单据查询中的打印
+            //    THOK.Common.PrintHandle.searchdt = THOK.Common.ConvertData.LinqQueryToDataTable(billmaster);
+            //    //THOK.Common.PrintHandle.issearch = false;
+            //}
             billmaster = billmaster.OrderByDescending(i => i.OPERATE_DATE); 
             int total = billmaster.Count();
             billmaster = billmaster.Skip((page - 1) * rows).Take(rows);
@@ -226,9 +228,10 @@ namespace THOK.Wms.Bll.Service
         public object GetSubDetails(int page, int rows, string BillNo, int  flag)
         {
             IQueryable <WMS_BILL_DETAIL > detailquery = BillDetailRepository.GetQueryable();
+            IQueryable<WMS_BILL_DETAILH> detailquery2 = BillDetailHRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
             IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
-            var billdetail = from a in detailquery
+            var billdetail =( from a in detailquery
                              join b in statequery on a.IS_MIX equals b.STATE
                              join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE
                              where b.TABLE_NAME == "WMS_BILL_DETAIL" && b.FIELD_NAME == "IS_MIX"
@@ -249,8 +252,31 @@ namespace THOK.Wms.Bll.Service
                                  TOTAL_WEIGHT=a.PACKAGE_COUNT*a .REAL_WEIGHT,
                                  a.IS_MIX,
                                  IS_MIXDESC=b .STATE_DESC,
-                                 a.FPRODUCT_CODE 
-                             };
+                                 a.FPRODUCT_CODE
+                             }).Union(from a in detailquery2
+                                      join b in statequery on a.IS_MIX equals b.STATE
+                                      join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE
+                                      where b.TABLE_NAME == "WMS_BILL_DETAIL" && b.FIELD_NAME == "IS_MIX"
+                                      select new
+                                      {
+                                          a.ITEM_NO,
+                                          a.BILL_NO,
+                                          a.PRODUCT_CODE,
+                                          c.PRODUCT_NAME,
+                                          c.YEARS,
+                                          c.CMD_PRODUCT_GRADE.GRADE_NAME,
+                                          c.CMD_PRODUCT_STYLE.STYLE_NAME,
+                                          c.CMD_PRODUCT_ORIGINAL.ORIGINAL_NAME,
+                                          c.CMD_PRODUCT_CATEGORY.CATEGORY_NAME,
+                                          a.WEIGHT,
+                                          a.REAL_WEIGHT,
+                                          a.PACKAGE_COUNT,
+                                          a.NC_COUNT,
+                                          TOTAL_WEIGHT = a.PACKAGE_COUNT * a.REAL_WEIGHT,
+                                          a.IS_MIX,
+                                          IS_MIXDESC = b.STATE_DESC,
+                                          a.FPRODUCT_CODE
+                                      });
             if (flag == 1) { //获取混装产品的信息.
                 billdetail = billdetail.Where(i => i.WEIGHT != i.REAL_WEIGHT);
             }

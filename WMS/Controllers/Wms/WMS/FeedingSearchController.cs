@@ -13,7 +13,7 @@ namespace WMS.Controllers.Wms.WMS
         //
         // GET: /FeedingSearch/
         [Dependency]
-        public IWMSBillMasterService BillMasterService { get; set; }
+        public IWMSBillMasterHService BillMasterService { get; set; }
         [Dependency]
         public IWMSProductStateService ProductStateService { get; set; }
 

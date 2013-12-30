@@ -13,7 +13,7 @@ namespace WMS.Controllers.Wms.WMS
         //抽检单查询
         // GET: /SamplingSearch/
         [Dependency]
-        public IWMSBillMasterService BillMasterService { get; set; }
+        public IWMSBillMasterHService BillMasterService { get; set; }
 
         public ActionResult Index(string moduleID)
         {

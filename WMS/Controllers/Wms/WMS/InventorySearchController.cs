@@ -13,7 +13,7 @@ namespace WMS.Controllers.Wms.WMS
         //
         // GET: /InventorySearch/
         [Dependency]
-        public IWMSBillMasterService BillMasterService { get; set; }
+        public IWMSBillMasterHService BillMasterService { get; set; }
 
         public ActionResult Index(string moduleID)
         {
