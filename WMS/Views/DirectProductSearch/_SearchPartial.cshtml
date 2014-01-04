@@ -105,8 +105,11 @@
         queryParams.CHECKER = $('#SCHECKER').val();
         queryParams.BILL_DATEStar = $('#SBILL_DATEStar').datebox('getValue');
         queryParams.BILL_DATEEND = $('#SBILL_DATEEND').datebox('getValue');
+        queryParams.BILLNOFROM = $('#SBILLNOFROM').val(); //单据编号区间  开始部分
+        queryParams.BILLNOTO = $('#SBILLNOTO').val();  //单据编号区间  结尾部分
 
         $('#details').datagrid('options').queryParams = queryParams;
+        $('#details').datagrid('options').url ="/DirectProductSearch/GetDetail/";
         $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
         $('#details').datagrid('reload');
         $('#dlg-search').dialog('close');
@@ -117,8 +120,7 @@
     }
 </script>
 
-<div id="dlg-search" class="easyui-dialog" modal="true" style="width:430px;height:260px;padding:2px 2px"
-		closed="true" buttons="#dlg-buttons-search">
+<div id="dlg-search" class="easyui-dialog" modal="true" style="width:430px;height:270px;padding:2px 2px" closed="true" buttons="#dlg-buttons-search">
         <div class="easyui-layout" fit="true">
 			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
            <table width="400px">
@@ -126,19 +128,25 @@
                         <td style="width:50px" align="right">单据编号</td>
                         <td style="width:138px"><input id="SBILL_NO" style="width:125px"  /></td>
                         <td style="width:50px" align="right">仓库编号</td>
-                        <td style="width:138px"><input id="SWAREHOUSE_CODE" style="width:125px" ></td>
+                        <td style="width:138px"><input id="SWAREHOUSE_CODE" style="width:125px" /></td>
+                      </tr>
+                      <tr>
+                          <td style="width:50px" align="right">单号区间</td>
+                          <td style="width:138px"><input id="SBILLNOFROM" style="width:125px"  /></td>
+                          <td style="width:50px" align="right">--</td>
+                          <td style="width:138px"><input id="SBILLNOTO" style="width:125px"  /></td>
                       </tr>
                       <tr>
                         <td style="width:50px" align="right">起始日期</td>
-                        <td style="width:138px"><input id="SBILL_DATEStar" style="width:125px" ></td>
+                        <td style="width:138px"><input id="SBILL_DATEStar" style="width:125px" /></td>
                         <td style="width:50px" align="right">截止日期</td>
                         <td style="width:138px"><input id="SBILL_DATEEND" style="width:125px"  /></td>
                       </tr>
                       <tr>
                             <td width="50">牌   号</td>
-                           <td width="138"><input id="SCIGARETTE_CODE" name="SCIGARETTE_CODE" ></td>
+                           <td width="138"><input id="SCIGARETTE_CODE" name="SCIGARETTE_CODE" /></td>
                            <td width="50">配方代号</td>
-                           <td width="138"><input id="SFORMULA_CODE" name="SFORMULA_CODE" class="easyui-combogrid" style="width:125px" ></td>
+                           <td width="138"><input id="SFORMULA_CODE" name="SFORMULA_CODE" class="easyui-combogrid" style="width:125px" /></td>
                       </tr>
                        <tr>
                         <td style="width:50px" align="right">单据状态</td>
@@ -149,19 +157,19 @@
 	                         </select>
                         </td>
                         <td style="width:50px" align="right">计划单号</td>
-                        <td style="width:138px"><input id="SSCHEDULE_NO" style="width:125px" ></td>
+                        <td style="width:138px"><input id="SSCHEDULE_NO" style="width:125px" /></td>
                       </tr>
                       <tr>
                         <td style="width:50px" align="right">入库单号</td>
-                        <td style="width:138px"><input id="SIN_BILLNO" style="width:125px" ></td>
+                        <td style="width:138px"><input id="SIN_BILLNO" style="width:125px" /></td>
                         <td style="width:50px" align="right">出库单号</td>
-                        <td style="width:138px"><input id="SOUT_BILLNO" style="width:125px" ></td>
+                        <td style="width:138px"><input id="SOUT_BILLNO" style="width:125px" /></td>
                       </tr>
                       <tr>
                         <td style="width:50px" align="right">操作人员</td>
-                        <td style="width:138px"><input id="SOPERATER" style="width:125px" ></td>
+                        <td style="width:138px"><input id="SOPERATER" style="width:125px" /></td>
                         <td style="width:50px" align="right">审核人员</td>
-                        <td  style="width:138px"><input id="SCHECKER" style="width: 125px; "></td>
+                        <td  style="width:138px"><input id="SCHECKER" style="width: 125px; "/></td>
                       </tr>
                     </table>
             </div>

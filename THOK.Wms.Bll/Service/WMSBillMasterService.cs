@@ -253,7 +253,7 @@ namespace THOK.Wms.Bll.Service
                                  a.IS_MIX,
                                  IS_MIXDESC=b .STATE_DESC,
                                  a.FPRODUCT_CODE
-                             }).Union(from a in detailquery2
+                             }).Concat(from a in detailquery2
                                       join b in statequery on a.IS_MIX equals b.STATE
                                       join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE
                                       where b.TABLE_NAME == "WMS_BILL_DETAIL" && b.FIELD_NAME == "IS_MIX"

@@ -36,8 +36,11 @@
         queryParams.OPERATE_DATE = $('#SOPERATE_DATE').datebox('getValue');
         queryParams.CHECKER = $('#SCHECKER').val();
         queryParams.CHECK_DATE = $('#SCHECK_DATE').datebox('getValue');
+        queryParams.BILLNOFROM = $('#SBILLNOFROM').val(); //单据编号区间  开始部分
+        queryParams.BILLNOTO = $('#SBILLNOTO').val();  //单据编号区间  结尾部分
 
        $('#details').datagrid('options').queryParams = queryParams;
+      $('#details').datagrid('options').url= "/StockDifferSearch/Details/?flag=0";
         $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
         $('#details').datagrid('reload');
         $('#SSTATE').combobox('clear');
@@ -49,7 +52,7 @@
      }
 </script>
 
-<div id="dlg-search" class="easyui-dialog" modal="true" style="width:430px;height:200px;padding:2px 2px"
+<div id="dlg-search" class="easyui-dialog" modal="true" style="width:430px;height:220px;padding:2px 2px"
 		closed="true" buttons="#dlg-buttons-search">
         <div class="easyui-layout" fit="true">
 			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
@@ -59,6 +62,12 @@
                         <td style="width:138px"><input id="SBILL_NO" style="width:125px"  /></td>
                         <td style="width:50px" align="right">单据日期</td>
                         <td style="width:138px"><input id="SBILL_DATE" style="width:125px" ></td>
+                      </tr>
+                     <tr>
+                          <td style="width:50px" align="right">单号区间</td>
+                          <td style="width:138px"><input id="SBILLNOFROM" style="width:125px"  /></td>
+                          <td style="width:50px" align="right">--</td>
+                          <td style="width:138px"><input id="SBILLNOTO" style="width:125px"  /></td>
                       </tr>
 @*                      <tr>
                         <td style="width:50px" align="right">入库类型</td>

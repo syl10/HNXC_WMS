@@ -37,6 +37,8 @@ namespace WMS.Controllers.Wms.WMS
             string CHECK_DATE = collection["CHECK_DATE"] ?? ""; //审核日期
             string BILL_DATEStar = collection["BILL_DATEStar"] ?? ""; //起始日期
             string BILL_DATEEND = collection["BILL_DATEEND"] ?? "";//截止日期
+            string BILLNOFROM = collection["BILLNOFROM"] ?? "";  //单号区间 开始部分
+            string BILLNOTO = collection["BILLNOTO"] ?? ""; //单号区间  结尾部分
             string print = collection["PRINT"] ?? "";
             if (print == "1")
             {
@@ -46,7 +48,7 @@ namespace WMS.Controllers.Wms.WMS
             {
                 THOK.Common.PrintHandle.issearch = false;
             }
-            var detail = ProductionmastService.GetDetails(page, rows, BILL_NO, BILL_DATE, WAREHOUSE_CODE, CIGARETTE_CODE, FORMULA_CODE, STATE, OPERATER, OPERATE_DATE, CHECKER, CHECK_DATE, BILL_DATEStar, BILL_DATEEND);
+            var detail = ProductionmastService.GetDetails(page, rows, BILL_NO, BILL_DATE, WAREHOUSE_CODE, CIGARETTE_CODE, FORMULA_CODE, STATE, OPERATER, OPERATE_DATE, CHECKER, CHECK_DATE, BILL_DATEStar, BILL_DATEEND,BILLNOFROM ,BILLNOTO );
             return Json(detail, "text/html", JsonRequestBehavior.AllowGet);
         }
 

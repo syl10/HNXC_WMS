@@ -32,7 +32,7 @@ namespace THOK.Wms.Bll.Service
 
 
 
-        public object GetDetails(int page, int rows, string BILL_NO, string BILL_DATE,  string WAREHOUSE_CODE,  string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE, string BILL_DATEStar, string BILL_DATEEND)
+        public object GetDetails(int page, int rows, string BILL_NO, string BILL_DATE,  string WAREHOUSE_CODE,  string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE, string BILL_DATEStar, string BILL_DATEEND,string BILLNOFROM,string BILLNOTO)
         {
             IQueryable<WMS_PRODUCTION_MASTER> query = ProductionmasterRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
@@ -120,6 +120,12 @@ namespace THOK.Wms.Bll.Service
             {
                 DateTime dateend = DateTime.Parse(BILL_DATEEND);
                 detail = detail.Where(i => i.BILL_DATE.CompareTo(dateend) <= 0);
+            }
+            if (!string.IsNullOrEmpty(BILLNOFROM)) {
+                detail = detail.Where(i => i.BILL_NO.CompareTo(BILLNOFROM )>=0);
+            }
+            if (!string.IsNullOrEmpty(BILLNOTO)) {
+                detail = detail.Where(i => i.BILL_NO.CompareTo(BILLNOTO) <= 0);
             }
             if (THOK.Common.PrintHandle.issearch)
             {//用于单据查询中的打印

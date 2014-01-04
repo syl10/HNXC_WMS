@@ -189,6 +189,32 @@ namespace THOK.Common.Ef.EntityRepository
                     dbSet.Remove(tsub);
                 }
             }
-        }            
+        }
+
+        //执行sql语句
+        public System.Linq.IQueryable<T> Exesqlstr(string sqlstr)
+        {
+            //string strSQL = "";
+            try
+            {
+                if (!string.IsNullOrEmpty(sqlstr))
+                {
+                    //strSQL = string.Format("");
+                    //List <T> dbtext = RepositoryContext.DbContext.Database.SqlQuery<T>(sqlstr).ToList();
+                    IQueryable<T> dbtext = RepositoryContext.DbContext.Database.SqlQuery<T>(sqlstr).AsQueryable<T>();
+                   //int a= db.Count();
+                    return dbtext;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception ex) {
+                return null;
+            }
+           
+        }
+
     }
 }

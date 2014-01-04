@@ -9,7 +9,7 @@ namespace THOK.Wms.Bll.Interfaces
     public interface IWMSProductionMasterService : IService<WMS_PRODUCTION_MASTER>
     {
         //获取所有直接投料单记录
-        object GetDetails(int page, int rows, string BILL_NO, string BILL_DATE, string WAREHOUSE_CODE, string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE, string BILL_DATEStar, string BILL_DATEEND);
+        object GetDetails(int page, int rows, string BILL_NO, string BILL_DATE, string WAREHOUSE_CODE, string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE, string BILL_DATEStar, string BILL_DATEEND,string BILLNOFROM,string BILLNOTO);
         //获取明细
          object GetSubDetails(int page, int rows, string BillNo);
          //获取单据编号
