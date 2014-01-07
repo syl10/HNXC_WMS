@@ -62,8 +62,9 @@ namespace THOK.Wms.Bll.Service
             var Cigarette = CMDCigaretteRepository.GetQueryable()
             .FirstOrDefault(i => i.CIGARETTE_CODE == CIGARETTE_CODE);
             CMDCigaretteRepository.Delete(Cigarette);
-            CMDCigaretteRepository.SaveChanges();
-            return true;
+           int rejust= CMDCigaretteRepository.SaveChanges();
+            if (rejust == -1) return false;
+            else return true;
 
         }
 

@@ -88,8 +88,9 @@ namespace THOK.Wms.Bll.Service
             {
                 var temp = ProductGradeRepository.GetQueryable().FirstOrDefault(i => i.GRADE_CODE == GRADE_CODE);
                 ProductGradeRepository.Delete(temp);
-                ProductGradeRepository.SaveChanges();
-                return true;
+                int rejust= ProductGradeRepository.SaveChanges();
+                if (rejust == -1) return false;
+                else return true;
             }
             catch (Exception ex)
             {

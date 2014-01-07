@@ -56,8 +56,9 @@ namespace THOK.Wms.Bll.Service
         {
             var unit = UnitRepository.GetQueryable().FirstOrDefault(i => i.UNIT_CODE == UNIT_CODE);
             UnitRepository.Delete(unit);
-            UnitRepository.SaveChanges();
-            return true;
+            int rejust= UnitRepository.SaveChanges();
+            if (rejust == -1) return false;
+            else return true;
         }
 
         public bool Save(CMD_UNIT Unit)

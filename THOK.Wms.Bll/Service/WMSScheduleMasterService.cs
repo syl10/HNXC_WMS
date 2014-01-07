@@ -36,7 +36,7 @@ namespace THOK.Wms.Bll.Service
         [Dependency]
         public IWMSBillMasterService BillMasterService { get; set; }
 
-        public object GetDetails(int page, int rows, string SCHEDULE_NO, string SCHEDULE_DATE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE)
+        public object GetDetails(int page, int rows, string SCHEDULE_NO, string SCHEDULE_DATE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE, string BILLNOFROM, string BILLNOTO)
         {
             IQueryable<WMS_SCHEDULE_MASTER> ScheduleMaster = ScheduleMasterRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
@@ -96,6 +96,14 @@ namespace THOK.Wms.Bll.Service
                 DateTime checkdt2 = checkdt.AddDays(1);
                 schedule = schedule.Where(i => i.CHECK_DATE.Value .CompareTo (checkdt )>=0);
                 schedule = schedule.Where(i => i.CHECK_DATE.Value.CompareTo(checkdt2) < 0);
+            }
+            if (!string.IsNullOrEmpty(BILLNOFROM))
+            {
+                schedule = schedule.Where(i => i.SCHEDULE_NO.CompareTo(BILLNOFROM) >= 0);
+            }
+            if (!string.IsNullOrEmpty(BILLNOTO))
+            {
+                schedule = schedule.Where(i => i.SCHEDULE_NO.CompareTo(BILLNOTO) <= 0);
             }
             if (THOK.Common.PrintHandle.issearch)
             {//用于单据查询中的打印

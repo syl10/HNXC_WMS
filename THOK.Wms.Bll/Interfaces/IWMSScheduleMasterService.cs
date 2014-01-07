@@ -9,7 +9,7 @@ namespace THOK.Wms.Bll.Interfaces
    public interface IWMSScheduleMasterService : IService<WMS_SCHEDULE_MASTER >
     {
         //获取生产计划单
-       object GetDetails(int page, int rows, string SCHEDULE_NO, string SCHEDULE_DATE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE);
+       object GetDetails(int page, int rows, string SCHEDULE_NO, string SCHEDULE_DATE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE, string BILLNOFROM, string BILLNOTO);
        //根据计划单号获取详细的信息
         object GetSubDetails(int page, int rows, string SCHEDULE_NO);
         //获取计划单号

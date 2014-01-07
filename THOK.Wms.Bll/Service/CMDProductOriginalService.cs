@@ -79,8 +79,9 @@ namespace THOK.Wms.Bll.Service
             {
                 var temp = ProductOriginalRepository.GetQueryable().FirstOrDefault(i => i.ORIGINAL_CODE == originalcode);
                 ProductOriginalRepository.Delete(temp);
-                ProductOriginalRepository.SaveChanges();
-                return true;
+                int rejust= ProductOriginalRepository.SaveChanges();
+                if (rejust == -1) return false;
+                else return true;
             }
             catch (Exception ex) { return false; }
         }

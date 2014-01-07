@@ -57,8 +57,9 @@ namespace THOK.Wms.Bll.Service
             var Cigarette = ProductCategoryRepository.GetQueryable()
             .FirstOrDefault(i => i.CATEGORY_CODE == CATEGORY_CODE);
             ProductCategoryRepository.Delete(Cigarette);
-            ProductCategoryRepository.SaveChanges();
-            return true;
+            int rejust= ProductCategoryRepository.SaveChanges();
+            if (rejust == -1) return false;
+            else return true;
 
         }
 

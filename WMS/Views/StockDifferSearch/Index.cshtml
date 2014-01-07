@@ -5,7 +5,7 @@
             var row = $('#details').datagrid('getSelected');
             if (row) {
                 $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
-                $('#SubDetails').datagrid({ url: '/StockInBill/GetSubdetail/?billno=' + row.BILL_NO });
+                $('#SubDetails').datagrid({ url: '/StockIntoSearch/GetSubdetail/?billno=' + row.BILL_NO });
                 //                $('#SubDetails').datagrid('reload');
             }
             else {

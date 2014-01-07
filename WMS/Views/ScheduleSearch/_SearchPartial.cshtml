@@ -27,6 +27,8 @@
         queryParams.OPERATE_DATE = $('#SOPERATE_DATE').datebox('getValue');
         queryParams.CHECKER = $('#SCHECKER').val();
         queryParams.CHECK_DATE = $('#SCHECK_DATE').datebox('getValue');
+        queryParams.BILLNOFROM = $('#SBILLNOFROM').val(); //单据编号区间  开始部分
+        queryParams.BILLNOTO = $('#SBILLNOTO').val();  //单据编号区间  结尾部分
         $('#details').datagrid('options').queryParams = queryParams;
         $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
         $('#details').datagrid('reload');
@@ -49,12 +51,19 @@
                         <td style="width:50px" align="right">计划日期</td>
                         <td style="width:138px"><input id="SSCHEDULE_DATE" style="width:125px" ></td>
                       </tr>
+                     <tr>
+                          <td style="width:50px" align="right">单号区间</td>
+                          <td style="width:138px"><input id="SBILLNOFROM" style="width:125px"  /></td>
+                          <td style="width:50px" align="right">--</td>
+                          <td style="width:138px"><input id="SBILLNOTO" style="width:125px"  /></td>
+                      </tr>
                        <tr>
                         <td style="width:50px" align="right">单据状态</td>
                         <td style="width:138px">
                              <select id="SSTATE"  class="easyui-combobox" style="width:125px" >		                
                                      <option value="1">保存</option>
 		                            <option value="2">审核</option>
+                                    <option value="3">出库</option>
 	                         </select>
                         </td>
                       </tr>

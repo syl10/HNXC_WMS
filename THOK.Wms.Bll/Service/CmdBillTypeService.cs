@@ -107,8 +107,9 @@ namespace THOK.Wms.Bll.Service
             var BillType = CmdBillTypeRepository.GetQueryable()
            .FirstOrDefault(i => i.BTYPE_CODE == BTYPE_CODE);
             CmdBillTypeRepository.Delete(BillType);
-            CmdBillTypeRepository.SaveChanges();
-            return true;
+            int rejust= CmdBillTypeRepository.SaveChanges();
+            if (rejust == -1) return false;
+            else return true;
         }
 
         public bool Save(CMD_BILL_TYPE BillType)

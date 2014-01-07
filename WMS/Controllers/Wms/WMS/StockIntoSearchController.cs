@@ -13,7 +13,7 @@ namespace WMS.Controllers.Wms.WMS
         //
         // GET: /StockIntoSearch/
         [Dependency]
-        public IWMSBillMasterHService BillMasterService { get; set; }
+        public IWMSBillMasterHService BillMasterHService { get; set; }
 
         public ActionResult Index(string moduleID)
         {
@@ -52,9 +52,14 @@ namespace WMS.Controllers.Wms.WMS
             {
                 THOK.Common.PrintHandle.issearch = false;
             }
-            var Billmaster = BillMasterService.GetDetails(page, rows, "1", flag,
+            var Billmaster = BillMasterHService.GetDetails(page, rows, "1", flag,
                 BILL_NO, BILL_DATE, BTYPE_CODE, WAREHOUSE_CODE, BILL_METHOD, CIGARETTE_CODE, FORMULA_CODE, STATE, OPERATER, OPERATE_DATE, CHECKER, CHECK_DATE, STATUS, BILL_DATEStar, BILL_DATEEND, SOURCE_BILLNO,"",BILLNOFROM ,BILLNOTO);
             return Json(Billmaster, "text/html", JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult GetSubDetail(int page, int rows, string BillNo)
+        {
+            var Billdetail = BillMasterHService.GetSubDetails(page, rows, BillNo, 0);
+            return Json(Billdetail, "text/html", JsonRequestBehavior.AllowGet);
         }
 
     }

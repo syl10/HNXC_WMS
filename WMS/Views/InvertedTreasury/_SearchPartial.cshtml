@@ -10,8 +10,8 @@
               hasDownArrow: true,
           });
 
-          SGetWarehouseCode() ;//仓库编号
-          SGetBillType() ;//单据类型
+//          SGetWarehouseCode() ;//仓库编号
+//          SGetBillType() ;//单据类型
           SGetCigarette();//牌号
           SGetLineNo();//制丝线
         $('#dlg-search').dialog('open').dialog('setTitle', '查询');
@@ -82,50 +82,50 @@
         });
     }
     //仓库编号
-    function SGetWarehouseCode() {
-        $('#SWAREHOUSE_CODE').combogrid({
-            required: false,
-            disabled: false,
-            width: 125,
-            panelWidth: 340,
-            url: '/StockInBill/GetWarehousecode/?page=1&rows=1000',
-            idField: 'WAREHOUSE_CODE',
-            textField: 'WAREHOUSE_NAME',
-            mode: 'local',
-            editable: true,
-            fitColumns: true,
-            columns: [[
-                    { field: 'WAREHOUSE_CODE', title: '仓库编号', align: 'left', width: 40 },
-                    { field: 'WAREHOUSE_NAME', title: '仓库名称', align: 'left', width: 30 },
-                    { field: 'MEMO', title: '备注', align: 'left', width: 30 },
-                ]]
-        });
-    }
+//    function SGetWarehouseCode() {
+//        $('#SWAREHOUSE_CODE').combogrid({
+//            required: false,
+//            disabled: false,
+//            width: 125,
+//            panelWidth: 340,
+//            url: '/StockInBill/GetWarehousecode/?page=1&rows=1000',
+//            idField: 'WAREHOUSE_CODE',
+//            textField: 'WAREHOUSE_NAME',
+//            mode: 'local',
+//            editable: true,
+//            fitColumns: true,
+//            columns: [[
+//                    { field: 'WAREHOUSE_CODE', title: '仓库编号', align: 'left', width: 40 },
+//                    { field: 'WAREHOUSE_NAME', title: '仓库名称', align: 'left', width: 30 },
+//                    { field: 'MEMO', title: '备注', align: 'left', width: 30 },
+//                ]]
+//        });
+//    }
     //单据类型
-    function SGetBillType() {
-        $('#SBTYPE_CODE').combogrid({
-            required: false,
-            disabled: false,
-            width: 125,
-            panelWidth: 340,
-            url: '/BillType/Details/?page=1&rows=1000',
-            idField: 'BTYPE_CODE',
-            textField: 'BTYPE_NAME',
-            mode: 'local',
-            editable: true,
-            fitColumns: true,
-            queryParams: {
-                BILL_TYPE: '2'
-            },
-            columns: [[
-                    { field: 'BTYPE_CODE', title: '类型代码', align: 'left', width: 40 },
-                    { field: 'BTYPE_NAME', title: '类型名称', align: 'left', width: 30 },
-                    { field: 'TASK_LEVEL', title: '任务等级', align: 'left', width: 30 },
-                    { field: 'TARGET_CODE', title: '目标口', align: 'left', hidden: true, width: 30 },
-                     { field: 'TARGETNAME', title: '目标口', align: 'left', hidden: true, width: 30 }
-                ]]
-        });
-    }
+//    function SGetBillType() {
+//        $('#SBTYPE_CODE').combogrid({
+//            required: false,
+//            disabled: false,
+//            width: 125,
+//            panelWidth: 340,
+//            url: '/BillType/Details/?page=1&rows=1000',
+//            idField: 'BTYPE_CODE',
+//            textField: 'BTYPE_NAME',
+//            mode: 'local',
+//            editable: true,
+//            fitColumns: true,
+//            queryParams: {
+//                BILL_TYPE: '2'
+//            },
+//            columns: [[
+//                    { field: 'BTYPE_CODE', title: '类型代码', align: 'left', width: 40 },
+//                    { field: 'BTYPE_NAME', title: '类型名称', align: 'left', width: 30 },
+//                    { field: 'TASK_LEVEL', title: '任务等级', align: 'left', width: 30 },
+//                    { field: 'TARGET_CODE', title: '目标口', align: 'left', hidden: true, width: 30 },
+//                     { field: 'TARGETNAME', title: '目标口', align: 'left', hidden: true, width: 30 }
+//                ]]
+//        });
+//    }
   //查询
     function Sselect() {
         var queryParams = $('#details').datagrid('options').queryParams;
@@ -183,10 +183,10 @@
                           <td style="width:138px"><input id="SBILLNOTO" style="width:125px"  /></td>
                       </tr>
                       <tr>
-                        <td style="width:50px" align="right">出库类型</td>
-                        <td style="width:138px"><input id="SBTYPE_CODE" style="width:125px"  /></td>
-                        <td style="width:50px" align="right">仓库编号</td>
-                        <td style="width:138px"><input id="SWAREHOUSE_CODE" style="width:125px" ></td>
+@*                        <td style="width:50px" align="right">出库类型</td>
+                        <td style="width:138px"><input id="SBTYPE_CODE" style="width:125px"  /></td>*@
+        @*                <td style="width:50px" align="right">仓库编号</td>
+                        <td style="width:138px"><input id="SWAREHOUSE_CODE" style="width:125px" ></td>*@
                       </tr>
                       <tr>
                         <td style="width:50px" align="right">单据状态</td>
@@ -194,6 +194,10 @@
                              <select id="SSTATE"  class="easyui-combobox" style="width:125px" >		                
                                      <option value="1">保存</option>
 		                            <option value="2">审核</option>
+                                     <option value="3">作业</option>
+		                            <option value="4">执行中</option>
+                                     <option value="5">完成</option>
+		                            <option value="6">取消</option>
 	                         </select>
                         </td>
                        <td width="50">制丝线</td>

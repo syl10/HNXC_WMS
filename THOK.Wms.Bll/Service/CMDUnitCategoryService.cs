@@ -52,8 +52,9 @@ namespace THOK.Wms.Bll.Service
             var UnitCategory = UnitCategoryRepository.GetQueryable()
              .FirstOrDefault(i => i.CATEGORY_CODE == Category_CODE);
             UnitCategoryRepository.Delete(UnitCategory);
-            UnitCategoryRepository.SaveChanges();
-            return true;
+            int rejust=UnitCategoryRepository.SaveChanges();
+            if (rejust == -1) return false;
+            else return true;
             
         }
 

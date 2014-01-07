@@ -43,7 +43,9 @@ namespace WMS.Controllers.Wms.WMS
             string OPERATE_DATE = collection["OPERATE_DATE"] ?? "";
             string CHECKER = collection["CHECKER"] ?? "";
             string CHECK_DATE = collection["CHECK_DATE"] ?? "";
-            var Schedules = ScheduleMasterService.GetDetails(page, rows, SCHEDULE_NO, SCHEDULE_DATE, STATE, OPERATER, OPERATE_DATE, CHECKER, CHECK_DATE);
+            string BILLNOFROM = collection["BILLNOFROM"] ?? "";  //单号区间 开始部分
+            string BILLNOTO = collection["BILLNOTO"] ?? ""; //单号区间  结尾部分
+            var Schedules = ScheduleMasterService.GetDetails(page, rows, SCHEDULE_NO, SCHEDULE_DATE, STATE, OPERATER, OPERATE_DATE, CHECKER, CHECK_DATE,BILLNOFROM ,BILLNOTO );
             return Json(Schedules, "text/html", JsonRequestBehavior.AllowGet);
         }
 

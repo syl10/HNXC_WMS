@@ -69,7 +69,7 @@ namespace WMS.Controllers.Wms.Base
         public ActionResult Delete(string CAR_NO)
         {
             bool bResult = CarService.Delete(CAR_NO);
-            string msg = bResult ? "删除成功" : "删除失败";
+            string msg = bResult ? "删除成功" : "无法删除,可能原因是正被使用中";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
     }
