@@ -39,6 +39,16 @@ namespace THOK.Wms.Bll.Service
         public IWorkSelectRepository WorkselectRepository { get; set; }
         [Dependency]
         public IWMSBillDetailRepository BillDetailRepository { get; set; }
+        [Dependency]
+        public IWCSTaskDetailRepository TaskDetailRepository { get; set; }
+        [Dependency]
+        public IWCSTaskDetailHRepository TaskDetailHRepository { get; set; }
+        [Dependency]
+        public ICMDCraneRepository CraneRepository { get; set; }
+        [Dependency]
+        public ICMDCarRepository CarRepository { get; set; }
+        [Dependency]
+        public ISysErrorCodeRepository SyserrorcodeRepository { get; set; }
 
         //public bool test() {
         //    OracleConnection ora = new OracleConnection(); 
@@ -280,7 +290,7 @@ namespace THOK.Wms.Bll.Service
         }
 
        // 作业查询
-        public object Worksearch(int page, int rows, string BILL_NO, string TASK_DATE, string BTYPE_CODE, string BILLMETHOD, string CIGARETTE_CODE, string FORMULA_CODE, string PRODUCT_BARCODE)
+        public object Worksearch(int page, int rows, string BILL_NO, string TASK_DATE, string BTYPE_CODE, string TASK_NO, string CIGARETTE_CODE, string FORMULA_CODE, string PRODUCT_BARCODE)
         {
             IQueryable<WORKSELECT> query = WorkselectRepository.GetQueryable();
             var work = query.OrderBy(i => i.TASK_DATE).Select(i => new
@@ -295,8 +305,10 @@ namespace THOK.Wms.Bll.Service
                 i.TARGET_CODE,
                 i.STATE,
                 i.STATENAME ,//状态
+                i.TASK_ID ,
                 i.TASK_DATE,
                 i.TASKER,
+                i.USER_NAME ,
                 i.MIXNAME,
                 i.IN_DATE ,
                 i.BATCH_WEIGHT ,
@@ -327,8 +339,9 @@ namespace THOK.Wms.Bll.Service
             if (!string.IsNullOrEmpty(BTYPE_CODE)) {
                 work = work.Where(i => i.BTYPE_CODE == BTYPE_CODE);
             }
-            if (!string.IsNullOrEmpty(BILLMETHOD)) {
-                work = work.Where(i => i.BILL_METHOD == BILLMETHOD);
+            if (!string.IsNullOrEmpty(TASK_NO))
+            {
+                work = work.Where(i => i.BILL_METHOD == TASK_NO);
             }
             if (!string.IsNullOrEmpty(CIGARETTE_CODE)) {
                 work = work.Where(i => i.CIGARETTE_CODE == CIGARETTE_CODE);
@@ -351,8 +364,10 @@ namespace THOK.Wms.Bll.Service
                 i.STATE,
                 i.STATENAME ,
                 i.BATCH_WEIGHT ,
+                i.TASK_ID ,
                 TASK_DATE = i.TASK_DATE == null ? "" : ((DateTime)i.TASK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
                 i.TASKER,
+                i.USER_NAME ,
                 i.MIXNAME,
                 i.PRODUCT_NAME,
                 i.CATEGORY_NAME,
@@ -372,7 +387,7 @@ namespace THOK.Wms.Bll.Service
             DataTable dt = THOK.Common.ConvertData.LinqQueryToDataTable(temp);
             THOK.Common.PrintHandle.dt = dt;
             temp = temp.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp.ToArray() };
+            return new { total, rows = temp };
         }
 
 
@@ -380,5 +395,97 @@ namespace THOK.Wms.Bll.Service
         //{
         //    throw new NotImplementedException();
         //}
+
+        //作业明细
+        public object Workdetail(int page, int rows, string Taskid)
+        {
+            IQueryable<WCS_TASK_DETAIL> query = TaskDetailRepository.GetQueryable();
+            IQueryable<WCS_TASK_DETAILH> query2 = TaskDetailHRepository.GetQueryable();
+            IQueryable<CMD_CRANE> crane = CraneRepository.GetQueryable();
+            IQueryable<CMD_CAR> car = CarRepository.GetQueryable();
+            IQueryable<SYS_TABLE_STATE> tablestate = SysTableStateRepository.GetQueryable();
+            IQueryable <SYS_ERROR_CODE > errorcode=SyserrorcodeRepository .GetQueryable ();
+            var details = (from a in query
+                           join b in crane on a.CRANE_NO equals b.CRANE_NO into bf
+                           from b in bf.DefaultIfEmpty()
+                           join c in car on a.CAR_NO equals c.CAR_NO into cf
+                           from c in cf.DefaultIfEmpty()
+                           join d in tablestate on a.STATE equals d.STATE into df
+                           from d in df.DefaultIfEmpty()
+                           join e in errorcode on a.ERR_CODE equals e.CODE into ef
+                           from e in ef.DefaultIfEmpty()
+                           where d.TABLE_NAME == "WCS_TASK" && d.FIELD_NAME == "STATE" &&a.TASK_ID ==Taskid 
+                           select new
+                           {
+                               a.TASK_ID,
+                               a.ITEM_NO,
+                               a.TASK_NO,
+                               a.ASSIGNMENT_ID,//堆垛机任务号
+                               a.CRANE_NO,//堆垛机
+                               b.CRANE_NAME,
+                               a.CAR_NO, //小车
+                               c.CAR_NAME,
+                               a.FROM_STATION, //起始位置
+                               a.TO_STATION, //目标位置
+                               a.STATE, //状态
+                               d.STATE_DESC,
+                               a.DESCRIPTION, //描述
+                               a.BILL_NO, //单号
+                               a.SQUENCE_NO, //yyyyMMdd+顺序号
+                               a.ERR_CODE, //堆垛机错误编号
+                               ERRDES = e.DESCRIPTION  //堆垛机错误描述
+                           }).Concat(from a in query2
+                                     join b in crane on a.CRANE_NO equals b.CRANE_NO into bf
+                                     from b in bf.DefaultIfEmpty()
+                                     join c in car on a.CAR_NO equals c.CAR_NO into cf
+                                     from c in cf.DefaultIfEmpty()
+                                     join d in tablestate on a.STATE equals d.STATE into df
+                                     from d in df.DefaultIfEmpty()
+                                     join e in errorcode on a.ERR_CODE equals e.CODE into ef
+                                     from e in ef.DefaultIfEmpty()
+                                     where d.TABLE_NAME == "WCS_TASK" && d.FIELD_NAME == "STATE"
+                                     select new
+                                     {
+                                         a.TASK_ID,
+                                         a.ITEM_NO,
+                                         a.TASK_NO,
+                                         a.ASSIGNMENT_ID,//堆垛机任务号
+                                         a.CRANE_NO,//堆垛机
+                                         b.CRANE_NAME,
+                                         a.CAR_NO, //小车
+                                         c.CAR_NAME,
+                                         a.FROM_STATION, //起始位置
+                                         a.TO_STATION, //目标位置
+                                         a.STATE, //状态
+                                         d.STATE_DESC,
+                                         a.DESCRIPTION, //描述
+                                         a.BILL_NO, //单号
+                                         a.SQUENCE_NO, //yyyyMMdd+顺序号
+                                         a.ERR_CODE, //堆垛机错误编号
+                                         ERRDES = e.DESCRIPTION  //堆垛机错误描述
+                                     });
+            var temp = details.ToArray ().Select(i => new { 
+                i.TASK_ID ,
+                i.TASK_NO ,
+                i.TO_STATION ,
+                i.STATE_DESC ,
+                i.STATE ,
+                i.SQUENCE_NO ,
+                i.ITEM_NO ,
+                i.FROM_STATION ,
+                i.ERRDES ,
+                i.ERR_CODE ,
+                i.DESCRIPTION ,
+                i.CRANE_NO ,
+                i.CRANE_NAME ,
+                i.CAR_NO ,
+                i.CAR_NAME ,
+                i.BILL_NO ,
+                i.ASSIGNMENT_ID 
+            });
+            int total = temp.Count();
+            temp = temp.Skip((page - 1) * rows).Take(rows);
+            return new { total, rows = temp};
+        }
     }
 }

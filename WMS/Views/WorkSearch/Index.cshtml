@@ -1,5 +1,17 @@
 ﻿<script type="text/javascript">
-  
+    $(function () {
+        $('#details').datagrid('options').onClickRow = function () {
+            $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
+            var row = $('#details').datagrid('getSelected');
+            if (row) {
+                $('#SubDetails').datagrid({ url: '/WorkSearch/GetSubDetail/?TASK_ID=' + row.TASK_ID });
+                //                $('#SubDetails').datagrid('reload');
+            }
+            else {
+                $.messager.show({ title: '系统提示', msg: '失败!请检查原因！' });
+            }
+        }
+    });
 </script>
 <div region="center" split="true" border="false">    
     <table id="details" class="easyui-datagrid" url="/WorkSearch/Details/" border="false" singleSelect="true"
@@ -8,17 +20,19 @@
             <tr>
                 <th field="BILL_NO" width="100" >单据编号</th>
                 <th field="BTYPE_NAME" width="80">单据类型</th>
-                <th field="TASKER" width="90">作业人员</th>
+                <th field="TASKER" width="90" hidden="true">作业人员</th>
+                <th field="USER_NAME" width="90">作业人员</th>
                 <th field="TASK_DATE" width="90">作业日期</th>
                 <th field="BILL_METHOD" width="90" hidden="true">入库方式</th>
-                <th field="BILLMETHOD" width="90">入库方式</th>
+                <th field="BILLMETHOD" width="90" hidden="true">入库方式</th>
+                    <th field="STATENAME" width="90">作业状态</th>
                 <th field="CIGARETTE_CODE" width="90" hidden="true">牌号代码</th>
                 <th field="CIGARETTE_NAME" width="90" >牌号</th>
                 <th field="FORMULA_CODE" width="90"  hidden="true">配方代号</th>
                 <th field="FORMULA_NAME" width="90"  >配方名称</th>
-                <th field="BATCH_WEIGHT" width="90">批次重量</th>
+                <th field="REAL_WEIGHT" width="90">重量</th>
                 <th field="PRODUCT_CODE" width="90">产品编号</th>
-                <th field="Task_Id" width="90">序号</th>
+                <th field="TASK_ID" width="90">任务ID</th>
                 <th field="PRODUCT_NAME"  width="90">产品名称</th>
                 <th field="PRODUCT_BARCODE" width="90">产品条码</th>
                 <th field="CELL_CODE" width="90">货位编号</th>
@@ -27,8 +41,29 @@
                 <th field="YEARS" width="90">产品年份</th>
                 <th field="STYLE_NAME" width="90">产品形态</th>
                 <th field="CATEGORY_NAME" width="90">产品类别</th>
-                <th field="STATENAME" width="90">作业状态</th>
-                <th field="IN_DATE" width="90">入库时间</th>
+                <th field="IN_DATE" width="90" hidden="true">入库时间</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<div region="south" split="true" border="false" style="height: 250px; border-top-style: solid; border-top-width: 1px; border-top-color: 99BBE8;">
+    <table class="easyui-datagrid" border="false" singleSelect="true" id="SubDetails" url="" pageSize="50"
+        fit="true" fitColumns="true"  pagination="true" rownumbers="true" striped="true">
+        <thead>
+            <tr>
+                <th field="ITEM_NO" width="40" >序号</th>
+                <th field="TASK_NO" width="80">任务号</th>
+                <th field="ASSIGNMENT_ID" width="80" >堆垛机任务号</th>
+                <th field="CRANE_NO" width="80"  hidden="true">堆垛机</th>
+                <th field="CRANE_NAME" width="80" >堆垛机</th>
+                <th field="CAR_NO" width="80"  hidden="true">小车</th>
+                <th field="CAR_NAME" width="80" >小车</th>
+                <th field="FROM_STATION" width="80" >起始位置</th>
+                <th field="TO_STATION" width="80" >目标位置</th>
+                <th field="STATE_DESC" width="80" >状态</th>
+                <th field="DESCRIPTION" width="80" >描述</th>
+                <th field="ERR_CODE" width="80">堆垛机错误编号</th>
+                <th field="ERRDES" width="80">堆垛机错误描述</th>
             </tr>
         </thead>
     </table>

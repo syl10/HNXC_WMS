@@ -21,7 +21,7 @@ namespace WMS.Controllers.Wms
             SetReport(Path, dataname);
             webReport.Width = 1020;
             webReport.Height = 390;
-            webReport.ShowPageNumber = false;
+            //webReport.ShowPageNumber = false;
 
             webReport.ToolbarStyle = ToolbarStyle.Small;
             webReport.ToolbarIconsStyle = ToolbarIconsStyle.Blue;

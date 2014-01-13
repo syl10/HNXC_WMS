@@ -33,6 +33,7 @@ namespace THOK.Wms.DbModel
         public string FORMULA_NAME { get; set; }
         public string CIGARETTE_CODE { get; set; }
         public string CIGARETTE_NAME { get; set; }
+        public string USER_NAME { get; set; }
         public Nullable<decimal> BATCH_WEIGHT { get; set; }
         public Nullable<System.DateTime> IN_DATE { get; set; }
     }

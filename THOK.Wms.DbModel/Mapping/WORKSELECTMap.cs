@@ -102,6 +102,7 @@ namespace THOK.Wms.DbModel.Mapping
 
             this.Property(t => t.CIGARETTE_NAME)
                 .HasMaxLength(40);
+            this.Property(t => t.USER_NAME).HasMaxLength(50);
 
             // Table & Column Mappings
             this.ToTable("WORKSELECT","HNXC");
@@ -135,6 +136,7 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.CIGARETTE_NAME).HasColumnName("CIGARETTE_NAME");
             this.Property(t => t.BATCH_WEIGHT).HasColumnName("BATCH_WEIGHT");
             this.Property(t => t.IN_DATE).HasColumnName("IN_DATE");
+            this.Property(t => t.USER_NAME).HasColumnName("USER_NAME");
         }
     }
 }

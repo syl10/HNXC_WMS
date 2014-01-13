@@ -84,8 +84,11 @@
     <Compile Include="Mapping\CMD_WAREHOUSEMap.cs" />
     <Compile Include="Mapping\PRINTREPORTMap.cs" />
     <Compile Include="Mapping\SYS_BILL_TARGETMap.cs" />
+    <Compile Include="Mapping\SYS_ERROR_CODEMap.cs" />
     <Compile Include="Mapping\SYS_TABLE_STATEMap.cs" />
     <Compile Include="Mapping\WCS_TASKMap.cs" />
+    <Compile Include="Mapping\WCS_TASK_DETAILHMap.cs" />
+    <Compile Include="Mapping\WCS_TASK_DETAILMap.cs" />
     <Compile Include="Mapping\WMS_BALANCE_DETAILMap.cs" />
     <Compile Include="Mapping\WMS_BALANCE_MASTERMap.cs" />
     <Compile Include="Mapping\WMS_BILL_DETAILHMap.cs" />
@@ -106,8 +109,11 @@
     <Compile Include="PRINTREPORT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SYS_BILL_TARGET.cs" />
+    <Compile Include="SYS_ERROR_CODE.cs" />
     <Compile Include="SYS_TABLE_STATE.cs" />
     <Compile Include="WCS_TASK.cs" />
+    <Compile Include="WCS_TASK_DETAIL.cs" />
+    <Compile Include="WCS_TASK_DETAILH.cs" />
     <Compile Include="WMS_BALANCE_DETAIL.cs" />
     <Compile Include="WMS_BALANCE_MASTER.cs" />
     <Compile Include="WMS_BILL_DETAIL.cs" />

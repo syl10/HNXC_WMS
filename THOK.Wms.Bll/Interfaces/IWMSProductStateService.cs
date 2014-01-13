@@ -22,7 +22,9 @@ namespace THOK.Wms.Bll.Interfaces
         //获取要补料的单据下的产品条码(只获取可以补料的条码)
         object Barcodeselect(int page, int rows, string soursebillno);
         //作业查询
-        object Worksearch(int page, int rows, string BILL_NO, string TASK_DATE, string BTYPE_CODE, string BILLMETHOD, string CIGARETTE_CODE, string FORMULA_CODE, string PRODUCT_BARCODE);
+        object Worksearch(int page, int rows, string BILL_NO, string TASK_DATE, string BTYPE_CODE, string TASK_NO, string CIGARETTE_CODE, string FORMULA_CODE, string PRODUCT_BARCODE);
+        //作业明细
+        object Workdetail(int page, int rows, string Taskid);
         //
         string GetPdfName(string Path, string username, string barcodes, string billno,string PrintCount);
         
