@@ -352,7 +352,7 @@ namespace THOK.Wms.Bll.Service
             if (!string.IsNullOrEmpty(PRODUCT_BARCODE)) {
                 work = work.Where(i => i.PRODUCT_BARCODE == PRODUCT_BARCODE);
             }
-            var temp = work.ToArray().Select(i => new {
+            var temp = work.OrderByDescending (i=>i.TASK_DATE).ToArray().Select(i => new {
                 i.BILL_NO,
                 i.PRODUCT_CODE,
                 i.CELL_CODE ,
@@ -464,7 +464,7 @@ namespace THOK.Wms.Bll.Service
                                          a.ERR_CODE, //堆垛机错误编号
                                          ERRDES = e.DESCRIPTION  //堆垛机错误描述
                                      });
-            var temp = details.ToArray ().Select(i => new { 
+            var temp = details.OrderBy (i=>i.ITEM_NO).ToArray ().Select(i => new { 
                 i.TASK_ID ,
                 i.TASK_NO ,
                 i.TO_STATION ,

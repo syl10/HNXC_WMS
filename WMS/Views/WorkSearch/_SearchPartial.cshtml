@@ -98,6 +98,9 @@
         queryParams.PRODUCT_BARCODE = $('#SPRODUCT_BARCODE').val();
 
         $('#details').datagrid('options').queryParams = queryParams;
+        $('#details').datagrid('options').url = "/WorkSearch/Details/";
+
+        $('#details').datagrid('options').queryParams = queryParams;
         $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
         $('#details').datagrid('reload');
         $('#SBILLMETHOD').combobox('clear');
