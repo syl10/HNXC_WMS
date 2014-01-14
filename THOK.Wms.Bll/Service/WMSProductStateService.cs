@@ -443,7 +443,7 @@ namespace THOK.Wms.Bll.Service
                                      from d in df.DefaultIfEmpty()
                                      join e in errorcode on a.ERR_CODE equals e.CODE into ef
                                      from e in ef.DefaultIfEmpty()
-                                     where d.TABLE_NAME == "WCS_TASK" && d.FIELD_NAME == "STATE"
+                                     where d.TABLE_NAME == "WCS_TASK" && d.FIELD_NAME == "STATE" && a.TASK_ID == Taskid 
                                      select new
                                      {
                                          a.TASK_ID,
