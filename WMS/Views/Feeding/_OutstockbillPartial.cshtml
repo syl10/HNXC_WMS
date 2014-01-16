@@ -27,7 +27,7 @@
             panelWidth: 340,
             url: '/Cigarette/Details/?page=1&rows=1000',
             idField: 'CIGARETTE_CODE',
-            textField: 'CIGARETTE_CODE',
+            textField: 'CIGARETTE_NAME',
             mode: 'local',
             editable: true,
             fitColumns: true,
@@ -37,7 +37,8 @@
                     { field: 'CIGARETTE_MEMO', title: '备注', align: 'left', width: 30 }
                 ]],
              onSelect: function (index, data) {
-                  OutstockGetFormula(data.CIGARETTE_CODE);
+                 OutstockGetFormula(data.CIGARETTE_CODE);
+                 $('#outformula').combogrid('clear');
             }
         });
     }
@@ -51,7 +52,7 @@
             panelWidth: 400,
             url: '/Formula/Getuserfull/?page=1&rows=1000&cigarettecode=' + CIGARETTE_CODE,
             idField: 'FORMULA_CODE',
-            textField: 'FORMULA_CODE',
+            textField: 'FORMULA_NAME',
             mode: 'local',
             editable: true,
             fitColumns: true,

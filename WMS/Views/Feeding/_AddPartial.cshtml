@@ -118,7 +118,7 @@
         else {
             $('#BillData').dialog('open').dialog('setTitle', '选择来源单据');
             $('#BarcodeDetail').datagrid('loadData', { total: 0, rows: [] });
-            $('#BillDetail').datagrid({ url: '/FillBill/billselect/?page=1&rows=30&billmethod=3&billno=formula:' + $('#FORMULA_CODE').val() });
+            $('#BillDetail').datagrid({ url: '/FillBill/billselect/?page=1&rows=30&billmethod=3&billno=::' + $('#FORMULA_CODE').val() });
         }
     }
     //选择出库批次

@@ -46,6 +46,7 @@
                 ]],
             onSelect: function (index, data) {
                 GetFormula(data.CIGARETTE_CODE);
+                $('#formula').combogrid('clear');
             }
         });
     }
@@ -59,7 +60,7 @@
             panelWidth: 400,
             url: '/Formula/Getuserfull/?page=1&rows=1000&cigarettecode=' + CIGARETTE_CODE,
             idField: 'FORMULA_CODE',
-            textField: 'FORMULA_CODE',
+            textField: 'FORMULA_NAME',
             mode: 'local',
             editable: true,
             fitColumns: true,
