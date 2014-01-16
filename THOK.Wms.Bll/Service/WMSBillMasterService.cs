@@ -405,8 +405,8 @@ namespace THOK.Wms.Bll.Service
 
             var temp = list.OrderBy(i => i.PRODUCT_CODE).OrderBy (i=>i.ITEM_NO ).Select(i => i);
             int total = temp.Count();
-            temp = temp.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp.ToArray() };
+            //temp = temp.Skip((page - 1) * rows).Take(rows);
+            return new { total, rows = temp };
         }
 
         //修改
@@ -585,17 +585,32 @@ namespace THOK.Wms.Bll.Service
               billmaster = billmaster.Where(i => (from b in cellquery where b.BILL_NO ==i.BILL_NO  select b.BILL_NO).Contains(i.BILL_NO ));
           }
             if (!string.IsNullOrEmpty(billno)) {
-                string info = billno.Split(':')[0];
-                string val = billno.Split(':')[1];
-                if (!string.IsNullOrEmpty(val))
+                //string info = billno.Split(':')[0];
+                string[] val = billno.Split(':');
+                if (!string.IsNullOrEmpty(val[0]))
                 {
-                    if (info == "billno")
-                        billmaster = billmaster.Where(i => i.BILL_NO == val);
-                    else if (info == "cigarate")
-                        billmaster = billmaster.Where(i => i.CIGARETTE_CODE == val);
-                    else
-                        billmaster = billmaster.Where(i => i.FORMULA_CODE == val);
+                    string no = val[0];
+                    billmaster = billmaster.Where(i => i.BILL_NO == no);
                 }
+                if (!string.IsNullOrEmpty(val[1]))
+                {
+                    string cigarete = val[1];
+                    billmaster = billmaster.Where(i => i.CIGARETTE_CODE == cigarete);
+                }
+                if (!string.IsNullOrEmpty(val[2]))
+                {
+                    string formula = val[2];
+                    billmaster = billmaster.Where(i => i.FORMULA_CODE == formula);
+                }
+                //if (!string.IsNullOrEmpty(val))
+                //{
+                //    if (info == "billno")
+                //        billmaster = billmaster.Where(i => i.BILL_NO == val);
+                //    else if (info == "cigarate")
+                //        billmaster = billmaster.Where(i => i.CIGARETTE_CODE == val);
+                //    else
+                //        billmaster = billmaster.Where(i => i.FORMULA_CODE == val);
+                //}
             }
             var temp = billmaster.ToArray().OrderByDescending(i => i.OPERATE_DATE).Select(i => new
             {
@@ -1504,22 +1519,35 @@ namespace THOK.Wms.Bll.Service
                               }).Distinct();
             if (!string.IsNullOrEmpty(queryinfo))
             {
-                string info = queryinfo.Split(':')[0];
-                string val = queryinfo.Split(':')[1];
-                if (!string.IsNullOrEmpty(val))
-                {
-                    if (info == "billno")
-                        billmaster = billmaster.Where(i => i.BILL_NO == val);
-                    else if (info == "cigarate")
-                        billmaster = billmaster.Where(i => i.CIGARETTE_CODE == val);
-                    else
-                        billmaster = billmaster.Where(i => i.FORMULA_CODE == val);
+                //string info = queryinfo.Split(':')[0];
+                string[] val = queryinfo.Split(':');
+                if(!string .IsNullOrEmpty (val[0])){
+                    string billno = val[0];
+                    billmaster = billmaster.Where(i => i.BILL_NO == billno);
                 }
+                if (!string.IsNullOrEmpty(val[1])) {
+                    string cigarete = val[1];
+                    billmaster = billmaster.Where(i => i.CIGARETTE_CODE == cigarete);
+                }
+                if(!string .IsNullOrEmpty (val[2])){
+                    string formula = val[2];
+                    billmaster = billmaster.Where(i => i.FORMULA_CODE ==formula);
+                }
+                //if (!string.IsNullOrEmpty(val))
+                //{
+                //    if (info == "billno")
+                //        billmaster = billmaster.Where(i => i.BILL_NO == val);
+                //    else if (info == "cigarate")
+                //        billmaster = billmaster.Where(i => i.CIGARETTE_CODE == val);
+                //    else
+                //        billmaster = billmaster.Where(i => i.FORMULA_CODE == val);
+                //}
             }
             billmaster =billmaster .Where (i=>!("1,2".Contains (i.STATE ))&&i.BTYPE_CODE !="005");//状态为作业以上的.
             billmaster = billmaster.OrderByDescending(i => i.OPERATE_DATE);
-            int total = billmaster.Count();
-            billmaster = billmaster.Skip((page - 1) * rows).Take(rows);
+                int total = billmaster.Count();
+                billmaster = billmaster.Skip((page - 1) * rows).Take(rows);
+
             var temp = billmaster.ToArray().Select(i => new
             {
                 i.BILL_NO,

@@ -1,7 +1,10 @@
 ﻿<script type="text/javascript">
     //查询函数
     function OutstockbillQueryClick() {
-        var queryinfo = $('#OutstockqueryType').combobox('getValue') + ":" + $('#OutstockBillInfo').combogrid('getText');
+        var billno=$('#OutstockBillInfo').val();
+        var cigarate=$('#outcigarate').combogrid('getValue');
+        var formula=$('#outformula').combogrid('getValue');
+        var queryinfo=billno+":"+cigarate+":"+formula;
         $('#OutstockBillDetail').datagrid({ url: '/Feeding/GetOutstockBill/?page=1&rows=30&queryinfo='+queryinfo });
     }
 //确定按钮事件
@@ -17,7 +20,7 @@
     }
     //牌号
     function OutstockGetCigarette() {
-        $('#OutstockBillInfo').combogrid({
+        $('#outcigarate').combogrid({
             required: false,
             disabled: false,
             width: 135,
@@ -32,18 +35,21 @@
                     { field: 'CIGARETTE_CODE', title: '牌号编码', align: 'left', width: 40 },
                     { field: 'CIGARETTE_NAME', title: '牌号名称', align: 'left', width: 30 },
                     { field: 'CIGARETTE_MEMO', title: '备注', align: 'left', width: 30 }
-                ]]
+                ]],
+             onSelect: function (index, data) {
+                  OutstockGetFormula(data.CIGARETTE_CODE);
+            }
         });
     }
 
     //配方
-    function OutstockGetFormula() {
-        $('#OutstockBillInfo').combogrid({
+    function OutstockGetFormula(CIGARETTE_CODE) {
+        $('#outformula').combogrid({
             required: false,
             disabled: false,
             width: 135,
             panelWidth: 400,
-            url: '/Formula/Getuserfull/?page=1&rows=1000',
+            url: '/Formula/Getuserfull/?page=1&rows=1000&cigarettecode=' + CIGARETTE_CODE,
             idField: 'FORMULA_CODE',
             textField: 'FORMULA_CODE',
             mode: 'local',
@@ -58,28 +64,30 @@
                 ]]
         });
     }
-    function Outstockcleargrid() {
-        $('#OutstockBillInfo').combogrid({
-            required: false,
-            disabled: false,
-            url: [],
-            columns: [[]]
-        });
-    }
+//    function Outstockcleargrid() {
+//        $('#OutstockBillInfo').combogrid({
+//            required: false,
+//            disabled: false,
+//            url: [],
+//            columns: [[]]
+//        });
+//    }
     $(function () {
         $('#OutstockBillDetail').datagrid({
             onDblClickRow: function () {
                 Outstockcomfirm();
             }
         });
-        $('#OutstockqueryType').combobox({
-            editable: false,
-            onChange: function (newValue, oldValue) {
-                if (newValue == "cigarate") OutstockGetCigarette();
-                else if (newValue == "formula") OutstockGetFormula();
-                else { $('#OutstockBillInfo').combogrid('grid').datagrid('loadData', { total: 0, rows: [] }); Outstockcleargrid(); }
-            }
-        });
+//        $('#OutstockqueryType').combobox({
+//            editable: false,
+//            onChange: function (newValue, oldValue) {
+//                if (newValue == "cigarate") OutstockGetCigarette();
+//                else if (newValue == "formula") OutstockGetFormula();
+//                else { $('#OutstockBillInfo').combogrid('grid').datagrid('loadData', { total: 0, rows: [] }); Outstockcleargrid(); }
+//            }
+//        });
+        OutstockGetCigarette();
+        OutstockGetFormula("");
     });
 </script>
 
@@ -156,14 +164,14 @@
 <table>
 <tr>
 <td>
-<select id="OutstockqueryType" name="QueryString" class="easyui-combobox" style="width: 100px;" >
-		                <option value="billno">单据编号</option>
-                        <option value="cigarate">牌号</option>
-                        <option value="formula">配方</option>
-	                </select>
+单据编号:
 </td>
 <td>
-                    <input id="OutstockBillInfo" class="easyui-combogrid" style="width: 135px;"></td>
+                    <input id="OutstockBillInfo"  style="width: 135px;"/></td>
+        <td>牌号:</td>
+        <td><input id="outcigarate" class="easyui-combogrid" style="width: 135px;"/></td>
+        <td>配方:</td>
+        <td><input id="outformula" class="easyui-combogrid" style="width: 135px;"/></td>
                     <td>
  <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="OutstockbillQueryClick()" id="billQuery">查询</a>
  </td>
