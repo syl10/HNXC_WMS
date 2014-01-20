@@ -413,7 +413,6 @@ namespace THOK.Wms.Bll.Service
                 BillMasterRepository.Add(mast);
                 billno ="OS"+ (double .Parse ( mast.BILL_NO.Substring(2))+1).ToString ();
                 item.BILL_NO = mast.BILL_NO;
-
                 var  formulobj = BillMasterService.LoadFormulaDetail(1, 1000, item.FORMULA_CODE, item.QUANTITY);
                 THOK.Wms.Bll.Models.FormulaDetail[] items;
                 Type detailtype = formulobj.GetType();

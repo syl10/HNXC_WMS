@@ -1191,7 +1191,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="cellbord.cshtml" />
+    <Content Include="CellBord\cellbord.cshtml" />
     <Content Include="Views\Home\_ProductWarningPartial.cshtml" />
     <Content Include="Views\ExceptionalLog\Index.cshtml" />
     <Content Include="Views\ExceptionalLog\_SearchPartial.cshtml" />
