@@ -1512,7 +1512,6 @@
     <Content Include="ContentReport\Report\stockdiff.frx" />
     <Content Include="ContentReport\Report\stockinprint.frx" />
     <Content Include="ContentReport\Report\stockoutprint.frx" />
-    <Content Include="ContentReport\Report\test.frx" />
     <Content Include="ContentReport\Report\worksearch.frx" />
     <None Include="ContentReport\Report\palletstockout.frx" />
     <None Include="Content\Scripts\xheditor1.1.14\serverscript\php\ubb2html.php" />
