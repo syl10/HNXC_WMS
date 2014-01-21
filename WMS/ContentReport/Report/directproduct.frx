@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="11/26/2013 17:07:45" ReportInfo.Modified="12/02/2013 16:18:34" ReportInfo.CreatorVersion="1.9.9.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/26/2013 17:07:45" ReportInfo.Modified="01/21/2014 08:56:39" ReportInfo.CreatorVersion="1.9.9.0">
   <Dictionary>
     <ViewDataSource Name="directproduct" ReferenceName="directproduct" DataType="System.Int32" Enabled="true">
       <Column Name="BILL_NO" DataType="System.String"/>
@@ -37,8 +37,8 @@
     </ViewDataSource>
   </Dictionary>
   <ReportPage Name="Page1">
-    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="156.68" StartNewPage="true" Condition="[directproduct.BILL_NO]">
-      <TableObject Name="Table1" Left="48.24" Top="29.85" Width="594.77" Height="75.6">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="160.65" StartNewPage="true" Condition="[directproduct.BILL_NO]">
+      <TableObject Name="Table1" Left="48.24" Top="36.5" Width="594.77" Height="75.6">
         <TableColumn Name="Column1"/>
         <TableColumn Name="Column2" Width="149.53"/>
         <TableColumn Name="Column3"/>
@@ -78,8 +78,8 @@
           <TableCell Name="Cell29" Text="[directproduct.CHECK_DATE]" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <LineObject Name="Line1" Left="1.13" Top="121.15" Width="723.54"/>
-      <TableObject Name="Table2" Left="-0.84" Top="135.88" Width="741.77" Height="18.9">
+      <LineObject Name="Line1" Left="1.13" Top="125.9" Width="723.54"/>
+      <TableObject Name="Table2" Left="-0.84" Top="139.68" Width="741.77" Height="18.9">
         <TableColumn Name="Column7" Width="33.11"/>
         <TableColumn Name="Column8" Width="130.75"/>
         <TableColumn Name="Column9"/>
@@ -107,7 +107,8 @@
           <TableCell Name="Cell41" Text="NC包数" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <DataBand Name="Data1" Top="160.68" Width="718.2" Height="26.7" DataSource="directproduct">
+      <TextObject Name="Text1" Left="276.88" Top="6.08" Width="111.32" Height="18.9" Text="直接投料单" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="164.65" Width="718.2" Height="26.7" DataSource="directproduct">
         <TableObject Name="Table3" Left="-0.81" Top="1.41" Width="742.31" Height="18.9">
           <TableColumn Name="Column19" Width="33.3"/>
           <TableColumn Name="Column20" Width="132.83"/>
@@ -140,7 +141,7 @@
           <Sort Expression="[directproduct.ITEM_NO]"/>
         </Sort>
       </DataBand>
-      <GroupFooterBand Name="GroupFooter1" Top="191.38" Width="718.2" Height="9.83"/>
+      <GroupFooterBand Name="GroupFooter1" Top="195.35" Width="718.2"/>
     </GroupHeaderBand>
   </ReportPage>
 </Report>

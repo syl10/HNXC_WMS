@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="12/02/2013 13:56:04" ReportInfo.Modified="12/02/2013 15:58:09" ReportInfo.CreatorVersion="1.9.9.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="12/02/2013 13:56:04" ReportInfo.Modified="01/21/2014 09:38:59" ReportInfo.CreatorVersion="1.9.9.0">
   <Dictionary>
     <ViewDataSource Name="worksearch" ReferenceName="worksearch" DataType="System.Int32" Enabled="true">
       <Column Name="BILL_NO" DataType="System.String"/>
@@ -35,8 +35,8 @@
     </ViewDataSource>
   </Dictionary>
   <ReportPage Name="Page1" Landscape="true" PaperWidth="297" PaperHeight="210">
-    <GroupHeaderBand Name="GroupHeader1" Width="1047.06" Height="33.83" StartNewPage="true" Condition="[worksearch.BILL_NO]">
-      <TableObject Name="Table1" Left="-17.74" Top="11.78" Width="1086.59" Height="18.9">
+    <GroupHeaderBand Name="GroupHeader1" Width="1047.06" Height="75.79" StartNewPage="true" Condition="[worksearch.BILL_NO]">
+      <TableObject Name="Table1" Left="-17.74" Top="56.43" Width="1086.59" Height="18.9">
         <TableColumn Name="Column1" Width="101.82"/>
         <TableColumn Name="Column6" Width="60.1"/>
         <TableColumn Name="Column3" Width="59.17"/>
@@ -74,7 +74,8 @@
           <TableCell Name="Cell41" Text="作业状态" HorzAlign="Center" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <DataBand Name="Data1" Top="37.83" Width="1047.06" Height="34.61" DataSource="worksearch">
+      <TextObject Name="Text1" Left="-0.96" Top="15.12" Width="813.42" Height="18.9" Text="作业查询" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="79.79" Width="1047.06" Height="34.61" DataSource="worksearch">
         <TableObject Name="Table2" Left="-17.41" Top="1.01" Width="1087.53" Height="28.73">
           <TableColumn Name="Column42" Width="102.76"/>
           <TableColumn Name="Column43" Width="60.1"/>
@@ -114,7 +115,7 @@
           </TableRow>
         </TableObject>
       </DataBand>
-      <GroupFooterBand Name="GroupFooter1" Top="76.44" Width="1047.06" Height="4.93"/>
+      <GroupFooterBand Name="GroupFooter1" Top="118.4" Width="1047.06" Height="4.93"/>
     </GroupHeaderBand>
   </ReportPage>
 </Report>

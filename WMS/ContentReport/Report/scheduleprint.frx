@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="11/26/2013 15:18:06" ReportInfo.Modified="11/26/2013 16:34:41" ReportInfo.CreatorVersion="1.9.9.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/26/2013 15:18:06" ReportInfo.Modified="01/21/2014 09:31:52" ReportInfo.CreatorVersion="1.9.9.0">
   <Dictionary>
     <ViewDataSource Name="scheduleprint" ReferenceName="scheduleprint" DataType="System.Int32" Enabled="true">
       <Column Name="SCHEDULE_NO" DataType="System.String"/>
@@ -25,8 +25,8 @@
     </ViewDataSource>
   </Dictionary>
   <ReportPage Name="Page1">
-    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="124.72" StartNewPage="true" Condition="[scheduleprint.SCHEDULE_NO]">
-      <TableObject Name="Table1" Left="33.9" Top="15.15" Width="535.83" Height="56.7">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="165.8" StartNewPage="true" Condition="[scheduleprint.SCHEDULE_NO]">
+      <TableObject Name="Table1" Left="33.9" Top="48.97" Width="535.83" Height="56.7">
         <TableColumn Name="Column1" Width="64.51"/>
         <TableColumn Name="Column2" Width="133.25"/>
         <TableColumn Name="Column3" Width="68.28"/>
@@ -58,7 +58,7 @@
           <TableCell Name="Cell28" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <TableObject Name="Table2" Left="4.01" Top="103.86" Width="690.17" Height="18.9">
+      <TableObject Name="Table2" Left="4.01" Top="146.61" Width="690.17" Height="18.9">
         <TableColumn Name="Column7" Width="57.4"/>
         <TableColumn Name="Column8" Width="55.32"/>
         <TableColumn Name="Column9" Width="86.27"/>
@@ -78,8 +78,9 @@
           <TableCell Name="Cell44" Text="制丝线" HorzAlign="Center" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <LineObject Name="Line1" Left="-2.84" Top="87.29" Width="719.72"/>
-      <DataBand Name="Data1" Top="128.72" Width="718.2" Height="35.54" DataSource="scheduleprint">
+      <LineObject Name="Line1" Left="-3.78" Top="127.57" Width="719.72"/>
+      <TextObject Name="Text1" Left="36.1" Top="15.15" Width="532.36" Height="18.9" Text="计划单" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="169.8" Width="718.2" Height="22.69" DataSource="scheduleprint">
         <TableObject Name="Table3" Left="3.62" Top="2.7" Width="691.81" Height="18.9">
           <TableColumn Name="Column15" Width="57.48"/>
           <TableColumn Name="Column16" Width="55.4"/>
@@ -104,7 +105,7 @@
           <Sort Expression="[scheduleprint.ITEM_NO]"/>
         </Sort>
       </DataBand>
-      <GroupFooterBand Name="GroupFooter1" Top="168.26" Width="718.2" Height="14.97"/>
+      <GroupFooterBand Name="GroupFooter1" Top="196.49" Width="718.2"/>
     </GroupHeaderBand>
   </ReportPage>
 </Report>

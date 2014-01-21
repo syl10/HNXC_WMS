@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="11/29/2013 09:52:47" ReportInfo.Modified="01/21/2014 09:22:31" ReportInfo.CreatorVersion="1.9.9.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/29/2013 09:52:47" ReportInfo.Modified="01/21/2014 09:25:48" ReportInfo.CreatorVersion="1.9.9.0">
   <Dictionary>
     <ViewDataSource Name="palletstockin" ReferenceName="palletstockin" DataType="System.Int32" Enabled="true">
       <Column Name="BILL_NO" DataType="System.String"/>
@@ -79,7 +79,7 @@
         </TableRow>
       </TableObject>
       <LineObject Name="Line1" Left="-0.9" Top="146.66" Width="749.86"/>
-      <TextObject Name="Text1" Left="38.19" Top="11.91" Width="600.64" Height="18.9" Text="托盘组入库单" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <TextObject Name="Text1" Left="38.19" Top="11.91" Width="600.64" Height="18.9" Text="托盘组出库单" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
       <DataBand Name="Data1" Top="189.25" Width="718.2" Height="26.62" DataSource="palletstockin">
         <TableObject Name="Table3" Left="27.05" Top="0.26" Width="633.08" Height="18.9">
           <TableColumn Name="Column11" Width="158.27"/>

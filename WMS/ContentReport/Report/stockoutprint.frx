@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="11/15/2013 16:47:18" ReportInfo.Modified="11/26/2013 10:15:33" ReportInfo.CreatorVersion="1.9.9.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/15/2013 16:47:18" ReportInfo.Modified="01/21/2014 09:41:19" ReportInfo.CreatorVersion="1.9.9.0">
   <Dictionary>
     <ViewDataSource Name="billreportprint" ReferenceName="billreportprint" DataType="System.Int32" Enabled="true">
       <Column Name="MBILL_NO" DataType="System.String"/>
@@ -50,8 +50,8 @@
     </ViewDataSource>
   </Dictionary>
   <ReportPage Name="Page1">
-    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="149.84" StartNewPage="true" Condition="[billreportprint.MBILL_NO]">
-      <TableObject Name="Table2" Left="0.36" Top="2.64" Width="755.93" Height="90.72">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="209.62" StartNewPage="true" Condition="[billreportprint.MBILL_NO]">
+      <TableObject Name="Table2" Left="-0.2" Top="61.54" Width="755.93" Height="90.72">
         <TableColumn Name="Column6" Width="65.04"/>
         <TableColumn Name="Column7" Width="139.27"/>
         <TableColumn Name="Column8" Width="65.03"/>
@@ -111,7 +111,7 @@
           <TableCell Name="Cell131" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <TableObject Name="Table4" Left="3.04" Top="129.88" Width="740.07" Height="18.9">
+      <TableObject Name="Table4" Left="3.04" Top="190.11" Width="740.07" Height="18.9">
         <TableColumn Name="Column24" Width="33.1"/>
         <TableColumn Name="Column30" Width="59.17"/>
         <TableColumn Name="Column32" Width="48.79"/>
@@ -139,9 +139,10 @@
           <TableCell Name="Cell75" Text="混装第一笔产品代码" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <LineObject Name="Line1" Left="-1.86" Top="111.87" Width="729.62"/>
-      <DataBand Name="Data1" Top="153.84" Width="718.2" Height="33.67" DataSource="billreportprint">
-        <TableObject Name="Table1" Left="3.38" Top="2.1" Width="737.63" Height="28.35">
+      <LineObject Name="Line1" Left="-1.86" Top="170.2" Width="729.62"/>
+      <TextObject Name="Text1" Left="2.65" Top="20.05" Width="719.28" Height="18.9" Text="出库单" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="213.62" Width="718.2" Height="23.85" DataSource="billreportprint">
+        <TableObject Name="Table1" Left="3.38" Top="2.1" Width="737.63" Height="19.49">
           <TableColumn Name="Column2" Width="34.97"/>
           <TableColumn Name="Column31" Width="58.22"/>
           <TableColumn Name="Column36" Width="46.15"/>
@@ -154,7 +155,7 @@
           <TableColumn Name="Column5" Width="45.79"/>
           <TableColumn Name="Column14" Width="34.24"/>
           <TableColumn Name="Column15" Width="151.2"/>
-          <TableRow Name="Row1" Height="28.35">
+          <TableRow Name="Row1" Height="19.49">
             <TableCell Name="Cell2" Text="[billreportprint.ITEM_NO]" HorzAlign="Center" Font="宋体, 9pt"/>
             <TableCell Name="Cell77" Text="[billreportprint.PRODUCT_NAME]" Font="宋体, 9pt"/>
             <TableCell Name="Cell82" Text="[billreportprint.YEARS]" Font="宋体, 9pt"/>
@@ -173,7 +174,7 @@
           <Sort Expression="[billreportprint.ITEM_NO]"/>
         </Sort>
       </DataBand>
-      <GroupFooterBand Name="GroupFooter1" Top="191.51" Width="718.2" Height="37.8"/>
+      <GroupFooterBand Name="GroupFooter1" Top="241.47" Width="718.2" Height="0.95"/>
     </GroupHeaderBand>
   </ReportPage>
 </Report>
