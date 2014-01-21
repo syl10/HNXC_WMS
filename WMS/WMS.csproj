@@ -25,7 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <PlatformTarget>x86</PlatformTarget>
-    <FilesToIncludeForPublish>AllFilesInProjectFolder</FilesToIncludeForPublish>
+    <FilesToIncludeForPublish>OnlyFilesToRunTheApp</FilesToIncludeForPublish>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -214,6 +214,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\Images\banner.jpg" />
+    <Content Include="Content\Images\copy2.png" />
     <Content Include="Content\Images\login_bg.jpg" />
     <Content Include="Content\Images\login_bg02.jpg" />
     <Content Include="Content\Images\noscript.gif" />
@@ -783,6 +784,8 @@
     <Content Include="Content\Scripts\xheditor1.1.14\xheditor_skin\vista\img\wordimg.gif" />
     <Content Include="Content\Scripts\xheditor1.1.14\xheditor_skin\vista\ui.css" />
     <Content Include="Content\themes\base\css\css.css" />
+    <Content Include="Content\themes\base\default.css" />
+    <Content Include="Content\themes\base\icon.css" />
     <Content Include="Content\themes\base\icons\2Menu_Help.png" />
     <Content Include="Content\themes\base\icons\2Menu_Jurisdiction.png" />
     <Content Include="Content\themes\base\icons\2Menu_ServerDevice.png" />
@@ -800,14 +803,23 @@
     <Content Include="Content\themes\base\icons\2Son_WorkLog.png" />
     <Content Include="Content\themes\base\icons\2Son_WrongLog.png" />
     <Content Include="Content\themes\base\icons\accept.png" />
+    <Content Include="Content\themes\base\icons\allsearch.png" />
     <Content Include="Content\themes\base\icons\back.png" />
+    <Content Include="Content\themes\base\icons\BillType.gif" />
+    <Content Include="Content\themes\base\icons\BillType.png" />
     <Content Include="Content\themes\base\icons\blank.gif" />
     <Content Include="Content\themes\base\icons\browse.gif" />
     <Content Include="Content\themes\base\icons\cancel.png" />
+    <Content Include="Content\themes\base\icons\car.png" />
+    <Content Include="Content\themes\base\icons\CellStateSearch.png" />
+    <Content Include="Content\themes\base\icons\copy2.png" />
+    <Content Include="Content\themes\base\icons\Crane.png" />
     <Content Include="Content\themes\base\icons\cut.png" />
+    <Content Include="Content\themes\base\icons\DirectProduct.gif" />
     <Content Include="Content\themes\base\icons\edit_add.png" />
     <Content Include="Content\themes\base\icons\edit_remove.png" />
     <Content Include="Content\themes\base\icons\filesave.png" />
+    <Content Include="Content\themes\base\icons\Formula.gif" />
     <Content Include="Content\themes\base\icons\help.png" />
     <Content Include="Content\themes\base\icons\Menu_CheckBill.png" />
     <Content Include="Content\themes\base\icons\Menu_Cigarette.png" />
@@ -827,14 +839,21 @@
     <Content Include="Content\themes\base\icons\mini_add.png" />
     <Content Include="Content\themes\base\icons\mini_edit.png" />
     <Content Include="Content\themes\base\icons\mini_refresh.png" />
+    <Content Include="Content\themes\base\icons\MoveStock.gif" />
     <Content Include="Content\themes\base\icons\no.png" />
     <Content Include="Content\themes\base\icons\ok.png" />
     <Content Include="Content\themes\base\icons\onebit_23.png" />
     <Content Include="Content\themes\base\icons\onebit_24.png" />
     <Content Include="Content\themes\base\icons\pencil.png" />
+    <Content Include="Content\themes\base\icons\preductstyle.gif" />
     <Content Include="Content\themes\base\icons\print.png" />
+    <Content Include="Content\themes\base\icons\productgrade.png" />
+    <Content Include="Content\themes\base\icons\productinfo.gif" />
+    <Content Include="Content\themes\base\icons\ProductOriginal.gif" />
     <Content Include="Content\themes\base\icons\redo.png" />
     <Content Include="Content\themes\base\icons\reload.png" />
+    <Content Include="Content\themes\base\icons\SamplingSearch.gif" />
+    <Content Include="Content\themes\base\icons\Schedule.gif" />
     <Content Include="Content\themes\base\icons\search.png" />
     <Content Include="Content\themes\base\icons\shut_down.png" />
     <Content Include="Content\themes\base\icons\son_Bill_Check.png" />
@@ -881,6 +900,8 @@
     <Content Include="Content\themes\base\icons\tabicons.png" />
     <Content Include="Content\themes\base\icons\tip.png" />
     <Content Include="Content\themes\base\icons\undo.png" />
+    <Content Include="Content\themes\base\icons\warehouse.png" />
+    <Content Include="Content\themes\base\icons\WorkSearch.gif" />
     <Content Include="Content\themes\base\images\2Menu_Help.png" />
     <Content Include="Content\themes\base\images\2Menu_Jurisdiction.png" />
     <Content Include="Content\themes\base\images\2Menu_ServerDevice.png" />
@@ -1015,7 +1036,17 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="ContentReport\PDF\" />
-    <Folder Include="ContentReport\Report\" />
+    <Folder Include="Content\Scripts\ckfinder\bin\Debug\" />
+    <Folder Include="Content\Scripts\ckfinder\bin\Release\" />
+    <Folder Include="Content\Scripts\ckfinder\plugins\fileeditor\bin\Debug\" />
+    <Folder Include="Content\Scripts\ckfinder\plugins\fileeditor\bin\Release\" />
+    <Folder Include="Content\Scripts\ckfinder\plugins\imageresize\bin\Debug\" />
+    <Folder Include="Content\Scripts\ckfinder\plugins\imageresize\bin\Release\" />
+    <Folder Include="Content\Scripts\ckfinder\plugins\watermark\bin\Debug\" />
+    <Folder Include="Content\Scripts\ckfinder\plugins\watermark\bin\Release\" />
+    <Folder Include="Content\Scripts\ckfinder\userfiles\files\" />
+    <Folder Include="Content\Scripts\ckfinder\userfiles\flash\" />
+    <Folder Include="Content\Scripts\ckfinder\userfiles\images\" />
     <Folder Include="Models\" />
     <Folder Include="Views\Account\" />
   </ItemGroup>
@@ -1465,6 +1496,24 @@
     <Content Include="Views\DirectProductSearch\_PrintPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ContentReport\Report\balance.frx" />
+    <Content Include="ContentReport\Report\barcodeprint.frx" />
+    <Content Include="ContentReport\Report\directproduct.frx" />
+    <Content Include="ContentReport\Report\errorreport.frx" />
+    <Content Include="ContentReport\Report\feeding.frx" />
+    <Content Include="ContentReport\Report\fillbill.frx" />
+    <Content Include="ContentReport\Report\formulaprint.frx" />
+    <Content Include="ContentReport\Report\inventory.frx" />
+    <Content Include="ContentReport\Report\movestock.frx" />
+    <Content Include="ContentReport\Report\palletstockin.frx" />
+    <Content Include="ContentReport\Report\productdetail.frx" />
+    <Content Include="ContentReport\Report\productledger.frx" />
+    <Content Include="ContentReport\Report\scheduleprint.frx" />
+    <Content Include="ContentReport\Report\stockdiff.frx" />
+    <Content Include="ContentReport\Report\stockinprint.frx" />
+    <Content Include="ContentReport\Report\stockoutprint.frx" />
+    <Content Include="ContentReport\Report\test.frx" />
+    <Content Include="ContentReport\Report\worksearch.frx" />
     <None Include="Content\Scripts\xheditor1.1.14\serverscript\php\ubb2html.php" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
