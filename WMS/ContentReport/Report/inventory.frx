@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="11/28/2013 09:04:23" ReportInfo.Modified="11/28/2013 10:37:09" ReportInfo.CreatorVersion="1.9.9.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/28/2013 09:04:23" ReportInfo.Modified="01/21/2014 09:17:29" ReportInfo.CreatorVersion="1.9.9.0">
   <Dictionary>
     <ViewDataSource Name="inventory" ReferenceName="inventory" DataType="System.Int32" Enabled="true">
       <Column Name="BILL_NO" DataType="System.String"/>
@@ -31,8 +31,8 @@
     </ViewDataSource>
   </Dictionary>
   <ReportPage Name="Page1">
-    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="176.23" StartNewPage="true" Condition="[inventory.BILL_NO]">
-      <TableObject Name="Table1" Left="53.17" Top="21.75" Width="563.88" Height="94.5">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="197.04" StartNewPage="true" Condition="[inventory.BILL_NO]">
+      <TableObject Name="Table1" Left="53.17" Top="44.93" Width="563.88" Height="94.5">
         <TableColumn Name="Column1" Width="65.9"/>
         <TableColumn Name="Column2" Width="129.53"/>
         <TableColumn Name="Column3" Width="65.57"/>
@@ -80,7 +80,7 @@
           <TableCell Name="Cell30" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <TableObject Name="Table2" Left="2.45" Top="155.1" Width="741.69" Height="18.9">
+      <TableObject Name="Table2" Left="2.45" Top="176.95" Width="741.69" Height="18.9">
         <TableColumn Name="Column7" Width="38.04"/>
         <TableColumn Name="Column8" Width="63.13"/>
         <TableColumn Name="Column9" Width="137.91"/>
@@ -102,8 +102,9 @@
           <TableCell Name="Cell39" Text="混装" HorzAlign="Center" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <LineObject Name="Line1" Left="0.94" Top="130.95" Width="737.55"/>
-      <DataBand Name="Data1" Top="180.23" Width="718.2" Height="28.52" DataSource="inventory">
+      <LineObject Name="Line1" Left="0.94" Top="158.69" Width="737.55"/>
+      <TextObject Name="Text1" Left="54.13" Top="13.05" Width="561.29" Height="18.9" Text="盘点单" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="201.04" Width="718.2" Height="21.41" DataSource="inventory">
         <TableObject Name="Table3" Left="2.87" Top="0.81" Width="742.61" Height="18.9">
           <TableColumn Name="Column16" Width="38.04"/>
           <TableColumn Name="Column17" Width="64.08"/>
@@ -130,7 +131,7 @@
           <Sort Expression="[inventory.ITEM_NO]"/>
         </Sort>
       </DataBand>
-      <GroupFooterBand Name="GroupFooter1" Top="212.75" Width="718.2" Height="4.01"/>
+      <GroupFooterBand Name="GroupFooter1" Top="226.45" Width="718.2"/>
     </GroupHeaderBand>
   </ReportPage>
 </Report>

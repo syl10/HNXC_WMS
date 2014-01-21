@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="12/02/2013 11:11:28" ReportInfo.Modified="12/02/2013 11:43:03" ReportInfo.CreatorVersion="1.9.9.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="12/02/2013 11:11:28" ReportInfo.Modified="01/21/2014 09:29:03" ReportInfo.CreatorVersion="1.9.9.0">
   <Dictionary>
     <ViewDataSource Name="productdetail" ReferenceName="productdetail" DataType="System.Int32" Enabled="true">
       <Column Name="BEGINMONTH" DataType="System.String"/>
@@ -23,8 +23,8 @@
     </ViewDataSource>
   </Dictionary>
   <ReportPage Name="Page1">
-    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="38.59" StartNewPage="true" Condition="[productdetail.BEGINMONTH]">
-      <TableObject Name="Table2" Left="-6.31" Top="7.99" Width="749.61" Height="28.69">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="99.38" StartNewPage="true" Condition="[productdetail.BEGINMONTH]">
+      <TableObject Name="Table2" Left="-6.31" Top="69.17" Width="749.61" Height="28.69">
         <TableColumn Name="Column6" Width="58.44"/>
         <TableColumn Name="Column7" Width="59.17"/>
         <TableColumn Name="Column8" Width="43.31"/>
@@ -54,7 +54,8 @@
           <TableCell Name="Cell16" Text="差异重量" HorzAlign="Center" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <DataBand Name="Data1" Top="42.59" Width="718.2" Height="34.81" DataSource="productdetail">
+      <TextObject Name="Text1" Left="-0.88" Top="25.14" Width="729.32" Height="18.9" Text="产品明细账" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="103.38" Width="718.2" Height="25.93" DataSource="productdetail">
         <TableObject Name="Table3" Left="-3.93" Top="2.52" Width="746.41" Height="22.65">
           <TableColumn Name="Column19" Width="56.53"/>
           <TableColumn Name="Column20" Width="58.24"/>
@@ -86,7 +87,7 @@
           </TableRow>
         </TableObject>
       </DataBand>
-      <GroupFooterBand Name="GroupFooter1" Top="81.4" Width="718.2" Height="3.99"/>
+      <GroupFooterBand Name="GroupFooter1" Top="133.31" Width="718.2" Height="3.99"/>
     </GroupHeaderBand>
   </ReportPage>
 </Report>
