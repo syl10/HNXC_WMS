@@ -1,6 +1,11 @@
 ﻿<script type="text/javascript">
 </script>
 <div region="center" split="true" border="false">
-   @ViewBag.WebReport.GetHtml()     
+  @if (ViewBag.WebReport != null) { 
+      @ViewBag.WebReport.GetHtml() 
+  }
+  else{
+     <div>无数据</div>
+  }
 </div>
 

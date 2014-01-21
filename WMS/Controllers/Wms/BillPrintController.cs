@@ -19,15 +19,7 @@ namespace WMS.Controllers.Wms
             string Path = Server.MapPath("/");
             Path += @"ContentReport\Report\" + frxname;
             SetReport(Path, dataname);
-            webReport.Width = 1020;
-            webReport.Height = 390;
-            //webReport.ShowPageNumber = false;
-
-            webReport.ToolbarStyle = ToolbarStyle.Small;
-            webReport.ToolbarIconsStyle = ToolbarIconsStyle.Blue;
-
-            webReport.ToolbarBackgroundStyle = ToolbarBackgroundStyle.Light;
-            ViewBag.WebReport = webReport;
+           
             return View();
         }
 
@@ -39,6 +31,15 @@ namespace WMS.Controllers.Wms
                 {
                     webReport.Report.RegisterData(PrintHandle.dt.DefaultView, dataname);
                     webReport.Report.Load(frxpath);
+                    webReport.Width = 1020;
+                    webReport.Height = 390;
+                    //webReport.ShowPageNumber = false;
+
+                    webReport.ToolbarStyle = ToolbarStyle.Small;
+                    webReport.ToolbarIconsStyle = ToolbarIconsStyle.Blue;
+
+                    webReport.ToolbarBackgroundStyle = ToolbarBackgroundStyle.Light;
+                    ViewBag.WebReport = webReport;
                 }
             }
             catch (Exception ex) {
