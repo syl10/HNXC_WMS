@@ -1474,6 +1474,7 @@
     <None Include="ContentReport\Report\inventory.frx" />
     <None Include="ContentReport\Report\movestock.frx" />
     <None Include="ContentReport\Report\palletstockin.frx" />
+    <None Include="ContentReport\Report\palletstockout.frx" />
     <None Include="ContentReport\Report\productdetail.frx" />
     <None Include="ContentReport\Report\productledger.frx" />
     <None Include="ContentReport\Report\scheduleprint.frx" />
