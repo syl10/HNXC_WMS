@@ -218,7 +218,7 @@ namespace THOK.Wms.Bll.Service
                 foreach (var shelf in shelfs)//货架
                 {
                     NewWareTree shelfTree = new NewWareTree();
-                    shelfTree.CODE = shelf.AREA_CODE;
+                    shelfTree.CODE = shelf.SHELF_CODE;
                     shelfTree.NAME = "库区：" + shelf.SHELF_NAME;
                     shelfTree.AREA_CODE = shelf.AREA_CODE;
                     shelfTree.AREA_NAME = shelf.CMD_AREA.AREA_NAME;

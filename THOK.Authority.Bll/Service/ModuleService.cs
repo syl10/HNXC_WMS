@@ -762,6 +762,7 @@ namespace THOK.Authority.Bll.Service
                 var modules = queryModule.Where(m => m.AUTH_SYSTEM.SYSTEM_ID == systems.SYSTEM_ID && m.MODULE_ID == m.PARENT_AUTH_MODULE.MODULE_ID)
                                          .OrderBy(m => m.SHOW_ORDER)
                                          .Select(m => m);
+                var modulelist = modules.ToArray();
                 HashSet<Tree> moduleTreeSet = new HashSet<Tree>();
                 foreach (var item in modules)
                 {
