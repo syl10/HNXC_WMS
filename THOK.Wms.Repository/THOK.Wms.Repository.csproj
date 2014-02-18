@@ -8,7 +8,7 @@
     <ProjectGuid>{259E5E16-41D8-420F-A11C-72BEE784B5CB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>THOK.Authority.Repository</RootNamespace>
+    <RootNamespace>THOK.Wms.Repository</RootNamespace>
     <AssemblyName>THOK.Wms.Repository</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
