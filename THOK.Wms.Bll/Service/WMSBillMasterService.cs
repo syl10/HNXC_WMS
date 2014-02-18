@@ -22,6 +22,8 @@ namespace THOK.Wms.Bll.Service
         [Dependency]
         public IWMSBillMasterRepository BillMasterRepository { get; set; }
         [Dependency]
+        public IWMSBillMasterHRepository BillMasterHRepository { get; set; }
+        [Dependency]
         public ISysTableStateRepository SysTableStateRepository { get; set; }
         [Dependency]
         public IWMSBillDetailRepository BillDetailRepository { get; set; }
@@ -521,7 +523,7 @@ namespace THOK.Wms.Bll.Service
         {
             string billtyp = "";
             //var billmaster=new object();
-            IQueryable<WMS_BILL_MASTER> billquery = BillMasterRepository.GetQueryable();
+            IQueryable<WMS_BILL_MASTERH> billquery = BillMasterHRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
             IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
             IQueryable<CMD_CELL> cellquery = cellRepository.GetQueryable();
