@@ -501,7 +501,6 @@
     <Content Include="Content\Scripts\jquery.asyncProcessing.js" />
     <Content Include="Content\Scripts\jquery.fullscreen.js" />
     <Content Include="Content\Scripts\jquery.json.js" />
-    <Content Include="Content\Scripts\jquery.signalR-0.5.2.js" />
     <Content Include="Content\Scripts\json2.js" />
     <Content Include="Content\Scripts\jthok-ui\JDiv.js" />
     <Content Include="Content\Scripts\jthok-ui\leftmenu.js" />
@@ -1017,7 +1016,6 @@
     <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
     <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
-    <Content Include="Scripts\jquery.signalR-0.5.2.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
