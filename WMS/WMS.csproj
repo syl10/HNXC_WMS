@@ -1018,6 +1018,7 @@
     <Content Include="Content\themes\base\images\tip.png" />
     <Content Include="Content\themes\base\images\undo.png" />
     <Content Include="Content\themes\base\images\up.png" />
+    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\jquery-ui.css" />
