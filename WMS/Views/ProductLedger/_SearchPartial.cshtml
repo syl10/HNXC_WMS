@@ -13,7 +13,7 @@
     //加载开始年月和结束年月
     function loadmonths() {
         $.getJSON("/ProductLedger/GetBalanceNo/", function (json) {
-            if (json) {
+            if (json&&json.rows.length>0) {
                 $('#BEGINMONTH').combobox({
                     data: json.rows,
                     valueField: 'BALANCE_NO',

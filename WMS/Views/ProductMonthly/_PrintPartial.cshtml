@@ -22,18 +22,20 @@
     function loadmonths() {
         $.getJSON("/ProductLedger/GetBalanceNo/", function (json) {
             if (json) {
-                $('#BEGINMONTH').combobox({
-                    data: json.rows,
-                    valueField: 'BALANCE_NO',
-                    textField: 'BALANCE_NO',
-                    value: json.rows[0].BALANCE_NO
-                });
-                $('#ENDMONTH').combobox({
-                    data: json.rows,
-                    valueField: 'BALANCE_NO',
-                    textField: 'BALANCE_NO',
-                    value: json.rows[0].BALANCE_NO
-                });
+                if (json.rows.length>0) {
+                    $('#BEGINMONTH').combobox({
+                        data: json.rows,
+                        valueField: 'BALANCE_NO',
+                        textField: 'BALANCE_NO',
+                        value: json.rows[0].BALANCE_NO
+                    });
+                    $('#ENDMONTH').combobox({
+                        data: json.rows,
+                        valueField: 'BALANCE_NO',
+                        textField: 'BALANCE_NO',
+                        value: json.rows[0].BALANCE_NO
+                    });
+                }
             }
         });
     }
@@ -76,9 +78,9 @@
                       </tr>
                       <tr>
                         <td style="width:50px" align="right">开始年月</td>
-                        <td style="width:138px"><input id="BEGINMONTH" style="width:125px"  /></td>
+                        <td style="width:138px"><input id="BEGINMONTH" class="easyui-combobox"  style="width:125px"  /></td>
                         <td style="width:50px" align="right">结束年月</td>
-                        <td style="width:138px"><input id="ENDMONTH" style="width:125px"/></td>
+                        <td style="width:138px"><input id="ENDMONTH" class="easyui-combobox" style="width:125px"/></td>
                       </tr>
                     </table>
             </div>
