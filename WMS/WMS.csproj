@@ -929,13 +929,19 @@
     <Content Include="Content\themes\base\images\2Son_WrongLog.png" />
     <Content Include="Content\themes\base\images\accept.png" />
     <Content Include="Content\themes\base\images\back.png" />
+    <Content Include="Content\themes\base\images\bg.gif" />
     <Content Include="Content\themes\base\images\blank.gif" />
     <Content Include="Content\themes\base\images\browse.gif" />
     <Content Include="Content\themes\base\images\cancel.png" />
+    <Content Include="Content\themes\base\images\copy2.png" />
     <Content Include="Content\themes\base\images\cut.png" />
+    <Content Include="Content\themes\base\images\down.png" />
+    <Content Include="Content\themes\base\images\editbg.png" />
+    <Content Include="Content\themes\base\images\editbg2.png" />
     <Content Include="Content\themes\base\images\edit_add.png" />
     <Content Include="Content\themes\base\images\edit_remove.png" />
     <Content Include="Content\themes\base\images\filesave.png" />
+    <Content Include="Content\themes\base\images\flag.png" />
     <Content Include="Content\themes\base\images\help.png" />
     <Content Include="Content\themes\base\images\Menu_CheckBill.png" />
     <Content Include="Content\themes\base\images\Menu_Cigarette.png" />
@@ -1011,6 +1017,7 @@
     <Content Include="Content\themes\base\images\tabs_close.gif" />
     <Content Include="Content\themes\base\images\tip.png" />
     <Content Include="Content\themes\base\images\undo.png" />
+    <Content Include="Content\themes\base\images\up.png" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\jquery-ui.css" />
