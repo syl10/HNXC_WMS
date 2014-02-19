@@ -1008,6 +1008,7 @@
     <Content Include="Content\themes\base\images\son_Warehouse.png" />
     <Content Include="Content\themes\base\images\sum.png" />
     <Content Include="Content\themes\base\images\tabicons.png" />
+    <Content Include="Content\themes\base\images\tabs_close.gif" />
     <Content Include="Content\themes\base\images\tip.png" />
     <Content Include="Content\themes\base\images\undo.png" />
     <Content Include="Global.asax" />

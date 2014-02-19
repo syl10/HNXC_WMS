@@ -31,7 +31,7 @@ namespace WMS.Controllers.Wms
                 {
                     webReport.Report.RegisterData(PrintHandle.dt.DefaultView, dataname);
                     webReport.Report.Load(frxpath);
-                    webReport.Width = 1020;
+                    webReport.Width =930;
                     webReport.Height = 390;
                     //webReport.ShowPageNumber = false;
 
