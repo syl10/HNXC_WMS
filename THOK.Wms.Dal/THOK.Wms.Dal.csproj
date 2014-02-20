@@ -85,6 +85,7 @@
     <Compile Include="EntityRepository\WMSPalletMasterRepository.cs" />
     <Compile Include="EntityRepository\WMSProductionDetailRepository.cs" />
     <Compile Include="EntityRepository\WMSProductionMasterRepository.cs" />
+    <Compile Include="EntityRepository\WMSProductStateHRepository.cs" />
     <Compile Include="EntityRepository\WMSProductStateRepository.cs" />
     <Compile Include="EntityRepository\WMSScheduleDetailRepository.cs" />
     <Compile Include="EntityRepository\WMSScheduleMasterRepository.cs" />
@@ -126,6 +127,7 @@
     <Compile Include="Interfaces\IWMSPalletMasterRepository.cs" />
     <Compile Include="Interfaces\IWMSProductionDetailRepository.cs" />
     <Compile Include="Interfaces\IWMSProductionMasterRepository.cs" />
+    <Compile Include="Interfaces\IWMSProductStateHRepository.cs" />
     <Compile Include="Interfaces\IWMSProductStateRepository.cs" />
     <Compile Include="Interfaces\IWMSScheduleDetailRepository.cs" />
     <Compile Include="Interfaces\IWMSScheduleMasterRepository.cs" />

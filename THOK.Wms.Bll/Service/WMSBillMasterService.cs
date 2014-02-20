@@ -42,6 +42,8 @@ namespace THOK.Wms.Bll.Service
         [Dependency]
         public IWMSProductStateRepository ProductStateRepository { get; set; }
         [Dependency]
+        public IWMSProductStateHRepository ProductStateHRepository { get; set; }
+        [Dependency]
         public IWCSTaskRepository WcsTaskRepository { get; set; }
         public object GetDetails(int page, int rows, string billtype, string flag, string BILL_NO, string BILL_DATE, string BTYPE_CODE, string WAREHOUSE_CODE, string BILL_METHOD, string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE, string STATUS, string BILL_DATEStar, string BILL_DATEEND, string SOURCE_BILLNO, string LINENO)
         {
@@ -234,7 +236,7 @@ namespace THOK.Wms.Bll.Service
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
             IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
             var billdetail =from a in detailquery
-                             join b in statequery on a.IS_MIX equals b.STATE
+                             join b in statequery on a.IS_MIX equals b.STATE 
                              join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE
                              where b.TABLE_NAME == "WMS_BILL_DETAIL" && b.FIELD_NAME == "IS_MIX"
                              select new { 
@@ -849,7 +851,7 @@ namespace THOK.Wms.Bll.Service
         public object Cellselect(int page, int rows, string soursebill, string queryinfo, string selectedcellcodestr)
         {
             IQueryable<CMD_CELL> cellquery = cellRepository.GetQueryable();
-            IQueryable<WMS_PRODUCT_STATE> productstate = ProductStateRepository.GetQueryable();
+            IQueryable<WMS_PRODUCT_STATEH> productstate = ProductStateHRepository.GetQueryable();
             var cells = (from a in cellquery
                          join b in productstate on a.PRODUCT_BARCODE equals b.PRODUCT_BARCODE
                         select new { 
@@ -1666,7 +1668,7 @@ namespace THOK.Wms.Bll.Service
         //获取单据下的明细,根据产品代码,消除重复的.
         public object GetSubDetails(int page, int rows, string BillNo)
         {
-            IQueryable<WMS_BILL_DETAIL> detailquery = BillDetailRepository.GetQueryable();
+            IQueryable<WMS_BILL_DETAILH> detailquery = BillDetailHRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
             IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
             var billdetail =from a in detailquery
