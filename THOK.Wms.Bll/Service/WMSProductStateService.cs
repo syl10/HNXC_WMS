@@ -28,6 +28,8 @@ namespace THOK.Wms.Bll.Service
         [Dependency]
         public IWMSProductStateRepository ProductStateRepository { get; set; }
         [Dependency]
+        public IWMSProductStateHRepository ProductStateHRepository { get; set; }
+        [Dependency]
         public ISysTableStateRepository SysTableStateRepository { get; set; }
         [Dependency]
         public ICMDCellRepository cellRepository { get; set; }
@@ -130,7 +132,7 @@ namespace THOK.Wms.Bll.Service
         //获取要补料的单据下的产品条码(只获取可以补料的条码)
         public object Barcodeselect(int page, int rows, string soursebillno)
         {
-            IQueryable<WMS_PRODUCT_STATE> query = ProductStateRepository.GetQueryable();
+            IQueryable<WMS_PRODUCT_STATEH> query = ProductStateHRepository.GetQueryable();
             IQueryable<CMD_CELL> cellquery = cellRepository.GetQueryable();
             IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
