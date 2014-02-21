@@ -410,7 +410,7 @@ namespace THOK.Wms.Bll.Service
             var temp = list.OrderBy(i => i.PRODUCT_CODE).OrderBy (i=>i.ITEM_NO ).Select(i => i);
             int total = temp.Count();
             //temp = temp.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp };
+            return new { total, rows = temp.ToArray () };
         }
 
         //修改

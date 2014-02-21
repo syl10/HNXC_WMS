@@ -1533,6 +1533,7 @@
     <Content Include="ContentReport\Report\worksearch.frx" />
     <None Include="ContentReport\Report\palletstockout.frx" />
     <None Include="Content\Scripts\xheditor1.1.14\serverscript\php\ubb2html.php" />
+    <Content Include="Views\StockDifferWork\_TaskPartial.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />
