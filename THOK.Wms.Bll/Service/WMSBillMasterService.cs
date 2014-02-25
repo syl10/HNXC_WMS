@@ -1651,7 +1651,11 @@ namespace THOK.Wms.Bll.Service
                 foreach (DataRow dr in dt.Rows)
                 {
                     WMS_BILL_DETAIL subdetail = new WMS_BILL_DETAIL();
-                    THOK.Common.ConvertData.DataBind(subdetail, dr);
+                    //try
+                    //{
+                        THOK.Common.ConvertData.DataBind(subdetail, dr);
+                    //}
+                    //catch (Exception ex) { }
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
                     if (subdetail.FPRODUCT_CODE == "null") subdetail.FPRODUCT_CODE = "";

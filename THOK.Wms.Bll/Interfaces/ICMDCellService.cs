@@ -63,6 +63,10 @@ namespace THOK.Wms.Bll.Interfaces
         object GetCellByshell(string shelfcode);
         //根据货位代码  获取对应的货物信息
         object Getproductbycellcode(string cellcode);
+        //获取对应的带有错误标记的货位号
+        object GeterrorCell(string BillNo, string productcode);
+        //清空有异常货位上的产品信息
+        bool ClearerrorCell(string cellcode, string BillNo, string productcode,ref string errorinfo);
 
       //  bool uploadCell();
     }

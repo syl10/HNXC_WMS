@@ -1381,7 +1381,7 @@ namespace THOK.Wms.Bll.Service
         //}
         //#endregion
 
-        //安排 获取货位
+        //按排 获取货位
         public object GetCellByshell(string shelfcode)
         {
             IQueryable<CMD_CELL> cellQuery = CMDCellRepository.GetQueryable();
@@ -1437,6 +1437,58 @@ namespace THOK.Wms.Bll.Service
                 var temp = list.AsEnumerable();
                 int total = temp.Count();
                 return new { total, rows = temp.ToArray() };
+        }
+
+        //获取对应的带有错误标记的货位号
+        public object GeterrorCell(string BillNo, string productcode)
+        {
+            IQueryable<CMD_CELL> cellquery = CMDCellRepository.GetQueryable();
+            var errorcell = cellquery.Where(i => i.BILL_NO == BillNo && i.PRODUCT_CODE == productcode&&i.IS_ACTIVE=="1"&&i.ERROR_FLAG =="1").Select(i => new { 
+                 i.CELL_CODE ,
+                 i.PRODUCT_BARCODE ,
+                 i.PALLET_CODE ,
+                 i.IN_DATE
+            });
+            var temp = errorcell.ToArray().Select(i => new {
+                i.CELL_CODE,
+                i.PRODUCT_BARCODE,
+                i.PALLET_CODE,
+                IN_DATE = ((DateTime)i.IN_DATE).ToString("yyyy-MM-dd HH:mm:ss") ,
+                OTHER="有异常货位"
+            });
+            temp = temp.OrderBy(i => i.CELL_CODE);
+            int total = temp.Count();
+            return new { rows=temp};
+        }
+
+        //清空有异常货位上的产品信息
+        public bool ClearerrorCell(string cellcode, string BillNo, string productcode, ref string errorinfo)
+        {
+            IQueryable<CMD_CELL> cellquery = CMDCellRepository.GetQueryable();
+            var errorcell = cellquery.FirstOrDefault(i => i.CELL_CODE == cellcode&&i.BILL_NO ==BillNo &&i.PRODUCT_CODE ==productcode&&i.ERROR_FLAG =="1");
+            if (errorcell != null)
+            {
+                //errorcell.PRODUCT_CODE = "";
+                //errorcell.PRODUCT_BARCODE = "";
+                //errorcell.REAL_WEIGHT = 0;
+                //errorcell.SCHEDULE_NO = "";
+                //errorcell.PALLET_CODE = "";
+                //errorcell.BILL_NO = "";
+                //errorcell.IN_DATE = null;
+                //errorcell.MEMO = "";
+                errorcell.ERROR_FLAG = "0";
+                //errorcell.NEW_PALLET_CODE = "";
+                //errorcell.IS_LOCK = "0";
+                int result = CMDCellRepository.SaveChanges();
+                if (result == -1) return false;
+            }
+            else
+            {
+                errorinfo = "在该批次下的该产品所占用的货位中找不到该货位,或者该货位不是异常货位";
+                return false;
+            }
+            return true;
+
         }
     }
 }

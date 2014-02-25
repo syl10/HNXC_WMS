@@ -39,7 +39,7 @@ namespace THOK.Wms.DbModel.Mapping
                 .HasMaxLength(40);
 
             this.Property(t => t.PRODUCT_BARCODE)
-                .HasMaxLength(40);
+                .HasMaxLength(200);
 
             this.Property(t => t.SCHEDULE_NO)
                 .HasMaxLength(20);
@@ -50,7 +50,7 @@ namespace THOK.Wms.DbModel.Mapping
                 .HasMaxLength(1);
 
             this.Property(t => t.PALLET_CODE)
-                .HasMaxLength(40);
+                .HasMaxLength(100);
 
             this.Property(t => t.BILL_NO)
                 .HasMaxLength(20);
@@ -61,7 +61,9 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.ERROR_FLAG)
                 .IsFixedLength()
                 .HasMaxLength(1);
-
+            this.Property(t => t.NEW_PALLET_CODE)
+                .IsFixedLength()
+                .HasMaxLength(100);
             this.Property(t => t.WAREHOUSE_CODE)
                 .IsRequired()
                 .IsFixedLength()
@@ -86,6 +88,7 @@ namespace THOK.Wms.DbModel.Mapping
             this.Property(t => t.MEMO).HasColumnName("MEMO");
             this.Property(t => t.PRIORITY_LEVEL).HasColumnName("PRIORITY_LEVEL");
             this.Property(t => t.ERROR_FLAG).HasColumnName("ERROR_FLAG");
+            this.Property(t => t.NEW_PALLET_CODE).HasColumnName("NEW_PALLET_CODE");
             this.Property(t => t.WAREHOUSE_CODE).HasColumnName("WAREHOUSE_CODE");
 
             // Relationships
