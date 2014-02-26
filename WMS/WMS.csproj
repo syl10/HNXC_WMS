@@ -1532,6 +1532,7 @@
     <Content Include="ContentReport\Report\stockoutprint.frx" />
     <Content Include="ContentReport\Report\worksearch.frx" />
     <None Include="ContentReport\Report\palletstockout.frx" />
+    <None Include="ContentReport\Report\sampling.frx" />
     <None Include="Content\Scripts\xheditor1.1.14\serverscript\php\ubb2html.php" />
     <Content Include="Views\StockDifferWork\_TaskPartial.cshtml" />
   </ItemGroup>

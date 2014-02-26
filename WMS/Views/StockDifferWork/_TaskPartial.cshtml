@@ -57,8 +57,12 @@
                                },
                                { field: 'operate', width: 130, align: 'center', title: '操作',
                                    formatter: function (value, row, index) {
-                                       return "<input type='button'  onclick='Cleardata(" + index + ")'  onmouseover='btmouseup(this)' onmouseout='btmouseout(this)'  class='btclearoradd' value='清空'/>" +
-                                         "<input type='button'  onclick='Completedata(" + index + ")'  onmouseover='btmouseup(this)' onmouseout='btmouseout(this)'  class='btclearoradd' value='补录'/>";
+                                       if (row.PACKAGE_COUNT > 0) {
+                                           return "<input type='button'  onclick='Completedata(" + index + ")'  onmouseover='btmouseup(this)' onmouseout='btmouseout(this)'  class='btclearoradd' value='补录'/>";
+                                        }
+                                       else { 
+                                           return "<input type='button'  onclick='Cleardata(" + index + ")'  onmouseover='btmouseup(this)' onmouseout='btmouseout(this)'  class='btclearoradd' value='清空'/>" ;
+                                       }
                                    }
                                }
                     ]],
