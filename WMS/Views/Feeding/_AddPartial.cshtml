@@ -148,7 +148,7 @@
                                { field: 'PACKAGE_COUNT', width: 50, title: '包数',
                                    formatter: function (value, row, index) {
                                        if (clickbt != "delete")
-                                           return "<input  id='packagecount" + index + "'  class='easyui-numberbox'   style='height:20px; width:120px;'  value='" + value + "'/>";
+                                           return "<input  id='packagecount" + index + "'  class='easyui-numberbox'   max='"+value+"'   style='height:20px; width:120px;'  value='" + value + "'/>";
                                        else
                                            return value;
                                    }
@@ -156,7 +156,14 @@
                                { field: 'IS_MIXDESC', width: 50, title: '是否混装' },
                                { field: 'IS_MIX', width: 50, title: '是否混装', hidden: true },
                                { field: 'FPRODUCT_CODE', width: 120, title: '第一笔混合产品的代码' }
-                    ]]
+                    ]],
+            onLoadSuccess: function (data) {
+                for (var n = 0; n < data.total; n++) {
+                    $('#packagecount' + n).numberbox({
+                        
+                    });
+                }
+            }
         });
     }
     function save() {
@@ -234,6 +241,7 @@
         }
 
     }
+
 </script>
 
 <div id="dlg" class="easyui-dialog" modal="true"

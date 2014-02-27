@@ -1708,5 +1708,53 @@ namespace THOK.Wms.Bll.Service
             temp = temp.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = temp};
         }
+
+        //专门用于紧急补料中获取入库批次下的明细.
+        public object GetSubDetailsforfeeeding(int page, int rows, string BillNo)
+        {
+            IQueryable<WMS_BILL_DETAILH> detailquery = BillDetailHRepository.GetQueryable();
+            IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
+            IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
+            IQueryable<CMD_CELL> cellquery = cellRepository.GetQueryable();
+            var billdetail = from a in detailquery
+                             join b in statequery on a.IS_MIX equals b.STATE
+                             join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE
+                             where b.TABLE_NAME == "WMS_BILL_DETAIL" && b.FIELD_NAME == "IS_MIX"
+                             select new
+                             {
+                                 a.BILL_NO,
+                                 a.ITEM_NO,
+                                 a.PRODUCT_CODE,
+                                 c.PRODUCT_NAME,
+                                 c.YEARS,
+                                 c.CMD_PRODUCT_GRADE.GRADE_NAME,
+                                 c.CMD_PRODUCT_STYLE.STYLE_NAME,
+                                 c.CMD_PRODUCT_ORIGINAL.ORIGINAL_NAME,
+                                 c.CMD_PRODUCT_CATEGORY.CATEGORY_NAME,
+                                 a.WEIGHT,
+                                 a.REAL_WEIGHT,
+                                 a.IS_MIX,
+                                 IS_MIXDESC= b.STATE_DESC,
+                                 a.FPRODUCT_CODE ,
+                                 a.PACKAGE_COUNT
+                             };
+            var nolockcell = cellquery.Where(i => i.BILL_NO == BillNo && i.IS_LOCK == "0" && i.ERROR_FLAG == "0" && i.IS_ACTIVE == "1").Select (i=>i);
+            var _temp = billdetail.ToArray().Where(i => i.BILL_NO == BillNo).OrderBy(i => i.ITEM_NO).Select(i => new
+            {
+                i.BILL_NO,
+                i.PRODUCT_CODE,
+                i.PRODUCT_NAME,
+                i.WEIGHT,
+                i.REAL_WEIGHT ,
+                PACKAGE_COUNT=(nolockcell .Where (a=>a.PRODUCT_CODE ==i.PRODUCT_CODE ).Count ()) ,
+                i.IS_MIX ,
+                i.IS_MIXDESC,
+                i.FPRODUCT_CODE 
+            });
+            var temp = _temp.Where(i => i.PACKAGE_COUNT > 0).Select(i => i);
+            int total = temp.Count();
+            temp = temp.Skip((page - 1) * rows).Take(rows);
+            return new { total, rows = temp };
+        }
     }
 }

@@ -26,23 +26,23 @@
                 $('#SOURCE_BILLNO').val(billRow.SOURCE_BILLNO);
             if (data) {
                 var Rows = $('#inBillDetail').datagrid('getData');
-                if (Rows.total == 0)
+//                if (Rows.total == 0)
                     $('#inBillDetail').datagrid('loadData', data);
-                else {
-                    for (var row = 0; row < data.length; row++) {
-                        $('#inBillDetail').datagrid('appendRow', {
-                            ITEM_NO: "0",
-                            PRODUCT_CODE: data[row].PRODUCT_CODE,
-                            PRODUCT_NAME: data[row].PRODUCT_NAME,
-                            WEIGHT: data[row].WEIGHT,
-                            REAL_WEIGHT: data[row].REAL_WEIGHT,
-                            PACKAGE_COUNT: data[row].PACKAGE_COUNT,
-                            FPRODUCT_CODE: data[row].FPRODUCT_CODE,
-                            IS_MIXDESC: data[row].IS_MIXDESC,
-                            IS_MIX: data[row].IS_MIX
-                        });
-                    }
-                }
+//                else {
+//                    for (var row = 0; row < data.length; row++) {
+//                        $('#inBillDetail').datagrid('appendRow', {
+//                            ITEM_NO: "0",
+//                            PRODUCT_CODE: data[row].PRODUCT_CODE,
+//                            PRODUCT_NAME: data[row].PRODUCT_NAME,
+//                            WEIGHT: data[row].WEIGHT,
+//                            REAL_WEIGHT: data[row].REAL_WEIGHT,
+//                            PACKAGE_COUNT: data[row].PACKAGE_COUNT,
+//                            FPRODUCT_CODE: data[row].FPRODUCT_CODE,
+//                            IS_MIXDESC: data[row].IS_MIXDESC,
+//                            IS_MIX: data[row].IS_MIX
+//                        });
+//                    }
+//                }
             } 
         }
         $('#BillData').dialog('close');
