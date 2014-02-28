@@ -31,15 +31,15 @@ namespace THOK.Authority.Bll.Service
         public object GetDetails(int page, int rows, string roleName, string memo,string islock)
         {
             IQueryable<AUTH_ROLE> queryRole = RoleRepository.GetQueryable();
-            var roles = queryRole.Where(r => r.ROLE_NAME.Contains(roleName) && r.MEMO.Contains(memo))
+            var roles = queryRole.Where(r => r.ROLE_NAME.Contains(roleName))
                     .OrderBy(r => r.ROLE_NAME)
                     .Select(r => new { r.ROLE_ID, r.ROLE_NAME, MEMO = r.MEMO, IS_LOCK = r.IS_LOCK == "1" ? "启用" : "禁用" });
             if (!String.IsNullOrEmpty(islock))
             {
-                bool bStatus = Convert.ToBoolean(islock);
+                //bool bStatus = Convert.ToBoolean(islock);
                 roles = queryRole.Where(r => r.ROLE_NAME.Contains(roleName)
                     && r.MEMO.Contains(memo)
-                    && bool.Parse(r.IS_LOCK) == bStatus)
+                    && r.IS_LOCK == islock)
                     .OrderBy(r => r.ROLE_NAME)
                     .Select(r => new { r.ROLE_ID, r.ROLE_NAME, MEMO = r.MEMO, IS_LOCK = r.IS_LOCK == "1" ? "启用" : "禁用" });
             }              
