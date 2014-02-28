@@ -90,6 +90,14 @@
                     isreload = true;
                     $('#BTYPE_CODE').combogrid('grid').datagrid('loadData', data2);
                 }
+            },
+            onSelect: function (index, data) {
+                if (data.BTYPE_CODE == '006') {//选中倒库单
+                    $('#LINE_NO').combogrid('disable');
+                }
+                else {
+                    $('#LINE_NO').combogrid('enable');
+                }
             }
         });
 //        var g = $('#BTYPE_CODE').combogrid('grid');
@@ -121,7 +129,7 @@
 //    制丝线
         function GetLineNo() {
             $('#LINE_NO').combogrid({
-                required: true,
+                required: false,
                 disabled: false,
                 width: 135,
                 panelWidth: 340,
