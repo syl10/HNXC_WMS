@@ -8,10 +8,12 @@ using Microsoft.Practices.Unity;
 using THOK.Wms.Bll.Interfaces;
 using THOK.Wms.DbModel;
 using THOK.Security;
+using Wms.Security;
 
 namespace WMS.Controllers.Wms.WMS
 {
      [TokenAclAuthorize]
+     [SystemEventLog]
     public class StockDifferController : Controller
     {
         //损益单

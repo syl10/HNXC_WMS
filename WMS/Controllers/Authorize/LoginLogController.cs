@@ -6,9 +6,13 @@ using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using THOK.WebUtil;
 using THOK.Authority.Bll.Interfaces;
+using Wms.Security;
+using THOK.Security;
 
 namespace WMS.Controllers.Authority
 {
+    [TokenAclAuthorize]
+    [SystemEventLog]
     public class LoginLogController : Controller
     {
         [Dependency]

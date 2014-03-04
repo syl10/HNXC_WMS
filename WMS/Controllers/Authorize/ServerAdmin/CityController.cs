@@ -6,9 +6,12 @@ using THOK.WebUtil;
 using THOK.Authority.Bll.Interfaces;
 using System;
 using THOK.Security;
+using Wms.Security;
 
 namespace WMS.Controllers.ServerAdmin
 {
+    [TokenAclAuthorize]
+    [SystemEventLog]
     public class CityController : Controller
     {
         [Dependency]

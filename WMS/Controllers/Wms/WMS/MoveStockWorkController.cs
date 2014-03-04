@@ -7,10 +7,12 @@ using THOK.WebUtil;
 using Microsoft.Practices.Unity;
 using THOK.Wms.Bll.Interfaces;
 using THOK.Security;
+using Wms.Security;
 
 namespace WMS.Controllers.Wms.WMS
 {
     [TokenAclAuthorize]
+    [SystemEventLog]
     public class MoveStockWorkController : Controller
     {
         //

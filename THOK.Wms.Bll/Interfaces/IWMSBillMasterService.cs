@@ -72,5 +72,7 @@ namespace THOK.Wms.Bll.Interfaces
         object GetSubDetails(int page, int rows, string BillNo);
         //专门用于紧急补料中获取入库批次下的明细.
         object GetSubDetailsforfeeeding(int page, int rows, string BillNo);
+        //结束损益单作业
+        bool StockdifferTaskover(string BillNo,string tasker);
     }
 }

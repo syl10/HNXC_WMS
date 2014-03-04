@@ -8,10 +8,12 @@ using THOK.Wms.Bll.Interfaces;
 using THOK.WebUtil;
 using THOK.Wms.DbModel;
 using THOK.Security;
+using Wms.Security;
 
 namespace WMS.Controllers.Wms.WMS
 {
     [TokenAclAuthorize]
+    [SystemEventLog]
     public class InventoryController : Controller
     {
         //盘点单

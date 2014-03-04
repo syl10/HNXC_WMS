@@ -189,8 +189,20 @@
                }
            });
        }
-       function Save() { 
-          
+       function Save() {
+           $.messager.confirm('提示', '确认完成作业?', function (r) {
+               if (r) { //修改单据状态为作业
+                   var row = $('#details').datagrid('getSelected');
+                   $.getJSON("/StockDifferWork/Taskover/?BillNo=" + row.BILL_NO, function (json) {
+                       if (json) {
+                           $.messager.show({
+                               title: '提示',
+                               msg: json.msg
+                           });
+                       }
+                   });
+               }
+           });
        }
 </script>
 

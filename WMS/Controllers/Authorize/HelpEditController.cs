@@ -7,9 +7,13 @@ using THOK.WebUtil;
 using THOK.Authority.DbModel;
 using THOK.Authority.Bll.Interfaces;
 using System;
+using Wms.Security;
+using THOK.Security;
 
 namespace WMS.Controllers.Authority
 {
+    [TokenAclAuthorize]
+    [SystemEventLog]
     public class HelpEditController : Controller
     {
         //

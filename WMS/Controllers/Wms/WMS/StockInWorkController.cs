@@ -10,10 +10,12 @@ using FastReport;
 using FastReport.Utils;
 using FastReport.Web;
 using THOK.Security;
+using Wms.Security;
 
 namespace WMS.Controllers.Wms.WMS
 {
      [TokenAclAuthorize]
+     [SystemEventLog]
     public class StockInWorkController : Controller
     {
         //

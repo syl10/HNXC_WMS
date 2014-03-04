@@ -1756,5 +1756,22 @@ namespace THOK.Wms.Bll.Service
             temp = temp.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = temp };
         }
+
+        //结束损益单作业
+        public bool StockdifferTaskover(string BillNo,string tasker)
+        {
+            var billquery = BillMasterRepository.GetQueryable().FirstOrDefault(i => i.BILL_NO == BillNo);
+            if (billquery != null)
+            {
+                billquery.TASK_DATE  = DateTime.Now;
+                billquery.TASKER  = tasker;
+                billquery.STATE = "3";
+                int result = BillMasterRepository.SaveChanges();
+                if (result == -1) return false;
+            }
+            else
+                return false;
+            return true;   
+        }
     }
 }

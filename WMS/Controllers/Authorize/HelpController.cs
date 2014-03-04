@@ -5,9 +5,13 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using THOK.Authority.Bll.Interfaces;
+using Wms.Security;
+using THOK.Security;
 
 namespace Wms.Controllers.Authority
 {
+    [TokenAclAuthorize]
+    [SystemEventLog]
     public class HelpController : Controller
     {
         //

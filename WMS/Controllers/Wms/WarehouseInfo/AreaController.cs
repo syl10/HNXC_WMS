@@ -8,10 +8,12 @@ using THOK.WebUtil;
 using THOK.Wms.Bll.Interfaces;
 using Microsoft.Practices.Unity;
 using THOK.Security;
+using Wms.Security;
 
 namespace Authority.Controllers.Wms.WarehouseInfo
 {
     [TokenAclAuthorize]
+    [SystemEventLog]
     public class AreaController : Controller
     {
         [Dependency]

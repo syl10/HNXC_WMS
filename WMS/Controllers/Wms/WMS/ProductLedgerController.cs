@@ -7,10 +7,12 @@ using Microsoft.Practices.Unity;
 using THOK.Wms.Bll.Interfaces;
 using THOK.WebUtil;
 using THOK.Security;
+using Wms.Security;
 
 namespace WMS.Controllers.Wms.WMS
 {
      [TokenAclAuthorize]
+     [SystemEventLog]
     public class ProductLedgerController : Controller
     {
         //产品总账

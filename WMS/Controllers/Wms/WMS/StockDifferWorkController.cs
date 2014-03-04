@@ -9,10 +9,12 @@ using THOK.Wms.DbModel;
 using Microsoft.Practices.Unity;
 using System.Reflection;
 using THOK.Security;
+using Wms.Security;
 
 namespace WMS.Controllers.Wms.WMS
 {
      [TokenAclAuthorize]
+     [SystemEventLog]
     public class StockDifferWorkController : Controller
     {
         //
@@ -58,6 +60,13 @@ namespace WMS.Controllers.Wms.WMS
             DateTime indt =string.IsNullOrEmpty (indate )?DateTime .Now : DateTime.Parse(indate);
             bool bResult = CellService.Completedata(taskrecord, userid,indt,ref errormsg);
             string msg = bResult ? "成功补录" : errormsg;
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
+        }
+         //结束作业
+        public ActionResult Taskover(string BillNo) {
+            string userid = this.GetCookieValue("userid");
+            bool bResult = BillMasterService.StockdifferTaskover(BillNo, userid);
+            string msg = bResult ? "成功作业" : "作业结束失败";
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         public ActionResult TaskrecordDetail(int page, int rows, string Billno, string productcode)

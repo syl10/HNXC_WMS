@@ -8,10 +8,12 @@ using THOK.Wms.Bll.Interfaces;
 using THOK.Wms.DbModel;
 using THOK.WebUtil;
 using THOK.Security;
+using Wms.Security;
 
 namespace Authority.Controllers.Wms.WarehouseInfo
 {
     [TokenAclAuthorize]
+    [SystemEventLog]
     public class CellController : Controller
     {
         [Dependency]

@@ -8,10 +8,12 @@ using THOK.WebUtil;
 using THOK.Wms.Bll.Interfaces;
 using THOK.Wms.DbModel;
 using THOK.Security;
+using Wms.Security;
 
 namespace Wms.Controllers.Wms.WarehouseInfo
 {
     [TokenAclAuthorize]
+    [SystemEventLog]
     public class DefaultProductSetController : Controller
     {
         [Dependency]
