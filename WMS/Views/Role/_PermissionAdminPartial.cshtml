@@ -4,22 +4,22 @@
     var systemID;
 
     function addLoad() {
-        $('#cgCity ').combogrid({
-            width: 120,
-            panelWidth: 450,
-            url: '/City/Details/?page=1&rows=5',
-            idField: 'CITY_ID',
-            textField: 'CITY_NAME',
-            mode: 'local',
-            editable: false,
-            fitColumns: true,
-            columns: [[
-					{ field: 'CITY_ID', title: '城市ID', hidden: true, width: 30 },
-					{ field: 'CITY_NAME', title: '城市名称', align: 'left', width: 40 },
-                    { field: 'DESCRIPTION', title: '备注', align: 'left', width: 30 },
-					{ field: 'IS_ACTIVE', title: '状态', align: 'left', width: 30 }
-				]]
-        });
+//        $('#cgCity ').combogrid({
+//            width: 120,
+//            panelWidth: 450,
+//            url: '/City/Details/?page=1&rows=5',
+//            idField: 'CITY_ID',
+//            textField: 'CITY_NAME',
+//            mode: 'local',
+//            editable: false,
+//            fitColumns: true,
+//            columns: [[
+//					{ field: 'CITY_ID', title: '城市ID', hidden: true, width: 30 },
+//					{ field: 'CITY_NAME', title: '城市名称', align: 'left', width: 40 },
+//                    { field: 'DESCRIPTION', title: '备注', align: 'left', width: 30 },
+//					{ field: 'IS_ACTIVE', title: '状态', align: 'left', width: 30 }
+//				]]
+//        });
 
         $('#cgSystem').combogrid({
             width: 120,
@@ -30,6 +30,7 @@
             mode: 'local',
             editable: false,
             fitColumns: true,
+            value:'001',
             columns: [[
 					{ field: 'SYSTEM_ID', title: '系统ID', hidden: true, width: 30 },
 					{ field: 'SYSTEM_NAME', title: '系统名称', align: 'left', width: 40 },
@@ -72,7 +73,7 @@
             });
         }
         else {
-            $.messager.show({ title: '系统提示', msg: '请选择地市和系统' });
+            $.messager.show({ title: '系统提示', msg: '请选择系统' });
         }
     }
 
