@@ -72,6 +72,7 @@
     <Compile Include="EntityRepository\SysTableStateRepository.cs" />
     <Compile Include="EntityRepository\WCSTaskDetailHRepository.cs" />
     <Compile Include="EntityRepository\WCSTaskDetailRepository.cs" />
+    <Compile Include="EntityRepository\WCSTaskHRepository.cs" />
     <Compile Include="EntityRepository\WCSTaskRepository.cs" />
     <Compile Include="EntityRepository\WMSBalanceDetailRepository.cs" />
     <Compile Include="EntityRepository\WMSBalanceMasterRepository.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="EntityRepository\WMSScheduleDetailRepository.cs" />
     <Compile Include="EntityRepository\WMSScheduleMasterRepository.cs" />
     <Compile Include="EntityRepository\WMSScheduleRespository.cs" />
+    <Compile Include="EntityRepository\WMSTaskrecordRepository.cs" />
     <Compile Include="EntityRepository\WorkSelectRepository.cs" />
     <Compile Include="Interfaces\IBillReportRepository.cs" />
     <Compile Include="Interfaces\ICmdBillTypeRepository.cs" />
@@ -114,6 +116,7 @@
     <Compile Include="Interfaces\ISysTableStateRepository.cs" />
     <Compile Include="Interfaces\IWCSTaskDetailHRepository.cs" />
     <Compile Include="Interfaces\IWCSTaskDetailRepository.cs" />
+    <Compile Include="Interfaces\IWCSTaskHRepository.cs" />
     <Compile Include="Interfaces\IWCSTaskRepository.cs" />
     <Compile Include="Interfaces\IWMSBalanceDetailRepository.cs" />
     <Compile Include="Interfaces\IWMSBalanceMasterRepository.cs" />
@@ -132,6 +135,7 @@
     <Compile Include="Interfaces\IWMSScheduleDetailRepository.cs" />
     <Compile Include="Interfaces\IWMSScheduleMasterRepository.cs" />
     <Compile Include="Interfaces\IWMSScheduleRepository.cs" />
+    <Compile Include="Interfaces\IWMSTaskrecordRepository.cs" />
     <Compile Include="Interfaces\IWorkSelectRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

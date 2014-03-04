@@ -37,6 +37,15 @@ namespace WMS.Controllers.Authority
             string ROLE_NAME = collection["ROLE_NAME"] ?? "";
             string MEMO = collection["MEMO"] ?? "";
             string IS_LOCK = collection["IS_LOCK"] ?? "";
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.isbase = true;
+            }
+            else
+            {
+                THOK.Common.PrintHandle.isbase = false;
+            }
             var roles = RoleService.GetDetails(page, rows, ROLE_NAME, MEMO, IS_LOCK);
             return Json(roles, "text/html", JsonRequestBehavior.AllowGet);
         }    

@@ -38,12 +38,30 @@ namespace WMS.Controllers.Wms.WMS
             return Json(errorcell, "text/html", JsonRequestBehavior.AllowGet);
         }
         //清空异常货位上的产品信息
-        public ActionResult Clearerrorcell(string Cellcode, string BillNo, string productcode)
+        public ActionResult Clearerrorcell(string BillNo,string Cellcode, string inBillNo, string productcode)
         {
             string errormsg="";
-            bool bResult = CellService.ClearerrorCell (Cellcode,BillNo ,productcode ,ref errormsg );
-            string msg = bResult ? "成功" : errormsg;
+            string userid = this.GetCookieValue("userid");
+            bool bResult = CellService.ClearerrorCell (BillNo,Cellcode,inBillNo ,productcode ,userid , ref errormsg );
+            string msg = bResult ? "成功清空" : errormsg;
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
+        }
+         //补录数据
+        public ActionResult Completerecoder(WMS_TASKRECORD taskrecord, string BillNo, string indate)
+        {
+            string errormsg="";
+            string userid = this.GetCookieValue("userid");
+            taskrecord.ACTION = "1";
+            taskrecord.BILL_NO = BillNo;
+            DateTime indt =string.IsNullOrEmpty (indate )?DateTime .Now : DateTime.Parse(indate);
+            bool bResult = CellService.Completedata(taskrecord, userid,indt,ref errormsg);
+            string msg = bResult ? "成功补录" : errormsg;
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult TaskrecordDetail(int page, int rows, string Billno, string productcode)
+        {
+            var taskrecord = CellService.GetTaskrecordDetail(page, rows, Billno, productcode);
+            return Json(taskrecord, "text/html", JsonRequestBehavior.AllowGet);
         }
 
     }

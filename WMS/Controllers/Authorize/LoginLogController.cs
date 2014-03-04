@@ -33,6 +33,15 @@ namespace WMS.Controllers.Authority
             string UserID = collection["UserID"] ?? "";
             string LoginPC = collection["LoginPC"] ?? "";
             string LoginTime = collection["LoginTime"] ?? "";
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.isbase = true;
+            }
+            else
+            {
+                THOK.Common.PrintHandle.isbase = false;
+            }
             var users = LoginLogService.GetDetails(page, rows, SystemID, UserID, LoginPC,LoginTime);
             return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }

@@ -86,6 +86,7 @@
     <Compile Include="Mapping\SYS_BILL_TARGETMap.cs" />
     <Compile Include="Mapping\SYS_ERROR_CODEMap.cs" />
     <Compile Include="Mapping\SYS_TABLE_STATEMap.cs" />
+    <Compile Include="Mapping\WCS_TASKHMap.cs" />
     <Compile Include="Mapping\WCS_TASKMap.cs" />
     <Compile Include="Mapping\WCS_TASK_DETAILHMap.cs" />
     <Compile Include="Mapping\WCS_TASK_DETAILMap.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Mapping\WMS_SCHEDULEMap.cs" />
     <Compile Include="Mapping\WMS_SCHEDULE_DETAILMap.cs" />
     <Compile Include="Mapping\WMS_SCHEDULE_MASTERMap.cs" />
+    <Compile Include="Mapping\WMS_TASKRECORDMap.cs" />
     <Compile Include="Mapping\WORKSELECTMap.cs" />
     <Compile Include="PRINTREPORT.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -113,6 +115,7 @@
     <Compile Include="SYS_ERROR_CODE.cs" />
     <Compile Include="SYS_TABLE_STATE.cs" />
     <Compile Include="WCS_TASK.cs" />
+    <Compile Include="WCS_TASKH.cs" />
     <Compile Include="WCS_TASK_DETAIL.cs" />
     <Compile Include="WCS_TASK_DETAILH.cs" />
     <Compile Include="WMS_BALANCE_DETAIL.cs" />
@@ -132,6 +135,7 @@
     <Compile Include="WMS_SCHEDULE.cs" />
     <Compile Include="WMS_SCHEDULE_DETAIL.cs" />
     <Compile Include="WMS_SCHEDULE_MASTER.cs" />
+    <Compile Include="WMS_TASKRECORD.cs" />
     <Compile Include="WORKSELECT.cs" />
   </ItemGroup>
   <ItemGroup>

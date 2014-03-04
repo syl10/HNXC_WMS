@@ -42,7 +42,11 @@ namespace THOK.Authority.Bll.Service
                     && r.IS_LOCK == islock)
                     .OrderBy(r => r.ROLE_NAME)
                     .Select(r => new { r.ROLE_ID, r.ROLE_NAME, MEMO = r.MEMO, IS_LOCK = r.IS_LOCK == "1" ? "启用" : "禁用" });
-            }              
+            }
+            if (THOK.Common.PrintHandle.isbase)
+            {
+                THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(roles);
+            }
             int total = roles.Count();
             roles = roles.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = roles.ToArray() };

@@ -40,6 +40,15 @@ namespace WMS.Controllers.Authority
             string IS_LOCK = collection["IS_LOCK"] ?? "";
             string IS_ADMIN = collection["IS_ADMIN"] ?? "";
             string MEMO = collection["MEMO"] ?? "";
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.isbase = true;
+            }
+            else
+            {
+                THOK.Common.PrintHandle.isbase = false;
+            }
             var users = UserService.GetDetails(page, rows, USER_NAME, CHINESE_NAME, IS_LOCK, IS_ADMIN, MEMO);
             return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }

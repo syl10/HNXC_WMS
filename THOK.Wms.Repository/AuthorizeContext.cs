@@ -82,10 +82,12 @@ namespace THOK.Wms.Repository
             modelBuilder.Configurations.Add(new SYS_BILL_TARGETMap());
             modelBuilder.Configurations.Add(new SYS_ERROR_CODEMap());
             modelBuilder.Configurations.Add(new WCS_TASKMap());
+            modelBuilder.Configurations.Add(new WCS_TASKHMap());
             modelBuilder.Configurations.Add(new WCS_TASK_DETAILMap());
             modelBuilder.Configurations.Add(new WCS_TASK_DETAILHMap());
             modelBuilder.Configurations.Add(new WMS_PRODUCT_STATEMap());
             modelBuilder.Configurations.Add(new  WMS_PRODUCT_STATEHMap());
+            modelBuilder.Configurations.Add(new WMS_TASKRECORDMap());
 
             modelBuilder.Configurations.Add(new PRINTREPORTMap());
             modelBuilder.Configurations.Add(new WORKSELECTMap());

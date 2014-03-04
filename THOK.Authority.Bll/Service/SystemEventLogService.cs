@@ -18,6 +18,10 @@ namespace THOK.Authority.Bll.Service
                     && i.EVENT_TYPE.Contains(eventtype) && i.EVENT_NAME.Contains(eventname) && i.FROM_PC.Contains(frompc) && i.OPERATE_USER.Contains(operateuser) && i.TARGET_SYSTEM.Contains(targetsystem))
                     .OrderBy(i => i.EVENT_LOG_ID)
                     .Select(i => new { i.EVENT_LOG_ID, i.EVENT_NAME, i.EVENT_TYPE, i.FROM_PC, i.EVENT_LOG_TIME, i.OPERATE_USER, i.EVENT_DESCRIPTION, i.TARGET_SYSTEM });
+            if (THOK.Common.PrintHandle.isbase)
+            {
+                THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(systemeventlogs);
+            }
             int total = systemeventlogs.Count();
             systemeventlogs = systemeventlogs.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = systemeventlogs.ToArray() };

@@ -34,6 +34,15 @@ namespace WMS.Controllers.Authorize
             string ModuleName = collection["ModuleName"] ?? "";
             string FunctionName = collection["FunctionName"] ?? "";
             string ExceptionalType = collection["ExceptionalType"] ?? "";
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.isbase = true;
+            }
+            else
+            {
+                THOK.Common.PrintHandle.isbase = false;
+            }
             var users = ExceptionalLogService.GetDetails(page, rows, CatchTime, ModuleName, FunctionName, ExceptionalType);
             return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
