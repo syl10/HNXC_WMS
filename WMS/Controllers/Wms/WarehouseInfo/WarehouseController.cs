@@ -6,9 +6,11 @@ using THOK.Wms.DbModel;
 using THOK.WebUtil;
 using THOK.Wms.Bll.Service;
 using THOK.Security;
+using Wms.Security;
 namespace Wms.Controllers.Wms.WarehouseInfo
 {
     [TokenAclAuthorize]
+    [SystemEventLog]
     public class WarehouseController : Controller
     {
         [Dependency]

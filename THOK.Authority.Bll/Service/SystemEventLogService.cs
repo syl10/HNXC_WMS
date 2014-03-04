@@ -27,5 +27,9 @@ namespace THOK.Authority.Bll.Service
         {
             get { return this.GetType(); }
         }
+        public void CreateEventLog(string eventName,string eventDescription,string operateUser,string targetSystem,string idAdress)
+        {
+
+        }
     }
 }
