@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="11/28/2013 11:26:00" ReportInfo.Modified="11/28/2013 14:02:01" ReportInfo.CreatorVersion="1.9.9.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/28/2013 11:26:00" ReportInfo.Modified="01/21/2014 09:01:20" ReportInfo.CreatorVersion="1.9.9.0">
   <Dictionary>
     <ViewDataSource Name="feeding" ReferenceName="feeding" DataType="System.Int32" Enabled="true">
       <Column Name="MBILL_NO" DataType="System.String"/>
@@ -50,8 +50,8 @@
     </ViewDataSource>
   </Dictionary>
   <ReportPage Name="Page1">
-    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="170.44" StartNewPage="true" Condition="[feeding.MBILL_NO]">
-      <TableObject Name="Table1" Left="35.96" Top="16.92" Width="628.84" Height="94.5">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="187.31" StartNewPage="true" Condition="[feeding.MBILL_NO]">
+      <TableObject Name="Table1" Left="35.96" Top="40.1" Width="628.84" Height="94.5">
         <TableColumn Name="Column1" Width="64.42"/>
         <TableColumn Name="Column2" Width="153.22"/>
         <TableColumn Name="Column3" Width="66.26"/>
@@ -99,8 +99,8 @@
           <TableCell Name="Cell30" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <LineObject Name="Line1" Left="-6.95" Top="128.08" Width="726.79"/>
-      <TableObject Name="Table2" Left="1.05" Top="150.07" Width="656.1" Height="18.9">
+      <LineObject Name="Line1" Left="-6.95" Top="149.55" Width="726.79"/>
+      <TableObject Name="Table2" Left="1.05" Top="162.04" Width="656.1" Height="18.9">
         <TableColumn Name="Column7"/>
         <TableColumn Name="Column8" Width="180.89"/>
         <TableColumn Name="Column9" Width="89.96"/>
@@ -116,7 +116,8 @@
           <TableCell Name="Cell36" Text="混装" HorzAlign="Center" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <DataBand Name="Data1" Top="174.44" Width="718.2" Height="25.8" DataSource="feeding">
+      <TextObject Name="Text1" Left="287.1" Top="7.01" Width="117.33" Height="18.9" Text="紧急补料单" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="191.31" Width="718.2" Height="22.96" DataSource="feeding">
         <TableObject Name="Table3" Left="1.19" Top="1.79" Width="656.1" Height="18.9">
           <TableColumn Name="Column13"/>
           <TableColumn Name="Column14" Width="180.89"/>
@@ -137,7 +138,7 @@
           <Sort Expression="[feeding.ITEM_NO]"/>
         </Sort>
       </DataBand>
-      <GroupFooterBand Name="GroupFooter1" Top="204.24" Width="718.2" Height="5.88"/>
+      <GroupFooterBand Name="GroupFooter1" Top="218.27" Width="718.2" Height="0.96"/>
     </GroupHeaderBand>
   </ReportPage>
 </Report>

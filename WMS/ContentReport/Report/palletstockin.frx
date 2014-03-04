@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="11/29/2013 09:52:47" ReportInfo.Modified="11/29/2013 10:06:19" ReportInfo.CreatorVersion="1.9.9.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/29/2013 09:52:47" ReportInfo.Modified="01/21/2014 09:22:31" ReportInfo.CreatorVersion="1.9.9.0">
   <Dictionary>
     <ViewDataSource Name="palletstockin" ReferenceName="palletstockin" DataType="System.Int32" Enabled="true">
       <Column Name="BILL_NO" DataType="System.String"/>
@@ -25,8 +25,8 @@
     </ViewDataSource>
   </Dictionary>
   <ReportPage Name="Page1">
-    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="149.46" StartNewPage="true" Condition="[palletstockin.BILL_NO]">
-      <TableObject Name="Table1" Left="34.49" Top="14.14" Width="605.26" Height="75.6">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="185.25" StartNewPage="true" Condition="[palletstockin.BILL_NO]">
+      <TableObject Name="Table1" Left="34.49" Top="47.01" Width="605.26" Height="75.6">
         <TableColumn Name="Column1" Width="64.08"/>
         <TableColumn Name="Column2" Width="145.13"/>
         <TableColumn Name="Column3" Width="64.08"/>
@@ -66,7 +66,7 @@
           <TableCell Name="Cell29" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <TableObject Name="Table2" Left="27.23" Top="129.55" Width="633.08" Height="18.9">
+      <TableObject Name="Table2" Left="27.23" Top="164.7" Width="633.08" Height="18.9">
         <TableColumn Name="Column7" Width="158.27"/>
         <TableColumn Name="Column8" Width="158.27"/>
         <TableColumn Name="Column9" Width="158.27"/>
@@ -78,8 +78,9 @@
           <TableCell Name="Cell33" Text="垛数" HorzAlign="Center" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <LineObject Name="Line1" Left="-0.9" Top="110.18" Width="749.86"/>
-      <DataBand Name="Data1" Top="153.46" Width="718.2" Height="26.62" DataSource="palletstockin">
+      <LineObject Name="Line1" Left="-0.9" Top="146.66" Width="749.86"/>
+      <TextObject Name="Text1" Left="38.19" Top="11.91" Width="600.64" Height="18.9" Text="托盘组入库单" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="189.25" Width="718.2" Height="26.62" DataSource="palletstockin">
         <TableObject Name="Table3" Left="27.05" Top="0.26" Width="633.08" Height="18.9">
           <TableColumn Name="Column11" Width="158.27"/>
           <TableColumn Name="Column12" Width="158.27"/>
@@ -96,7 +97,7 @@
           <Sort Expression="[palletstockin.ITEM_NO]"/>
         </Sort>
       </DataBand>
-      <GroupFooterBand Name="GroupFooter1" Top="184.08" Width="718.2" Height="7.01"/>
+      <GroupFooterBand Name="GroupFooter1" Top="219.87" Width="718.2"/>
     </GroupHeaderBand>
   </ReportPage>
 </Report>

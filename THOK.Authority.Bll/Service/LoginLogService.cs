@@ -57,6 +57,10 @@ namespace THOK.Authority.Bll.Service
                CHINESE_NAME= c.AUTH_USER.CHINESE_NAME,
                USER_NAME= c.AUTH_USER.USER_NAME
             });
+            if (THOK.Common.PrintHandle.isbase)
+            {
+                THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(HelpContent);
+            }
             return new { total, rows = temp.ToArray() };
         }
         public void UpdateValiateTime(string UserName)

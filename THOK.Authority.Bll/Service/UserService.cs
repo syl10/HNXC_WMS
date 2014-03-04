@@ -93,6 +93,10 @@ namespace THOK.Authority.Bll.Service
             //int total = users.Count();
             //users = users.Skip((page - 1) * rows).Take(rows);
             //return new { total, rows = users.ToArray() };
+            if (THOK.Common.PrintHandle.isbase)
+            {
+                THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(users);
+            }
             return users.ToArray();
         }
 

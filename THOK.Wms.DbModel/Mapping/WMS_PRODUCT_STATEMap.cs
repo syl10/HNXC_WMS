@@ -50,7 +50,7 @@ namespace THOK.Wms.DbModel.Mapping
                 .HasMaxLength(8);
 
             this.Property(t => t.PRODUCT_BARCODE)
-                .HasMaxLength(40);
+                .HasMaxLength(200);
 
             this.Property(t => t.PALLET_CODE)
                 .HasMaxLength(40);

@@ -9,6 +9,8 @@ using THOK.Wms.Bll.Models;
 using Entities.Extensions;
 using THOK.WMS.Upload.Bll;
 using System.Data;
+using THOK.Authority.Dal.Interfaces;
+using THOK.Authority.DbModel;
 namespace THOK.Wms.Bll.Service
 {
     public class CMDCellService : ServiceBase<CMD_CELL>, ICMDCellService
@@ -30,6 +32,15 @@ namespace THOK.Wms.Bll.Service
         public ICMDProuductRepository CMDProductRepository { get; set; }
         [Dependency]
         public IWMSBillMasterRepository BillMasterRepository { get; set; }
+        [Dependency]
+        public IWMSTaskrecordRepository TaskrecordRepository { get; set; }
+        [Dependency]
+        public IWCSTaskHRepository TaskHRepository { get; set; }
+        [Dependency]
+        public IUserRepository UserRepository { get; set; }
+        [Dependency]
+        public ISysTableStateRepository SysTableStateRepository { get; set; }
+        
 
         
 
@@ -218,7 +229,7 @@ namespace THOK.Wms.Bll.Service
                 foreach (var shelf in shelfs)//货架
                 {
                     NewWareTree shelfTree = new NewWareTree();
-                    shelfTree.CODE = shelf.AREA_CODE;
+                    shelfTree.CODE = shelf.SHELF_CODE;
                     shelfTree.NAME = "库区：" + shelf.SHELF_NAME;
                     shelfTree.AREA_CODE = shelf.AREA_CODE;
                     shelfTree.AREA_NAME = shelf.CMD_AREA.AREA_NAME;
@@ -1381,7 +1392,7 @@ namespace THOK.Wms.Bll.Service
         //}
         //#endregion
 
-        //安排 获取货位
+        //按排 获取货位
         public object GetCellByshell(string shelfcode)
         {
             IQueryable<CMD_CELL> cellQuery = CMDCellRepository.GetQueryable();
@@ -1437,6 +1448,169 @@ namespace THOK.Wms.Bll.Service
                 var temp = list.AsEnumerable();
                 int total = temp.Count();
                 return new { total, rows = temp.ToArray() };
+        }
+
+        //获取对应的带有错误标记的货位号
+        public object GeterrorCell(string BillNo, string productcode)
+        {
+            IQueryable<CMD_CELL> cellquery = CMDCellRepository.GetQueryable();
+            var errorcell = cellquery.Where(i => i.BILL_NO == BillNo && i.PRODUCT_CODE == productcode&&i.IS_ACTIVE=="1"&&i.ERROR_FLAG =="1").Select(i => new { 
+                 i.CELL_CODE ,
+                 i.PRODUCT_BARCODE ,
+                 i.PALLET_CODE ,
+                 i.IN_DATE
+            });
+            var temp = errorcell.ToArray().Select(i => new {
+                i.CELL_CODE,
+                i.PRODUCT_BARCODE,
+                i.PALLET_CODE,
+                IN_DATE = ((DateTime)i.IN_DATE).ToString("yyyy-MM-dd HH:mm:ss") ,
+                OTHER="有异常货位"
+            });
+            temp = temp.OrderBy(i => i.CELL_CODE);
+            int total = temp.Count();
+            return new { rows=temp};
+        }
+
+        //清空有异常货位上的产品信息
+        public bool ClearerrorCell(string BillNo,string cellcode, string inBillNo, string productcode,string tasker, ref string errorinfo)
+        {
+            IQueryable<CMD_CELL> cellquery = CMDCellRepository.GetQueryable();
+            var errorcell = cellquery.FirstOrDefault(i => i.CELL_CODE == cellcode&&i.BILL_NO ==inBillNo &&i.PRODUCT_CODE ==productcode&&i.ERROR_FLAG =="1");
+            if (errorcell != null)
+            {
+                //记录到wmstaskrecord表
+                WMS_TASKRECORD taskrecord = new WMS_TASKRECORD();
+                var taskquery = TaskHRepository.GetQueryable().FirstOrDefault(i => i.PRODUCT_BARCODE == errorcell.PRODUCT_BARCODE&&i.BILL_NO==inBillNo);
+                taskrecord.BILL_NO = BillNo;//单据编号
+                taskrecord.CELL_CODE = cellcode;//
+                taskrecord.ACTION = "0"; //清空操作
+                taskrecord.ITEM_NO = TaskrecordRepository.GetQueryable().Where(i => i.BILL_NO == BillNo).Count()+1;//序号
+                taskrecord.PRODUCT_CODE = productcode;
+                taskrecord.PRODUCT_BARCODE = errorcell.PRODUCT_BARCODE;
+                taskrecord.REAL_WEIGHT = (decimal)errorcell.REAL_WEIGHT;//实际重量
+                taskrecord.PRODUCT_TYPE = taskquery.PRODUCT_TYPE;//货物类型
+                taskrecord.PALLET_CODE = errorcell.PALLET_CODE; //托盘RFID
+                taskrecord.TASK_DATE = DateTime.Now;//任务时间
+                taskrecord.TASKER = tasker;//操作人员
+                taskrecord.IS_MIX = taskquery.IS_MIX;//是否混转
+                taskrecord.INBILL_NO = inBillNo;//入库批次
+                TaskrecordRepository.Add(taskrecord);
+
+                errorcell.PRODUCT_CODE = "";
+                errorcell.PRODUCT_BARCODE = "";
+                errorcell.REAL_WEIGHT = 0;
+                errorcell.SCHEDULE_NO = "";
+                errorcell.PALLET_CODE = "";
+                errorcell.BILL_NO = "";
+                errorcell.IN_DATE = null;
+                errorcell.MEMO = "";
+                errorcell.ERROR_FLAG = "0";
+                errorcell.NEW_PALLET_CODE = "";
+                errorcell.IS_LOCK = "0";
+
+                int result = CMDCellRepository.SaveChanges();
+                if (result == -1) return false;
+            }
+            else
+            {
+                errorinfo = "在该批次下的该产品所占用的货位中找不到该货位,或者该货位不是异常货位";
+                return false;
+            }
+            return true;
+
+        }
+
+        //补录数据
+        public bool Completedata(WMS_TASKRECORD taskrecord, string tasker, DateTime indate,ref string errorinfo)
+        {
+            var completecell = CMDCellRepository.GetQueryable().FirstOrDefault(i => i.CELL_CODE == taskrecord.CELL_CODE&&i.ERROR_FLAG!="1"&&i.IS_LOCK =="0"&&i.IS_ACTIVE =="1"&&string.IsNullOrEmpty (i.PRODUCT_CODE ));
+            if (completecell != null)
+            {
+                taskrecord.ITEM_NO = TaskrecordRepository.GetQueryable().Where(i => i.BILL_NO == taskrecord .BILL_NO).Count() + 1;//序号
+                taskrecord.TASKER = tasker;
+                taskrecord.TASK_DATE = DateTime.Now;
+                TaskrecordRepository.Add(taskrecord);
+
+                completecell.PRODUCT_CODE = taskrecord.PRODUCT_CODE;
+                completecell.PRODUCT_BARCODE = taskrecord.PRODUCT_BARCODE;
+                completecell.PALLET_CODE = taskrecord.PALLET_CODE;
+                completecell.REAL_WEIGHT = taskrecord.REAL_WEIGHT;
+                completecell.BILL_NO = taskrecord.INBILL_NO;
+                completecell.IN_DATE = indate;
+
+                int result = CMDCellRepository.SaveChanges();
+                if (result == -1) return false;
+            }
+            else {
+                errorinfo = "在该批次下的该产品所占用的货位中找不到该货位,或者该货位不是异常货位";
+                return false;
+            }
+            return true;
+        }
+
+        //获取某损益单下的作业明细
+        public object GetTaskrecordDetail(int page, int rows, string billno, string productcode)
+        {
+            IQueryable<WMS_TASKRECORD> taskrecordquery = TaskrecordRepository.GetQueryable();
+            IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
+            IQueryable<CMD_PRODUCT> productquery = CMDProductRepository.GetQueryable();
+            IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
+            var taskrecord = from a in taskrecordquery
+                             join b in userquery on a.TASKER equals b.USER_ID
+                             join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE
+                             join d in statequery on a.IS_MIX equals d.STATE
+                             where d.TABLE_NAME == "WMS_PRODUCT_STATE" && d.FIELD_NAME == "IS_MIX"
+                             select new { 
+                                 a.BILL_NO ,
+                                 a.ITEM_NO ,
+                                 a.PRODUCT_CODE ,
+                                 c.PRODUCT_NAME ,
+                                 c.WEIGHT ,
+                                 a.REAL_WEIGHT ,
+                                 a.PRODUCT_BARCODE ,
+                                 a.PALLET_CODE ,
+                                 a.PRODUCT_TYPE,
+                                 a.CELL_CODE ,
+                                 a.ACTION ,
+                                 a.TASK_DATE ,
+                                 a.TASKER,
+                                 b.USER_NAME ,
+                                 a.IS_MIX ,
+                                IS_MIXDESC= d.STATE_DESC ,
+                                 a.INBILL_NO 
+                             };
+            if (!string.IsNullOrEmpty(billno)) {
+                taskrecord = taskrecord.Where(i => i.BILL_NO == billno);
+            }
+            if (!string.IsNullOrEmpty(productcode)) {
+                taskrecord = taskrecord.Where(i => i.PRODUCT_CODE == productcode);
+            }
+           taskrecord = taskrecord.OrderBy(i => i.ITEM_NO);
+           int total = taskrecord.Count();
+           taskrecord = taskrecord.Skip((page - 1) * rows).Take(rows);
+           var temp = taskrecord.ToArray().Select(a=> new {
+               a.BILL_NO,
+               a.ITEM_NO,
+               a.PRODUCT_CODE,
+               a.PRODUCT_NAME,
+               a.WEIGHT,
+               a.REAL_WEIGHT,
+               a.PRODUCT_BARCODE,
+               a.PALLET_CODE,
+               a.PRODUCT_TYPE,
+               PRODUCT_TYPEDESC = a.PRODUCT_TYPE == "1" ? "烟包托盘" : "空托盘组",
+               a.CELL_CODE,
+               a.ACTION ,
+               ACTIONDESC=a.ACTION=="0"?"清空":"补录",
+               TASK_DATE = a.TASK_DATE == null ? "" : ((DateTime)a.TASK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+               a.TASKER,
+               a.USER_NAME ,
+               a.IS_MIX,
+               a.IS_MIXDESC ,
+               a.INBILL_NO 
+           });
+           return new { total, rows = temp };
         }
     }
 }

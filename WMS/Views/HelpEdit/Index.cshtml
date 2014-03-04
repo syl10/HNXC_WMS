@@ -1,5 +1,6 @@
-﻿<script type="text/javascript" src="/Content/Scripts/ckeditor/ckeditor.js"></script>
-<script type="text/javascript" src="/Content/Scripts/ckfinder/ckfinder.js"></script>
+﻿<link rel="stylesheet" href="/Content/Scripts/xheditor1.1.14/common.css" type="text/css" media="screen" />
+@*<script type="text/javascript" src="/Content/Scripts/xheditor1.1.14/jquery/jquery-1.4.4.min.js"></script>*@
+<script type="text/javascript" src="/Content/Scripts/xheditor1.1.14/xheditor-1.1.14-zh-cn.min.js"></script>
 
 <script type="text/javascript">
     this.ValidateRequest = false;
@@ -8,7 +9,7 @@
     var HelpTxt;
     window.onload = function () {
         //var inputs = document.getElementsByTagName("editor01");
-        CKEDITOR.replace('editor01');
+        $('#editor01').xheditor({ upLinkUrl: "/Content/Scripts/xheditor1.1.14/upload.aspx", upLinkExt: "zip,rar,txt", upImgUrl: "/Content/Scripts/xheditor1.1.14/upload.aspx", upImgExt: "jpg,jpeg,gif,png" });
         $('#helpTree').tree({
             onClick: function (node) {
                 if (node) {
@@ -17,9 +18,9 @@
                         $('#helpId').val(helpID);
                         HelpTxt = helpContent.CONTENT_TEXT;
                         $('#helpId').val(helpID);
-                        CKEDITOR.instances["editor01"].destroy();
+                        //                        CKEDITOR.instances["editor01"].destroy();
                         $('#editor01').val(HelpTxt);
-                        CKEDITOR.replace('editor01');
+                        //                        $('#editor01').xheditor({ upLinkUrl: "/Content/Scripts/xheditor1.1.14/upload.aspx", upLinkExt: "zip,rar,txt", upImgUrl: "/Content/Scripts/xheditor1.1.14/upload.aspx", upImgExt: "jpg,jpeg,gif,png", onUpload: insertUpload });
                     });
 
                     //                var helpId = node.attributes.AttributeId;
@@ -51,19 +52,22 @@
             return;
         }
         $.ajaxSender.send('/HelpEdit/SaveHelpEdit/',
-                $('#editorForm').serializeArray(), function (){ });
+                $('#editorForm').serializeArray(), function () { });
     }
     
 </script>
 <div id="sidebar" region="west" split="true"  style="width: 220px; overflow: scroll; padding: 1px; margin: 1px">
     <ul id="helpTree" class="easyui-tree" url='/HelpEdit/GetHelpContent/'></ul>
 </div>
-<div region="center" split="true" border="false" style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #99BBE8"> @*buttons="#buttons-save"> *@
-   <form id ="editorForm" action="javascript:saveHelpEdit()" method="post">
+<div region="center" split="true" border="false" style="border-bottom-style: solid; margin-top:0px; border-bottom-width: 1px; border-bottom-color: #99BBE8"> @*buttons="#buttons-save"> *@
+   <form id ="editorForm" action="javascript:saveHelpEdit()" method="post" style=" margin-top:0px;">
         <input id ="helpId" name = "helpId01" type="hidden"/>
-        <textarea rows="20" cols="40" id ="editor01" name="editor01" validtype="maxLength[4000]"></textarea>
+        <textarea rows="20" cols="40" id ="editor01" name="editor01" style="width: 800px;  height:800px;" validtype="maxLength[4000]" ></textarea>
     @*<div id="#buttons-save">
     <a href="#" class="easyui-linkbutton" iconcls="icon-ok" onclick="S_select()">提交</a>
     </div>*@
+    <div>
+        <input type="submit" name="save" value="保存" style=" width:80px; height:20px;" />
+    </div>
     </form>
 </div>

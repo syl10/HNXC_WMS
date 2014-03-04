@@ -390,38 +390,41 @@ namespace THOK.Wms.Bll.Service
             var Schedulemast = ScheduleMasterRepository.GetQueryable().FirstOrDefault(i => i.SCHEDULE_NO == Scheduleno);
             Schedulemast.STATE = "3";
             var formules = ScheduleDetail.Where(i => i.SCHEDULE_NO == Scheduleno).OrderBy (i=>i.ITEM_NO );
-            foreach (WMS_SCHEDULE_DETAIL item in formules) {
-                WMS_BILL_MASTER mast = new WMS_BILL_MASTER();
-                mast.BILL_NO = BillMasterRepository.GetNewID("OS", DateTime .Now.Date ,billno);
-                mast.BILL_DATE = DateTime.Now;
-                mast.BTYPE_CODE = "002";
-                mast.SCHEDULE_NO = Scheduleno;
-                mast.SCHEDULE_ITEMNO = item.ITEM_NO;
-                mast.TARGET_CODE = "001";
-                mast.WAREHOUSE_CODE = "001";
-                mast.STATUS = "0";
-                mast.STATE = "2";
-                mast.OPERATER = userid;
-                mast.OPERATE_DATE = DateTime.Now;
-                mast.CHECK_DATE = DateTime.Now;
-                mast.CHECKER = userid;
-                mast.BILL_METHOD = "0";
-                mast.LINE_NO = item.LINE_NO;
-                mast.CIGARETTE_CODE = item.CIGARETTE_CODE;
-                mast.FORMULA_CODE = item.FORMULA_CODE;
-                mast.BATCH_WEIGHT = item.QUANTITY;
-                BillMasterRepository.Add(mast);
-                billno ="OS"+ (double .Parse ( mast.BILL_NO.Substring(2))+1).ToString ();
-                item.BILL_NO = mast.BILL_NO;
-
-                var  formulobj = BillMasterService.LoadFormulaDetail(1, 1000, item.FORMULA_CODE, item.QUANTITY);
-                THOK.Wms.Bll.Models.FormulaDetail[] items;
-                Type detailtype = formulobj.GetType();
-                try
+            try
+            {
+                foreach (WMS_SCHEDULE_DETAIL item in formules)
                 {
+                    WMS_BILL_MASTER mast = new WMS_BILL_MASTER();
+                    mast.BILL_NO = BillMasterRepository.GetNewID("OS", DateTime.Now.Date, billno);
+                    mast.BILL_DATE = DateTime.Now;
+                    mast.BTYPE_CODE = "002";
+                    mast.SCHEDULE_NO = Scheduleno;
+                    mast.SCHEDULE_ITEMNO = item.ITEM_NO;
+                    mast.TARGET_CODE = "001";
+                    mast.WAREHOUSE_CODE = "001";
+                    mast.STATUS = "0";
+                    mast.STATE = "2";
+                    mast.OPERATER = userid;
+                    mast.OPERATE_DATE = DateTime.Now;
+                    mast.CHECK_DATE = DateTime.Now;
+                    mast.CHECKER = userid;
+                    mast.BILL_METHOD = "0";
+                    mast.LINE_NO = item.LINE_NO;
+                    mast.CIGARETTE_CODE = item.CIGARETTE_CODE;
+                    mast.FORMULA_CODE = item.FORMULA_CODE;
+                    mast.BATCH_WEIGHT = item.QUANTITY;
+                    BillMasterRepository.Add(mast);
+                    billno = "OS" + (double.Parse(mast.BILL_NO.Substring(2)) + 1).ToString();
+                    item.BILL_NO = mast.BILL_NO;
+                    var formulobj = BillMasterService.LoadFormulaDetail(1, 1000, item.FORMULA_CODE, item.QUANTITY);
+
+                    THOK.Wms.Bll.Models.FormulaDetail[] items;
+                    Type detailtype = formulobj.GetType();
                     PropertyInfo[] aa = detailtype.GetProperties();
+                    
                     items = (THOK.Wms.Bll.Models.FormulaDetail[])aa[1].GetValue(formulobj, null);
-                    foreach (THOK.Wms.Bll.Models.FormulaDetail  obj in items) {
+                    foreach (THOK.Wms.Bll.Models.FormulaDetail obj in items)
+                    {
                         WMS_BILL_DETAIL detail = new WMS_BILL_DETAIL();
                         detail.BILL_NO = mast.BILL_NO;
                         detail.ITEM_NO = obj.ITEM_NO;
@@ -435,7 +438,9 @@ namespace THOK.Wms.Bll.Service
                         BillDetailRepository.Add(detail);
                     }
                 }
-                catch (Exception ex) { }
+            }
+            catch (Exception ex) {
+                return false;
             }
             int brs = BillMasterRepository.SaveChanges();
             if (brs == -1) rejust = false;

@@ -73,7 +73,7 @@ namespace WMS.Controllers.Wms.WMS
             string userName = this.GetCookieValue("userid");
             string error = "";
             bool result = BalanceMasterService.Balance(balanceno, DateTime.Parse(dt),userName ,out error );
-            string msg = result ? "作业成功" : "作业失败" + error;
+            string msg = result ? "月结完成" : "月结失败" + error;
             var just = new
             {
                 success = msg

@@ -1,12 +1,12 @@
 ﻿using System.Data.Entity;
 using THOK.Common.Ef.Infrastructure;
 using THOK.Common.Ef.Interfaces;
-using THOK.Wms.Repository.Interfaces;
+//using THOK.Wms.Repository.Interfaces;
 using System;
 
 namespace THOK.Wms.Repository.RepositoryContext
 {
-    public class AuthorityRepositoryContext : IAuthorityRepositoryContext, IRepositoryContext
+    public class AuthorityRepositoryContext : IRepositoryContext
     {
         private const string OBJECT_CONTEXT_KEY = "THOK.Wms.Repository.AuthorizeContext,THOK.Wms.Repository.dll";
         public DbSet<T> GetDbSet<T>() 

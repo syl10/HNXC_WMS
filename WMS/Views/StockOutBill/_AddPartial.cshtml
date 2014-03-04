@@ -90,6 +90,22 @@
                     isreload = true;
                     $('#BTYPE_CODE').combogrid('grid').datagrid('loadData', data2);
                 }
+            },
+            onSelect: function (index, data) {
+                if (data.BTYPE_CODE == '006') {//选中倒库单
+//                    $('#LINE_NO').combogrid('disable');
+                    $('#LINE_NO').combogrid({
+                        required: false
+//                       disabled:true
+                    });
+                }
+                else {
+//                    $('#LINE_NO').combogrid('enable');
+                    $('#LINE_NO').combogrid({
+                        required: true,
+                        disabled: false
+                    });
+                }
             }
         });
 //        var g = $('#BTYPE_CODE').combogrid('grid');

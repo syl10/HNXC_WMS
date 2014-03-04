@@ -70,7 +70,7 @@ namespace WMS.Controllers.Wms.WMS
         //获取入库批次的明细
         public ActionResult Getbillsubdetail(int page, int rows, string BillNo)
         {
-            var Billdetail = BillMasterService.GetSubDetails(page, rows, BillNo, 0);
+            var Billdetail = BillMasterService.GetSubDetailsforfeeeding(page, rows, BillNo);
             return Json(Billdetail, "text/html", JsonRequestBehavior.AllowGet);
         }
         //抽检补料入库单添加
@@ -109,6 +109,7 @@ namespace WMS.Controllers.Wms.WMS
             };
             return Json(just, "text/html", JsonRequestBehavior.AllowGet);
         }
+        //public ActionResult Getcount(string BillNo) { }
 
     }
 }

@@ -14,7 +14,7 @@
         var queryParams = $('#details').datagrid('options').queryParams;
         queryParams.ROLE_NAME = $('#ROLE_NAME').val();
         queryParams.MEMO = $('#MEMO').val();
-        queryParams.IS_LOCK = $('#IS_LOCK').val();
+        queryParams.IS_LOCK = $('#IS_LOCK').combobox('getValue');
         $('#details').datagrid('options').queryParams = queryParams;
 //        $('#details').datagrid({
 //            pageNumber: 1,
@@ -42,7 +42,7 @@
               <tr>
                 <td>状态</td>
                 <td align="left">      
-		            <select id="IS_LOCK" name="IS_LOCK" required="true" class="easyui-combobox" style="width: 50px">
+		            <select id="IS_LOCK" name="IS_LOCK"  class="easyui-combobox" style="width: 50px">
 		                <option value="1">启用</option>
 		                <option value="0">禁用</option>
 	                </select>

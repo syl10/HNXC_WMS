@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="11/26/2013 10:59:33" ReportInfo.Modified="11/26/2013 15:32:53" ReportInfo.CreatorVersion="1.9.9.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/26/2013 10:59:33" ReportInfo.Modified="01/21/2014 09:14:22" ReportInfo.CreatorVersion="1.9.9.0">
   <Dictionary>
     <ViewDataSource Name="formulaprint" ReferenceName="formulaprint" DataType="System.Int32" Enabled="true">
       <Column Name="FORMULA_CODE" DataType="System.String"/>
@@ -28,8 +28,8 @@
     </ViewDataSource>
   </Dictionary>
   <ReportPage Name="Page1">
-    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="140.35" StartNewPage="true" Condition="[formulaprint.FORMULA_CODE]">
-      <TableObject Name="Table1" Left="38.15" Top="36.12" Width="591.26" Height="56.7">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="162.31" StartNewPage="true" Condition="[formulaprint.FORMULA_CODE]">
+      <TableObject Name="Table1" Left="38.15" Top="55.12" Width="591.26" Height="56.7">
         <TableColumn Name="Column1" Width="67"/>
         <TableColumn Name="Column2" Width="142.04"/>
         <TableColumn Name="Column3" Width="68.14"/>
@@ -61,8 +61,8 @@
           <TableCell Name="Cell28" Text="[formulaprint.OPERATEDATE]" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <LineObject Name="Line1" Left="2.1" Top="114.31" Width="713.67"/>
-      <TableObject Name="Table3" Left="2.11" Top="120.29" Width="697.35" Height="18.9">
+      <LineObject Name="Line1" Left="2.1" Top="124.95" Width="713.67"/>
+      <TableObject Name="Table3" Left="2.11" Top="141" Width="697.35" Height="18.9">
         <TableColumn Name="Column12" Width="136.54"/>
         <TableColumn Name="Column13" Width="72.4"/>
         <TableColumn Name="Column14" Width="58.26"/>
@@ -88,7 +88,8 @@
           <TableCell Name="Cell44" Text="其他" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <DataBand Name="Data1" Top="144.35" Width="718.2" Height="35.53" DataSource="formulaprint">
+      <TextObject Name="Text1" Left="40.21" Top="12.11" Width="588.29" Height="18.9" Text="配方单" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="166.31" Width="718.2" Height="24.69" DataSource="formulaprint">
         <TableObject Name="Table4" Left="2.17" Top="0.9" Width="696.22" Height="18.9">
           <TableColumn Name="Column23" Width="135.41"/>
           <TableColumn Name="Column24" Width="72.4"/>
@@ -119,7 +120,7 @@
           <Sort Expression="[formulaprint.FORDER]"/>
         </Sort>
       </DataBand>
-      <GroupFooterBand Name="GroupFooter1" Top="183.88" Width="718.2" Height="12.88"/>
+      <GroupFooterBand Name="GroupFooter1" Top="195" Width="718.2"/>
     </GroupHeaderBand>
   </ReportPage>
 </Report>

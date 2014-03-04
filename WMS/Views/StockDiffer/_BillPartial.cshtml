@@ -1,7 +1,10 @@
 ﻿<script type="text/javascript">
     //查询按钮事件
     function billQueryClick() {
-        var billno = $('#queryType').combobox('getValue') + ":" + $('#BillInfo').combogrid('getText');
+        var no = $('#BillInfo').val();
+        var cigarate = $('#cigarate').combogrid('getValue');
+        var formula = $('#formula').combogrid('getValue');
+        var billno = no + ":" + cigarate + ":" + formula;
         $('#BillDetail').datagrid({ url: '/FillBill/billselect/?page=1&rows=20000&billmethod=3&billno=' + billno });
         $("#BillDetail").datagrid('reload');
     }
@@ -16,35 +19,37 @@
     function comfirm() {
         var data = $('#BarcodeDetail').datagrid('getSelections');
         var billRow = $('#BillDetail').datagrid('getSelected');
-        if (billRow.SOURCE_BILLNO == "" || billRow.SOURCE_BILLNO == null)
-            $('#SOURCE_BILLNO').val(billRow.BILL_NO);
-        else
-            $('#SOURCE_BILLNO').val(billRow.SOURCE_BILLNO);
-        if (data) {
-            var Rows = $('#inBillDetail').datagrid('getData');
-            if (Rows.total == 0)
-                $('#inBillDetail').datagrid('loadData', data);
-            else {
-                for (var row = 0; row < data.length; row++) {
-                    $('#inBillDetail').datagrid('appendRow', {
-                        ITEM_NO: "0",
-                        PRODUCT_CODE: data[row].PRODUCT_CODE,
-                        PRODUCT_NAME: data[row].PRODUCT_NAME,
-                        WEIGHT: data[row].WEIGHT,
-                        REAL_WEIGHT: data[row].REAL_WEIGHT,
-                        PACKAGE_COUNT: data[row].PACKAGE_COUNT,
-//                        FPRODUCT_CODE: data[row].FPRODUCT_CODE,
-                        IS_MIXDESC: data[row].IS_MIXDESC,
-                        IS_MIX: data[row].IS_MIX
-                    });
+        if (billRow) {
+            if (billRow.SOURCE_BILLNO == "" || billRow.SOURCE_BILLNO == null)
+                $('#SOURCE_BILLNO').val(billRow.BILL_NO);
+            else
+                $('#SOURCE_BILLNO').val(billRow.SOURCE_BILLNO);
+            if (data) {
+                var Rows = $('#inBillDetail').datagrid('getData');
+                if (Rows.total == 0)
+                    $('#inBillDetail').datagrid('loadData', data);
+                else {
+                    for (var row = 0; row < data.length; row++) {
+                        $('#inBillDetail').datagrid('appendRow', {
+                            ITEM_NO: "0",
+                            PRODUCT_CODE: data[row].PRODUCT_CODE,
+                            PRODUCT_NAME: data[row].PRODUCT_NAME,
+                            WEIGHT: data[row].WEIGHT,
+                            REAL_WEIGHT: data[row].REAL_WEIGHT,
+                            PACKAGE_COUNT: data[row].PACKAGE_COUNT,
+                            //                        FPRODUCT_CODE: data[row].FPRODUCT_CODE,
+                            IS_MIXDESC: data[row].IS_MIXDESC,
+                            IS_MIX: data[row].IS_MIX
+                        });
+                    }
                 }
-            }
+            } 
         }
         $('#BillData').dialog('close');
     }
     //牌号
     function GetCigarette() {
-        $('#BillInfo').combogrid({
+        $('#cigarate').combogrid({
             required: false,
             disabled: false,
             width: 135,
@@ -59,20 +64,24 @@
                     { field: 'CIGARETTE_CODE', title: '牌号编码', align: 'left', width: 40 },
                     { field: 'CIGARETTE_NAME', title: '牌号名称', align: 'left', width: 30 },
                     { field: 'CIGARETTE_MEMO', title: '备注', align: 'left', width: 30 }
-                ]]
+                ]],
+            onSelect: function (index, data) {
+                GetFormula(data.CIGARETTE_CODE);
+                $('#formula').combogrid('clear');
+            }
         });
     }
 
     //配方
-    function GetFormula() {
-        $('#BillInfo').combogrid({
+    function GetFormula(CIGARETTE_CODE) {
+        $('#formula').combogrid({
             required: false,
             disabled: false,
             width: 135,
             panelWidth: 400,
-            url: '/Formula/Getuserfull/?page=1&rows=1000',
+            url: '/Formula/Getuserfull/?page=1&rows=1000&cigarettecode=' + CIGARETTE_CODE,
             idField: 'FORMULA_CODE',
-            textField: 'FORMULA_CODE',
+            textField: 'FORMULA_NAME',
             mode: 'local',
             editable: true,
             fitColumns: true,
@@ -85,28 +94,30 @@
                 ]]
         });
     }
-    function cleargrid() {
-        $('#BillInfo').combogrid({
-            required: false,
-            disabled: false,
-            url: [],
-            columns: [[]]
-        });
-    }
+//    function cleargrid() {
+//        $('#BillInfo').combogrid({
+//            required: false,
+//            disabled: false,
+//            url: [],
+//            columns: [[]]
+//        });
+//    }
     $(function () {
         $('#BillDetail').datagrid({
             onClickRow: function () {
                 billselected();
             }
         });
-        $('#queryType').combobox({
-            editable: false,
-            onChange: function (newValue, oldValue) {
-                if (newValue == "cigarate") GetCigarette();
-                else if (newValue == "formula") GetFormula();
-                else { $('#BillInfo').combogrid('grid').datagrid('loadData', { total: 0, rows: [] }); cleargrid(); }
-            }
-        });
+        //        $('#queryType').combobox({
+        //            editable: false,
+        //            onChange: function (newValue, oldValue) {
+        //                if (newValue == "cigarate") GetCigarette();
+        //                else if (newValue == "formula") GetFormula();
+        //                else { $('#BillInfo').combogrid('grid').datagrid('loadData', { total: 0, rows: [] }); cleargrid(); }
+        //            }
+        //        });
+        GetCigarette();
+        GetFormula("");
     });
 </script>
 <div id="BillData" class="easyui-dialog" modal="true" style="width: 790px; height: 500px;
@@ -188,7 +199,7 @@
                 <th field="PACKAGE_COUNT" width="80">包数</th>
                @* <th field="PRODUCT_BARCODE" width="160">产品条码</th>*@
          @*       <th field="PALLET_CODE" width="60" >托盘RFID</th>*@
-             <th field="IS_MIXDESC" width="60" >是否混装</th>
+             <th field="IS_MIXDESC" width="60"  hidden="true">是否混装</th>
                 <th field="IS_MIX" width="60" hidden="true">是否混装</th>
               @*     <th field="FPRODUCT_CODE" width="120">混合第一笔产品编号</th>*@
                 </tr>
@@ -204,14 +215,14 @@
 <table>
 <tr>
 <td>
-<select id="queryType" name="QueryString" class="easyui-combobox" style="width: 100px;" >
-		                <option value="billno">单据编号</option>
-                        <option value="cigarate">牌号</option>
-                        <option value="formula">配方</option>
-	                </select>
+单据编号:
 </td>
 <td>
-                    <input id="BillInfo" class="easyui-combogrid" style="width: 135px;"></td>
+                    <input id="BillInfo"  style="width: 135px;"/></td>
+        <td>牌号:</td>
+        <td><input id="cigarate" class="easyui-combogrid" style="width: 135px;"/></td>
+        <td>配方:</td>
+        <td><input id="formula" class="easyui-combogrid" style="width: 135px;"/></td>
                     <td>
  <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="billQueryClick()" id="billQuery">查询</a>
  </td>

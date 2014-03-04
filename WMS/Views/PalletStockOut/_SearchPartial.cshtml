@@ -1,13 +1,13 @@
 ﻿<script type="text/javascript">
     function searchClick() {
          $('#SBILL_DATE').datebox({
-              hasDownArrow: true,
+              hasDownArrow: true
           });
          $('#SOPERATE_DATE').datebox({
-              hasDownArrow: true,
+              hasDownArrow: true
           });
          $('#SSTASK_DATE').datebox({
-              hasDownArrow: true,
+              hasDownArrow: true
           });
 
           SGetWarehouseCode() ;//仓库编号
@@ -34,7 +34,7 @@
             columns: [[
                     { field: 'WAREHOUSE_CODE', title: '仓库编号', align: 'left', width: 40 },
                     { field: 'WAREHOUSE_NAME', title: '仓库名称', align: 'left', width: 30 },
-                    { field: 'MEMO', title: '备注', align: 'left', width: 30 },
+                    { field: 'MEMO', title: '备注', align: 'left', width: 30 }
                 ]]
         });
     }
@@ -111,7 +111,7 @@
     }
 </script>
 
-<div id="dlg-search" class="easyui-dialog" modal="true" style="width:430px;height:230px;padding:2px 2px"
+<div id="dlg-search" class="easyui-dialog" modal="true" style="width:440px;height:240px;padding:2px 2px"
 		closed="true" buttons="#dlg-buttons-search">
         <div class="easyui-layout" fit="true">
 			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     

@@ -93,6 +93,43 @@ textarea{
 	border-left-width: 2px;
 	border-top-style: outset;
 }
+/*打印按钮的样式*/
+.btprint
+{
+    width:75px;
+	height:23px;
+	background-image:url(../icons/print.png);
+	background-repeat:no-repeat;
+	background-position:10px;
+	padding-left:3px;
+	text-indent: 12px;
+	cursor:pointer;
+	padding-top: 3px;
+	padding-right: 3px;
+	padding-bottom: 3px;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 2px;
+	border-top-style: outset;
+    }
+    /*损益作业中的清空与补录按钮样式*/
+   .btclearoradd
+   {
+    width:50px;
+	height:23px;
+	padding-left:3px;
+	text-align:center;
+	cursor:pointer;
+	padding-top: 3px;
+	padding-right: 3px;
+	padding-bottom: 3px;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 2px;
+	border-top-style: outset;
+  }
 /*按钮背景色改变的样式*/
 .btclasschange{
   background-color:#CCCCCC;

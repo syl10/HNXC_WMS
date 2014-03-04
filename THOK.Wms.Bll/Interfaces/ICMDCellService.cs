@@ -63,7 +63,14 @@ namespace THOK.Wms.Bll.Interfaces
         object GetCellByshell(string shelfcode);
         //根据货位代码  获取对应的货物信息
         object Getproductbycellcode(string cellcode);
-
+        //获取对应的带有错误标记的货位号
+        object GeterrorCell(string BillNo, string productcode);
+        //清空有异常货位上的产品信息
+        bool ClearerrorCell(string BillNo,string cellcode, string inBillNo, string productcode,string tasker,ref string errorinfo);
+        //补录数据
+        bool Completedata(WMS_TASKRECORD taskrecord, string tasker,DateTime indate, ref string errorinfo);
+        //获取某损益单下的作业明细
+        object GetTaskrecordDetail(int page, int rows, string billno, string productcode);
       //  bool uploadCell();
     }
 }

@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Report ScriptLanguage="CSharp" ReportInfo.Created="11/28/2013 15:35:10" ReportInfo.Modified="11/28/2013 16:43:00" ReportInfo.CreatorVersion="1.9.9.0">
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/28/2013 15:35:10" ReportInfo.Modified="01/21/2014 09:05:44" ReportInfo.CreatorVersion="1.9.9.0">
   <Dictionary>
     <ViewDataSource Name="fillbill" ReferenceName="fillbill" DataType="System.Int32" Enabled="true">
       <Column Name="BILL_NO" DataType="System.String"/>
@@ -42,8 +42,8 @@
     </ViewDataSource>
   </Dictionary>
   <ReportPage Name="Page1">
-    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="181.6" StartNewPage="true" Condition="[fillbill.BILL_NO]">
-      <TableObject Name="Table1" Left="12.59" Top="20.08" Width="682.55" Height="94.5">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="200.81" StartNewPage="true" Condition="[fillbill.BILL_NO]">
+      <TableObject Name="Table1" Left="12.59" Top="50.1" Width="682.55" Height="94.5">
         <TableColumn Name="Column1" Width="65.04"/>
         <TableColumn Name="Column2" Width="132.98"/>
         <TableColumn Name="Column3"/>
@@ -103,7 +103,7 @@
           <TableCell Name="Cell40" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <TableObject Name="Table2" Left="0.47" Top="162.16" Width="689.68" Height="18.9">
+      <TableObject Name="Table2" Left="0.47" Top="180.97" Width="689.68" Height="18.9">
         <TableColumn Name="Column9"/>
         <TableColumn Name="Column10" Width="172.89"/>
         <TableColumn Name="Column11" Width="255.89"/>
@@ -121,8 +121,9 @@
           <TableCell Name="Cell87" Text="混装" HorzAlign="Center" Font="宋体, 9pt"/>
         </TableRow>
       </TableObject>
-      <LineObject Name="Line1" Left="0.18" Top="137.02" Width="753.86"/>
-      <DataBand Name="Data1" Top="185.6" Width="718.2" Height="27.1" DataSource="fillbill">
+      <LineObject Name="Line1" Left="0.18" Top="166.85" Width="753.86"/>
+      <TextObject Name="Text1" Left="268.93" Top="12.11" Width="152.35" Height="18.9" Text="抽检补料入库单" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="204.81" Width="718.2" Height="23.33" DataSource="fillbill">
         <TableObject Name="Table3" Left="0.36" Top="2.54" Width="689.68" Height="18.9">
           <TableColumn Name="Column16"/>
           <TableColumn Name="Column17" Width="172.89"/>
@@ -142,7 +143,7 @@
           </TableRow>
         </TableObject>
       </DataBand>
-      <GroupFooterBand Name="GroupFooter1" Top="216.7" Width="718.2" Height="7.94"/>
+      <GroupFooterBand Name="GroupFooter1" Top="232.14" Width="718.2"/>
     </GroupHeaderBand>
   </ReportPage>
 </Report>

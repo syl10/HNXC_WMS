@@ -54,6 +54,7 @@ namespace WMS.Controllers.Wms.WMS
         public ActionResult GetPdfName(string barcodes, string billno,string PrintCount)
         {
             string Path = Server.MapPath("/");
+            string url = Request.Url.Host;
             string userName = this.GetCookieValue("username");
             string FileName = ProductStateService.GetPdfName(Path, userName, barcodes, billno, PrintCount);
 

@@ -1,13 +1,13 @@
 ﻿<script type="text/javascript">
     function searchClick() {
          $('#SBILL_DATE').datebox({
-              hasDownArrow: true,
+              hasDownArrow: true
           });
          $('#SOPERATE_DATE').datebox({
-              hasDownArrow: true,
+              hasDownArrow: true
           });
          $('#SCHECK_DATE').datebox({
-              hasDownArrow: true,
+              hasDownArrow: true
           });
 
 //          SGetWarehouseCode() ;//仓库编号
@@ -131,13 +131,13 @@
         var queryParams = $('#details').datagrid('options').queryParams;
         queryParams.BILL_NO = $('#SBILL_NO').val();
         queryParams.BILL_DATE = $('#SBILL_DATE').datebox('getValue');
-        if($('#SBTYPE_CODE').combogrid('getText')!=null&&$('#SBTYPE_CODE').combogrid('getText')!=""){
-          queryParams.BTYPE_CODE=$('#SBTYPE_CODE').combogrid('getValue');
-        }
-        else
-          queryParams.BTYPE_CODE="";
-        queryParams.WAREHOUSE_CODE=$('#SWAREHOUSE_CODE').combogrid('getValue');
-         queryParams.LINE_NO=$('#SLINE_NO').combogrid('getValue');
+//        if($('#SBTYPE_CODE').combogrid('getText')!=null&&$('#SBTYPE_CODE').combogrid('getText')!=""){
+//          queryParams.BTYPE_CODE=$('#SBTYPE_CODE').combogrid('getValue');
+//        }
+//        else
+//          queryParams.BTYPE_CODE="";
+//        queryParams.WAREHOUSE_CODE=$('#SWAREHOUSE_CODE').combogrid('getValue');
+//         queryParams.LINE_NO=$('#SLINE_NO').combogrid('getValue');
         queryParams.CIGARETTE_CODE=$('#SCIGARETTE_CODE').combogrid('getValue');
         queryParams.FORMULA_CODE=$('#SFORMULA_CODE').combogrid('getValue');
         if($('#SSTATE').combobox('getText')!=null&&$('#SSTATE').combobox('getText')!=""){
@@ -200,8 +200,8 @@
 		                            <option value="6">取消</option>
 	                         </select>
                         </td>
-                       <td width="50">制丝线</td>
-                       <td  style="width:138px"><input name="SLINE_NO" id="SLINE_NO" class="easyui-combogrid"/></td>
+   @*                    <td width="50">制丝线</td>
+                       <td  style="width:138px"><input name="SLINE_NO" id="SLINE_NO" class="easyui-combogrid"/></td>*@
                       </tr>
                       <tr>
                             <td width="50">牌   号</td>

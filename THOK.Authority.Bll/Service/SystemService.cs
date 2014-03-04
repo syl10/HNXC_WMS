@@ -105,8 +105,12 @@ namespace THOK.Authority.Bll.Service
         public object GetDetails(string userName, string systemID, string cityID)
         {
             var user = UserRepository.GetQueryable().FirstOrDefault(u => u.USER_NAME.ToLower() == userName.ToLower());
-
-            string strSQL=string.Format("select * from auth_user_system system "+
+            string strSQL = "";
+            if (user.IS_ADMIN == "1") {
+                strSQL = string.Format("select * from auth_system system where system_id<>'{0}' ",systemID);
+            }
+            else 
+            strSQL=string.Format("select * from auth_user_system system "+
                           "left join auth_system on system.system_system_id=auth_system.system_id " +
                          "where (is_active='1'or exists(select 1 from auth_user_module where (user_system_user_system_id=system.user_system_id and auth_user_module.is_active='1' "+
                          "or exists(select 1 from auth_user_function where auth_user_function.user_module_user_module_id=auth_user_module.module_module_id and auth_user_function.is_active='1')))) "+

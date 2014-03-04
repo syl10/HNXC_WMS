@@ -2,10 +2,10 @@
     function printClick() {
         $('#dlg-print').dialog('open').dialog('setTitle', '打印');
          $('#BILLDATEFROM').datebox({
-              hasDownArrow: true,
+              hasDownArrow: true
           });
          $('#BILLDATETO').datebox({
-              hasDownArrow: true,
+              hasDownArrow: true
           });
        $('#PSTATE').combobox('clear');
     }
@@ -40,12 +40,12 @@
     }
 </script>
 
-<div id="dlgPrint" class="easyui-dialog" modal="true" style="width:1060px;height:450px;padding:0px 0px" closed="true" >
-<div id="divPrint1" style="width:1040px;height:410px;padding:0px 0px" >
+<div id="dlgPrint" class="easyui-dialog" modal="true" style="width:970px;height:450px;padding:0px 0px" closed="true" >
+<div id="divPrint1" style="width:950px;height:410px;padding:0px 0px" >
 @*<iframe id='reportframe' scrolling="no"  height='100%'   style=' width:100%;  padding:0px;' frameborder='0' src='../../WebForm1.aspx'></iframe>*@
 </div>
 </div>
-<div id="dlg-print" class="easyui-dialog" modal="true" style="width:430px;height:170px;padding:2px 2px"
+<div id="dlg-print" class="easyui-dialog" modal="true" style="width:440px;height:170px;padding:2px 2px"
 		closed="true" buttons="#dlg-buttons-print">
         <div class="easyui-layout" fit="true">
 			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
@@ -75,6 +75,6 @@
 <div id="dlg-buttons-print">
 @*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="select()">查询</a>
 	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">取消</a>*@
-      <input type="button"  onclick="Print()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="打印"/>
+      <input type="button"  onclick="Print()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btprint" value="打印"/>
       <input type="button"  onclick="javascript:$('#dlg-print').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>

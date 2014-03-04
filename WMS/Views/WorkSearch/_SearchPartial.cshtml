@@ -92,12 +92,15 @@
         }
         else
             queryParams.BTYPE_CODE = "";
-        queryParams.BILLMETHOD = $('#SBILLMETHOD').combobox('getValue');
+        queryParams.TASK_NO = "";
         queryParams.CIGARETTE_CODE = $('#SCIGARETTE_CODE').combogrid('getValue');
         queryParams.FORMULA_CODE = $('#SFORMULA_CODE').combogrid('getValue');
         queryParams.PRODUCT_BARCODE = $('#SPRODUCT_BARCODE').val();
 
-       $('#details').datagrid('options').queryParams = queryParams;
+        $('#details').datagrid('options').queryParams = queryParams;
+        $('#details').datagrid('options').url = "/WorkSearch/Details/";
+
+        $('#details').datagrid('options').queryParams = queryParams;
         $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
         $('#details').datagrid('reload');
         $('#SBILLMETHOD').combobox('clear');
@@ -124,13 +127,12 @@
                           <td width="125" >
                                 <input id="SBTYPE_CODE" style="width:125px"   class="easyui-combogrid">
                             </td>
-                        <td style="width:50px" align="right">入库方式</td>
+                        <td style="width:50px" align="right">条码</td>
+                        <td  style="width:138px" ><input id="SPRODUCT_BARCODE" style="width: 125px; "/></td>
+@*                        <td style="width:50px" align="right">任务号:</td>
                         <td style="width:138px">
-                             <select id="SBILLMETHOD"  class="easyui-combobox" style="width:125px" >		                
-                                     <option value="0">批次</option>
-		                            <option value="1">等级</option>
-	                         </select>
-                        </td>
+                            <input id="STASK_NO" style="width: 125px; ">
+                        </td>*@
                       </tr>
                        <tr>
                         <td style="width:50px" align="right">牌号</td>
@@ -138,10 +140,10 @@
 						 <td style="width:50px">配方</td>
                         <td style="width:138px"><input id="SFORMULA_CODE" style="width:125px"   class="easyui-combogrid"></td>
                       </tr>
-                      <tr>
+@*                      <tr>
                         <td style="width:50px" align="right">条码</td>
-                        <td  style="width:138px"><input id="SPRODUCT_BARCODE" style="width: 125px; "></td>
-                      </tr>
+                        <td  colspan="3"  style="width:138px" ><input id="SPRODUCT_BARCODE" style="width: 276px; "></td>
+                      </tr>*@
                     </table>
             </div>
         </div>

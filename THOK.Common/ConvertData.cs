@@ -86,10 +86,15 @@ namespace THOK.Common
                     { 
                         value = Convert.ChangeType(row[infors[i].Name], Nullable.GetUnderlyingType(infors[i].PropertyType)); 
                     }
-                     else 
-                        value = Convert.ChangeType(row[infors[i].Name], infors[i].PropertyType);
+                     else
+                        try
+                        {
+                            //if (row[infors[i].Name].GetType().Name == "DBNull") { row[infors[i].Name] = System.DBNull.Value; }
+                            value = Convert.ChangeType(row[infors[i].Name], infors[i].PropertyType);
+                        }
+                        catch (Exception ex) { value = ""; }
                     value = value.ToString () == "null" ? "" : value;
-                    infors[i].SetValue(entity, value, null);
+                     infors[i].SetValue(entity, value, null);
                 }
             }
         }

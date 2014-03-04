@@ -23,6 +23,7 @@ namespace THOK.Wms.DbModel
         public string MEMO { get; set; }
         public Nullable<decimal> PRIORITY_LEVEL { get; set; }
         public string ERROR_FLAG { get; set; }
+        public string NEW_PALLET_CODE { get; set; }
         public string WAREHOUSE_CODE { get; set; }
         public virtual CMD_AREA CMD_AREA { get; set; }
         public virtual CMD_PRODUCT CMD_PRODUCT { get; set; }

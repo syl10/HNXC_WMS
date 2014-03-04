@@ -22,6 +22,8 @@ namespace THOK.Wms.Bll.Service
         [Dependency]
         public IWMSBillMasterRepository BillMasterRepository { get; set; }
         [Dependency]
+        public IWMSBillMasterHRepository BillMasterHRepository { get; set; }
+        [Dependency]
         public ISysTableStateRepository SysTableStateRepository { get; set; }
         [Dependency]
         public IWMSBillDetailRepository BillDetailRepository { get; set; }
@@ -39,6 +41,8 @@ namespace THOK.Wms.Bll.Service
         public ICMDCellRepository cellRepository { get; set; }
         [Dependency]
         public IWMSProductStateRepository ProductStateRepository { get; set; }
+        [Dependency]
+        public IWMSProductStateHRepository ProductStateHRepository { get; set; }
         [Dependency]
         public IWCSTaskRepository WcsTaskRepository { get; set; }
         public object GetDetails(int page, int rows, string billtype, string flag, string BILL_NO, string BILL_DATE, string BTYPE_CODE, string WAREHOUSE_CODE, string BILL_METHOD, string CIGARETTE_CODE, string FORMULA_CODE, string STATE, string OPERATER, string OPERATE_DATE, string CHECKER, string CHECK_DATE, string STATUS, string BILL_DATEStar, string BILL_DATEEND, string SOURCE_BILLNO, string LINENO)
@@ -232,7 +236,7 @@ namespace THOK.Wms.Bll.Service
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
             IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
             var billdetail =from a in detailquery
-                             join b in statequery on a.IS_MIX equals b.STATE
+                             join b in statequery on a.IS_MIX equals b.STATE 
                              join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE
                              where b.TABLE_NAME == "WMS_BILL_DETAIL" && b.FIELD_NAME == "IS_MIX"
                              select new { 
@@ -405,8 +409,8 @@ namespace THOK.Wms.Bll.Service
 
             var temp = list.OrderBy(i => i.PRODUCT_CODE).OrderBy (i=>i.ITEM_NO ).Select(i => i);
             int total = temp.Count();
-            temp = temp.Skip((page - 1) * rows).Take(rows);
-            return new { total, rows = temp.ToArray() };
+            //temp = temp.Skip((page - 1) * rows).Take(rows);
+            return new { total, rows = temp.ToArray () };
         }
 
         //修改
@@ -521,7 +525,7 @@ namespace THOK.Wms.Bll.Service
         {
             string billtyp = "";
             //var billmaster=new object();
-            IQueryable<WMS_BILL_MASTER> billquery = BillMasterRepository.GetQueryable();
+            IQueryable<WMS_BILL_MASTERH> billquery = BillMasterHRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
             IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
             IQueryable<CMD_CELL> cellquery = cellRepository.GetQueryable();
@@ -585,17 +589,32 @@ namespace THOK.Wms.Bll.Service
               billmaster = billmaster.Where(i => (from b in cellquery where b.BILL_NO ==i.BILL_NO  select b.BILL_NO).Contains(i.BILL_NO ));
           }
             if (!string.IsNullOrEmpty(billno)) {
-                string info = billno.Split(':')[0];
-                string val = billno.Split(':')[1];
-                if (!string.IsNullOrEmpty(val))
+                //string info = billno.Split(':')[0];
+                string[] val = billno.Split(':');
+                if (!string.IsNullOrEmpty(val[0]))
                 {
-                    if (info == "billno")
-                        billmaster = billmaster.Where(i => i.BILL_NO == val);
-                    else if (info == "cigarate")
-                        billmaster = billmaster.Where(i => i.CIGARETTE_CODE == val);
-                    else
-                        billmaster = billmaster.Where(i => i.FORMULA_CODE == val);
+                    string no = val[0];
+                    billmaster = billmaster.Where(i => i.BILL_NO == no);
                 }
+                if (!string.IsNullOrEmpty(val[1]))
+                {
+                    string cigarete = val[1];
+                    billmaster = billmaster.Where(i => i.CIGARETTE_CODE == cigarete);
+                }
+                if (!string.IsNullOrEmpty(val[2]))
+                {
+                    string formula = val[2];
+                    billmaster = billmaster.Where(i => i.FORMULA_CODE == formula);
+                }
+                //if (!string.IsNullOrEmpty(val))
+                //{
+                //    if (info == "billno")
+                //        billmaster = billmaster.Where(i => i.BILL_NO == val);
+                //    else if (info == "cigarate")
+                //        billmaster = billmaster.Where(i => i.CIGARETTE_CODE == val);
+                //    else
+                //        billmaster = billmaster.Where(i => i.FORMULA_CODE == val);
+                //}
             }
             var temp = billmaster.ToArray().OrderByDescending(i => i.OPERATE_DATE).Select(i => new
             {
@@ -832,7 +851,7 @@ namespace THOK.Wms.Bll.Service
         public object Cellselect(int page, int rows, string soursebill, string queryinfo, string selectedcellcodestr)
         {
             IQueryable<CMD_CELL> cellquery = cellRepository.GetQueryable();
-            IQueryable<WMS_PRODUCT_STATE> productstate = ProductStateRepository.GetQueryable();
+            IQueryable<WMS_PRODUCT_STATEH> productstate = ProductStateHRepository.GetQueryable();
             var cells = (from a in cellquery
                          join b in productstate on a.PRODUCT_BARCODE equals b.PRODUCT_BARCODE
                         select new { 
@@ -1504,22 +1523,35 @@ namespace THOK.Wms.Bll.Service
                               }).Distinct();
             if (!string.IsNullOrEmpty(queryinfo))
             {
-                string info = queryinfo.Split(':')[0];
-                string val = queryinfo.Split(':')[1];
-                if (!string.IsNullOrEmpty(val))
-                {
-                    if (info == "billno")
-                        billmaster = billmaster.Where(i => i.BILL_NO == val);
-                    else if (info == "cigarate")
-                        billmaster = billmaster.Where(i => i.CIGARETTE_CODE == val);
-                    else
-                        billmaster = billmaster.Where(i => i.FORMULA_CODE == val);
+                //string info = queryinfo.Split(':')[0];
+                string[] val = queryinfo.Split(':');
+                if(!string .IsNullOrEmpty (val[0])){
+                    string billno = val[0];
+                    billmaster = billmaster.Where(i => i.BILL_NO == billno);
                 }
+                if (!string.IsNullOrEmpty(val[1])) {
+                    string cigarete = val[1];
+                    billmaster = billmaster.Where(i => i.CIGARETTE_CODE == cigarete);
+                }
+                if(!string .IsNullOrEmpty (val[2])){
+                    string formula = val[2];
+                    billmaster = billmaster.Where(i => i.FORMULA_CODE ==formula);
+                }
+                //if (!string.IsNullOrEmpty(val))
+                //{
+                //    if (info == "billno")
+                //        billmaster = billmaster.Where(i => i.BILL_NO == val);
+                //    else if (info == "cigarate")
+                //        billmaster = billmaster.Where(i => i.CIGARETTE_CODE == val);
+                //    else
+                //        billmaster = billmaster.Where(i => i.FORMULA_CODE == val);
+                //}
             }
             billmaster =billmaster .Where (i=>!("1,2".Contains (i.STATE ))&&i.BTYPE_CODE !="005");//状态为作业以上的.
             billmaster = billmaster.OrderByDescending(i => i.OPERATE_DATE);
-            int total = billmaster.Count();
-            billmaster = billmaster.Skip((page - 1) * rows).Take(rows);
+                int total = billmaster.Count();
+                billmaster = billmaster.Skip((page - 1) * rows).Take(rows);
+
             var temp = billmaster.ToArray().Select(i => new
             {
                 i.BILL_NO,
@@ -1619,7 +1651,11 @@ namespace THOK.Wms.Bll.Service
                 foreach (DataRow dr in dt.Rows)
                 {
                     WMS_BILL_DETAIL subdetail = new WMS_BILL_DETAIL();
-                    THOK.Common.ConvertData.DataBind(subdetail, dr);
+                    //try
+                    //{
+                        THOK.Common.ConvertData.DataBind(subdetail, dr);
+                    //}
+                    //catch (Exception ex) { }
                     subdetail.ITEM_NO = serial;
                     subdetail.BILL_NO = mast.BILL_NO;
                     if (subdetail.FPRODUCT_CODE == "null") subdetail.FPRODUCT_CODE = "";
@@ -1636,7 +1672,7 @@ namespace THOK.Wms.Bll.Service
         //获取单据下的明细,根据产品代码,消除重复的.
         public object GetSubDetails(int page, int rows, string BillNo)
         {
-            IQueryable<WMS_BILL_DETAIL> detailquery = BillDetailRepository.GetQueryable();
+            IQueryable<WMS_BILL_DETAILH> detailquery = BillDetailHRepository.GetQueryable();
             IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
             IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
             var billdetail =from a in detailquery
@@ -1671,6 +1707,54 @@ namespace THOK.Wms.Bll.Service
             int total = temp.Count();
             temp = temp.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = temp};
+        }
+
+        //专门用于紧急补料中获取入库批次下的明细.
+        public object GetSubDetailsforfeeeding(int page, int rows, string BillNo)
+        {
+            IQueryable<WMS_BILL_DETAILH> detailquery = BillDetailHRepository.GetQueryable();
+            IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
+            IQueryable<CMD_PRODUCT> productquery = ProductRepository.GetQueryable();
+            IQueryable<CMD_CELL> cellquery = cellRepository.GetQueryable();
+            var billdetail = from a in detailquery
+                             join b in statequery on a.IS_MIX equals b.STATE
+                             join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE
+                             where b.TABLE_NAME == "WMS_BILL_DETAIL" && b.FIELD_NAME == "IS_MIX"
+                             select new
+                             {
+                                 a.BILL_NO,
+                                 a.ITEM_NO,
+                                 a.PRODUCT_CODE,
+                                 c.PRODUCT_NAME,
+                                 c.YEARS,
+                                 c.CMD_PRODUCT_GRADE.GRADE_NAME,
+                                 c.CMD_PRODUCT_STYLE.STYLE_NAME,
+                                 c.CMD_PRODUCT_ORIGINAL.ORIGINAL_NAME,
+                                 c.CMD_PRODUCT_CATEGORY.CATEGORY_NAME,
+                                 a.WEIGHT,
+                                 a.REAL_WEIGHT,
+                                 a.IS_MIX,
+                                 IS_MIXDESC= b.STATE_DESC,
+                                 a.FPRODUCT_CODE ,
+                                 a.PACKAGE_COUNT
+                             };
+            var nolockcell = cellquery.Where(i => i.BILL_NO == BillNo && i.IS_LOCK == "0" && i.ERROR_FLAG == "0" && i.IS_ACTIVE == "1").Select (i=>i);
+            var _temp = billdetail.ToArray().Where(i => i.BILL_NO == BillNo).OrderBy(i => i.ITEM_NO).Select(i => new
+            {
+                i.BILL_NO,
+                i.PRODUCT_CODE,
+                i.PRODUCT_NAME,
+                i.WEIGHT,
+                i.REAL_WEIGHT ,
+                PACKAGE_COUNT=(nolockcell .Where (a=>a.PRODUCT_CODE ==i.PRODUCT_CODE ).Count ()) ,
+                i.IS_MIX ,
+                i.IS_MIXDESC,
+                i.FPRODUCT_CODE 
+            });
+            var temp = _temp.Where(i => i.PACKAGE_COUNT > 0).Select(i => i);
+            int total = temp.Count();
+            temp = temp.Skip((page - 1) * rows).Take(rows);
+            return new { total, rows = temp };
         }
     }
 }
