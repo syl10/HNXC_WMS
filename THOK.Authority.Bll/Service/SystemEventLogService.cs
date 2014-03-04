@@ -31,8 +31,23 @@ namespace THOK.Authority.Bll.Service
         {
             get { return this.GetType(); }
         }
-        public void CreateEventLog(string eventName,string eventDescription,string operateUser,string targetSystem,string idAdress)
+        public void CreateEventLog(string eventName, string eventDescription, string operateUser, string targetSystem, string idAdress)
         {
+
+            var SYSTEM_EVENT = new AUTH_SYSTEM_EVENT_LOG()
+            {
+                //  USER_ID = Guid.NewGuid().ToString(),
+                EVENT_LOG_ID = SystemEventLogRepository.GetNewID("AUTH_SYSTEM_EVENT_LOG", "EVENT_LOG_ID"),
+                EVENT_NAME = eventName,
+                EVENT_DESCRIPTION = eventDescription,
+                OPERATE_USER = operateUser,
+                TARGET_SYSTEM = targetSystem,
+                FROM_PC = idAdress,
+                EVENT_LOG_TIME = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss"),
+                EVENT_TYPE = eventName
+            };
+            SystemEventLogRepository.Add(SYSTEM_EVENT);
+            SystemEventLogRepository.SaveChanges();
 
         }
     }
