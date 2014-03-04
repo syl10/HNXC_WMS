@@ -6,9 +6,11 @@ using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using THOK.Wms.Bll.Interfaces;
 using THOK.WebUtil;
+using THOK.Security;
 
 namespace WMS.Controllers.Wms.WMS
 {
+     [TokenAclAuthorize]
     public class SamplingWorkController : Controller
     {
         //

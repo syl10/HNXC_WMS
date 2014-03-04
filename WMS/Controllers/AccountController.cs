@@ -12,6 +12,7 @@ using System;
 
 namespace WMS.Controllers
 {
+    [TokenAclAuthorize]
     public class AccountController : Controller
     {
         [Dependency]

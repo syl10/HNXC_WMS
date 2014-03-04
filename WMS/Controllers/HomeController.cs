@@ -8,6 +8,7 @@ using THOK.Authority.Bll.Models;
 
 namespace WMS.Controllers
 {
+    [TokenAclAuthorize]
     public class HomeController : Controller
     {
         [Dependency]

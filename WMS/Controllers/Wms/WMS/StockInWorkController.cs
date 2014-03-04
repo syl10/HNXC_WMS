@@ -9,9 +9,11 @@ using THOK.WebUtil;
 using FastReport;
 using FastReport.Utils;
 using FastReport.Web;
+using THOK.Security;
 
 namespace WMS.Controllers.Wms.WMS
 {
+     [TokenAclAuthorize]
     public class StockInWorkController : Controller
     {
         //

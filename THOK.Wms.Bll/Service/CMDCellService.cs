@@ -650,7 +650,7 @@ namespace THOK.Wms.Bll.Service
                                                                                      children = ""
                                                                                  })
                                                                                  .OrderBy(c=>c.id)
-                                                                 })
+                                                                 }).OrderBy (t=>t.id )
                                                  })
                                  }).ToArray();
             return tmp;
@@ -1537,6 +1537,7 @@ namespace THOK.Wms.Bll.Service
                 completecell.PALLET_CODE = taskrecord.PALLET_CODE;
                 completecell.REAL_WEIGHT = taskrecord.REAL_WEIGHT;
                 completecell.BILL_NO = taskrecord.INBILL_NO;
+                completecell.ERROR_FLAG = "0";
                 completecell.IN_DATE = indate;
 
                 int result = CMDCellRepository.SaveChanges();

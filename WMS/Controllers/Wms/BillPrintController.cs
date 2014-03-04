@@ -6,9 +6,11 @@ using System.Web.Mvc;
 using FastReport.Web;
 using FastReport;
 using THOK.Common;
+using THOK.Security;
 
 namespace WMS.Controllers.Wms
 {
+    [TokenAclAuthorize]
     public class BillPrintController : Controller
     {
         //

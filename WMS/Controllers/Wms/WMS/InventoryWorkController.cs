@@ -6,9 +6,11 @@ using System.Web.Mvc;
 using THOK.WebUtil;
 using Microsoft.Practices.Unity;
 using THOK.Wms.Bll.Interfaces;
+using THOK.Security;
 
 namespace WMS.Controllers.Wms.WMS
 {
+    [TokenAclAuthorize]
     public class InventoryWorkController : Controller
     {
         //

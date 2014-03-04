@@ -7,9 +7,11 @@ using Microsoft.Practices.Unity;
 using THOK.Wms.Bll.Interfaces;
 using THOK.WebUtil;
 using THOK.Wms.DbModel;
+using THOK.Security;
 
 namespace WMS.Controllers.Wms.WMS
 {
+     [TokenAclAuthorize]
     public class Schedule2Controller : Controller
     {
         //

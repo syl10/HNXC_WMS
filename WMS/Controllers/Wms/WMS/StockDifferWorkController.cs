@@ -8,9 +8,11 @@ using THOK.Wms.Bll.Interfaces;
 using THOK.Wms.DbModel;
 using Microsoft.Practices.Unity;
 using System.Reflection;
+using THOK.Security;
 
 namespace WMS.Controllers.Wms.WMS
 {
+     [TokenAclAuthorize]
     public class StockDifferWorkController : Controller
     {
         //

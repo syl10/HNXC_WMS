@@ -7,9 +7,11 @@ using THOK.Authority.Bll.Interfaces;
 using System;
 using THOK.Wms.Bll.Interfaces;
 using THOK.Wms.DbModel;
+using THOK.Security;
 
 namespace WMS.Controllers.Wms.WMS
 {
+    [TokenAclAuthorize]
     public class FormulaController : Controller
     {
         //

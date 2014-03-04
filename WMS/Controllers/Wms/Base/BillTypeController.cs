@@ -7,10 +7,12 @@ using THOK.Authority.Bll.Interfaces;
 using System;
 using THOK.Wms.Bll.Interfaces;
 using THOK.Wms.DbModel;
+using THOK.Security;
 
 
 namespace WMS.Controllers.Wms.Base
 {
+    [TokenAclAuthorize]
     public class BillTypeController : Controller
     {
         [Dependency]
