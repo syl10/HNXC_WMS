@@ -1,7 +1,7 @@
 ﻿<script type="text/javascript">
 
     function helpQueryClick2() {
-        $('#helpDetail2').datagrid({ url: '/Module/Details2/?QueryString=' + $('#queryType2').combobox('getValue') + '&Value=' + $('#helpInfo2').val() });
+        $('#helpDetail2').datagrid({ url: '/Module/Details2/?QueryString=' + $('#queryType2').combobox('getValue') + '&Value=' +escape( $('#helpInfo2').val()) });
         $("#helpDetail2").datagrid('reload');
     };
 
@@ -63,7 +63,7 @@
 </div>
 <div id="btn-query2">
 <select id="queryType2" name="QueryString" class="easyui-combobox" style="width: 100px;" readonly="true">
-		                <option value="SYSTEM_NAME">系统名称</option>
+		                <option value="SystemName">系统名称</option>
 		                <option value="MODULE_NAME">模块名称</option>
 	                </select>
                     <input id="helpInfo2">

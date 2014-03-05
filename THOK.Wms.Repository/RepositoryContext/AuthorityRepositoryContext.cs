@@ -30,14 +30,14 @@ namespace THOK.Wms.Repository.RepositoryContext
             {
                 return this.DbContext.SaveChanges();
             }
-            
+
             catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
                 return -1;
             }
             catch (System.Exception ex2)
             {
-                string str = ex2.InnerException +ex2.Message;
+                string str = ex2.InnerException + ex2.Message;
                 return -1;
             }
         }

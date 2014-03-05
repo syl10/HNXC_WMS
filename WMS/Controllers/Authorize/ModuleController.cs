@@ -39,7 +39,7 @@ namespace WMS.Controllers.Authority
         }
         public ActionResult Details2(int page, int rows, string QueryString, string Value)
         {
-            if (QueryString == null)
+            if (QueryString == null )
             {
                 QueryString = "SystemName";
             }

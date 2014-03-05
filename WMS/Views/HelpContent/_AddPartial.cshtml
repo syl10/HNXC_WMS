@@ -56,7 +56,7 @@
                     $('#dlg').dialog('close');
                     $('#details').datagrid('reload');
                 } else {
-                    $.messager.alert(g_MsgBoxTitle, result.msg + '<br />' + result.data, "error");
+                    $.messager.alert(g_MsgBoxTitle, result.msg , "error");
                     $('#details').datagrid('reload');
                 }
             }
@@ -85,7 +85,7 @@
     }
     function helpSelect2() {
         $('#helpData2').dialog('open').dialog('setTitle', '选择模块信息');
-        $('#helpDetail2').datagrid({ url: '/Module/Details2/'});
+        $('#helpDetail2').datagrid({ url: '/Module/Details2/' });
         $("#helpDetail2").datagrid('reload');
     }
 </script>
@@ -155,7 +155,7 @@
                        模块名称：
                     </td>
                      <td width="168">
-                        <input name="ModuleID" id="moduleID" type="text"/>
+                        <input name="ModuleID" id="moduleID" class="easyui-validatebox" required="true"  type="text"/>
                          <a href="#" id="parentModuleIDSearch" class="easyui-linkbutton" iconcls="icon-search"
                             plain="true" onclick="helpSelect2()"></a>
                     </td>      

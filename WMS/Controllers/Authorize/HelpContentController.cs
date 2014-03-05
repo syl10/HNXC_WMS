@@ -87,7 +87,7 @@ namespace WMS.Controllers.Authority
         {
             string strResult = string.Empty;
             bool bResult = HelpContentService.Save(ID, ContentCode, ContentName, ContentPath, FatherNodeID, ModuleID, NodeOrder, IsActive, out strResult);
-            string msg = bResult ? "修改成功" : "修改失败";
+            string msg = bResult ? "修改成功" : "修改失败"+strResult;
             return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //

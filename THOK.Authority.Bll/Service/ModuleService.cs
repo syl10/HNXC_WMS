@@ -1046,15 +1046,17 @@ namespace THOK.Authority.Bll.Service
             }
             IQueryable<AUTH_MODULE> ModuleQuery = ModuleRepository.GetQueryable();
             var Module = ModuleQuery.Where(c => c.AUTH_SYSTEM.SYSTEM_NAME.Contains(SystemName) && c.MODULE_NAME.Contains(ModuleName))
-                .OrderBy(c => c.MODULE_NAME)
                 .Select(c => new
                 {
                     c.MODULE_ID,
                     c.MODULE_NAME,
                     c.MODULE_URL,
                     ParentModule = c.PARENT_AUTH_MODULE.MODULE_NAME,
-                    c.AUTH_SYSTEM.SYSTEM_NAME
+                    c.AUTH_SYSTEM.SYSTEM_NAME,
+                    c.PARENT_MODULE_MODULE_ID ,
+                    c.SHOW_ORDER 
                 });
+            Module = Module.OrderBy(c => c.PARENT_MODULE_MODULE_ID).ThenBy (c=>c.SHOW_ORDER );
             int total = Module.Count();
             Module = Module.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = Module.ToArray() };

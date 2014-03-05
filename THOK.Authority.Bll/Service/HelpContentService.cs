@@ -88,6 +88,7 @@ namespace THOK.Authority.Bll.Service
                 HelpContentRepository.Detach(help);
                 strResult = "原因：" + ex.Message;
                 ExceptionalLogService.Add(this.GetType().ToString(), "Add", ex);
+                result = false;
             }
            
             return result;
@@ -162,13 +163,19 @@ namespace THOK.Authority.Bll.Service
                 help.MODULE_ID = ModuleID;
                 help.NODE_ORDER = NodeOrder;
                 help.IS_ACTIVE = IsActive;
-                HelpContentRepository.SaveChanges();               
+               int result= HelpContentRepository.SaveChanges();
+               if (result == -1)
+               {
+                   return false;
+               }
+               else return true;
             }
             catch (Exception ex)
             {
                 strResult = "原因：" + ex.Message;
+                return false;
             }
-            return true;
+            //return true;
         }
 
         public object GetDetails2(int page, int rows, string ContentCode, string ContentName, string NodeType, string FatherNodeID, string ModuleID, string IsActive)
