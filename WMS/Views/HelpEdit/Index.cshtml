@@ -14,33 +14,27 @@
             onClick: function (node) {
                 if (node) {
                     helpID = node.attributes.AttributeId;
-                    $.getJSON("/HelpEdit/GetSingleContentTxt/", { 'helpId': helpID }, function (helpContent) {
-                        $('#helpId').val(helpID);
-                        HelpTxt = helpContent.CONTENT_TEXT;
-                        $('#helpId').val(helpID);
-                        //                        CKEDITOR.instances["editor01"].destroy();
-                        $('#editor01').val(HelpTxt);
-                        //                        $('#editor01').xheditor({ upLinkUrl: "/Content/Scripts/xheditor1.1.14/upload.aspx", upLinkExt: "zip,rar,txt", upImgUrl: "/Content/Scripts/xheditor1.1.14/upload.aspx", upImgExt: "jpg,jpeg,gif,png", onUpload: insertUpload });
-                    });
-
-                    //                var helpId = node.attributes.AttributeId;
-                    //               // var HelpTxt;
-                    //                //var HelpTxt = $.ajaxSender.send('/HelpEdit/GetContentTxt/', { 'helpId': helpId }).toString();
-                    //                //alert(HelpTxt);
-                    //                var AttributeTxt = node.attributes.AttributeTxt;
-
-                    //                //                window.location.href = "/HelpEdit/GetContentTxt/?helpId=" + helpId;
-                    //                //                var HelpTxt = window.location.href;
-
-                    ////                $.getJSON("/HelpEdit/GetContentTxt/", { 'helpId': helpId }, function (helpContent) {
-                    ////                    HelpTxt = (helpContent.ContentText);
-                    ////                    //alert(helpContent.ContentText);
-                    //                //                });
-                    //                //alert(AttributeTxt);
-                    //                $('#helpId').val(helpID);
-                    //                CKEDITOR.instances["editor01"].destroy();
-                    //                $('#editor01').val(AttributeTxt);
-                    //                CKEDITOR.replace('editor01');
+                    if (helpID != "1" && helpID != "3") {
+                        $('form').show();
+                        $('#rootcontent').hide();
+                        $.getJSON("/HelpEdit/GetSingleContentTxt/", { 'helpId': helpID }, function (helpContent) {
+                            $('#helpId').val(helpID);
+                            HelpTxt = helpContent.CONTENT_TEXT;
+                            $('#helpId').val(helpID);
+                            //                        CKEDITOR.instances["editor01"].destroy();
+                            $('#editor01').val(HelpTxt);
+                            //                        $('#editor01').xheditor({ upLinkUrl: "/Content/Scripts/xheditor1.1.14/upload.aspx", upLinkExt: "zip,rar,txt", upImgUrl: "/Content/Scripts/xheditor1.1.14/upload.aspx", upImgExt: "jpg,jpeg,gif,png", onUpload: insertUpload });
+                        });
+                    }
+                    else {
+                        $('form').hide();
+                        $('#rootcontent').show();
+                        $.getJSON("/HelpEdit/GetContentTxt/", { 'helpId': helpID }, function (helpContent) {
+                            HelpTxt = helpContent.CONTENT_TEXT;
+                            $('#rootcontent').text("");
+                            $(HelpTxt).appendTo('#rootcontent');
+                        });
+                    }
                 }
             }
         });
@@ -60,9 +54,9 @@
     <ul id="helpTree" class="easyui-tree" url='/HelpEdit/GetHelpContent/'></ul>
 </div>
 <div region="center" split="true" border="false" style="border-bottom-style: solid; margin-top:0px; border-bottom-width: 1px; border-bottom-color: #99BBE8"> @*buttons="#buttons-save"> *@
-   <form id ="editorForm" action="javascript:saveHelpEdit()" method="post" style=" margin-top:0px;">
+   <form id ="editorForm" action="javascript:saveHelpEdit()" method="post" style=" margin-top:0px; display:none">
         <input id ="helpId" name = "helpId01" type="hidden"/>
-        <textarea rows="20" cols="40" id ="editor01" name="editor01" style="width: 850px;  height:450px;" validtype="maxLength[4000]" ></textarea>
+        <textarea rows="20" cols="40" id ="editor01" name="editor01" style="width: 850px;  height:400px; " validtype="maxLength[4000]" ></textarea>
     @*<div id="#buttons-save">
     <a href="#" class="easyui-linkbutton" iconcls="icon-ok" onclick="S_select()">提交</a>
     </div>*@
@@ -70,4 +64,5 @@
         <input type="submit" name="save" value="保存" style=" width:80px; height:20px;" />
     </div>
     </form>
+    <div id="rootcontent"></div>
 </div>
