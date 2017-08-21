@@ -7,9 +7,13 @@ using THOK.WebUtil;
 using THOK.Authority.DbModel;
 using THOK.Authority.Bll.Interfaces;
 using System;
+using Wms.Security;
+using THOK.Security;
 
 namespace WMS.Controllers.Authority
 {
+    [TokenAclAuthorize]
+    [SystemEventLog]
     public class HelpEditController : Controller
     {
         //
@@ -30,7 +34,7 @@ namespace WMS.Controllers.Authority
         public ActionResult GetHelpContent(string sysId)
         {
             var helpTree = HelpContentService.GetHelpContentTree(sysId);
-            return Json(helpTree, "text", JsonRequestBehavior.AllowGet);
+            return Json(helpTree, "text/html", JsonRequestBehavior.AllowGet);
         }
         // GET: /HelpEdit/SaveHelpEdit/
         [ValidateInput(false)]
@@ -39,21 +43,21 @@ namespace WMS.Controllers.Authority
             string strResult = string.Empty;
             bool bResult = HelpContentService.EditSave(helpId01, editor01, out strResult);
             string msg = bResult ? "更新成功" : "更新失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, strResult), "text/html", JsonRequestBehavior.AllowGet);
         }
         //依据ID获取帮助文档内容
         // GET: /HelpEdit/GetContentTxt/
         public ActionResult GetContentTxt(string helpId)
         {
             var helpContent = HelpContentService.GetContentTxt(helpId);
-            return Json(helpContent, "text", JsonRequestBehavior.AllowGet);
+            return Json(helpContent, "text/html", JsonRequestBehavior.AllowGet);
         }
         //依据ID获取帮助文档内容
         // GET: /HelpEdit/GetContentTxt_02/
         public ActionResult GetSingleContentTxt(string helpId)
         {
             var helpContent = HelpContentService.GetSingleContentTxt(helpId);
-            return Json(helpContent, "text", JsonRequestBehavior.AllowGet);
+            return Json(helpContent, "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

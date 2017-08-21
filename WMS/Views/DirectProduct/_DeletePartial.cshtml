@@ -1,0 +1,43 @@
+﻿<script type="text/javascript">
+    function deleteClick() {
+        clickbt = "delete";
+        serial = 1;
+        ischang = false;
+        var row = $('#details').datagrid('getSelected');
+        index = $('#details').datagrid('getRowIndex', row);
+        if (row) {
+            if (row.STATE == "1") {
+                $('#dlg').dialog('open').dialog('setTitle', '删除');
+                $('#fm').form('clear');
+                loaddata(row.BILL_NO);
+                $('#BILL_DATE').datebox({
+                    width: 135,
+                    hasDownArrow: true,
+                    required: true
+                });
+                $('#OPERATE_DATE').datebox({
+                    width: 135,
+                    hasDownArrow: true,
+                    required: true
+                });
+                GetWarehouseCode();  //仓库编号
+                GetCigarette(); //加载牌号
+                GetFormula(""); //加载配方
+                GetLineNo(); //制丝线
+                $('#fm').form('load', row);
+                //禁用明细按钮
+                $('#btnAddBillDetail').linkbutton('disable');
+                $('#btnDeleteBillDetail').linkbutton('disable');
+                $('#btnEditBillDetail').linkbutton('disable');
+                $('#btLoadFormula').attr('disabled',true);
+            }
+            else {
+                alert("该记录已" + row.STATENAME + "不能删除");
+            }
+        }
+        else {
+            alert( '没有选择行！');
+        }
+    }
+</script>
+

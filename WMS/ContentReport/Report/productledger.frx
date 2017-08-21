@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="12/02/2013 09:56:05" ReportInfo.Modified="01/21/2014 09:30:13" ReportInfo.CreatorVersion="1.9.9.0">
+  <Dictionary>
+    <ViewDataSource Name="productledger" ReferenceName="productledger" DataType="System.Int32" Enabled="true">
+      <Column Name="BALANCE_NO" DataType="System.String"/>
+      <Column Name="WAREHOUSE_CODE" DataType="System.String"/>
+      <Column Name="WAREHOUSE_NAME" DataType="System.String"/>
+      <Column Name="PRODUCT_CODE" DataType="System.String"/>
+      <Column Name="PRODUCT_NAME" DataType="System.String"/>
+      <Column Name="BEGIN_QUANTITY" DataType="System.Decimal"/>
+      <Column Name="IN_QUANTITY" DataType="System.Decimal"/>
+      <Column Name="OUT_QUANTITY" DataType="System.Decimal"/>
+      <Column Name="DIFF_QUANTITY" DataType="System.Decimal"/>
+      <Column Name="ENDQUANTITY" DataType="System.Decimal"/>
+      <Column Name="INSPECTOUT_QUANTITY" DataType="System.Decimal"/>
+      <Column Name="INSPECTIN_QUANTITY" DataType="System.Decimal"/>
+      <Column Name="INCOME_QUANTITY" DataType="System.Decimal"/>
+      <Column Name="FEEDING_QUANTITY" DataType="System.Decimal"/>
+      <Column Name="BEGINMONTH" DataType="System.String"/>
+      <Column Name="ENDMONTH" DataType="System.String"/>
+    </ViewDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="86.7" StartNewPage="true" Condition="[productledger.BEGINMONTH]">
+      <TableObject Name="Table2" Left="1.15" Top="66.39" Width="707.18" Height="18.9">
+        <TableColumn Name="Column6" Width="58.22"/>
+        <TableColumn Name="Column7" Width="58.22"/>
+        <TableColumn Name="Column8" Width="43.31"/>
+        <TableColumn Name="Column9" Width="60.11"/>
+        <TableColumn Name="Column10" Width="58.22"/>
+        <TableColumn Name="Column11" Width="60.3"/>
+        <TableColumn Name="Column12" Width="60.12"/>
+        <TableColumn Name="Column13" Width="109.88"/>
+        <TableColumn Name="Column14" Width="83.14"/>
+        <TableColumn Name="Column15" Width="57.44"/>
+        <TableColumn Name="Column16" Width="58.22"/>
+        <TableRow Name="Row2">
+          <TableCell Name="Cell6" Text="开始月份" Font="宋体, 9pt"/>
+          <TableCell Name="Cell7" Text="结束月份" Font="宋体, 9pt"/>
+          <TableCell Name="Cell8" Text="仓库" Font="宋体, 9pt"/>
+          <TableCell Name="Cell9" Text="产品名称" Font="宋体, 9pt"/>
+          <TableCell Name="Cell10" Text="入库重量" Font="宋体, 9pt"/>
+          <TableCell Name="Cell11" Text="出库重量" Font="宋体, 9pt"/>
+          <TableCell Name="Cell12" Text="抽检重量" Font="宋体, 9pt"/>
+          <TableCell Name="Cell13" Text="抽检补料入库重量" Font="宋体, 9pt"/>
+          <TableCell Name="Cell14" Text="紧急补料重量" Font="宋体, 9pt"/>
+          <TableCell Name="Cell15" Text="损益重量" Font="宋体, 9pt"/>
+          <TableCell Name="Cell16" Text="差异重量" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <TextObject Name="Text1" Left="2.05" Top="26.11" Width="703.35" Height="18.9" Text="产品总账" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="90.7" Width="718.2" Height="26.28" DataSource="productledger">
+        <TableObject Name="Table3" Left="0.94" Top="1.33" Width="707.18" Height="18.9">
+          <TableColumn Name="Column17" Width="58.22"/>
+          <TableColumn Name="Column18" Width="58.22"/>
+          <TableColumn Name="Column19" Width="43.31"/>
+          <TableColumn Name="Column20" Width="60.11"/>
+          <TableColumn Name="Column21" Width="58.22"/>
+          <TableColumn Name="Column22" Width="60.3"/>
+          <TableColumn Name="Column23" Width="60.12"/>
+          <TableColumn Name="Column24" Width="109.88"/>
+          <TableColumn Name="Column25" Width="83.14"/>
+          <TableColumn Name="Column26" Width="57.44"/>
+          <TableColumn Name="Column27" Width="58.22"/>
+          <TableRow Name="Row3">
+            <TableCell Name="Cell17" Text="[productledger.BEGINMONTH]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell18" Text="[productledger.ENDMONTH]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell19" Text="[productledger.WAREHOUSE_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell20" Text="[productledger.PRODUCT_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell21" Text="[productledger.IN_QUANTITY]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell22" Text="[productledger.OUT_QUANTITY]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell23" Text="[productledger.INSPECTOUT_QUANTITY]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell24" Text="[productledger.INSPECTIN_QUANTITY]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell25" Text="[productledger.FEEDING_QUANTITY]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell26" Text="[productledger.INCOME_QUANTITY]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell27" Text="[productledger.DIFF_QUANTITY]" Font="宋体, 9pt"/>
+          </TableRow>
+        </TableObject>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="120.98" Width="718.2" Height="0.12"/>
+    </GroupHeaderBand>
+  </ReportPage>
+</Report>

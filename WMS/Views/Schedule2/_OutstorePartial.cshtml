@@ -1,0 +1,36 @@
+﻿<script type="text/javascript">
+    function outstoreClick() {
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            if (row.STATECODE == "2") {//已审核开始执行生成出库单
+                $.getJSON("/Schedule2/CreateOutbill/?scheduleno=" + row.SCHEDULE_NO, function (result) {
+                    if (result) {
+                        if (result.success) {
+                            $.messager.show({
+                                title: '成功',
+                                msg: result.msg
+                            });
+                            $('#details').datagrid('reload');
+                        } else {
+                            $.messager.show({
+                                title: '错误',
+                                msg: result.msg
+                            });
+                        }
+                    }
+                });
+            }
+            else if (row.STATECODE == "3") {
+                $.messager.confirm('提示', '该记录已生成出库单！');
+            }
+            else {
+                $.messager.confirm('提示', '该记录未审核！');
+            }
+        }
+        else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    }
+</script>
+@*生成出库单*@
+

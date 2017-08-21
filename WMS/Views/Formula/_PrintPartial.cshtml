@@ -1,0 +1,163 @@
+﻿<script type="text/javascript">
+    function printClick() {
+        $('#dlg-print').dialog('open').dialog('setTitle', '打印');
+         $('#BILLDATEFROM').datebox({
+              hasDownArrow: true
+          });
+         $('#BILLDATETO').datebox({
+              hasDownArrow: true
+          });
+//        PGetBillType(); //单据类型
+        PGetCigarette(); //牌号
+       $('#PISACTIVE').combobox('clear');
+       $('#PBILL_METHOD').combobox('clear');
+    }
+    function loadpdf(FORMULACODE,BILLDATEFROM,BILLDATETO,FORMULANAME,ISACTIVE,CIGARETTE_CODE) {
+        $.getJSON("/Formula/Print/?FORMULACODE=" + FORMULACODE + 
+        "&BILLDATEFROM=" + BILLDATEFROM + "&BILLDATETO=" + BILLDATETO+"&FORMULANAME="+FORMULANAME+"&ISACTIVE="+ISACTIVE+"&CIGARETTE_CODE="+CIGARETTE_CODE, 
+        function (json) {
+            if (json) {
+                //                document.getElementById("dlgPrint").innerHTML = "<div id='divPrint1'><embed width='800' height='600' src='" + src1 + "'></embed></div>";
+                $('#dlgPrint').dialog('open').dialog('setTitle', '打印');
+                $('#divPrint1').empty();
+                $('#divPrint1').append("<iframe id='billreportframe'   scrolling='no'  width='100%'  height='100%'   style='   padding:0px;' frameborder='0' src='../BillPrint/?frxname=formulaprint.frx&dataname=formulaprint'></iframe>");
+            }
+        });
+    }
+    //牌号
+    function PGetCigarette() {
+        $('#PCIGARETTE_CODE').combogrid({
+            required: false,
+            disabled: false,
+            width: 125,
+            panelWidth: 340,
+            url: '/Cigarette/Details/?page=1&rows=1000',
+            idField: 'CIGARETTE_CODE',
+            textField: 'CIGARETTE_CODE',
+            mode: 'local',
+//            editable: true,
+            fitColumns: true,
+            columns: [[
+                    { field: 'CIGARETTE_CODE', title: '牌号编码', align: 'left', width: 40 },
+                    { field: 'CIGARETTE_NAME', title: '牌号名称', align: 'left', width: 30 },
+                    { field: 'CIGARETTE_MEMO', title: '备注', align: 'left', width: 30 }
+                ]],
+            onSelect: function (index, data) {
+                PGetFormula(data.CIGARETTE_CODE);
+                $('#PFORMULA_CODE').combogrid('clear');
+            }
+        });
+    }
+
+    //配方
+    function PGetFormula(CIGARETTE_CODE) {
+        $('#PFORMULA_CODE').combogrid({
+            required: false,
+            disabled: false,
+            width: 125,
+            panelWidth: 340,
+            url: '/Formula/Getuserfull/?page=1&rows=1000&cigarettecode=' + CIGARETTE_CODE,
+            idField: 'FORMULA_CODE',
+            textField: 'FORMULA_CODE',
+            mode: 'local',
+//            editable: true,
+            fitColumns: true,
+            columns: [[
+                    { field: 'FORMULA_CODE', title: '配方代码', align: 'left', width: 40 },
+                    { field: 'FORMULA_NAME', title: '配方名称', align: 'left', width: 30 },
+                    { field: 'USE_COUNT', title: '次数', align: 'left', width: 30 }
+                ]]
+        });
+    }
+
+        //单据类型
+    function PGetBillType() {
+        $('#PBTYPE_CODE').combogrid({
+            required: false,
+            disabled: false,
+            width: 125,
+            panelWidth: 340,
+            url: '/BillType/Details/?page=1&rows=1000',
+            idField: 'BTYPE_CODE',
+            textField: 'BTYPE_NAME',
+            mode: 'local',
+//            editable: false,
+            fitColumns: true,
+            queryParams: {
+                  BILL_TYPE:'1'
+            },
+            columns: [[
+                    { field: 'BTYPE_CODE', title: '类型代码', align: 'left', width: 40 },
+                    { field: 'BTYPE_NAME', title: '类型名称', align: 'left', width: 30 },
+                    { field: 'TASK_LEVEL', title: '任务等级', align: 'left', width: 30 },
+                    { field: 'TARGET_CODE', title: '目标口', align: 'left', hidden: true, width: 30 },
+                     { field: 'TARGETNAME', title: '目标口', align: 'left',hidden: true,width: 30 }
+                ]]
+        });
+    }
+    //
+    function BillQueryClick() {
+    }
+    function Print() { 
+        var  FORMULACODE = $('#PFORMULA_CODE').val();
+        var BILLDATEFROM = $('#BILLDATEFROM').datebox('getValue');
+        var BILLDATETO = $('#BILLDATETO').datebox('getValue');
+        var FORMULANAME=$('#PFORMULA_NAME').val();
+        var ISACTIVE ="";
+        var CIGARETTE_CODE=$('#PCIGARETTE_CODE').combogrid('getValue');
+        if($('#PISACTIVE').combobox('getText')!=null&&$('#PISACTIVE').combobox('getText')!=""){
+           ISACTIVE = $('#PISACTIVE').combobox('getValue');}
+
+        loadpdf(FORMULACODE,BILLDATEFROM,BILLDATETO,FORMULANAME,ISACTIVE,CIGARETTE_CODE);
+        $('#PISACTIVE').combobox('clear');
+        $('#BILLDATEFROM').datebox('clear');
+        $('#BILLDATETO').datebox('clear');
+        $('#PCIGARETTE_CODE').combogrid('clear');
+        $('#dlg-print').dialog('close');
+    }
+</script>
+
+<div id="dlgPrint" class="easyui-dialog" modal="true" style="width:970px;height:450px;padding:0px 0px" closed="true" >
+<div id="divPrint1" style="width:950px;height:410px;padding:0px 0px" >
+@*<iframe id='reportframe' scrolling="no"  height='100%'   style=' width:100%;  padding:0px;' frameborder='0' src='../../WebForm1.aspx'></iframe>*@
+</div>
+</div>
+<div id="dlg-print" class="easyui-dialog" modal="true" style="width:460px;height:190px;padding:2px 2px"
+		closed="true" buttons="#dlg-buttons-print">
+        <div class="easyui-layout" fit="true">
+			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
+           <table width="420px">
+                      <tr>
+                         <td style="width:70px" align="right">配方代码</td>
+                        <td style="width:138px"><input id="PFORMULA_CODE" style="width:125px"  /></td>
+                        <td style="width:60px" align="right">配方名称</td>
+                        <td style="width:138px"><input id="PFORMULA_NAME" style="width:125px" ></td>
+                      </tr>
+                      <tr>
+                        <td style="width:70px" align="right">配方日期从:</td>
+                        <td style="width:138px"><input id="BILLDATEFROM" style="width:125px" ></td>
+                        <td style="width:60px" align="right">至:</td>
+                        <td style="width:138px"><input id="BILLDATETO" style="width:125px" ></td>
+                      </tr>
+                      <tr>
+                            <td width="70">牌   号</td>
+                           <td width="138"><input id="PCIGARETTE_CODE" name="PCIGARETTE_CODE" ></td>
+                        <td style="width:50px" align="right">状态</td>
+                        <td style="width:138px">
+                             <select id="PISACTIVE"  class="easyui-combobox" style="width:125px" >		                
+                                     <option value="1">启用</option>
+		                            <option value="0">禁用</option>
+	                         </select>
+                        </td>
+                      </tr>
+                    </table>
+            </div>
+        </div>
+</div>
+
+<div id="dlg-buttons-print">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="select()">查询</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">取消</a>*@
+      <input type="button"  onclick="Print()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btprint" value="打印"/>
+      <input type="button"  onclick="javascript:$('#dlg-print').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>

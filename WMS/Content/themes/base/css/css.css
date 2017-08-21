@@ -42,7 +42,7 @@ body {
 	text-align: left;
 }
 
- input,textarea,select,span.combo
+ input,select,span.combo
 {
 	border: 1px solid #A4BED4;
 	height: 20px;
@@ -52,4 +52,201 @@ body {
 	margin: 0;
 	padding: 0;
 }
+textarea{
+	border: 1px solid #A4BED4;
+	height: 20px;
+	display: inline-block;
+	white-space:pre-line;
+	font-size: 12px;
+	margin: 0;
+	padding: 0;
+}
+/*只读控件的背景色*/
+.readonlybgcolor{
+    background-color:#ebebeb
+}
+/*配方信息中的添加,编辑中的中间工具栏背景色*/
+.formula_editbg{
+   padding:4px 4px;
+   background-image:url(../images/editbg2.png);
+   background-repeat:repeat-x;
+}
+.hearcenter{
+  text-align:center;
+}
+/*确定按钮的样式*/
+.btok{
+	width:75px;
+	height:23px;
+	background-image:url(../icons/ok.png);
+	background-repeat:no-repeat;
+	background-position:10px;
+	padding-left:3px;
+	text-indent: 12px;
+	cursor:pointer;
+	padding-top: 3px;
+	padding-right: 3px;
+	padding-bottom: 3px;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 2px;
+	border-top-style: outset;
+}
+/*打印按钮的样式*/
+.btprint
+{
+    width:75px;
+	height:23px;
+	background-image:url(../icons/print.png);
+	background-repeat:no-repeat;
+	background-position:10px;
+	padding-left:3px;
+	text-indent: 12px;
+	cursor:pointer;
+	padding-top: 3px;
+	padding-right: 3px;
+	padding-bottom: 3px;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 2px;
+	border-top-style: outset;
+    }
+    /*损益作业中的清空与补录按钮样式*/
+   .btclearoradd
+   {
+    width:50px;
+	height:23px;
+	padding-left:3px;
+	text-align:center;
+	cursor:pointer;
+	padding-top: 3px;
+	padding-right: 3px;
+	padding-bottom: 3px;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 2px;
+	border-top-style: outset;
+  }
+/*按钮背景色改变的样式*/
+.btclasschange{
+  background-color:#CCCCCC;
+}
+/*取消按钮的样式*/
+.btcance{
+	width:75px;
+	height:23px;
+	background-image:url(../icons/cancel.png);
+	background-repeat:no-repeat;
+	background-position:8px;
+	margin-left:3px;
+	text-indent: 12px;
+	cursor:pointer;
+    padding-top: 3px;
+	padding-right: 3px;
+	padding-bottom: 3px;
+	border-top-width: 2px;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	border-left-width: 2px;
+	border-top-style: outset;
+}
+.btcance2{
+ background-color:#CCCCCC;
+}
+/*货架查询中 每个列标题的样式*/
+.colunmtitle{
+  width:20px;
+  height:25px;
+  text-align:center;
+  background-color:#FFFFFF
+}
+/*被选中后的列标题样式*/
+.selectedcolunmtitle{
+  width:20px;
+  height:25px;
+  text-align:center;
+  background-color:#FF00FF;
+}
+/*层的标题列样式*/
+.rowtitle{
+  height:25px;
+  text-align:center;
+}
+/*被选中后的行标题样式*/
+.selectedrowtitle{
+  height:25px;
+  text-align:center;
+  background-color:#FF00FF;
+}
+/*被锁定的空货位,(即已被选中)    用黄色表示*/
+.lockemptycell{
+  width:20px;
+  height:25px;
+  background-color:#FFFF33
+}
+/*处于解锁的空货位(即空闲中)     用淡蓝色表示*/
+.unlockemptycell{
+  width:20px;
+  height:25px;
+  background-color:#66FFFF
+}
+/*已被占用并处于解锁状态的货位,  用蓝色表示*/
+.unlockoccupycell{
+  width:20px;
+  height:25px;
+  background-color:#0000FF
+}
+/*已被占用并处于锁定状态的货位,  用草绿色表示*/
+.lockoccupycell{
+  width:20px;
+  height:25px;
+  background-color:#003300
+}
+/*禁用中的货位.                  用灰色表示*/
+.unactive{
+  width:20px;
+  height:25px;
+  background-color:#999999
+}
+/*error_flag 为1是 该货位有异常  用红色表示.*/
+.error{
+  width:20px;
+  height:25px;
+  background-color:#FF0000
+}
+.xuanfu{ 
+ width: 100%;
+ height: 30px; 
+ position:fixed;
+ top: 0;
+ left:0px; 
+ opacity:1;
+ background-color:#FFFFFF;
 
+
+}
+/*给货位加上定位图标*/
+.cellfalg{
+ background-image:url(../images/flag.png);
+ background-repeat:no-repeat;
+}
+/*放大,缩小*/
+.cellamplify{
+  zoom:1;
+}
+.cellinfo{
+   width:65px;
+   font-size:12px;
+}
+.productinfocss{
+   width:300px;
+   height:130px;
+   position:absolute;
+   background-color:#FFFFFF;
+   opacity:0.8;
+   display:none;
+   border:1px solid #000;
+}

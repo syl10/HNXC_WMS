@@ -1,0 +1,27 @@
+﻿<script type="text/javascript">
+    //作业功能
+    function taskClick() {
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            if (row.STATE == "2") { //已审核状态下
+                $.getJSON("/SamplingWork/Task/?BillNo=" + row.BILL_NO, function (json) {
+                    if (json) {
+                        $.messager.show({
+                            title: '提示',
+                            msg: json.success
+                        });
+                    }
+                });
+                $('#SubDetails').datagrid('reload');
+                $('#details').datagrid('reload');
+            }
+            else {
+                $.messager.confirm('提示', '该记录已' + row.STATENAME + '不可重复作业！');
+            }
+        }
+        else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    }
+</script>
+

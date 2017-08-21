@@ -1,0 +1,93 @@
+﻿<script type="text/javascript">
+    function printClick() {
+        $('#dlg-print').dialog('open').dialog('setTitle', '打印');
+         $('#BILLDATEFROM').datebox({
+              hasDownArrow: true
+          });
+         $('#BILLDATETO').datebox({
+              hasDownArrow: true
+          });
+       $('#PSTATE').combobox('clear');
+    }
+      var PrintCount=0;
+    function loadpdf(BILLNO,BILLDATEFROM,BILLDATETO,STATE,SOURSEBILL,SCHEDULENO) {
+        PrintCount = PrintCount + 1;
+        $.getJSON("/StockOutBill/Print/?BTYPECODE=005&BILLNO=" + BILLNO + "&BILLDATEFROM=" + BILLDATEFROM + 
+        "&BILLDATETO=" + BILLDATETO+"&STATE="+STATE+"&SOURSEBILL="+SOURSEBILL+"&SCHEDULENO="+SCHEDULENO, 
+        function (json) {
+            if (json) {
+                //                document.getElementById("dlgPrint").innerHTML = "<div id='divPrint1'><embed width='800' height='600' src='" + src1 + "'></embed></div>";
+                $('#dlgPrint').dialog('open').dialog('setTitle', '打印');
+                $('#divPrint1').empty();
+                $('#divPrint1').append("<iframe id='billreportframe'   scrolling='no'  width='100%'  height='100%'   style='   padding:0px;' frameborder='0' src='../BillPrint/?frxname=feeding.frx&dataname=feeding'></iframe>");
+            }
+        });
+    }
+
+    //
+    function BillQueryClick() {
+    }
+    function Print() { 
+        var  BILL_NO = $('#PBILL_NO').val();
+        var BILLDATEFROM = $('#BILLDATEFROM').datebox('getValue');
+        var BILLDATETO = $('#BILLDATETO').datebox('getValue');
+        var STATE ="";
+        if($('#PSTATE').combobox('getText')!=null&&$('#PSTATE').combobox('getText')!=""){
+           STATE = $('#PSTATE').combobox('getValue');}
+       var SOURSEBILL=$('#PSOURCE_BILLNO').val();
+       var SCHEDULENO=$('#PSCHEDULENO').val();
+        loadpdf(BILL_NO,BILLDATEFROM,BILLDATETO,STATE,SOURSEBILL,SCHEDULENO);
+        $('#PSTATE').combobox('clear');
+        $('#BILLDATEFROM').datebox('clear');
+        $('#BILLDATETO').datebox('clear');
+        $('#dlg-print').dialog('close');
+    }
+</script>
+
+<div id="dlgPrint" class="easyui-dialog" modal="true" style="width:970px;height:450px;padding:0px 0px" closed="true" >
+<div id="divPrint1" style="width:950px;height:410px;padding:0px 0px" >
+@*<iframe id='reportframe' scrolling="no"  height='100%'   style=' width:100%;  padding:0px;' frameborder='0' src='../../WebForm1.aspx'></iframe>*@
+</div>
+</div>
+<div id="dlg-print" class="easyui-dialog" modal="true" style="width:440px;height:210px;padding:2px 2px"
+		closed="true" buttons="#dlg-buttons-print">
+        <div class="easyui-layout" fit="true">
+			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
+           <table width="400px">
+                      <tr>
+                        <td style="width:50px" align="right">单据编号</td>
+                        <td style="width:138px"><input id="PBILL_NO" style="width:125px"  /></td>
+                        <td style="width:50px" align="right">单据状态</td>
+                        <td style="width:138px">
+                             <select id="PSTATE"  class="easyui-combobox" style="width:125px" >		                
+                                     <option value="1">保存</option>
+		                            <option value="2">审核</option>
+                                    <option value ="3">作业</option>
+	                         </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="width:70px" align="right">单据日期从:</td>
+                        <td style="width:138px"><input id="BILLDATEFROM" style="width:125px" ></td>
+                        <td style="width:50px" align="right">至:</td>
+                        <td style="width:138px"><input id="BILLDATETO" style="width:125px" ></td>
+                      </tr>
+                      <tr>
+                          <td width="50">入库批次</td>
+                          <td width="125" >
+                                <input id="PSOURCE_BILLNO" style="width:125px" >
+                            </td>
+                            <td width="50">出库批次</td>
+                            <td width="125"><input id="PSCHEDULENO" style="width:125px" ></td>
+                      </tr>
+                    </table>
+            </div>
+        </div>
+</div>
+
+<div id="dlg-buttons-print">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="select()">查询</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">取消</a>*@
+      <input type="button"  onclick="Print()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btprint" value="打印"/>
+      <input type="button"  onclick="javascript:$('#dlg-print').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>

@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/26/2013 17:07:45" ReportInfo.Modified="01/21/2014 08:56:39" ReportInfo.CreatorVersion="1.9.9.0">
+  <Dictionary>
+    <ViewDataSource Name="directproduct" ReferenceName="directproduct" DataType="System.Int32" Enabled="true">
+      <Column Name="BILL_NO" DataType="System.String"/>
+      <Column Name="BILL_DATE" DataType="System.DateTime"/>
+      <Column Name="SCHEDULE_NO" DataType="System.String"/>
+      <Column Name="WAREHOUSE_CODE" DataType="System.String"/>
+      <Column Name="WAREHOUSE_NAME" DataType="System.String"/>
+      <Column Name="CIGARETTE_CODE" DataType="System.String"/>
+      <Column Name="CIGARETTE_NAME" DataType="System.String"/>
+      <Column Name="FORMULA_CODE" DataType="System.String"/>
+      <Column Name="FORMULA_NAME" DataType="System.String"/>
+      <Column Name="BATCH_WEIGHT" DataType="System.Decimal"/>
+      <Column Name="IN_BILLNO" DataType="System.String"/>
+      <Column Name="OUT_BILLNO" DataType="System.String"/>
+      <Column Name="STATE" DataType="System.String"/>
+      <Column Name="STATE_DESC" DataType="System.String"/>
+      <Column Name="OPERATER" DataType="System.String"/>
+      <Column Name="OPERATE_DATE" DataType="System.DateTime"/>
+      <Column Name="CHECKER" DataType="System.String"/>
+      <Column Name="CHECK_DATE" DataType="System.DateTime"/>
+      <Column Name="LINE_NO" DataType="System.String"/>
+      <Column Name="LINE_NAME" DataType="System.String"/>
+      <Column Name="ITEM_NO" DataType="System.Decimal"/>
+      <Column Name="PRODUCT_CODE" DataType="System.String"/>
+      <Column Name="WEIGHT" DataType="System.Decimal"/>
+      <Column Name="REAL_WEIGHT" DataType="System.Decimal"/>
+      <Column Name="PACKAGE_COUNT" DataType="System.Decimal"/>
+      <Column Name="NC_COUNT" DataType="System.Decimal"/>
+      <Column Name="YEARS" DataType="System.String"/>
+      <Column Name="CATEGORY_NAME" DataType="System.String"/>
+      <Column Name="GRADE_NAME" DataType="System.String"/>
+      <Column Name="ORIGINAL_NAME" DataType="System.String"/>
+      <Column Name="STYLE_NAME" DataType="System.String"/>
+      <Column Name="PRODUCT_NAME" DataType="System.String"/>
+    </ViewDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="160.65" StartNewPage="true" Condition="[directproduct.BILL_NO]">
+      <TableObject Name="Table1" Left="48.24" Top="36.5" Width="594.77" Height="75.6">
+        <TableColumn Name="Column1"/>
+        <TableColumn Name="Column2" Width="149.53"/>
+        <TableColumn Name="Column3"/>
+        <TableColumn Name="Column4" Width="78.04"/>
+        <TableColumn Name="Column5"/>
+        <TableColumn Name="Column6" Width="168.75"/>
+        <TableRow Name="Row1">
+          <TableCell Name="Cell1" Text="单据编号:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell2" Text="[directproduct.BILL_NO]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell3" Text="仓库名称:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell4" Text="[directproduct.WAREHOUSE_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell5" Text="单据日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell26" Text="[directproduct.BILL_DATE]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row2">
+          <TableCell Name="Cell6" Text="牌号:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell7" Text="[directproduct.CIGARETTE_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell8" Text="配方:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell9" Text="[directproduct.FORMULA_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell10" Text="批次重量:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell27" Text="[directproduct.BATCH_WEIGHT]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row3">
+          <TableCell Name="Cell11" Text="制丝线:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell12" Text="[directproduct.LINE_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell13" Text="状态:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell14" Text="[directproduct.STATE_DESC]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell15" Text="操作人员:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell28" Text="[directproduct.OPERATER]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row4">
+          <TableCell Name="Cell16" Text="操作日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell17" Text="[directproduct.OPERATE_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell18" Text="审核人员:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell19" Text="[directproduct.CHECKER]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell20" Text="审核日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell29" Text="[directproduct.CHECK_DATE]" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <LineObject Name="Line1" Left="1.13" Top="125.9" Width="723.54"/>
+      <TableObject Name="Table2" Left="-0.84" Top="139.68" Width="741.77" Height="18.9">
+        <TableColumn Name="Column7" Width="33.11"/>
+        <TableColumn Name="Column8" Width="130.75"/>
+        <TableColumn Name="Column9"/>
+        <TableColumn Name="Column10" Width="43.32"/>
+        <TableColumn Name="Column11" Width="50.3"/>
+        <TableColumn Name="Column12" Width="53.31"/>
+        <TableColumn Name="Column13"/>
+        <TableColumn Name="Column14"/>
+        <TableColumn Name="Column15"/>
+        <TableColumn Name="Column16"/>
+        <TableColumn Name="Column17" Width="34.08"/>
+        <TableColumn Name="Column18"/>
+        <TableRow Name="Row5">
+          <TableCell Name="Cell30" Text="序号" Font="宋体, 9pt"/>
+          <TableCell Name="Cell31" Text="产品代码" Font="宋体, 9pt"/>
+          <TableCell Name="Cell32" Text="产品名称" Font="宋体, 9pt"/>
+          <TableCell Name="Cell33" Text="年份" Font="宋体, 9pt"/>
+          <TableCell Name="Cell34" Text="等级" Font="宋体, 9pt"/>
+          <TableCell Name="Cell35" Text="形态" Font="宋体, 9pt"/>
+          <TableCell Name="Cell36" Text="原产地" Font="宋体, 9pt"/>
+          <TableCell Name="Cell37" Text="类别" Font="宋体, 9pt"/>
+          <TableCell Name="Cell38" Text="标准重量" Font="宋体, 9pt"/>
+          <TableCell Name="Cell39" Text="实际重量" Font="宋体, 9pt"/>
+          <TableCell Name="Cell40" Text="包数" Font="宋体, 9pt"/>
+          <TableCell Name="Cell41" Text="NC包数" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <TextObject Name="Text1" Left="276.88" Top="6.08" Width="111.32" Height="18.9" Text="直接投料单" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="164.65" Width="718.2" Height="26.7" DataSource="directproduct">
+        <TableObject Name="Table3" Left="-0.81" Top="1.41" Width="742.31" Height="18.9">
+          <TableColumn Name="Column19" Width="33.3"/>
+          <TableColumn Name="Column20" Width="132.83"/>
+          <TableColumn Name="Column21"/>
+          <TableColumn Name="Column22" Width="43.32"/>
+          <TableColumn Name="Column23" Width="50.3"/>
+          <TableColumn Name="Column24" Width="53.31"/>
+          <TableColumn Name="Column25"/>
+          <TableColumn Name="Column26"/>
+          <TableColumn Name="Column27"/>
+          <TableColumn Name="Column28"/>
+          <TableColumn Name="Column29" Width="32.35"/>
+          <TableColumn Name="Column30"/>
+          <TableRow Name="Row6">
+            <TableCell Name="Cell42" Text="[directproduct.ITEM_NO]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell43" Text="[directproduct.PRODUCT_CODE]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell44" Text="[directproduct.PRODUCT_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell45" Text="[directproduct.YEARS]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell46" Text="[directproduct.GRADE_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell47" Text="[directproduct.STYLE_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell48" Text="[directproduct.ORIGINAL_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell49" Text="[directproduct.CATEGORY_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell50" Text="[directproduct.WEIGHT]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell51" Text="[directproduct.REAL_WEIGHT]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell52" Text="[directproduct.PACKAGE_COUNT]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell53" Text="[directproduct.NC_COUNT]" Font="宋体, 9pt"/>
+          </TableRow>
+        </TableObject>
+        <Sort>
+          <Sort Expression="[directproduct.ITEM_NO]"/>
+        </Sort>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="195.35" Width="718.2"/>
+    </GroupHeaderBand>
+  </ReportPage>
+</Report>

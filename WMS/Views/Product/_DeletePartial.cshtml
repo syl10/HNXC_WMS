@@ -1,0 +1,36 @@
+﻿<script type="text/javascript">
+    function deleteClick() {
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            $('#dlg').dialog('open').dialog('setTitle', '删除');
+            $('#fm .easyui-validatebox').validatebox({
+                required: false
+            });
+            $('#CC').combogrid({
+                width: 126,
+                panelWidth: 300,
+                url: '/ProductCategory/Details/?page=1&rows=1000',
+                idField: 'CATEGORY_CODE',
+                textField: 'CATEGORY_NAME',
+                mode: 'local',
+                editable: false,
+                fitColumns: true,
+                columns: [[
+					{ field: 'CATEGORY_CODE', title: '类别编码', hidden: true, width: 30 },
+					{ field: 'CATEGORY_NAME', title: '类别名称', align: 'left', width: 40 },
+					{ field: 'MEMO', title: '备注', align: 'left', width: 30 }
+
+				]]
+            });
+            $('#CC').combo({
+                hasDownArrow: false
+            });
+            $('form input').attr("disabled", "disabled");
+            $('form textarea').attr("disabled", "disabled");
+            $('#fm').form('load', row);
+            url = '/Product/Delete/?PRODUCT_CODE=' + row.PRODUCT_CODE;
+        } else {
+            $.messager.alert('错误', '没有选择行！');
+        }
+    };
+</script>

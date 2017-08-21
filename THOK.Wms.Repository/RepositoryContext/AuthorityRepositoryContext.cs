@@ -1,12 +1,12 @@
 ﻿using System.Data.Entity;
 using THOK.Common.Ef.Infrastructure;
 using THOK.Common.Ef.Interfaces;
-using THOK.Wms.Repository.Interfaces;
+//using THOK.Wms.Repository.Interfaces;
 using System;
 
 namespace THOK.Wms.Repository.RepositoryContext
 {
-    public class AuthorityRepositoryContext : IAuthorityRepositoryContext, IRepositoryContext
+    public class AuthorityRepositoryContext : IRepositoryContext
     {
         private const string OBJECT_CONTEXT_KEY = "THOK.Wms.Repository.AuthorizeContext,THOK.Wms.Repository.dll";
         public DbSet<T> GetDbSet<T>() 
@@ -29,8 +29,15 @@ namespace THOK.Wms.Repository.RepositoryContext
             try
             {
                 return this.DbContext.SaveChanges();
-            }catch(System.Data.Entity.Validation.DbEntityValidationException ex)
+            }
+
+            catch (System.Data.Entity.Validation.DbEntityValidationException ex)
             {
+                return -1;
+            }
+            catch (System.Exception ex2)
+            {
+                string str = ex2.InnerException + ex2.Message;
                 return -1;
             }
         }

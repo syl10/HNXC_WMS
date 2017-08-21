@@ -1,0 +1,674 @@
+﻿<script type="text/javascript">
+    var url;
+    var status;
+    var editRow = null;
+    var ischeckpass = true;//判断编号是否存在.
+    function getTime() {
+        var d = new Date();
+        var vYear = d.getFullYear();
+        var vMon = d.getMonth() + 1;
+        var vDay = d.getDate();
+        var h = d.getHours();
+        var m = d.getMinutes();
+        t = vYear + "-" + (vMon < 10 ? "0" + vMon : vMon) + "-" + (vDay < 10 ? "0" + vDay : vDay);
+        return t;
+    }
+
+    function DataLoad() {
+        $('#CigaretteAdd').combogrid({
+            required: true,
+            disabled: false,
+            width: 130,
+            panelWidth: 340,
+            url: '/Cigarette/Details/?page=1&rows=1000',
+            idField: 'CIGARETTE_CODE',
+            textField: 'CIGARETTE_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+                    { field: 'CIGARETTE_CODE', title: '牌号编码', align: 'left', width: 40 },
+                    { field: 'CIGARETTE_NAME', title: '牌号名称', align: 'left', width: 30 },
+                    { field: 'CIGARETTE_MEMO', title: '备注', align: 'left', width: 30 }
+                ]]
+        });
+        $('#FORMULA_DATE').datebox({
+            width: 130,
+//            formatter: function (date) { return date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(); },
+//            parser: function (dateStr) {
+//                var strArray = dateStr.split("-");
+//                if (strArray.length == 3) {
+//                    return new Date(strArray[0], strArray[1], strArray[2]);
+//                } else {
+//                    return new Date();
+//                }
+//            },
+
+            required: true,
+            onSelect: function (date) {
+                var t = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+                GetCode(t);
+            }
+        });
+    }
+
+    function GetCode(dttime) {
+        $.getJSON("/Formula/GetFormulaCode/?dtime=" + dttime, function (json) {
+            if (json) {
+                $('#FORMULA_CODE').val(json.FormulaCode);
+                $('#OPERATER').val(json.userName);
+            }
+        });
+    }
+    function addClick() {
+        status = "add";
+        $('#dlg').dialog('open').dialog('setTitle', '新增');
+        $('#fm').form('clear');
+        $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+        DataLoad();
+//        updateforder('');
+
+        $('#FORMULA_CODE').attr("readonly", false);
+        $('#OPERATE_DATE').attr("readonly", true);
+        $('#FORMULA_DATE').datebox({
+            hasDownArrow: true
+        });
+        $('#FORMULA_DATE').datebox('setValue', getTime());
+        $('#OPERATE_DATE').val(getTime());
+        GetCode(getTime());
+     
+        $('#fm .easyui-validatebox').validatebox({
+            required: true
+        });
+        $('#cc').combo({
+            hasDownArrow: true
+        });
+
+        $('#cc').combobox('setValue', "1");
+        $('#BATCH_WEIGHT').numberbox('setValue', 0);
+        $('#copybt').show(); //显示复制按钮
+        setbtdisable();
+
+        //点击配方选择框中的某条记录时触发的事件
+        $('#copy_details').datagrid('options').onClickRow = function () {
+            var row = $('#copy_details').datagrid('getSelected');
+            if (row) {
+                $('#copy_SubDetails').datagrid({ url: '/Formula/SubDetails/?FORMULA_CODE=' + row.FORMULA_CODE });
+                $('#copy_SubDetails').datagrid('reload');
+            } else {
+                $.messager.show({ title: '系统提示', msg: '失败!请检查原因！' });
+            }
+        }
+    }
+
+    //新增入库库明细按钮
+    function addBillDetailClick() {
+        editRow = null;
+        $('#dlg-AddBillDetail').dialog('open').dialog('setTitle', '新增明细');
+        $('#fm-inBillDetail').form('clear');
+        $('form input').removeAttr("disabled");
+        $('form textarea').removeAttr("disabled");
+
+        var forder = $('#inBillDetail').datagrid('getData');
+        $('#FORDER').val(forder.total + 1);
+    }
+    //删除入库单明细
+    function deleteBillDetailClick() {
+        var detailRow = $('#inBillDetail').datagrid('getSelected');
+        if (detailRow) {
+            $('#inBillDetail').datagrid('deleteRow', $('#inBillDetail').datagrid('getRowIndex', detailRow));
+            if (parseFloat($('#BATCH_WEIGHT').val()) > 0) {
+                var batchweight = parseFloat($('#BATCH_WEIGHT').val() )- parseFloat(detailRow.WEIGHT);
+                $('#BATCH_WEIGHT').numberbox('setValue',batchweight );
+            }
+            updateforder();
+//            var data = $('#inBillDetail').datagrid('getData');
+//            $('#inBillDetail').datagrid('loadData', data);
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    }
+    //修改入库单明细
+    function editBillDetailClick() {
+        
+        var detailRow = $('#inBillDetail').datagrid('getSelected');
+        if (detailRow) {
+            editRow = detailRow;
+            $('#dlg-AddBillDetail').dialog('open').dialog('setTitle', '修改入库细表信息');
+            $('#fm-inBillDetail .easyui-validatebox').validatebox({
+                required: false
+            });
+            $('form input').removeAttr("disabled");
+            $('form textarea').removeAttr("disabled");
+            $('#fm-inBillDetail').form('load', detailRow);
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    }
+    //保存入库细单
+    function DetailSave() {
+        if ($('#fm-inBillDetail').form('validate')) {
+            if (editRow == null) { //新增明细
+                $('#inBillDetail').datagrid('appendRow', {
+                    PRODUCT_CODE: $('#PRODUCT_CODE').val(),
+                    PRODUCT_NAME: $('#PRODUCT_NAME').val(),
+                    FORDER: $('#FORDER').val(),
+                    WEIGHT: $('#WEIGHT').val(),
+                    MODULES: $('#MODULES').val(),
+                    //                PERCENT: $('#PERCENT').val(),
+                    OTHER: $('#OTHER').val() == null ? "" : $('#OTHER').val()
+                });
+//                var data = $('#inBillDetail').datagrid('getData');
+//                $('#inBillDetail').datagrid('loadData', data);
+             
+
+                var batchweight = parseFloat($('#BATCH_WEIGHT').val());
+                if ($('#WEIGHT').val() != null && $('#WEIGHT').val() != "") {
+                    batchweight = parseFloat($('#WEIGHT').val()) + parseFloat($('#BATCH_WEIGHT').val());
+                }
+                //        alert($('#WEIGHT').val() + $('#BATCH_WEIGHT').val()+" "+batchweight);
+                $('#BATCH_WEIGHT').numberbox('setValue', batchweight);
+            }
+            else { //修改明细
+                var batchweight = parseFloat($('#BATCH_WEIGHT').val()) - parseFloat(editRow.WEIGHT);
+                $('#inBillDetail').datagrid('beginEdit', $('#inBillDetail').datagrid('getRowIndex', editRow));
+                $('#inBillDetail').datagrid('updateRow', {
+                    index: $('#inBillDetail').datagrid('getRowIndex', editRow),
+                    row: {
+                        PRODUCT_CODE: $('#PRODUCT_CODE').val(),
+                        PRODUCT_NAME: $('#PRODUCT_NAME').val(),
+                        FORDER: $('#FORDER').val(),
+                        WEIGHT: $('#WEIGHT').val(),
+                        MODULES: $('#MODULES').val(),
+                        //                    PERCENT: $('#PERCENT').val(),
+                        OTHER: $('#OTHER').val() == null ? "" : $('#OTHER').val()
+                    }
+                });
+
+                $('#inBillDetail').datagrid('endEdit', $('#inBillDetail').datagrid('getRowIndex', editRow));
+                $('#inBillDetail').datagrid('refreshRow', $('#inBillDetail').datagrid('getRowIndex', editRow));
+
+                if ($('#WEIGHT').val() != null && $('#WEIGHT').val() != "") {
+                    batchweight += parseFloat($('#WEIGHT').val());
+                }
+                //                alert($('#WEIGHT').val() + $('#BATCH_WEIGHT').val() + " " + parseFloat(editRow.WEIGHT));
+                $('#BATCH_WEIGHT').numberbox('setValue', batchweight);
+            }
+            $('#dlg-AddBillDetail').dialog('close');
+        }
+    }
+    //修改投料顺序序号
+    function updateforder() {
+        var data = $('#inBillDetail').datagrid('getData');
+        for (var i = 0; i < data.total; i++) {
+            $('#inBillDetail').datagrid('beginEdit', i);
+            $('#inBillDetail').datagrid('updateRow', {
+                index: i,
+                row: {
+                    PRODUCT_CODE: data.rows[i].PRODUCT_CODE,
+                    PRODUCT_NAME: data.rows[i].PRODUCT_NAME,
+                    FORDER:i+1,
+                    WEIGHT: data.rows[i].WEIGHT,
+                    MODULES: data.rows[i].MODULES,
+                    //                    PERCENT: $('#PERCENT').val(),
+                    OTHER: data.rows[i].OTHER
+                }
+            });
+
+            $('#inBillDetail').datagrid('endEdit', i);
+            $('#inBillDetail').datagrid('refreshRow', i);
+        }
+        $('#inBillDetail').datagrid('loadData', data);
+    }
+    //向上移动行
+    function rowmoveup() {
+        var SelectRow = $('#inBillDetail').datagrid('getSelected');
+        if (SelectRow) {
+            var data = $('#inBillDetail').datagrid('getData');
+            var index = $('#inBillDetail').datagrid('getRowIndex', SelectRow);
+            if (index !=0) {//选中的不是第一行
+                //修改选中行的投料顺序值
+                $('#inBillDetail').datagrid('beginEdit', index);
+                $('#inBillDetail').datagrid('updateRow', {
+                    index: index,
+                    row: {
+                        PRODUCT_CODE: SelectRow.PRODUCT_CODE,
+                        PRODUCT_NAME: SelectRow.PRODUCT_NAME,
+                        FORDER:parseInt( SelectRow.FORDER )-1,
+                        WEIGHT: SelectRow.WEIGHT,
+                        MODULES: SelectRow.MODULES,
+                        //                    PERCENT: $('#PERCENT').val(),
+                        OTHER: SelectRow.OTHER
+                    }
+                });
+                $('#inBillDetail').datagrid('endEdit', index);
+                $('#inBillDetail').datagrid('refreshRow', index);
+
+                //修改上一行的投料顺序值
+                $('#inBillDetail').datagrid('beginEdit', index - 1);
+                $('#inBillDetail').datagrid('updateRow', {
+                    index: index -1,
+                    row: {
+                        PRODUCT_CODE: data.rows[index -1].PRODUCT_CODE,
+                        PRODUCT_NAME: data.rows[index - 1].PRODUCT_NAME,
+                        FORDER: data.rows[index - 1].FORDER +1,
+                        WEIGHT: data.rows[index - 1].WEIGHT,
+                        MODULES: data.rows[index - 1].MODULES,
+                        //                    PERCENT: $('#PERCENT').val(),
+                        OTHER: data.rows[index- 1].OTHER
+                    }
+                });
+                $('#inBillDetail').datagrid('endEdit', index -1);
+                $('#inBillDetail').datagrid('refreshRow', index - 1);
+                //重新加载数据
+                $('#inBillDetail').datagrid('loadData', data);
+                //原来的行处于选中状态
+                $('#inBillDetail').datagrid('selectRow', index - 1);
+            }
+        }
+        else {
+            $.messager.confirm('错误', '请先选择要移动的行！');
+        }
+    }
+    //向下移动行
+    function rowmovedown() {
+        var SelectRow = $('#inBillDetail').datagrid('getSelected');
+        if (SelectRow) {
+            var data = $('#inBillDetail').datagrid('getData');
+            var index = $('#inBillDetail').datagrid('getRowIndex', SelectRow);
+            if (index < data.total - 1) {//选中的不是最后一行
+                //修改选中行的投料顺序值
+                $('#inBillDetail').datagrid('beginEdit', index);
+                $('#inBillDetail').datagrid('updateRow', {
+                    index: index,
+                    row: {
+                        PRODUCT_CODE: SelectRow.PRODUCT_CODE,
+                        PRODUCT_NAME: SelectRow.PRODUCT_NAME,
+                        FORDER:parseInt(SelectRow.FORDER )+ 1,
+                        WEIGHT: SelectRow.WEIGHT,
+                        MODULES: SelectRow.MODULES,
+                        //                    PERCENT: $('#PERCENT').val(),
+                        OTHER: SelectRow.OTHER
+                    }
+                });
+                $('#inBillDetail').datagrid('endEdit', index);
+                $('#inBillDetail').datagrid('refreshRow', index);
+
+                //修改下一行的投料顺序值
+                $('#inBillDetail').datagrid('beginEdit', index + 1);
+                $('#inBillDetail').datagrid('updateRow', {
+                    index: index + 1,
+                    row: {
+                        PRODUCT_CODE: data.rows[index + 1].PRODUCT_CODE,
+                        PRODUCT_NAME: data.rows[index + 1].PRODUCT_NAME,
+                        FORDER: data.rows[index + 1].FORDER - 1,
+                        WEIGHT: data.rows[index + 1].WEIGHT,
+                        MODULES: data.rows[index + 1].MODULES,
+                        //                    PERCENT: $('#PERCENT').val(),
+                        OTHER: data.rows[index + 1].OTHER
+                    }
+                });
+                $('#inBillDetail').datagrid('endEdit', index + 1);
+                $('#inBillDetail').datagrid('refreshRow', index + 1);
+                //重新加载数据
+                $('#inBillDetail').datagrid('loadData', data);
+                //原来的行处于选中状态
+                $('#inBillDetail').datagrid('selectRow', index + 1);
+            }
+        }
+        else {
+            $.messager.confirm('错误', '请先选择要移动的行！');
+        }
+    }
+    //设置按钮的可用属性
+    function setbtdisable() {
+        if (status == "delete") {
+            //禁用明细按钮
+            $('#btnAddBillDetail').linkbutton('disable');
+            $('#btnDeleteBillDetail').linkbutton('disable');
+            $('#btnEditBillDetail').linkbutton('disable');
+            $('#btnmoveup').linkbutton('disable');
+            $('#btnmovedown').linkbutton('disable');
+        } else {
+            //启用明细按钮
+            $('#btnAddBillDetail').linkbutton('enable');
+            $('#btnDeleteBillDetail').linkbutton('enable');
+            $('#btnEditBillDetail').linkbutton('enable');
+            $('#btnmoveup').linkbutton('enable');
+            $('#btnmovedown').linkbutton('enable');
+        }
+
+    }
+
+    //保存入库单
+    function save() {
+        var changesRows = {
+            inserted: []
+        };
+        var Percent=0;
+        var blnDistinct = true;
+        var Rows = $('#inBillDetail').datagrid('getData');
+//        if (status == "add") {
+//        checkformulacode();
+//        if (!ischeckpass) return;
+//        }
+        if (Rows.total == 0 && status != "delete") { alert("明细不能为空"); return; }
+        for (var i = 0; i < Rows.total; i++) {
+            Rows.rows[i].PERCENT = "0";
+            changesRows.inserted.push(Rows.rows[i])
+            Percent += eval(Rows.rows[i].PERCENT);
+            for (var j = i + 1; j < Rows.total; j++) {
+                if (Rows.rows[i].PRODUCT_CODE == Rows.rows[j].PRODUCT_CODE) {
+                    blnDistinct = false;
+                    break;
+                }
+            }
+            if (!blnDistinct)
+                break;
+        }
+
+        if (status == "add") {
+            url = '/Formula/Create/?detail=' + JSON.stringify(changesRows.inserted);
+           
+        }
+        if (status == "edit") {
+            url = '/Formula/Edit/?detail=' + JSON.stringify(changesRows.inserted);
+        }
+        if (status == "delete") {
+            url = url;
+        }
+        $('#fm').form('submit', {
+            url: url,
+            onSubmit: function () {
+                var blnvalidate = $(this).form('validate');
+                if (blnvalidate) {
+                    if (status != "delete") {
+                        if (!blnDistinct) {
+                            $.messager.alert('配方单明细', '产品代码重复');
+                            return false;
+                        }
+//                        if (Percent != 100) {
+//                            $.messager.alert('配方单明细', '比例合计不等于100');
+//                            return false;
+//                        }
+                    }
+                    return true;
+                }
+                return false;
+            },
+            success: function (result) {
+                var result = eval('(' + result + ')');
+                if (result.success) {
+                    $.messager.alert(g_MsgBoxTitle, result.msg, "info");
+                    addKey = false;
+                    editKey = false;
+                    $('#dlg').dialog('close');
+                    $('#details').datagrid('reload');
+                    $('#inBillDetails').datagrid('load');
+                } else {
+                    $.messager.alert(g_MsgBoxTitle, result.msg + '<br />' + result.data, "warning");
+                    addKey = false;
+                    editKey = false;
+                    $('#details').datagrid('reload');
+                }
+            }
+        });
+    }
+    //选择产品信息
+    function productSelect() {
+        $('#productData').dialog('open').dialog('setTitle', '选择产品信息');
+        $('#productDetail').datagrid({ url: '/Product/Details/?page=1&rows=1000' });
+        $("#productDetail").datagrid('reload');
+    }
+    //配方复制
+    function formulacopy() {
+        var CIGARETTE_CODE = $('#CigaretteAdd').combogrid('grid').datagrid('getSelected');
+        if (CIGARETTE_CODE == null || CIGARETTE_CODE == "") {
+            alert("请先选择牌号");  return;
+        }
+        else {
+            $('#copy_details').datagrid('loadData', { total: 0, rows: [] }); 
+            $('#copy_details').datagrid({ url: '/Formula/copy_detail/?cigarettecode=' + CIGARETTE_CODE.CIGARETTE_CODE });
+            $('#dlg_copy').dialog('open').dialog('setTitle', '选择要复制的配方');
+            $('#copy_SubDetails').datagrid('loadData', { total: 0, rows: [] });
+        }
+    }
+
+    //复制配方选择框中的复制按钮点击事件.
+    function copy_details() {
+        var copydetail = $('#copy_details').datagrid('getSelected');
+        if (copydetail != null) {
+            $('#FORMULA_NAME').val(copydetail.FORMULA_NAME);
+            $('#BATCH_WEIGHT').numberbox('setValue', copydetail.BATCH_WEIGHT);
+            var copyrows = $('#copy_SubDetails').datagrid('getRows');
+            $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+            $.each(copyrows, function (index, row) {
+                $('#inBillDetail').datagrid('appendRow', {
+                    PRODUCT_CODE: row.PRODUCT_CODE,
+                    PRODUCT_NAME: row.PRODUCT_NAME,
+//                    PERCENT: row.PERCENT,
+                    FORDER: row.FORDER,
+                    WEIGHT: row.WEIGHT,
+                    MODULES: row.MODULES,
+                    OTHER: row.OTHER==null?"":row.OTHER
+                });
+            });
+            $('#dlg_copy').dialog('close');
+        }
+        else {
+          alert("请选择配方");return;
+        }
+//        $('#inBillDetail').datagrid('reload');
+  }
+  //验证配方编号是否已存在
+  function checkformulacode() {
+      if (status == "add") {
+          var code = $('#FORMULA_CODE').val();
+          if (code == "") {
+              alert("配方编号不可为空");
+              return ;
+          }
+          else {
+              $.getJSON("/Formula/Checkformulacode/?formulacode=" + code, function (json) {
+                  if (json) {
+                      if (json.success == -1) {
+                          alert("该配方编号已存在");
+                          return;
+                      }
+                      else {
+                          save();
+                      }
+                  }
+              });
+          }
+      }
+      else
+          save();
+  }
+</script>
+
+<div id="dlg" class="easyui-dialog" modal="true"
+        style="width:700px;height:450px;padding:0px 0px"
+        closed="true" buttons="#dlg-buttons">
+	<div class="easyui-layout" fit="true">
+        <div region="center" border="false">
+        @*<table class="easyui-datagrid"  id="inBillDetail"></table>*@
+            <table class="easyui-datagrid" border="false" toolbar="#dlg-detailButtons" width="700" id="inBillDetail"
+                fit="true" fitColumns="true"  sortName= "FORDER" sortOrder="asc" remoteSort="false",  singleSelect="true" rownumbers="true" pagination="false" url="" striped="true">
+                <thead>
+                    <tr>
+                        <th field="FORMULA_CODE" hidden="true" width="100">细单ID</th>
+                        <th field="PRODUCT_CODE" width="100">产品代码</th>
+                        <th field="PRODUCT_NAME" >产品名称</th>
+                        <th field="FORDER">投料顺序</th>
+                        <th field="WEIGHT">重量</th>
+                        <th field="MODULES">模块号</th>
+                       @* <th field="PERCENT" width="80" align="right">百分比</th>*@
+                        <th field="OTHER" width="80" align="right">其它</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="dlg-detailButtons" style="width: auto; height: auto; background-color: #FFFFFF;">
+	<div border="false" style="padding:4px 4px;" >     
+	    <form id="fm" method="post" novalidate>
+            <table height="80px">
+                <tr>
+                <td width="60">配方编码</td>
+                <td width="168"><input name="FORMULA_CODE" id="FORMULA_CODE" ></td>
+                <td width="60">牌号编码</td>
+                <td width="133" ><input  name="CIGARETTE_CODE" id="CigaretteAdd" missingmessage="请选择牌号编码">
+                 </td>
+                 <td width="15" style=" padding-top:2px"><img id="copybt" src="../../Content/Images/copy2.png" title="复制配方" alt="" style=" cursor:pointer;  height:20px; " onclick="formulacopy()" /></td>
+                <td width="20"></td>
+
+                <td width="60">配方日期</td>
+                <td width="168"><input name="FORMULA_DATE" id="FORMULA_DATE"></td>
+                </tr>
+                <tr>
+                <td width="60">配方名称</td>
+                <td width="168"><input name="FORMULA_NAME" id="FORMULA_NAME" class="easyui-validatebox" required="true"></td>
+                <td width="60">使用次数</td>
+                <td width="133"><input id="USE_COUNT" name="USE_COUNT" ></td>
+                <td width="15"></td>
+                 <td width="20"></td>
+                 <td width="60">批次重量</td>
+                 <td width="168"><input id="BATCH_WEIGHT" name="BATCH_WEIGHT" class="easyui-numberbox"   precision="2"  required="true" readonly="true"></td>
+                </tr>
+                <tr>
+                <td width="60">操作日期</td>
+                <td width="168"><input name="OPERATEDATE" id="OPERATE_DATE" readonly="true"></td>
+                <td width="60">操作人</td>
+                <td width="133"><input id="OPERATER" name="OPERATER" readonly="true"></td>
+                <td width="15"></td>
+                <td width="20"></td>
+                <td width="60">状态</td>
+                <td width="168">
+                    <select id="cc" name="IS_ACTIVE" class="easyui-combobox"  style="">
+		                <option value="1">启用</option>
+		                <option value="0">禁用</option>
+	                </select>
+                </td>
+                </tr>
+            </table>
+	    </form>
+    </div>
+    <div border="false" class="formula_editbg" > 
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addBillDetailClick()" id="btnAddBillDetail">添加明细</a>
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteBillDetailClick()" id="btnDeleteBillDetail">删除明细</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editBillDetailClick()" id="btnEditBillDetail">修改明细</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-up" plain="true" onclick="rowmoveup()" id="btnmoveup">上移</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-down" plain="true" onclick="rowmovedown()" id="btnmovedown">下移</a>
+    </div>
+</div>
+
+<div id="dlg-buttons">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="checkformulacode()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>*@
+      <input type="button"  onclick="checkformulacode()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#dlg').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+
+<div  id="dlg-AddBillDetail" class="easyui-dialog" modal="true"
+        style="width:270px;height:250px;padding:0px 0px"
+        closed="true" buttons="#dlg-AddBillDetailbuttons">
+     <form id="fm-inBillDetail">
+<table style="padding:10px 10px 0px 5px">
+  <tr>
+    <td style=" text-align:right">产品代码</td>
+    <td align="left"><input type="text" name="PRODUCT_CODE" id="PRODUCT_CODE" required="true" readonly="true"/>
+    <a href="#" onclick="productSelect()" class="easyui-linkbutton" iconcls="icon-search" plain="true"></a></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td style=" text-align:right">产品名称</td>
+    <td align="left"><input type="text" name="PRODUCT_NAME" class="easyui-validatebox" required="true" id="PRODUCT_NAME" readonly="true"/></td>
+    <td></td>
+  </tr>
+  <tr>
+     <td style=" text-align:right">投料顺序</td>
+    <td align="left"><input type="text" name="FORDER" class="easyui-validatebox" required="true" id="FORDER" readonly="true"/></td>
+    <td></td>
+  </tr>
+  <tr>
+@*    <td style=" text-align:right">百分比</td>
+    <td align="left"><input type="text" name="PERCENT" class="easyui-numberbox" min="0" max="100" id="PERCENT" precision="2" required="true"/></td>*@
+    <td style="text-align:right">重量</td>
+    <td align="left"><input type="text" name="WEIGHT" class="easyui-numberbox"   id="WEIGHT" required="true" precision="2" /></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td style="text-align:right">模块号</td>
+    <td align="left"><input type="text" name="MODULES"  id="MODULES"  /></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td style=" text-align:right">其它</td>
+    <td align="left"><input type="text" name="OTHER" id="OTHER"/></td>
+    <td></td>
+  </tr>
+</table>
+ </form>
+</div>
+
+<div id="dlg-AddBillDetailbuttons">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="DetailSave()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-AddBillDetail').dialog('close')">取消</a>*@
+      <input type="button"  onclick="DetailSave()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#dlg-AddBillDetail').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+
+@*配方选择框*@
+<div id="dlg_copy" class="easyui-dialog" modal="true"
+        style="width:1000px;height:450px;padding:0px 0px"
+        closed="true" buttons="#copy-dlg-buttons">
+        <div class="easyui-layout" fit="true">
+<div region="center" split="true"  border="false" style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #99BBE8">    
+    <table class="easyui-datagrid" border="false" singleSelect="true"  id="copy_details" url = ""
+        fit="true" fitColumns="true"  pagination="true" rownumbers="true" >
+        <thead>
+            <tr>
+                <th field="FORMULA_CODE" width="80" >配方代码</th>               
+                <th field="FORMULA_NAME" width="80" >配方名称</th>
+                <th field="FORMULADATE" width="60" >配方日期</th>
+                <th field="CIGARETTE_CODE" hidden="true" width="80" >牌号代码</th>
+                <th field="CIGARETTE_NAME" width="80" >牌号名称</th>
+                <th field="ISACTIVE" width="60" >状态</th>   
+                <th field="BATCH_WEIGHT" width="60">批次重量</th>             
+                <th field="USE_COUNT" width="80" >次数</th> 
+                <th field="OPERATER" width="60" >操作人员</th>               
+                <th field="OPERATE_DATE" width="80" >操作日期</th>
+               
+            </tr>
+        </thead>
+    </table>
+</div>
+<div region="south" split="true" border="false" style="height: 180px; border-top-style: solid; border-top-width: 1px; border-top-color: 99BBE8;">
+    <table class="easyui-datagrid" border="false" singleSelect="true" id="copy_SubDetails" url="" pageSize="50"
+       sortName= "FORDER" sortOrder="asc" remoteSort="false"  fit="true" fitColumns="true"  pagination="true" rownumbers="true" >
+        <thead>
+            <tr>
+                <th field="FORMULA_CODE" width="50" align="left" hidden="true">ID</th>
+                <th field="PRODUCT_CODE" width="100">产品编码</th>
+                <th field="PRODUCT_NAME" width="80" align="right">产品名称</th>
+                <th field="FORDER" width="80" align="right">投料顺序</th>
+                <th field="WEIGHT">重量</th>
+               <th field="MODULES">模块号</th>
+                @*<th field="PERCENT" width="80" align="right">百分比</th>*@
+                <th field="OTHER" width="80" align="right">其他</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+</div>
+</div>
+<div id="copy-dlg-buttons">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="copy_details()">复制</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg_copy').dialog('close')">取消</a>*@
+      <input type="button"  onclick="copy_details()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="复制"/>
+       <input type="button"  onclick="javascript:$('#dlg_copy').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+@Html.Partial("_ProductPartial");  

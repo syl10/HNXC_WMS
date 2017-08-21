@@ -17,6 +17,11 @@ namespace THOK.Authority.Bll.Service
         public IUserRoleRepository UserRoleRepository { get; set; }
         [Dependency]
         public IUserRepository UserRepository { get; set; }
+        [Dependency]
+        public IRoleFunctionRepository RoleFunctionRepository { get; set; }
+        [Dependency]
+        public IRoleModuleRepository RoleModuleRepository { get; set; }
+        
         
         protected override Type LogPrefix
         {
@@ -26,18 +31,22 @@ namespace THOK.Authority.Bll.Service
         public object GetDetails(int page, int rows, string roleName, string memo,string islock)
         {
             IQueryable<AUTH_ROLE> queryRole = RoleRepository.GetQueryable();
-            var roles = queryRole.Where(r => r.ROLE_NAME.Contains(roleName) && r.MEMO.Contains(memo))
+            var roles = queryRole.Where(r => r.ROLE_NAME.Contains(roleName))
                     .OrderBy(r => r.ROLE_NAME)
                     .Select(r => new { r.ROLE_ID, r.ROLE_NAME, MEMO = r.MEMO, IS_LOCK = r.IS_LOCK == "1" ? "启用" : "禁用" });
             if (!String.IsNullOrEmpty(islock))
             {
-               // bool bStatus = Convert.ToBoolean(islock);
+                //bool bStatus = Convert.ToBoolean(islock);
                 roles = queryRole.Where(r => r.ROLE_NAME.Contains(roleName)
                     && r.MEMO.Contains(memo)
                     && r.IS_LOCK == islock)
                     .OrderBy(r => r.ROLE_NAME)
                     .Select(r => new { r.ROLE_ID, r.ROLE_NAME, MEMO = r.MEMO, IS_LOCK = r.IS_LOCK == "1" ? "启用" : "禁用" });
-            }              
+            }
+            if (THOK.Common.PrintHandle.isbase)
+            {
+                THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(roles);
+            }
             int total = roles.Count();
             roles = roles.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = roles.ToArray() };
@@ -65,8 +74,34 @@ namespace THOK.Authority.Bll.Service
                 .FirstOrDefault(i => i.ROLE_ID == roleID);
             if (role != null)
             {
-                Del(RoleSystemRepository, role.AUTH_ROLE_SYSTEM);
-                Del(UserRoleRepository, role.AUTH_USER_ROLE);
+                while (role.AUTH_ROLE_SYSTEM.Count > 0)
+                {
+                    AUTH_ROLE_SYSTEM roleSystem = role.AUTH_ROLE_SYSTEM.First();
+                    while (roleSystem.AUTH_ROLE_MODULE.Count > 0)
+                    {
+                        AUTH_ROLE_MODULE roleModule = roleSystem.AUTH_ROLE_MODULE.First();
+                        while (roleModule.AUTH_ROLE_FUNCTION.Count > 0)
+                        {
+                            AUTH_ROLE_FUNCTION rolefunction = roleModule.AUTH_ROLE_FUNCTION.First();
+                            RoleFunctionRepository.Delete(rolefunction);
+                            RoleFunctionRepository.SaveChanges();
+                        }
+                        RoleModuleRepository.Delete(roleModule);
+                        RoleModuleRepository.SaveChanges();
+                    }
+                    RoleSystemRepository.Delete(roleSystem);
+                    RoleSystemRepository.SaveChanges();
+                }
+
+                while ( role.AUTH_USER_ROLE.Count>0)
+                {
+                    AUTH_USER_ROLE UserRole = role.AUTH_USER_ROLE.First();
+                    UserRoleRepository.Delete(UserRole);
+                    UserRoleRepository.SaveChanges();
+                }
+
+                //Del(RoleSystemRepository, role.AUTH_ROLE_SYSTEM);
+                //Del(UserRoleRepository, role.AUTH_USER_ROLE);
                 RoleRepository.Delete(role);
                 RoleRepository.SaveChanges();
             }
@@ -145,7 +180,7 @@ namespace THOK.Authority.Bll.Service
                     string uid = userIdList[i].ToString();
                     var user = UserRepository.GetQueryable().FirstOrDefault(u => u.USER_ID == uid);
                     var roleUser = new AUTH_USER_ROLE();
-                    roleUser.USER_ROLE_ID = UserRepository.GetNewID("AUTH_USER_ROLE", "USER_ROLE_ID");
+                    roleUser.USER_ROLE_ID = UserRoleRepository.GetNewID("AUTH_USER_ROLE", "USER_ROLE_ID");
                     roleUser.AUTH_USER = user;
                     roleUser.AUTH_ROLE = role;
                     UserRoleRepository.Add(roleUser);

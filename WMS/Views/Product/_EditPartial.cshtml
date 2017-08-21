@@ -1,0 +1,43 @@
+﻿<script type="text/javascript">
+    function editClick() {
+
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            $('#dlg').dialog('open').dialog('setTitle', '编辑');
+         
+            $('#fm .easyui-validatebox').validatebox({
+                required: true
+            });
+                setgradecomb();
+                setoriginalcomb();
+                setstyle();
+                setcategorycomb();
+                SetYear();
+//                $('#CC').combogrid({
+//                    required: true,
+//                    width: 126,
+//                    panelWidth: 300,
+//                    url: '/ProductCategory/Details/?page=1&rows=1000',
+//                    idField: 'CATEGORY_CODE',
+//                    textField: 'CATEGORY_NAME',
+//                    mode: 'local',
+//                    editable: false,
+//                    fitColumns: true,
+//                    columns: [[
+//					{ field: 'CATEGORY_CODE', title: '类别编码', hidden: true, width: 30 },
+//					{ field: 'CATEGORY_NAME', title: '类别名称', align: 'left', width: 40 },
+//					{ field: 'MEMO', title: '备注', align: 'left', width: 30 }
+
+//				]]
+//                });
+
+                $('#fm').form('load', row);
+            $('form input').removeAttr("disabled");
+            $('form textarea').removeAttr("disabled");
+            url = '/Product/Edit/?PRODUCT_CODE=' + row.PRODUCT_CODE;
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    };
+</script>
+   

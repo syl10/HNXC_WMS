@@ -25,7 +25,7 @@
             USER_ID = row.USER_ID;
             USER_NAME = row.USER_NAME;
             $('#UserRoleDataGrid').datagrid({
-                url: '/User/GetUserRole/?USER_ID=' + row.USER_ID
+                url: '/User/GetUserRole/?USERID=' + USER_ID
             });
         } else {
             $('#UserAdminAdd').window('close');
@@ -37,7 +37,7 @@
     function UserRoleAddClick() {
         $('#UserAddRole').dialog('open').dialog('setTitle', "用户添加角色：" + USER_NAME);
         $('#UserAddRoleDatagrid').datagrid({
-            url: '/User/GetRoleInfo/?userID=' + USER_ID
+            url: '/User/GetRoleInfo/?USER_ID=' + USER_ID
         });
         $('#UserAddRoleDatagrid').datagrid('clearSelections'); //清空所有选择项
     }
@@ -48,12 +48,13 @@
         if (row.length > 0) {
             var userRoleString = "";
             for (var i = 0; i < row.length; i++) {
-                userRoleString += row[i].UserRoleID + ",";
+                userRoleString += row[i].USER_ROLE_ID + ",";
             }
             $.post("/User/DeleteUserRole/", { userRoleIdStr: userRoleString }, function (json) {
+            
                 if (json) {
                     $.messager.show({ title: '系统提示', msg: '删除成功！' });
-                    $('#UserRoleDataGrid').datagrid('options').url = '/User/GetUserRole/?USER_ID=' + USER_ID;
+                    $('#UserRoleDataGrid').datagrid('options').url = '/User/GetUserRole/?USERID=' + USER_ID;
                     $('#UserRoleDataGrid').datagrid('reload');
                     $('#UserRoleDataGrid').datagrid('clearSelections'); //清空所有选择项
                 } else {
@@ -70,11 +71,11 @@
         <thead>
             <tr>
                 <th field="ck" checkbox="true"></th>
-                <th field="UserRoleID" width="80" hidden="true">用户角色编码</th>
-                <th field="RoleID" width="120" hidden="true">角色编码</th>
-                <th field="UserID" width="80" hidden="true">用户编码</th>
-                <th field="UserName" width="150" hidden="true">用户名称</th>
-                <th field="RoleName" width="480">角色名称</th>
+                <th field="USER_ROLE_ID" width="80" hidden="true">用户角色编码</th>
+                <th field="ROLE_ID" width="120" hidden="true">角色编码</th>
+                <th field="USER_ID" width="80" hidden="true">用户编码</th>
+                <th field="USER_NAME" width="150" hidden="true">用户名称</th>
+                <th field="ROLE_NAME" width="480">角色名称</th>
             </tr>
         </thead>
     </table>

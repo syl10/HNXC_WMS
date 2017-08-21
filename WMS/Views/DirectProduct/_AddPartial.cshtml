@@ -1,0 +1,372 @@
+﻿<script type="text/javascript">
+    var editsubdetail;  //获取明细修改中的所要修改的行
+    var clickbt; //点击的按钮
+    var isresetvalue = false; //判断是否执行了resetformulavalue函数
+    var ischang = false; //判断牌号是否改变
+    function addClick() {
+        clickbt = "add";
+        isresetvalue = false;
+        $('#dlg').dialog('open').dialog('setTitle', '新增');
+        $('#fm').form('clear');
+        $('#fm-inBillDetail .easyui-validatebox').validatebox({
+            required: true
+        });
+        $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+        $('#BILL_DATE').datebox({
+            width: 135,
+            hasDownArrow: true,
+            required: true
+        });
+        $('#OPERATE_DATE').datebox({
+            width: 135,
+            hasDownArrow: true,
+            required: true,
+            disabled:true
+        });
+        GetBillNo(getDate()); //单据编号
+        GetWarehouseCode();  //仓库编号
+        GetCigarette(); //牌号
+        GetLineNo(); //制丝线
+        GetFormula("");//配方
+        $('#BILL_DATE').datebox('setValue', getDate());
+        $('#OPERATE_DATE').datebox('setValue', getDate());
+        //禁用明细按钮
+        $('#btnAddBillDetail').linkbutton('disable');
+        $('#btnDeleteBillDetail').linkbutton('disable');
+        $('#btnEditBillDetail').linkbutton('disable');
+
+        $('#btLoadFormula').attr('disabled', false);
+
+    }
+    //获取时间字符串
+    function getDate() {
+        var dt = new Date();
+        var year = dt.getFullYear();
+        var month = dt.getMonth() + 1;
+        var day = dt.getDate();
+        var dtstr = year + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day);
+        return dtstr;
+    }
+    //单据编号
+    function GetBillNo(date) {
+        $.getJSON("/DirectProduct/GetBillNo/?dtime=" + date, function (json) {
+            if (json) {
+                $('#BILL_NO').val(json.BillNo);
+                $('#OPERATER').val(json.userName);
+            }
+        });
+    }
+        //仓库编号
+    function GetWarehouseCode() {
+        $('#WAREHOUSE_CODE').combogrid({
+            required: true,
+            disabled: false,
+            width: 135,
+            panelWidth: 340,
+            value:'001',
+            url: '/StockInBill/GetWarehousecode/?page=1&rows=1000',
+            idField: 'WAREHOUSE_CODE',
+            textField: 'WAREHOUSE_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+                    { field: 'WAREHOUSE_CODE', title: '仓库编号', align: 'left', width: 40 },
+                    { field: 'WAREHOUSE_NAME', title: '仓库名称', align: 'left', width: 30 },
+                    { field: 'MEMO', title: '备注', align: 'left', width: 30 }
+                ]]
+        });
+    }
+
+    //    制丝线
+    function GetLineNo() {
+        $('#LINE_NO').combogrid({
+            required: true,
+            disabled: false,
+            width: 135,
+            panelWidth: 340,
+            url: '/Schedule2/GetLine/?page=1&rows=1000',
+            idField: 'LINE_NO',
+            textField: 'LINE_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+                        { field: 'LINE_NO', title: '制丝线编号', align: 'left', width: 40 },
+                        { field: 'LINE_NAME', title: '制丝线名称', align: 'left', width: 30 },
+                        { field: 'MEMO', title: '备注', align: 'left', width: 30 }
+                    ]]
+        });
+    }
+
+    //牌号
+    function GetCigarette() {
+        $('#CIGARETTE_CODE').combogrid({
+            required: false,
+            disabled: false,
+            width: 135,
+            panelWidth: 340,
+            url: '/Cigarette/Details/?page=1&rows=1000',
+            idField: 'CIGARETTE_CODE',
+            textField: 'CIGARETTE_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+                    { field: 'CIGARETTE_CODE', title: '牌号编码', align: 'left', width: 40 },
+                    { field: 'CIGARETTE_NAME', title: '牌号名称', align: 'left', width: 30 },
+                    { field: 'CIGARETTE_MEMO', title: '备注', align: 'left', width: 30 }
+                ]],
+            onSelect: function (index, data) {
+                GetFormula(data.CIGARETTE_CODE);
+            },
+            onChange: function (newValue, oldValue) {
+                $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+                ischang = true;
+            }
+        });
+    }
+
+    //配方
+    function GetFormula(CIGARETTE_CODE) {
+        $('#FORMULA_CODE').combogrid({
+            required: false,
+            disabled: false,
+            width: 135,
+            panelWidth: 340,
+            url: '/Formula/Getuserfull/?page=1&rows=1000&cigarettecode=' + CIGARETTE_CODE,
+            idField: 'FORMULA_CODE',
+            textField: 'FORMULA_CODE',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+                    { field: 'FORMULA_CODE', title: '配方代码', align: 'left', width: 40 },
+                    { field: 'FORMULA_NAME', title: '配方名称', align: 'left', width: 30 },
+                     { field: 'BATCH_WEIGHT', title: '批次重量', align: 'left', width: 30 },
+                    { field: 'USE_COUNT', title: '次数', align: 'left', width: 30 }
+                ]],
+            onLoadSuccess: function () {
+                if ("edit,delete".search(clickbt) != -1 && !ischang) {
+                    var row = $('#details').datagrid('getSelected');
+                    resetformulavalue(row.FORMULA_CODE);
+                    isresetvalue = false;
+                }
+            },
+            onSelect: function (index, data) {
+                $('#BATCH_WEIGHT').numberbox('setValue', data.BATCH_WEIGHT);
+            },
+            onChange: function (newValue, oldValue) {
+                if (isresetvalue == false) {//清空明细
+                    $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+                }
+            }
+        });
+//        if (editsubdetail == null)
+            $('#FORMULA_CODE').combogrid('clear');
+    }
+
+    function resetformulavalue(value) {
+        isresetvalue = true;
+        $('#FORMULA_CODE').combogrid('setValue', value);
+    }
+
+    //载入配方事件.
+    function Loadformula() {
+        if ($('#CIGARETTE_CODE').combogrid('getText') == "") {
+            alert('请选择牌号'); return
+        }
+        if ($('#FORMULA_CODE').combogrid('getText') == "") {
+            alert('请选择配方'); return
+        }
+        if ($('#BATCH_WEIGHT').numberbox('getValue') == "") {
+            alert("请输入重量"); return;
+        }
+
+        var FORMULA_CODE = $('#FORMULA_CODE').combogrid('getValue');
+        $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+        $('#inBillDetail').datagrid({
+            url: '/StockInBill/LoadFormula/?page=1&rows=1000&Formulacode=' + FORMULA_CODE + '&BATCH_WEIGHT=' + $('#BATCH_WEIGHT').numberbox('getValue')
+        });
+        $('#inBillDetail').datagrid('reload');
+        if (clickbt == "edit") {
+            var row = $('#details').datagrid('getSelected');
+            $('#BILL_NO').val(row.BILL_NO);
+            $('#OPERATER').val(row.OPERATER);
+        }
+    }
+
+   function save() {
+        var changesRows = {
+            inserted: []
+        };
+        var Rows = $('#inBillDetail').datagrid('getData');
+        if (Rows.total == 0 && clickbt != "delete") { alert("明细不能为空"); return; }
+        for (var i = 0; i < Rows.total; i++) {
+            changesRows.inserted.push(Rows.rows[i]);
+        }
+        if (clickbt == "add") {
+            url = '/DirectProduct/Add/?detail=' + JSON.stringify(changesRows.inserted);
+        }
+        if (clickbt == "edit") {
+            url = '/DirectProduct/Edit/?detail=' + JSON.stringify(changesRows.inserted);
+        }
+        if (clickbt == "delete") {
+            url = '/DirectProduct/Delete/?Billno=' + $('#BILL_NO').val();
+        }
+        $('#fm').form('submit', {
+            url: url,
+            onSubmit: function () {
+                return $(this).form('validate');
+            },
+            success: function (result) {
+                var result = eval('(' + result + ')');
+                if (result.success) {
+                    $.messager.show({
+                        title: '成功',
+                        msg: result.msg
+                    });
+                    $('#dlg').dialog('close');
+                    $('#details').datagrid('reload');
+                    $('#SubDetails').datagrid('reload');
+                } else {
+                    $.messager.show({
+                        title: '错误',
+                        msg: result.msg
+                    });
+                    $('#details').datagrid('reload');
+                }
+            }
+        });
+    }
+</script>
+
+<div id="dlg" class="easyui-dialog" modal="true"
+        style="width:850px;height:450px;padding:0px 0px"
+        closed="true" buttons="#dlg-buttons">
+	<div class="easyui-layout" fit="true">
+        <div region="center" border="false">
+            <table class="easyui-datagrid" border="false" toolbar="#dlg-detailButtons" width="700" id="inBillDetail"
+                fit="true" fitColumns="true" singleSelect="true" rownumbers="true" pagination="false" url="" striped="true">
+                <thead>
+                    <tr>
+                        <th field="ITEM_NO" width="100" hidden="true">序号</th>
+                        <th field="PRODUCT_CODE" width="120" >产品代码</th>
+                        <th field="PRODUCT_NAME" width="120">产品名称</th>
+                        <th field="WEIGHT" width="80"  hidden="true">产品重量</th>
+                        <th field="REAL_WEIGHT" width="80" >重量</th>
+                        <th field="PACKAGE_COUNT" width="80">包数</th>
+                        <th field="TOTAL_WEIGHT" width="80" >总重量</th>
+                        <th field="NC_COUNT" width="60" >NC包数</th>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="dlg-detailButtons" style="width: auto; height: auto; background-color: #FFFFFF;">
+	<div border="false" style="padding:4px 4px;" >     
+	    <form id="fm" method="post" novalidate>
+            <table height="80px">
+                <tr>
+                <td width="90">单据编号</td>
+                <td width="133"><input name="BILL_NO" id="BILL_NO" readonly="true"></td>
+                <td width="90">单据日期</td>
+                <td width="168"><input name="BILL_DATE" id="BILL_DATE"  ></td>
+                <td width="90">操作人员</td>
+                <td width="168"><input  name="OPERATER" id="OPERATER"  readonly="true"/></td>
+                <td width="90">操作日期</td>
+                <td width="168"><input id="OPERATE_DATE" name="OPERATE_DATE"  readonly="true" disabled="true"></td>
+                 </tr>
+                <tr>
+                <td width="90">仓库编号</td>
+                <td width="168"><input name="WAREHOUSE_CODE"  id="WAREHOUSE_CODE"/></td>
+                <td width="90">制丝线</td>
+                <td width="168"><input name="LINE_NO" id="LINE_NO" class="easyui-combogrid"/></td>
+                  <td width="90">批次重量</td>
+                <td width="168"><input id="BATCH_WEIGHT"  name="BATCH_WEIGHT" readonly="readonly" class="easyui-numberbox" precision="2" ></td>
+                <td width="90">牌   号</td>
+                <td width="168"><input id="CIGARETTE_CODE" name="CIGARETTE_CODE" class="easyui-combogrid"  readonly="true"  ></td>
+                 </tr>
+                 <tr>
+                <td width="90">配方代号</td>
+                <td width="168"><input id="FORMULA_CODE" name="FORMULA_CODE"  class="easyui-combogrid" readonly="true"></td>
+                <td colspan="6" >
+                     @*<a href="#" class="easyui-linkbutton"   onclick="Loadformula()" id="btLoadFormula"  style="width:66px ">载入配方</a> *@
+                     <input type="button"  onclick="Loadformula()"   id="btLoadFormula" style="width:100px "  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="载入配方"/>
+                  </td>
+                </tr>
+                <tr>
+                </tr>
+            </table>
+	    </form>
+    </div>
+    <div border="false" class="formula_editbg" > 
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addBillDetailClick()" id="btnAddBillDetail">添加明细</a>
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteBillDetailClick()" id="btnDeleteBillDetail">删除明细</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editBillDetailClick()" id="btnEditBillDetail">修改明细</a>
+        
+    </div>
+</div>
+
+<div id="dlg-buttons">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>*@
+      <input type="button"  onclick="save()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#dlg').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+
+<div  id="dlg-AddBillDetail" class="easyui-dialog" modal="true"
+        style="width:270px;height:230px;padding:0px 0px"
+        closed="true" buttons="#dlg-AddBillDetailbuttons">
+     <form id="fm-inBillDetail" novalidate>
+<table style="padding:10px 10px 0px 5px">
+<tr>
+    <td style="width:60px"></td>
+    <td align="left" style=" display:none">
+    <input type="text" name="ITEM_NO"    id="ITEM_NO"    />
+    <input type="text" name="WEIGHT"    id="WEIGHT"    />@*产品表中的重量*@
+    </td>
+</tr>
+  <tr>
+    <td style=" text-align:right; width:60px"> 产品代码</td>
+    <td align="left"><input type="text" name="PRODUCT_CODE" id="PRODUCT_CODE"  required="true"  readonly="true"/>
+     <a href="#" onclick="productSelect()" class="easyui-linkbutton" iconcls="icon-search" plain="true"></a></td>
+    <td></td>
+  </tr>
+  <tr>
+      <td style=" text-align:right; width:60px">产品名称</td>
+      <td align="left"><input  type="text" name="PRODUCT_NAME" id="PRODUCT_NAME"  readonly="true"/></td>
+      <td></td>
+  </tr>
+  <tr>
+    <td style=" text-align:right; width:60px">重量</td>
+    <td align="left"><input type="text" name="REAL_WEIGHT"    id="REAL_WEIGHT"  class="easyui-numberbox"  precision="2"  /></td>
+    <td></td>
+  </tr>
+
+    <tr>
+    <td style=" text-align:right; width:60px">包数</td>
+    <td align="left"><input type="text" name="PACKAGE_COUNT" id="PACKAGE_COUNT"  class="easyui-numberbox"  /></td>
+  </tr>
+
+    <tr>
+    <td style=" text-align:right; width:60px;display:none">总重量</td>
+    <td align="left" style=" display:none"><input type="text" name="TOTAL_WEIGHT" id="TOTAL_WEIGHT"  readonly="true"  /></td>
+    <td></td>
+  </tr>
+      <tr>
+    <td style=" text-align:right; width:60px">NC包数</td>
+    <td align="left"><input type="text" name="NC_COUNT" id="NC_COUNT" class="easyui-numberbox"  /></td>
+  </tr>
+</table>
+ </form>
+</div>
+
+<div id="dlg-AddBillDetailbuttons">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="DetailSave()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-AddBillDetail').dialog('close')">取消</a>*@
+      <input type="button"  onclick="DetailSave()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#dlg-AddBillDetail').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>

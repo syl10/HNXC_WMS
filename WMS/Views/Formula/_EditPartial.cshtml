@@ -1,0 +1,48 @@
+﻿<script type="text/javascript">
+    function editClick() {
+        
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            status = "edit";
+            $('#dlg').dialog('open').dialog('setTitle', '编辑');
+            DataLoad();
+            $('#fm').form('load', row);
+            $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+                        $('#inBillDetail').datagrid({ url: '/Formula/SubDetails/?page=1&rows=1000&FORMULA_CODE=' + row.FORMULA_CODE });
+//            updateforder('/Formula/SubDetails/?page=1&rows=1000&FORMULA_CODE=' + row.FORMULA_CODE);
+            $('#fm .easyui-validatebox').validatebox({
+                required: true
+            });
+            $('#FORMULA_CODE').attr("readonly", true);
+
+            $('#OPERATE_DATE').attr("readonly", true);
+            $('#FORMULA_DATE').datebox({
+                width: 130,
+                hasDownArrow: false
+            });
+            $(".datebox :text")[0].setAttribute("readonly", "true"); //设置只读
+
+            $('#FORMULA_DATE').datebox('setValue',row.FORMULADATE);
+            $('#OPERATE_DATE').val(row.OPERATE_DATE);
+
+            $('form input').removeAttr("disabled");
+            $('form textarea').removeAttr("disabled");
+
+            $('#fm .easyui-validatebox').validatebox({
+                required: true
+            });
+            $('#cc').combo({
+                hasDownArrow: true
+            });
+            $('#cc').combobox('setValue', row.IS_ACTIVE);
+
+
+            url = '/Formula/Edit/';
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+        $('#copybt').show(); //显示复制按钮
+        setbtdisable();
+    }
+</script>
+   

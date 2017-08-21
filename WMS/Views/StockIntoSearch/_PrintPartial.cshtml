@@ -1,0 +1,33 @@
+﻿<script type="text/javascript">
+    function printClick() {
+        var isprint = true;
+        var queryParams = $('#details').datagrid('options').queryParams;
+        queryParams.PRINT = "1";
+        $('#details').datagrid('options').queryParams = queryParams;
+        $('#details').datagrid('reload');
+        $('#details').datagrid('options').onLoadSuccess = function () {
+            if (isprint) {
+                loadpdf();
+            }
+            queryParams.PRINT = "0";
+            isprint = false;
+        }
+    }
+    function loadpdf() {
+        $.getJSON("/StockInBill/Print/",
+        function (json) {
+            if (json) {
+                //                document.getElementById("dlgPrint").innerHTML = "<div id='divPrint1'><embed width='800' height='600' src='" + src1 + "'></embed></div>";
+                $('#dlgPrint').dialog('open').dialog('setTitle', '打印');
+                $('#divPrint1').empty();
+                $('#divPrint1').append("<iframe id='billreportframe'   scrolling='no'  width='100%'  height='100%'   style='   padding:0px;' frameborder='0' src='../BillPrint/?frxname=stockinprint.frx&dataname=billreportprint'></iframe>");
+            }
+        });
+    }
+</script>
+
+<div id="dlgPrint" class="easyui-dialog" modal="true" style="width:970px;height:450px;padding:0px 0px" closed="true" >
+<div id="divPrint1" style="width:950px;height:410px;padding:0px 0px" >
+@*<iframe id='reportframe' scrolling="no"  height='100%'   style=' width:100%;  padding:0px;' frameborder='0' src='../../WebForm1.aspx'></iframe>*@
+</div>
+</div>

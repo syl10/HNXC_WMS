@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="12/16/2013 14:52:12" ReportInfo.Modified="12/19/2013 09:26:28" ReportInfo.CreatorVersion="2013.4.1.0">
+  <Dictionary/>
+  <ReportPage Name="Page1">
+    <DataBand Name="Data1" Width="718.2" Height="149.49">
+      <TextObject Name="Text1" Left="36.81" Top="38.67" Width="333.18" Height="41.78" Text="打印报表出错,原因可能为数据量过大,或者要打印的数据为空" Font="宋体, 12pt"/>
+    </DataBand>
+    <PageFooterBand Name="PageFooter1" Top="153.49" Width="718.2" Height="18.9"/>
+  </ReportPage>
+</Report>

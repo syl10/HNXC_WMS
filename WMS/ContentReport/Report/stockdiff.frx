@@ -1,0 +1,145 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/28/2013 14:05:53" ReportInfo.Modified="01/21/2014 09:34:21" ReportInfo.CreatorVersion="1.9.9.0">
+  <Dictionary>
+    <ViewDataSource Name="stockdiff" ReferenceName="stockdiff" DataType="System.Int32" Enabled="true">
+      <Column Name="MBILL_NO" DataType="System.String"/>
+      <Column Name="BILL_DATE" DataType="System.DateTime"/>
+      <Column Name="BTYPE_CODE" DataType="System.String"/>
+      <Column Name="BTYPE_NAME" DataType="System.String"/>
+      <Column Name="BILL_TYPE" DataType="System.String"/>
+      <Column Name="SCHEDULE_NO" DataType="System.String"/>
+      <Column Name="WAREHOUSE_CODE" DataType="System.String"/>
+      <Column Name="WAREHOUSE_NAME" DataType="System.String"/>
+      <Column Name="TARGET_CODE" DataType="System.String"/>
+      <Column Name="TARGET_NAME" DataType="System.String"/>
+      <Column Name="STATUS" DataType="System.String"/>
+      <Column Name="STATE" DataType="System.String"/>
+      <Column Name="SOURCE_BILLNO" DataType="System.String"/>
+      <Column Name="OPERATER" DataType="System.String"/>
+      <Column Name="OPERATE_DATE" DataType="System.DateTime"/>
+      <Column Name="CHECKER" DataType="System.String"/>
+      <Column Name="CHECK_DATE" DataType="System.DateTime"/>
+      <Column Name="TASKER" DataType="System.String"/>
+      <Column Name="TASK_DATE" DataType="System.DateTime"/>
+      <Column Name="BILL_METHOD" DataType="System.String"/>
+      <Column Name="BILLMETHODCODE" DataType="System.String"/>
+      <Column Name="SCHEDULE_ITEMNO" DataType="System.Decimal"/>
+      <Column Name="LINE_NO" DataType="System.String"/>
+      <Column Name="LINE_NAME" DataType="System.String"/>
+      <Column Name="CIGARETTE_CODE" DataType="System.String"/>
+      <Column Name="CIGARETTE_NAME" DataType="System.String"/>
+      <Column Name="FORMULA_CODE" DataType="System.String"/>
+      <Column Name="FORMULA_NAME" DataType="System.String"/>
+      <Column Name="BATCH_WEIGHT" DataType="System.Decimal"/>
+      <Column Name="DBILL_NO" DataType="System.String"/>
+      <Column Name="ITEM_NO" DataType="System.Decimal"/>
+      <Column Name="PRODUCT_CODE" DataType="System.String"/>
+      <Column Name="PRODUCT_NAME" DataType="System.String"/>
+      <Column Name="YEARS" DataType="System.String"/>
+      <Column Name="ORIGINAL_NAME" DataType="System.String"/>
+      <Column Name="GRADE_NAME" DataType="System.String"/>
+      <Column Name="CATEGORY_NAME" DataType="System.String"/>
+      <Column Name="STYLE_NAME" DataType="System.String"/>
+      <Column Name="WEIGHT" DataType="System.Decimal"/>
+      <Column Name="REAL_WEIGHT" DataType="System.Decimal"/>
+      <Column Name="PACKAGE_COUNT" DataType="System.Decimal"/>
+      <Column Name="NC_COUNT" DataType="System.Decimal"/>
+      <Column Name="IS_MIX" DataType="System.String"/>
+      <Column Name="ISMIX" DataType="System.String"/>
+      <Column Name="FPRODUCT_CODE" DataType="System.String"/>
+      <Column Name="TOTALWEIGHT" DataType="System.Decimal"/>
+    </ViewDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="218.72" StartNewPage="true" Condition="[stockdiff.MBILL_NO]">
+      <TableObject Name="Table1" Left="64.11" Top="60.3" Width="563.88" Height="94.5">
+        <TableColumn Name="Column1" Width="65.9"/>
+        <TableColumn Name="Column2" Width="129.53"/>
+        <TableColumn Name="Column3" Width="65.57"/>
+        <TableColumn Name="Column4" Width="110.69"/>
+        <TableColumn Name="Column5" Width="64.44"/>
+        <TableColumn Name="Column6" Width="127.75"/>
+        <TableRow Name="Row1">
+          <TableCell Name="Cell1" Text="单据编号:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell2" Text="[stockdiff.MBILL_NO]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell3" Text="单据日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell4" Text="[stockdiff.BILL_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell5" Text="仓库名称:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell26" Text="[stockdiff.WAREHOUSE_NAME]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row2">
+          <TableCell Name="Cell6" Text="目标位置:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell7" Text="[stockdiff.TARGET_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell8" Text="单据来源:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell9" Text="[stockdiff.STATUS]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell10" Text="单据状态:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell27" Text="[stockdiff.STATE]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row3">
+          <TableCell Name="Cell11" Text="入库批次:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell12" Text="[stockdiff.SOURCE_BILLNO]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell13" Text="操作人:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell14" Text="[stockdiff.OPERATER]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell15" Text="操作日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell28" Text="[stockdiff.OPERATE_DATE]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row4">
+          <TableCell Name="Cell16" Text="审核人:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell17" Text="[stockdiff.CHECKER]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell18" Text="审核日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell19" Text="[stockdiff.CHECK_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell20" Text="作业人员:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell29" Text="[stockdiff.TASKER]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row5">
+          <TableCell Name="Cell21" Text="作业日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell22" Text="[stockdiff.TASK_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell23" Font="宋体, 9pt"/>
+          <TableCell Name="Cell24" Font="宋体, 9pt"/>
+          <TableCell Name="Cell25" Font="宋体, 9pt"/>
+          <TableCell Name="Cell30" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <LineObject Name="Line1" Left="-3.92" Top="180.34" Width="741.68"/>
+      <TableObject Name="Table2" Left="-0.25" Top="198.82" Width="499.76" Height="18.9">
+        <TableColumn Name="Column7" Width="65.04"/>
+        <TableColumn Name="Column8" Width="170.12"/>
+        <TableColumn Name="Column9"/>
+        <TableColumn Name="Column10"/>
+        <TableColumn Name="Column11"/>
+        <TableColumn Name="Column12"/>
+        <TableRow Name="Row6">
+          <TableCell Name="Cell31" Text="序号" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell32" Text="产品代码" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell33" Text="重量" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell34" Text="实际重量" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell35" Text="包数" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell36" Text="总重量" HorzAlign="Center" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <TextObject Name="Text1" Left="63.15" Top="19.12" Width="564.29" Height="18.9" Text="损益单" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="222.72" Width="718.2" Height="22.01" DataSource="stockdiff">
+        <TableObject Name="Table3" Left="0.28" Top="1.96" Width="499.75" Height="18.9">
+          <TableColumn Name="Column13"/>
+          <TableColumn Name="Column14" Width="169"/>
+          <TableColumn Name="Column15"/>
+          <TableColumn Name="Column16"/>
+          <TableColumn Name="Column17"/>
+          <TableColumn Name="Column18"/>
+          <TableRow Name="Row7">
+            <TableCell Name="Cell37" Text="[stockdiff.ITEM_NO]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell38" Text="[stockdiff.PRODUCT_CODE]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell39" Text="[stockdiff.WEIGHT]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell40" Text="[stockdiff.REAL_WEIGHT]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell41" Text="[stockdiff.PACKAGE_COUNT]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell42" Text="[stockdiff.TOTALWEIGHT]" HorzAlign="Center" Font="宋体, 9pt"/>
+          </TableRow>
+        </TableObject>
+        <Sort>
+          <Sort Expression="[stockdiff.ITEM_NO]"/>
+        </Sort>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="248.73" Width="718.2"/>
+    </GroupHeaderBand>
+  </ReportPage>
+</Report>

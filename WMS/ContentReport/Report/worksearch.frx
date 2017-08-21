@@ -1,0 +1,121 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="12/02/2013 13:56:04" ReportInfo.Modified="01/21/2014 09:38:59" ReportInfo.CreatorVersion="1.9.9.0">
+  <Dictionary>
+    <ViewDataSource Name="worksearch" ReferenceName="worksearch" DataType="System.Int32" Enabled="true">
+      <Column Name="BILL_NO" DataType="System.String"/>
+      <Column Name="PRODUCT_CODE" DataType="System.String"/>
+      <Column Name="PRODUCT_BARCODE" DataType="System.String"/>
+      <Column Name="REAL_WEIGHT" DataType="System.Decimal"/>
+      <Column Name="TARGET_CODE" DataType="System.String"/>
+      <Column Name="STATE" DataType="System.String"/>
+      <Column Name="TASK_DATE" DataType="System.DateTime"/>
+      <Column Name="TASKER" DataType="System.String"/>
+      <Column Name="IS_MIX" DataType="System.String"/>
+      <Column Name="MIXNAME" DataType="System.String"/>
+      <Column Name="SOURCE_BILLNO" DataType="System.String"/>
+      <Column Name="PRODUCT_NAME" DataType="System.String"/>
+      <Column Name="CATEGORY_NAME" DataType="System.String"/>
+      <Column Name="GRADE_NAME" DataType="System.String"/>
+      <Column Name="ORIGINAL_NAME" DataType="System.String"/>
+      <Column Name="STYLE_NAME" DataType="System.String"/>
+      <Column Name="BTYPE_CODE" DataType="System.String"/>
+      <Column Name="BTYPE_NAME" DataType="System.String"/>
+      <Column Name="BILL_METHOD" DataType="System.String"/>
+      <Column Name="BILLMETHOD" DataType="System.String"/>
+      <Column Name="FORMULA_CODE" DataType="System.String"/>
+      <Column Name="FORMULA_NAME" DataType="System.String"/>
+      <Column Name="CIGARETTE_CODE" DataType="System.String"/>
+      <Column Name="CIGARETTE_NAME" DataType="System.String"/>
+      <Column Name="STATENAME" DataType="System.String"/>
+      <Column Name="TASK_ID" DataType="System.String"/>
+      <Column Name="CELL_CODE" DataType="System.String"/>
+      <Column Name="YEARS" DataType="System.String"/>
+      <Column Name="IN_DATE" DataType="System.DateTime"/>
+      <Column Name="BATCH_WEIGHT" DataType="System.Decimal"/>
+    </ViewDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1" Landscape="true" PaperWidth="297" PaperHeight="210">
+    <GroupHeaderBand Name="GroupHeader1" Width="1047.06" Height="75.79" StartNewPage="true" Condition="[worksearch.BILL_NO]">
+      <TableObject Name="Table1" Left="-17.74" Top="56.43" Width="1086.59" Height="18.9">
+        <TableColumn Name="Column1" Width="101.82"/>
+        <TableColumn Name="Column6" Width="60.1"/>
+        <TableColumn Name="Column3" Width="59.17"/>
+        <TableColumn Name="Column4" Width="59.17"/>
+        <TableColumn Name="Column5" Width="58.04"/>
+        <TableColumn Name="Column10" Width="43.31"/>
+        <TableColumn Name="Column11" Width="58.99"/>
+        <TableColumn Name="Column12" Width="58.22"/>
+        <TableColumn Name="Column15" Width="63.13"/>
+        <TableColumn Name="Column16" Width="172.94"/>
+        <TableColumn Name="Column17" Width="59.17"/>
+        <TableColumn Name="Column18"/>
+        <TableColumn Name="Column37" Width="49.35"/>
+        <TableColumn Name="Column38" Width="39.35"/>
+        <TableColumn Name="Column39" Width="33.31"/>
+        <TableColumn Name="Column40" Width="38.22"/>
+        <TableColumn Name="Column41"/>
+        <TableRow Name="Row1">
+          <TableCell Name="Cell1" Text="单据编号" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell3" Text="单据类型" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell4" Text="入库日期" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell5" Text="作业日期" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell6" Text="入库方式" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell10" Text="牌号" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell11" Text="配方名称" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell12" Text="批次重量" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell15" Text="产品名称" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell16" Text="产品条码" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell17" Text="货位编号" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell18" Text="产品等级" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell37" Text="原产地" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell38" Text="年份" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell39" Text="形态" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell40" Text="类别" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell41" Text="作业状态" HorzAlign="Center" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <TextObject Name="Text1" Left="-0.96" Top="15.12" Width="813.42" Height="18.9" Text="作业查询" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="79.79" Width="1047.06" Height="34.61" DataSource="worksearch">
+        <TableObject Name="Table2" Left="-17.41" Top="1.01" Width="1087.53" Height="28.73">
+          <TableColumn Name="Column42" Width="102.76"/>
+          <TableColumn Name="Column43" Width="60.1"/>
+          <TableColumn Name="Column44" Width="59.17"/>
+          <TableColumn Name="Column45" Width="59.17"/>
+          <TableColumn Name="Column46" Width="58.04"/>
+          <TableColumn Name="Column47" Width="43.31"/>
+          <TableColumn Name="Column48" Width="58.99"/>
+          <TableColumn Name="Column49" Width="58.22"/>
+          <TableColumn Name="Column50" Width="63.13"/>
+          <TableColumn Name="Column51" Width="172.94"/>
+          <TableColumn Name="Column52" Width="59.17"/>
+          <TableColumn Name="Column53"/>
+          <TableColumn Name="Column54" Width="49.35"/>
+          <TableColumn Name="Column55" Width="39.35"/>
+          <TableColumn Name="Column56" Width="33.31"/>
+          <TableColumn Name="Column57" Width="38.22"/>
+          <TableColumn Name="Column58"/>
+          <TableRow Name="Row2" Height="28.73">
+            <TableCell Name="Cell42" Text="[worksearch.BILL_NO]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell43" Text="[worksearch.BTYPE_NAME]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell44" Text="[worksearch.IN_DATE]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell45" Text="[worksearch.TASK_DATE]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell46" Text="[worksearch.BILLMETHOD]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell47" Text="[worksearch.CIGARETTE_NAME]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell48" Text="[worksearch.FORMULA_NAME]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell49" Text="[worksearch.BATCH_WEIGHT]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell50" Text="[worksearch.PRODUCT_NAME]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell51" Text="[worksearch.PRODUCT_BARCODE]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell52" Text="[worksearch.CELL_CODE]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell53" Text="[worksearch.GRADE_NAME]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell54" Text="[worksearch.ORIGINAL_NAME]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell55" Text="[worksearch.YEARS]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell56" Text="[worksearch.STYLE_NAME]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell57" Text="[worksearch.CATEGORY_NAME]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell58" Text="[worksearch.STATENAME]" HorzAlign="Center" Font="宋体, 9pt"/>
+          </TableRow>
+        </TableObject>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="118.4" Width="1047.06" Height="4.93"/>
+    </GroupHeaderBand>
+  </ReportPage>
+</Report>

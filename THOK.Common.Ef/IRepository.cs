@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 namespace THOK.Common.Ef.Interfaces
 {
     public interface IRepository<T>
@@ -27,5 +28,10 @@ namespace THOK.Common.Ef.Interfaces
         //动态生成ID
         string GetNewID(string TableName, string ColumnName);
 
+        string GetNewID(string PreName, DateTime dt, string AutoCode);
+        //执行存储过程.
+         int Exeprocedure(string storename, out string error);
+        //执行sql语句
+         System.Linq.IQueryable<T> Exesqlstr(string sqlstr);
     }
 }

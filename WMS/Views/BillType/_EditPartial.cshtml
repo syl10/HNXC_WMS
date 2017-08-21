@@ -1,0 +1,66 @@
+﻿<script type="text/javascript">
+    function editClick() {
+
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            if (row.ALLOW_EDIT == "0") {
+                $.messager.alert('错误', "基础数据不允许修改！")
+                return false;
+            }
+            $('#BType').combobox({
+                url: "/SysTableState/Details/?TableName=CMD_BILL_TYPE&FieldName=BILL_TYPE",
+                valueField: 'id',
+                textField: 'text',
+                onSelect: function () {
+                    var peo = $('#BType').combobox('getValue');
+                    if (peo == "2") {
+                        $('#trTarget').css('display', '');
+                    } else {
+                        $('#trTarget').css('display', 'none');
+                    }
+                }
+            });
+            $('#target').combobox({
+                url: "/SysBillTarget/Details/",
+                valueField: 'id',
+                textField: 'text'
+            }); 
+            $('#dlg').dialog('open').dialog('setTitle', '编辑');
+            $('#fm').form('load', row);
+            $('#fm .easyui-validatebox').validatebox({
+                required: true
+            });
+            $('form input').removeAttr("disabled");
+            $('form textarea').removeAttr("disabled");
+            $('#cc').combo({
+                hasDownArrow: true
+            });
+            $('#BType').combo({
+                hasDownArrow: true
+            });
+            $('#BType').combo({
+                required: true,
+                editable: false,
+                panelHeight: 80
+            });
+            $('#target').combo({
+                required: true,
+                editable: false,
+                panelHeight: 80
+            });
+            var peo = row.BILL_TYPE;
+            if (peo == "2") {
+                $('#trTarget').css('display', '');
+            } else {
+                $('#trTarget').css('display', 'none');
+            }
+            $('#cc').combobox('setValue', row.TASK_LEVEL);
+            $('#BType').combobox('setValue', row.BILL_TYPE);
+            $('#target').combobox('setValue', row.TARGET_CODE);
+            url = '/BillType/Edit/?BTYPE_CODE=' + row.BTYPE_CODE;
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    };
+</script>
+   

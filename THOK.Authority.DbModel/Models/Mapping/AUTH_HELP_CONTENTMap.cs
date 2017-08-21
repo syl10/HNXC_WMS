@@ -25,7 +25,7 @@ namespace THOK.Authority.DbModel.Mapping
                 .HasMaxLength(50);
 
             this.Property(t => t.CONTENT_TEXT)
-                .HasMaxLength(1000);
+                .HasMaxLength(4000);
 
             this.Property(t => t.CONTENT_PATH)
                 .IsRequired()
@@ -52,7 +52,7 @@ namespace THOK.Authority.DbModel.Mapping
                 .HasMaxLength(1);
 
             // Table & Column Mappings
-            this.ToTable("AUTH_HELP_CONTENT", "THOK");
+            this.ToTable("AUTH_HELP_CONTENT","HNXC");
             this.Property(t => t.ID).HasColumnName("ID");
             this.Property(t => t.CONTENT_CODE).HasColumnName("CONTENT_CODE");
             this.Property(t => t.CONTENT_NAME).HasColumnName("CONTENT_NAME");

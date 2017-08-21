@@ -1,0 +1,24 @@
+﻿<script type="text/javascript">
+    function copyClick() {
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            $('#dlg').dialog('open').dialog('setTitle', '新增');
+
+            $('#fm .easyui-validatebox').validatebox({
+                required: true
+            });
+            setgradecomb();
+            setoriginalcomb();
+            setstyle();
+            setcategorycomb();
+            SetYear();
+            $('#fm').form('load', row);
+            $('form input').removeAttr("disabled");
+            $('form textarea').removeAttr("disabled");
+            url = '/Product/Create/';
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    }
+</script>
+

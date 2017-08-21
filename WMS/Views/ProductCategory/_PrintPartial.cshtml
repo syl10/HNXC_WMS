@@ -1,0 +1,30 @@
+﻿<script type="text/javascript">
+    function printClick() {
+        var isprint = true;
+        var str = "";
+        var opts = $('#details').datagrid('getColumnFields');
+        //    var titles = $('#details').datagrid('getColumnOption', 'CRANE_NO');
+        $('#details').datagrid('loaded');
+        var queryParams = $('#details').datagrid('options').queryParams;
+        queryParams.PRINT = "1";
+        $('#details').datagrid('options').queryParams = queryParams;
+        $('#details').datagrid('reload');
+        $('#details').datagrid('options').onLoadSuccess = function () {
+            if (isprint) {
+                var row = $('#details').datagrid('getData');
+                if (row.total > 0) {
+                    for (var i = 0; i < opts.length; i++) {
+                        var coltitle = $('#details').datagrid('getColumnOption', opts[i]).title;
+                        str += opts[i] + ":" + coltitle + ";";
+                    }
+                    window.location.href = "/Crane/CreateExcelToClient/?tablestructstr=" + str + "&heard=产品类别信息";
+                } else {
+                    $.messager.confirm('错误', '当前无数据！');
+                }
+            }
+            queryParams.PRINT = "0";
+            isprint = false;
+            $('#details').datagrid('loading');
+        }
+    }
+</script>

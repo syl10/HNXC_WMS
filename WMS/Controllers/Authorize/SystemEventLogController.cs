@@ -4,9 +4,13 @@ using System.Text;
 using Microsoft.Practices.Unity;
 using THOK.WebUtil;
 using THOK.Authority.Bll.Interfaces;
+using Wms.Security;
+using THOK.Security;
 
 namespace WMS.Controllers.Authority
 {
+    [TokenAclAuthorize]
+    [SystemEventLog]
     public class SystemEventLogController : Controller
     {
         //
@@ -31,8 +35,17 @@ namespace WMS.Controllers.Authority
             string frompc = collection["FromPC"] ?? "";
             string operateuser = collection["OperateUser"] ?? "";
             string targetsystem = collection["TargetSystem"] ?? "";
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.isbase = true;
+            }
+            else
+            {
+                THOK.Common.PrintHandle.isbase = false;
+            }
             var users = SystemEventLogService.GetDetails(page, rows, eventlogtime, eventtype, eventname, frompc, operateuser, targetsystem);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
 
         }
 

@@ -1,0 +1,178 @@
+﻿<script  type="text/javascript">
+    var iseditordelet;
+    function addClick() {
+        iseditordelet=false;
+        $('#dlg').dialog('open').dialog('setTitle', '新增');
+        $('#fm_SD').form('clear');
+        $('#fm_SD .easyui-validatebox').validatebox({
+            required: true
+        });
+
+        $('#scheduledt').datebox({
+              hasDownArrow: true,
+              required: true
+          });
+          $('#OPERATE_DATE').datebox({
+              hasDownArrow: true,
+              required: true
+          });
+          $('#OPERATE_DATE').datebox('setValue', getDate());
+          $('#STATUS').val("手工输入");
+          $('#STATE').val("保存");
+//          $('#SCHEDULE_NO').attr('readonly', true);
+          GetScheduleno(getDate());
+
+          GetCigarette();
+        url = '/Schedule/Create/';
+    }
+    //获取时间字符串
+    function getDate() {
+        var dt = new Date();
+        var year = dt.getFullYear();
+        var month = dt.getMonth() + 1;
+        var day = dt.getDate();
+        var dtstr = year + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day);
+        return dtstr;
+    }
+
+    //获取计划单号
+    function GetScheduleno(date) {
+        $.getJSON("/Schedule/GetScheduleNO/?dtime=" + date, function (json) {
+            if (json) {
+                $('#SCHEDULE_NO').val(json.ScheduleNo);
+                $('#OPERATER').val(json.userName);
+            }
+        });
+    }
+    //牌号
+    function GetCigarette() {
+        $('#CIGARETTE').combogrid({
+            required: true,
+            disabled: false,
+            width: 135,
+            panelWidth: 340,
+            url: '/Cigarette/Details/?page=1&rows=1000',
+            idField: 'CIGARETTE_CODE',
+            textField: 'CIGARETTE_CODE',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+                    { field: 'CIGARETTE_CODE', title: '牌号编码', align: 'left', width: 40 },
+                    { field: 'CIGARETTE_NAME', title: '牌号名称', align: 'left', width: 30 },
+                    { field: 'CIGARETTE_MEMO', title: '备注', align: 'left', width: 30 }
+                ]],
+            onSelect: function (index, data) {
+                GetFormula(data.CIGARETTE_CODE);
+                $('#CIGARETTE_NAME').val(data.CIGARETTE_NAME);
+            }
+        });
+    }
+    //配方
+    function GetFormula(CIGARETTE_CODE) {
+        $('#FORMULA').combogrid({
+            required: true,
+            disabled: false,
+            width: 135,
+            panelWidth: 340,
+            url: '/Formula/Getuserfull/?page=1&rows=1000&cigarettecode=' + CIGARETTE_CODE,
+            idField: 'FORMULA_CODE',
+            textField: 'FORMULA_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+                    { field: 'FORMULA_CODE', title: '配方代码', align: 'left', width: 40 },
+                    { field: 'FORMULA_NAME', title: '配方名称', align: 'left', width: 30 },
+                    { field: 'USE_COUNT', title: '次数', align: 'left', width: 30 }
+                ]],
+        onLoadSuccess:function(){
+            if(iseditordelet){
+              var row = $('#details').datagrid('getSelected');
+              resetformulavalue(row.FORMULA_CODE);
+            }
+        }
+        });
+        if(!iseditordelet)
+          $('#FORMULA').combogrid('clear');
+    }
+    //新增框中的确定按钮点击事件
+    function save() {
+        $('#fm_SD').form('submit', {
+            url: url,
+            onSubmit: function () {
+                return $(this).form('validate');
+            },
+            success: function (result) {
+                var result = eval('(' + result + ')');
+                if (result.success) {
+                    $.messager.show({
+                        title: '成功',
+                        msg: result.msg
+                    });
+                    $('#dlg').dialog('close');
+                    $('#details').datagrid('reload');
+                } else {
+                    $.messager.show({
+                        title: '错误',
+                        msg: result.msg
+                    });
+                    $('#details').datagrid('reload');
+                }
+            }
+        });
+    }
+   function  resetformulavalue(value){
+      $('#FORMULA').combogrid('setValue', value);
+   }
+</script>
+
+<div id="dlg" class="easyui-dialog" modal="true" style="width:460px;height:230px;padding:2px 2px" closed="true" buttons="#dlg-buttons"  >
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
+	            <form id="fm_SD" method="post" novalidate>
+                     <table width="400px">
+                      <tr>
+                        <td style="width:50px" align="right">计划单号</td>
+                        <td style="width:138px"><input name="SCHEDULE_NO"  readonly="readonly" id="SCHEDULE_NO"  style="width:125px"  /></td>
+                        <td style="width:50px" align="right">计划日期</td>
+                        <td style="width:138px"><input name="SCHEDULE_DATE" id="scheduledt"  style=" width:135px"/></td>
+                      </tr>
+                       <tr>
+                        <td style="width:50px" align="right">重量</td>
+                        <td style="width:138px"><input name="QUANTITY"  class="easyui-numberbox"     style="width:125px"  /></td>
+						<td style="width:50px" align="right">牌号</td>
+                        <td style="width:138px">
+                              <input name="CIGARETTE_CODE"  id="CIGARETTE"/>
+                        </td>
+                      </tr>
+                       <tr>
+                        <td style="width:50px" align="right">牌号名称</td>
+                        <td style="width:138px" ><input name="CIGARETTE_NAME" id="CIGARETTE_NAME" readonly="readonly" style="width:125px" /></td>
+                        <td style="width:50px" align="right">配方代号</td>
+                        <td style="width:138px"><input name="FORMULA_CODE"   id="FORMULA"  /></td>
+                      </tr>
+                       <tr>
+                        <td style="width:50px" align="right">单据来源</td>
+                        <td style="width:138px"><input name="STATUS" id="STATUS" readonly="readonly"  style="width:125px" /></td>
+						 <td style="width:50px">单据状态</td>
+                        <td style="width:138px"><input name="STATE" id="STATE" readonly="readonly"/></td>
+                      </tr>
+                      <tr>
+                        <td style="width:50px" align="right">操作人员</td>
+                        <td  style=" width:138px"><input  name="OPERATER" id="OPERATER" readonly="readonly"  style="width:125px"  /></td>
+                        <td style=" width:50px">操作日期</td>
+                        <td> <input name="OPERATE_DATE" id="OPERATE_DATE" style=" width:135px"/></td>
+                      </tr>
+                    </table>
+	            </form>
+            </div>
+        </div>
+</div>
+<div id="dlg-buttons">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>*@
+      <input type="button"  onclick="save()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#dlg').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+

@@ -1,0 +1,29 @@
+﻿<script type="text/javascript">
+    $(function () {
+
+    });
+</script>
+ 
+<div region="center" split="true" border="false">    
+    <table id="details" class="easyui-datagrid" url="/BillType/Details/" border="false" singleSelect="true"
+        fit="true" fitColumns="true" toolbar="#tool"  pagination="true" rownumbers="true" striped="true">
+        <thead>
+            <tr>
+                <th field="BTYPE_CODE"  width="80">类型代码</th>
+                <th field="BTYPE_NAME" width="100">类型名称</th>
+                <th field="BILL_TYPE" hidden="true" width="80">单据类型代码</th>
+                <th field="BILLTYPENAME" width="100">单据类型</th>
+                <th field="ALLOW_EDIT" hidden="true" width="80">允许编辑</th>
+                <th field="TASK_LEVEL" width="100">任务等级</th> 
+                <th field="TARGET_CODE" hidden="true" width="100">目标口代码</th> 
+                <th field="TARGETNAME" width="100">目标口</th> 
+                <th field="MEMO" width="120">备注</th>
+               
+            </tr>
+        </thead>
+    </table>
+</div>
+
+ 
+
+

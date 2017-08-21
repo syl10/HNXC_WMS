@@ -1,0 +1,56 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $('#details').datagrid('options').onClickRow = function () {
+            $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
+            var row = $('#details').datagrid('getSelected');
+            if (row) {
+                $('#SubDetails').datagrid({ url: '/ProductMonthly/GetSubDetail/?Balanceno=' + row.BALANCE_NO });
+                //                $('#SubDetails').datagrid('reload');
+            }
+            else {
+                $.messager.show({ title: '系统提示', msg: '失败!请检查原因！' });
+            }
+            //            setdatagridcell();
+        }
+    });
+</script>
+<div region="center" split="true" border="false">    
+    <table id="details" class="easyui-datagrid" url="/ProductMonthly/Details/" border="false" singleSelect="true"
+        fit="true" fitColumns="true" toolbar="#tool"  pagination="true" rownumbers="true" striped="true"  >
+        <thead>
+            <tr>
+                <th field="BALANCE_NO" width="100" >月结编号</th>
+                <th field="BALANCE_DATE" width="80">月结日期</th>
+                <th field="STATE" width="80" hidden="true">状态</th>
+                <th field="STATE_DESC" width="80">状态描述</th>
+                <th field="OPERATER" width="90" hidden="true">操作人</th>
+                <th field="OPERATERNAME" width="90">操作人</th>
+                <th field="CHECKER" width="90">审核人</th>
+                <th field="CHECK_DATE" width="90">审核日期</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+<div region="south" split="true" border="false" style="height: 250px; border-top-style: solid; border-top-width: 1px; border-top-color: 99BBE8;">
+    <table class="easyui-datagrid" border="false" singleSelect="true" id="SubDetails" url="" pageSize="50"
+        fit="true" fitColumns="true"  pagination="true" rownumbers="true" striped="true">
+        <thead>
+            <tr>
+                <th field="BALANCE_NO" width="100" >月结编号</th>
+                <th field="WAREHOUSE_CODE" width="40" hidden="true" >仓库</th>
+                <th field="WAREHOUSE_NAME" width="40">仓库</th>
+                <th field="PRODUCT_CODE" width="80" hidden="true" >产品代码</th>
+                <th field="PRODUCT_NAME" width="80">产品名称</th>
+                <th field="BEGIN_QUANTITY" width="80" >期初重量</th>
+                <th field="IN_QUANTITY" width="80" >入库重量</th>
+                <th field="OUT_QUANTITY" width="80" >出库重量</th>
+                <th field="INSPECTOUT_QUANTITY" width="80">抽检出重量</th>
+                <th field="INSPECTIN_QUANTITY" width="80">抽检补料入重量</th>
+                <th field="FEEDING_QUANTITY" width="80">紧急补料重量</th>
+                <th field="DIFF_QUANTITY" width="80" >差异重量</th>
+                <th field="INCOME_QUANTITY" width="80"> 损益重量</th>
+                <th field="ENDQUANTITY" width="80" >期末重量</th>
+            </tr>
+        </thead>
+    </table>
+</div>

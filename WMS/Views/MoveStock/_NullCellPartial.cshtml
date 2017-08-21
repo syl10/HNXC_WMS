@@ -1,0 +1,71 @@
+﻿<script type="text/javascript">
+//查询按钮
+    function NullcellQueryClick() {
+        var queryinfo = $('#NullcellqueryType').combobox('getValue') + ":" + $('#NullcellInfo').val();
+        $('#NullCellDetail').datagrid('loadData', { total: 0, rows: [] });
+        $('#NullCellDetail').datagrid({ url: '/MoveStock/GetNullCell/?page=1&rows=50&queryinfo=' + queryinfo });
+    }
+    //确定按钮事件
+    function Nullcellcomfirm() {
+        var data = $('#NullCellDetail').datagrid('getSelected');
+        if (data) {
+        $('#' + newcellid).val(data.CELL_CODE);
+        }
+        $('#NullCellData').dialog('close');
+    }
+
+    $(function () {
+        $('#NullCellDetail').datagrid({
+            onDblClickRow: function () {
+                Nullcellcomfirm();
+            }
+        })
+    });
+</script>
+<div id="NullCellData" class="easyui-dialog" modal="true" style="width: 790px; height: 500px;
+    padding: 0px 0px" closed="true" buttons="#NullcelldlgProduct-buttons">
+    <div region="center" split="true" border="false" style="width: 770px; height: 430px">
+        <table id="NullCellDetail" class="easyui-datagrid" border="false" toolbar="#Nullcellbtn-query" pageSize="50"
+            singleselect="true" selectOnCheck="true" fit="true" fitcolumns="false" pagination="true" rownumbers="true">
+            <thead>
+                <tr>
+                 <th field="ITEM_NO" width="80"  hidden="true">序号</th>
+                <th field="CELL_CODE" width="80">货位号</th>
+                <th field="CELL_NAME" width="140">货位名称</th>
+                <th field="CELL_COLUMN" width="80">列位</th>
+                <th field="CELL_ROW" width="80">层位</th>
+                <th field="AREA_CODE" width="80">库区代码</th>
+                <th field="AREA_NAME" width="80">库区名称</th>
+                <th field="SHELF_CODE" width="160" hidden="true">货架代码</th>
+                <th field="SHELF_NAME" width="160">货架名称</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+ </div>
+ <div id="Nullcellbtn-query">
+<table>
+<tr>
+<td>
+<select id="NullcellqueryType" name="QueryString" class="easyui-combobox" style="width: 100px;" >
+		                <option value="cellcode">货位号</option>
+                        <option value="cellcolumn">列位</option>
+                        <option value="cellrow">层位</option>
+                        <option value="shelfcode">货架</option>
+                        <option value=""></option>
+	                </select>
+</td>
+<td>
+                    <input type="text" id="NullcellInfo"  style="width: 180px;"></td>
+                    <td>
+ <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="NullcellQueryClick()" id="NullcellQuery">查询</a>
+ </td>
+ </tr>
+ </table>
+</div>
+<div id="NullcelldlgProduct-buttons">
+      <input type="button"  onclick="Nullcellcomfirm() "  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#NullCellData').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+
+

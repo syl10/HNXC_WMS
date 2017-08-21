@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/28/2013 09:04:23" ReportInfo.Modified="01/21/2014 09:17:29" ReportInfo.CreatorVersion="1.9.9.0">
+  <Dictionary>
+    <ViewDataSource Name="inventory" ReferenceName="inventory" DataType="System.Int32" Enabled="true">
+      <Column Name="BILL_NO" DataType="System.String"/>
+      <Column Name="BILL_DATE" DataType="System.DateTime"/>
+      <Column Name="WAREHOUSE_CODE" DataType="System.String"/>
+      <Column Name="WAREHOUSE_NAME" DataType="System.String"/>
+      <Column Name="TARGET_NAME" DataType="System.String"/>
+      <Column Name="STATUS" DataType="System.String"/>
+      <Column Name="STATUSNAME" DataType="System.String"/>
+      <Column Name="STATE" DataType="System.String"/>
+      <Column Name="STATENAME" DataType="System.String"/>
+      <Column Name="SOURCE_BILLNO" DataType="System.String"/>
+      <Column Name="OPERATER" DataType="System.String"/>
+      <Column Name="OPERATE_DATE" DataType="System.DateTime"/>
+      <Column Name="CHECKER" DataType="System.String"/>
+      <Column Name="CHECK_DATE" DataType="System.DateTime"/>
+      <Column Name="TASKER" DataType="System.String"/>
+      <Column Name="TASK_DATE" DataType="System.DateTime"/>
+      <Column Name="ITEM_NO" DataType="System.Decimal"/>
+      <Column Name="CELL_CODE" DataType="System.String"/>
+      <Column Name="PRODUCT_CODE" DataType="System.String"/>
+      <Column Name="WEIGHT" DataType="System.Decimal"/>
+      <Column Name="REAL_WEIGHT" DataType="System.Decimal"/>
+      <Column Name="PACKAGE_COUNT" DataType="System.Decimal"/>
+      <Column Name="PRODUCT_BARCODE" DataType="System.String"/>
+      <Column Name="PALLET_CODE" DataType="System.String"/>
+      <Column Name="IS_MIX" DataType="System.String"/>
+      <Column Name="ISMIXNAME" DataType="System.String"/>
+    </ViewDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="197.04" StartNewPage="true" Condition="[inventory.BILL_NO]">
+      <TableObject Name="Table1" Left="53.17" Top="44.93" Width="563.88" Height="94.5">
+        <TableColumn Name="Column1" Width="65.9"/>
+        <TableColumn Name="Column2" Width="129.53"/>
+        <TableColumn Name="Column3" Width="65.57"/>
+        <TableColumn Name="Column4" Width="110.69"/>
+        <TableColumn Name="Column5" Width="64.44"/>
+        <TableColumn Name="Column6" Width="127.75"/>
+        <TableRow Name="Row1">
+          <TableCell Name="Cell1" Text="单据编号:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell2" Text="[inventory.BILL_NO]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell3" Text="单据日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell4" Text="[inventory.BILL_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell5" Text="仓库名称:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell26" Text="[inventory.WAREHOUSE_NAME]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row2">
+          <TableCell Name="Cell6" Text="目标位置:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell7" Text="[inventory.TARGET_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell8" Text="单据来源:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell9" Text="[inventory.STATUSNAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell10" Text="单据状态:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell27" Text="[inventory.STATENAME]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row3">
+          <TableCell Name="Cell11" Text="入库批次:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell12" Text="[inventory.SOURCE_BILLNO]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell13" Text="操作人:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell14" Text="[inventory.OPERATER]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell15" Text="操作日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell28" Text="[inventory.OPERATE_DATE]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row4">
+          <TableCell Name="Cell16" Text="审核人:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell17" Text="[inventory.CHECKER]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell18" Text="审核日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell19" Text="[inventory.CHECK_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell20" Text="作业人员:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell29" Text="[inventory.TASKER]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row5">
+          <TableCell Name="Cell21" Text="作业日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell22" Text="[inventory.TASK_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell23" Font="宋体, 9pt"/>
+          <TableCell Name="Cell24" Font="宋体, 9pt"/>
+          <TableCell Name="Cell25" Font="宋体, 9pt"/>
+          <TableCell Name="Cell30" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <TableObject Name="Table2" Left="2.45" Top="176.95" Width="741.69" Height="18.9">
+        <TableColumn Name="Column7" Width="38.04"/>
+        <TableColumn Name="Column8" Width="63.13"/>
+        <TableColumn Name="Column9" Width="137.91"/>
+        <TableColumn Name="Column10" Width="41.24"/>
+        <TableColumn Name="Column11"/>
+        <TableColumn Name="Column12" Width="34.26"/>
+        <TableColumn Name="Column13" Width="161.99"/>
+        <TableColumn Name="Column14" Width="132.82"/>
+        <TableColumn Name="Column15"/>
+        <TableRow Name="Row6">
+          <TableCell Name="Cell31" Text="序号" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell32" Text="货位号" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell33" Text="产品代码" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell34" Text="重量" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell35" Text="实际重量" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell36" Text="包数" Font="宋体, 9pt"/>
+          <TableCell Name="Cell37" Text="产品条码" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell38" Text="托盘RFID" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell39" Text="混装" HorzAlign="Center" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <LineObject Name="Line1" Left="0.94" Top="158.69" Width="737.55"/>
+      <TextObject Name="Text1" Left="54.13" Top="13.05" Width="561.29" Height="18.9" Text="盘点单" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="201.04" Width="718.2" Height="21.41" DataSource="inventory">
+        <TableObject Name="Table3" Left="2.87" Top="0.81" Width="742.61" Height="18.9">
+          <TableColumn Name="Column16" Width="38.04"/>
+          <TableColumn Name="Column17" Width="64.08"/>
+          <TableColumn Name="Column18" Width="137.91"/>
+          <TableColumn Name="Column19" Width="41.24"/>
+          <TableColumn Name="Column20"/>
+          <TableColumn Name="Column21" Width="34.26"/>
+          <TableColumn Name="Column22" Width="159.87"/>
+          <TableColumn Name="Column23" Width="134.91"/>
+          <TableColumn Name="Column24"/>
+          <TableRow Name="Row7">
+            <TableCell Name="Cell40" Text="[inventory.ITEM_NO]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell41" Text="[inventory.CELL_CODE]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell42" Text="[inventory.PRODUCT_CODE]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell43" Text="[inventory.WEIGHT]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell44" Text="[inventory.REAL_WEIGHT]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell45" Text="[inventory.PACKAGE_COUNT]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell46" Text="[inventory.PRODUCT_BARCODE]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell47" Text="[inventory.PALLET_CODE]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell48" Text="[inventory.ISMIXNAME]" HorzAlign="Center" Font="宋体, 9pt"/>
+          </TableRow>
+        </TableObject>
+        <Sort>
+          <Sort Expression="[inventory.ITEM_NO]"/>
+        </Sort>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="226.45" Width="718.2"/>
+    </GroupHeaderBand>
+  </ReportPage>
+</Report>

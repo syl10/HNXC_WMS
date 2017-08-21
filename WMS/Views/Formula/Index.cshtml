@@ -1,0 +1,62 @@
+﻿<script type="text/javascript">
+    $(function () {
+        $('#details').datagrid('options').onClickRow = function () {
+            $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
+            var row = $('#details').datagrid('getSelected');
+            if (row) {
+                $('#SubDetails').datagrid({ url: '/Formula/SubDetails/?FORMULA_CODE=' + row.FORMULA_CODE });
+//                $('#SubDetails').datagrid('reload');
+            } else {
+                $.messager.show({ title: '系统提示', msg: '失败!请检查原因！' });
+            }
+        }
+    });
+    function productName() {
+
+    }
+</script>
+<div region="center" split="true"  border="false" style="border-bottom-style: solid; border-bottom-width: 1px; border-bottom-color: #99BBE8">    
+    <table class="easyui-datagrid" border="false" singleSelect="true" id="details" url = '/Formula/Details/'
+        fit="true" fitColumns="true" toolbar="#tool"  pagination="true" rownumbers="true" pageSize="50" striped="true">
+        <thead>
+            <tr>
+                <th field="FORMULA_CODE" width="80" >配方代码</th>               
+                <th field="FORMULA_NAME" width="80" >配方名称</th>
+                <th field="FORMULADATE" width="60" >配方日期</th>
+                <th field="CIGARETTE_CODE" hidden="true" width="80" >牌号代码</th>
+                <th field="CIGARETTE_NAME" width="80" >牌号名称</th>
+                <th field="ISACTIVE" width="60" >状态</th>                
+                <th field="USE_COUNT" width="80" >次数</th> 
+                <th field="BATCH_WEIGHT" width="80" >批次重量</th>
+                <th field="OPERATER" width="60" >操作人员</th>               
+                <th field="OPERATE_DATE" width="80" >操作日期</th>
+               
+            </tr>
+        </thead>
+    </table>
+</div>
+<div region="south" split="true" border="false" style="height: 250px; border-top-style: solid; border-top-width: 1px; border-top-color: 99BBE8;">
+    <table class="easyui-datagrid" border="false" singleSelect="true" id="SubDetails" url="" pageSize="50"
+       sortName= "FORDER" sortOrder="asc" remoteSort="false"  fit="true" fitColumns="true"  pagination="true" rownumbers="true"  striped="true">
+        <thead>
+            <tr>
+                <th field="ID" width="50" align="left" hidden="true" >ID</th>
+                <th field="PRODUCT_CODE" width="100" >产品编码</th>
+                <th field="PRODUCT_NAME" width="80" >产品名称</th>
+                <th field="FORDER">投料顺序</th>
+                <th field="YEARS" width="80" >年份</th>
+                <th field="GRADE_NAME" width="80" >等级</th>
+                <th field="STYLE_NAME" width="80" >形态</th>
+                <th field="ORIGINAL_NAME" width="80" >原产地</th>
+                <th field="CATEGORY_NAME" width="80" >类别</th>
+                @*<th field="PERCENT" width="80" >百分比</th>*@
+                <th field="WEIGHT">重量</th>
+                <th field="MODULES">模块号</th>
+                <th field="OTHER" width="80" >其他</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+ 
+
+

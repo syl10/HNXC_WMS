@@ -1,0 +1,183 @@
+﻿<script type="text/javascript">
+    //查询函数
+    function OutstockbillQueryClick() {
+        var billno=$('#OutstockBillInfo').val();
+        var cigarate=$('#outcigarate').combogrid('getValue');
+        var formula=$('#outformula').combogrid('getValue');
+        var queryinfo=billno+":"+cigarate+":"+formula;
+        $('#OutstockBillDetail').datagrid({ url: '/Feeding/GetOutstockBill/?page=1&rows=30&queryinfo='+queryinfo });
+    }
+//确定按钮事件
+    function Outstockcomfirm() {
+        var data = $('#OutstockBillDetail').datagrid('getSelected');
+        if (data) {
+            $('#SCHEDULE_NO').val(data.BILL_NO);
+            $('#CIGARETTE_CODE').val(data.CIGARETTE_CODE);
+            $('#FORMULA_CODE').val(data.FORMULA_CODE);
+            $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+        }
+        $('#OutstockBillData').dialog('close');
+    }
+    //牌号
+    function OutstockGetCigarette() {
+        $('#outcigarate').combogrid({
+            required: false,
+            disabled: false,
+            width: 135,
+            panelWidth: 340,
+            url: '/Cigarette/Details/?page=1&rows=1000',
+            idField: 'CIGARETTE_CODE',
+            textField: 'CIGARETTE_NAME',
+            mode: 'local',
+            editable: true,
+            fitColumns: true,
+            columns: [[
+                    { field: 'CIGARETTE_CODE', title: '牌号编码', align: 'left', width: 40 },
+                    { field: 'CIGARETTE_NAME', title: '牌号名称', align: 'left', width: 30 },
+                    { field: 'CIGARETTE_MEMO', title: '备注', align: 'left', width: 30 }
+                ]],
+             onSelect: function (index, data) {
+                 OutstockGetFormula(data.CIGARETTE_CODE);
+                 $('#outformula').combogrid('clear');
+            }
+        });
+    }
+
+    //配方
+    function OutstockGetFormula(CIGARETTE_CODE) {
+        $('#outformula').combogrid({
+            required: false,
+            disabled: false,
+            width: 135,
+            panelWidth: 400,
+            url: '/Formula/Getuserfull/?page=1&rows=1000&cigarettecode=' + CIGARETTE_CODE,
+            idField: 'FORMULA_CODE',
+            textField: 'FORMULA_NAME',
+            mode: 'local',
+            editable: true,
+            fitColumns: true,
+            columns: [[
+                    { field: 'FORMULA_CODE', title: '配方代码', align: 'left', width: 50 },
+                    { field: 'FORMULA_NAME', title: '配方名称', align: 'left', width: 40 },
+                     { field: 'CIGARETTE_NAME', title: '牌号', align: 'left', width: 40 },
+                     { field: 'BATCH_WEIGHT', title: '批次重量', align: 'left', width: 30 },
+                    { field: 'USE_COUNT', title: '次数', align: 'left', width: 15 }
+                ]]
+        });
+    }
+//    function Outstockcleargrid() {
+//        $('#OutstockBillInfo').combogrid({
+//            required: false,
+//            disabled: false,
+//            url: [],
+//            columns: [[]]
+//        });
+//    }
+    $(function () {
+        $('#OutstockBillDetail').datagrid({
+            onDblClickRow: function () {
+                Outstockcomfirm();
+            }
+        });
+//        $('#OutstockqueryType').combobox({
+//            editable: false,
+//            onChange: function (newValue, oldValue) {
+//                if (newValue == "cigarate") OutstockGetCigarette();
+//                else if (newValue == "formula") OutstockGetFormula();
+//                else { $('#OutstockBillInfo').combogrid('grid').datagrid('loadData', { total: 0, rows: [] }); Outstockcleargrid(); }
+//            }
+//        });
+        OutstockGetCigarette();
+        OutstockGetFormula("");
+    });
+</script>
+
+<div id="OutstockBillData" class="easyui-dialog" modal="true" style="width: 790px; height: 500px;
+    padding: 0px 0px" closed="true" buttons="#OutstockdlgProduct-buttons">
+    <div region="center" split="true" border="false" style="width: 770px; height: 420px">
+        <table id="OutstockBillDetail" class="easyui-datagrid" border="false" toolbar="#Outstockbtn-query"
+            singleselect="true" fit="true" fitcolumns="false" pagination="true" rownumbers="true">
+            <thead>
+                <tr>
+                    <th field="BILL_NO" width="100">
+                        单据编号
+                    </th>
+                    <th field="BILL_DATE" width="150">
+                        单据日期
+                    </th>
+                    <th field="BTYPE_CODE" width="100" hidden="true">
+                        出库类型代码
+                    </th>
+                    <th field="BTYPE_NAME" width="100" >
+                        出库类型
+                    </th>
+                    <th field="BILLMETHODNAME" width="100">
+                      出库方式
+                    </th>
+                    <th field="SCHEDULE_NO" width="80"  >
+                        计划单号
+                    </th>
+                      <th field="LINE_NO" width="80" >
+                        制丝线
+                    </th>
+                      <th field="CIGARETTE_CODE" width="80" hidden="true">
+                        牌号代码
+                    </th>
+                    <th field="CIGARETTE_NAME" width="80">牌号</th>
+                      <th field="FORMULA_CODE" width="80" hidden="true">
+                        配方代码
+                    </th>
+                    <th field="FORMULA_NAME" width="80">配方</th>
+                      <th field="BATCH_WEIGHT" width="80">
+                        批次重量
+                    </th>
+                      <th field="OPERATER" width="80">
+                        操作人
+                    </th>
+                    <th field="OPERATE_DATE" width="60">
+                        操作日期
+                    </th>
+                    <th field="CHECKER" width="80">
+                        审核人
+                    </th>
+                    <th field="CHECK_DATE" width="60">
+                        审核日期
+                    </th>
+                    <th field="TASKER" width="60">
+                        作业人
+                    </th>
+                    <th field="TASK_DATE" width="60">
+                        作业日期
+                    </th>
+                  <th field="SOURCE_BILLNO" width="60" hidden="true">
+                        来源单号
+                    </th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div id="OutstockdlgProduct-buttons">
+      <input type="button"  onclick="Outstockcomfirm() "  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#BillData').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+<div id="Outstockbtn-query">
+<table>
+<tr>
+<td>
+单据编号:
+</td>
+<td>
+                    <input id="OutstockBillInfo"  style="width: 135px;"/></td>
+        <td>牌号:</td>
+        <td><input id="outcigarate" class="easyui-combogrid" style="width: 135px;"/></td>
+        <td>配方:</td>
+        <td><input id="outformula" class="easyui-combogrid" style="width: 135px;"/></td>
+                    <td>
+ <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="OutstockbillQueryClick()" id="billQuery">查询</a>
+ </td>
+ </tr>
+ </table>
+</div>
+
+

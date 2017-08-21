@@ -1,0 +1,55 @@
+﻿<script type="text/javascript">
+    function deleteClick() {
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            status = "delete";
+            $('#dlg').dialog('open').dialog('setTitle', '删除');
+            $('#fm').form('load', row);
+            $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+            $('#inBillDetail').datagrid({ url: '/Formula/SubDetails/?page=1&rows=1000&FORMULA_CODE=' + row.FORMULA_CODE });
+            $('#FORMULA_CODE').attr("readonly", true);
+            $('#FORMULA_DATE').attr("readonly", true);
+            $('#OPERATE_DATE').attr("readonly", true);
+            $('#FORMULA_DATE').val(row.FORMULADATE);
+            $('#OPERATE_DATE').val(row.OPERATE_DATE);
+            $('#CigaretteAdd').combogrid({
+                required: true,
+                disabled: false,
+                width: 130,
+                panelWidth: 340,
+                url: '/Cigarette/Details/?page=1&rows=1000',
+                idField: 'CIGARETTE_CODE',
+                textField: 'CIGARETTE_NAME',
+                mode: 'local',
+                editable: false,
+                fitColumns: true,
+                columns: [[
+                    { field: 'CIGARETTE_CODE', title: '牌号编码', align: 'left', width: 40 },
+                    { field: 'CIGARETTE_NAME', title: '牌号名称', align: 'left', width: 30 },
+                    { field: 'CIGARETTE_MEMO', title: '备注', align: 'left', width: 30 }
+                ]]
+            });
+            $('#fm .easyui-validatebox').validatebox({
+                required: false
+            });
+            $('#cc').combo({
+                hasDownArrow: false
+            });
+            $('#cc').combobox('setValue', row.IS_ACTIVE);
+
+
+            $('#fm .easyui-validatebox').validatebox({
+                required: false
+            });
+
+            $('#CigaretteAdd').combo({
+                hasDownArrow: false
+            });
+            url = '/Formula/Delete/?FORMULA_CODE=' + row.FORMULA_CODE;
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+        $('#copybt').hide(); //隐藏复制按钮
+        setbtdisable();
+    };
+</script>

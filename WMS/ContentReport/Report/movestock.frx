@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/28/2013 11:09:05" ReportInfo.Modified="01/21/2014 09:20:03" ReportInfo.CreatorVersion="1.9.9.0">
+  <Dictionary>
+    <ViewDataSource Name="movestock" ReferenceName="movestock" DataType="System.Int32" Enabled="true">
+      <Column Name="BILL_NO" DataType="System.String"/>
+      <Column Name="BILL_DATE" DataType="System.DateTime"/>
+      <Column Name="WAREHOUSE_CODE" DataType="System.String"/>
+      <Column Name="WAREHOUSE_NAME" DataType="System.String"/>
+      <Column Name="TARGET_NAME" DataType="System.String"/>
+      <Column Name="STATUS" DataType="System.String"/>
+      <Column Name="STATUSNAME" DataType="System.String"/>
+      <Column Name="STATE" DataType="System.String"/>
+      <Column Name="STATENAME" DataType="System.String"/>
+      <Column Name="SOURCE_BILLNO" DataType="System.String"/>
+      <Column Name="OPERATER" DataType="System.String"/>
+      <Column Name="OPERATE_DATE" DataType="System.DateTime"/>
+      <Column Name="CHECKER" DataType="System.String"/>
+      <Column Name="CHECK_DATE" DataType="System.DateTime"/>
+      <Column Name="TASKER" DataType="System.String"/>
+      <Column Name="TASK_DATE" DataType="System.DateTime"/>
+      <Column Name="ITEM_NO" DataType="System.Decimal"/>
+      <Column Name="CELL_CODE" DataType="System.String"/>
+      <Column Name="PRODUCT_CODE" DataType="System.String"/>
+      <Column Name="WEIGHT" DataType="System.Decimal"/>
+      <Column Name="REAL_WEIGHT" DataType="System.Decimal"/>
+      <Column Name="PACKAGE_COUNT" DataType="System.Decimal"/>
+      <Column Name="PRODUCT_BARCODE" DataType="System.String"/>
+      <Column Name="PALLET_CODE" DataType="System.String"/>
+      <Column Name="IS_MIX" DataType="System.String"/>
+      <Column Name="ISMIXNAME" DataType="System.String"/>
+      <Column Name="NEWCELL_CODE" DataType="System.String"/>
+      <Column Name="SCHEDULE_NO" DataType="System.String"/>
+    </ViewDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="194.73" StartNewPage="true" Condition="[movestock.BILL_NO]">
+      <TableObject Name="Table1" Left="45.97" Top="43.02" Width="563.88" Height="94.5">
+        <TableColumn Name="Column1" Width="65.9"/>
+        <TableColumn Name="Column2" Width="129.53"/>
+        <TableColumn Name="Column3" Width="65.57"/>
+        <TableColumn Name="Column4" Width="110.69"/>
+        <TableColumn Name="Column5" Width="64.44"/>
+        <TableColumn Name="Column6" Width="127.75"/>
+        <TableRow Name="Row1">
+          <TableCell Name="Cell1" Text="单据编号:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell2" Text="[movestock.BILL_NO]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell3" Text="单据日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell4" Text="[movestock.BILL_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell5" Text="仓库名称:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell26" Text="[movestock.WAREHOUSE_NAME]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row2">
+          <TableCell Name="Cell6" Text="目标位置:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell7" Text="[movestock.TARGET_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell8" Text="单据来源:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell9" Text="[movestock.STATUSNAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell10" Text="单据状态:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell27" Text="[movestock.STATENAME]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row3">
+          <TableCell Name="Cell11" Text="入库批次:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell12" Text="[movestock.SOURCE_BILLNO]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell13" Text="操作人:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell14" Text="[movestock.OPERATER]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell15" Text="操作日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell28" Text="[movestock.OPERATE_DATE]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row4">
+          <TableCell Name="Cell16" Text="审核人:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell17" Text="[movestock.CHECKER]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell18" Text="审核日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell19" Text="[movestock.CHECK_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell20" Text="作业人员:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell29" Text="[movestock.TASKER]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row5">
+          <TableCell Name="Cell21" Text="作业日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell22" Text="[movestock.TASK_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell23" Font="宋体, 9pt"/>
+          <TableCell Name="Cell24" Font="宋体, 9pt"/>
+          <TableCell Name="Cell25" Font="宋体, 9pt"/>
+          <TableCell Name="Cell30" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <TableObject Name="Table2" Left="-2.06" Top="174.32" Width="734.52" Height="18.9">
+        <TableColumn Name="Column7" Width="38.04"/>
+        <TableColumn Name="Column8" Width="63.13"/>
+        <TableColumn Name="Column9" Width="137.91"/>
+        <TableColumn Name="Column10" Width="41.24"/>
+        <TableColumn Name="Column11" Width="58.04"/>
+        <TableColumn Name="Column13" Width="161.99"/>
+        <TableColumn Name="Column14" Width="132.82"/>
+        <TableColumn Name="Column15" Width="35.2"/>
+        <TableColumn Name="Column16"/>
+        <TableRow Name="Row6">
+          <TableCell Name="Cell31" Text="序号" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell32" Text="货位号" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell33" Text="产品代码" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell34" Text="重量" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell35" Text="实际重量" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell37" Text="产品条码" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell38" Text="托盘RFID" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell39" Text="混装" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell40" Text="新货位号" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <LineObject Name="Line1" Left="-0.96" Top="157.38" Width="738.96"/>
+      <TextObject Name="Text1" Left="47.08" Top="13.99" Width="563.29" Height="18.9" Text="移库单" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="198.73" Width="718.2" Height="24.83" DataSource="movestock">
+        <TableObject Name="Table3" Left="-0.94" Top="3.42" Width="728.28" Height="18.9">
+          <TableColumn Name="Column17" Width="38.04"/>
+          <TableColumn Name="Column18" Width="63.13"/>
+          <TableColumn Name="Column19" Width="137.91"/>
+          <TableColumn Name="Column20" Width="41.24"/>
+          <TableColumn Name="Column21" Width="58.04"/>
+          <TableColumn Name="Column22" Width="161.99"/>
+          <TableColumn Name="Column23" Width="132.34"/>
+          <TableColumn Name="Column24" Width="36.85"/>
+          <TableColumn Name="Column25" Width="58.74"/>
+          <TableRow Name="Row7">
+            <TableCell Name="Cell41" Text="[movestock.ITEM_NO]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell42" Text="[movestock.CELL_CODE]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell43" Text="[movestock.PRODUCT_CODE]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell44" Text="[movestock.WEIGHT]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell45" Text="[movestock.REAL_WEIGHT]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell46" Text="[movestock.PRODUCT_BARCODE]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell47" Text="[movestock.PALLET_CODE]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell48" Text="[movestock.ISMIXNAME]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell49" Text="[movestock.NEWCELL_CODE]" Font="宋体, 9pt"/>
+          </TableRow>
+        </TableObject>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="227.56" Width="718.2"/>
+    </GroupHeaderBand>
+  </ReportPage>
+</Report>

@@ -1,0 +1,128 @@
+﻿<script type="text/javascript">
+    function addClick() {
+        $('#dlg').dialog('open').dialog('setTitle', '新增');
+        $('#fm').form('clear');
+        $('#fm .easyui-validatebox').validatebox({
+            required: true
+        });
+        $('#BALANCE_DATE').datebox({
+            width: 125,
+            hasDownArrow: true,
+            required: true
+        });
+        SetYear();
+        SetMonth();
+        Setoperater();
+        SetbalanceNo();
+        $('#BALANCE_DATE').datebox('setValue', getDate());
+    }
+    //获取时间字符串
+    function getDate() {
+        var dt = new Date();
+        var year = dt.getFullYear();
+        var month = dt.getMonth() + 1;
+        var day = dt.getDate();
+        var dtstr = year + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day);
+        return dtstr;
+    }
+    //设置年份
+    function SetYear() {
+        var years = [];
+        var currenyear = new Date().getFullYear();
+        years.push({ id: currenyear, text: currenyear });
+        years.push({id:currenyear-1,text:currenyear-1});
+        //        $('#comb_year').combobox('reload', years);
+        $('#years').combobox({
+            data: years,
+            valueField: 'id',
+            textField: 'text',
+            value: currenyear,
+            onSelect: function (record) {
+                SetbalanceNo();
+            }
+        });
+    }
+    //设置月份
+    function SetMonth() {
+        var months = [];
+        var currentmonth=new Date().getMonth()+1;
+        for (var i = 1; i <= 12; i++) {
+            months.push({id:i,text:i+'月份'});
+        }
+        $('#months').combobox({
+            data: months,
+            valueField: 'id',
+            textField: 'text',
+            value: currentmonth,
+            onSelect: function (record) {
+                SetbalanceNo();
+            }
+        });
+    }
+    //设置月结编号
+    function SetbalanceNo() {
+        var year = $('#years').combobox('getValue');
+        var month = $('#months').combobox('getValue');
+        var balanceno = year + (month < 10 ? "0" + month : month);
+        $('#BALANCE_NO').val(balanceno);
+    }
+    //设置操作人
+    function Setoperater() {
+        $.getJSON("/ProductMonthly/GetBalanceNo/", function (json) {
+            if (json) {
+                $('#OPERATER').val(json.no);
+            }
+        });
+    }
+    //月结按钮
+    function save() {
+        var balanceno = $('#BALANCE_NO').val();
+        var dt = $('#BALANCE_DATE').datebox('getValue');
+        $.getJSON("/ProductMonthly/Balance/?balanceno=" +balanceno + '&dt=' +dt, function (json) {
+            if (json) {
+                $.messager.show({
+                    title: '提示',
+                    msg: json.success
+                });
+            }
+        });
+        $('#SubDetails').datagrid('reload');
+        $('#details').datagrid('reload');
+        $('#dlg').dialog('close')
+    }
+</script>
+<div id="dlg" class="easyui-dialog" modal="true" style="width:430px;height:200px;padding:2px 2px" closed="true" buttons="#dlg-buttons">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
+	            <form id="fm" method="post" novalidate>
+                     <table width="400px">
+                      <tr>
+                        <td style="width:50px" align="right">年份</td>
+                        <td style="width:138px"><input name="years" id="years" style="width:125px"  /></td>
+                        <td style="width:50px" align="right">月份</td>
+                        <td style="width:138px"><input name="months" id="months"   style="width:125px"></td>
+                      </tr>
+                       <tr>
+                        <td style="width:50px" align="right">月结编号</td>
+                        <td style="width:138px" ><input name="BALANCE_NO"  id="BALANCE_NO" readonly="true"   style="width:125px"></td>
+                        <td style="width:50px" align="right">月结日期</td>
+                        <td style="width:138px"><input name="BALANCE_DATE"  id="BALANCE_DATE" readonly="true" style="width:125px"   ></td>
+                      </tr>
+                       <tr>
+                        <td style="width:50px" align="right">操作人</td>
+                        <td style="width:138px"><input name="OPERATER" id="OPERATER" readonly="true"  style="width:125px" ></td>
+						 <td style="width:50px"></td>
+                        <td style="width:138px"></td>
+                      </tr>
+                    </table>
+	            </form>
+            </div>
+        </div>
+</div>
+<div id="dlg-buttons">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>*@
+      <input type="button"  onclick="save()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="月结"/>
+       <input type="button"  onclick="javascript:$('#dlg').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+

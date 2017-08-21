@@ -104,28 +104,21 @@ namespace THOK.Authority.Bll.Service
 
         public object GetDetails(string userName, string systemID, string cityID)
         {
-            //Guid cityid = new Guid(cityID);
-            //Guid systemid = new Guid(systemID);
-            //var user = UserRepository.GetQueryable().FirstOrDefault(u => u.USER_NAME == userName);
-            //var userSystemId = UserSystemRepository.GetQueryable().Where(us => us.USER_USER_ID == user.USER_ID
-            //    && us.AUTH_SYSTEM.SYSTEM_ID == systemID && us.CITY_CITY_ID == cityID).Select(us => us.USER_SYSTEM_ID);
-            ////string userSystemId = userSystemIds.Single().Trim();
-            //var userSystems = UserSystemRepository.GetQueryable().Where(us => !userSystemId.Any(uid => uid == us.USER_SYSTEM_ID)
-            //    && us.USER_USER_ID == user.USER_ID && us.AUTH_CITY.CITY_ID == cityID);
-            //var userSystem = userSystems.Where(u => userSystems.Any(us => us.AUTH_USER_MODULE.Any(um => um.AUTH_USER_FUNCTION.Any(uf => 
-            //    uf.USER_MODULE_USER_MODULE_ID== um.USER_MODULE_ID && uf.IS_ACTIVE == "1") || um.IS_ACTIVE == "1") || us.IS_ACTIVE == "1"))
-            //    .Select(us => new {us.AUTH_SYSTEM.SYSTEM_ID, us.AUTH_SYSTEM.SYSTEM_NAME, us.AUTH_SYSTEM.DESCRIPTION, Status =us.AUTH_CITY.IS_ACTIVE=="0" ? "启用" : "禁用" });
-            //return userSystem.ToArray();
+            var user = UserRepository.GetQueryable().FirstOrDefault(u => u.USER_NAME.ToLower() == userName.ToLower());
+            string strSQL = "";
+            if (user.IS_ADMIN == "1") {
+                strSQL = string.Format("select * from auth_system system where system_id<>'{0}' ",systemID);
+            }
+            else 
+            strSQL=string.Format("select * from auth_user_system system "+
+                          "left join auth_system on system.system_system_id=auth_system.system_id " +
+                         "where (is_active='1'or exists(select 1 from auth_user_module where (user_system_user_system_id=system.user_system_id and auth_user_module.is_active='1' "+
+                         "or exists(select 1 from auth_user_function where auth_user_function.user_module_user_module_id=auth_user_module.module_module_id and auth_user_function.is_active='1')))) "+
+                         "and user_user_id='{0}' and system_system_id<>'{1}' and city_city_id='001'",user.USER_ID,systemID);
+            var pre = SystemRepository.RepositoryContext.DbContext.Database.SqlQuery<AUTH_SYSTEM>(strSQL);
+            var qq = pre.Select(us => new { us.SYSTEM_ID, us.SYSTEM_NAME, us.DESCRIPTION, STATUS = us.STATUS == "1" ? "启用" : "未启用" });
 
-                   var user = UserRepository.GetQueryable().FirstOrDefault(u => u.USER_NAME == userName);
-                   var userSystem = UserSystemRepository.GetQueryable();
-                   var system = SystemRepository.GetQueryable();
-            var qq=from a in system 
-                   from b in userSystem 
-                   where (a.SYSTEM_ID==b.SYSTEM_SYSTEM_ID)
-                   select new{a.SYSTEM_NAME,a.DESCRIPTION,STATUS=a.STATUS=="1"?"启用":"未启用",b.CITY_CITY_ID,b.SYSTEM_SYSTEM_ID,b.USER_USER_ID,b.IS_ACTIVE};
-            var userUseSysem = qq.Where(p => p.CITY_CITY_ID == cityID && !p.SYSTEM_SYSTEM_ID.Contains(systemID)  && p.IS_ACTIVE=="1"  && p.USER_USER_ID == user.USER_ID);
-            return userUseSysem.Distinct().ToArray();
+            return qq.ToArray();
         }
 
     }

@@ -1,0 +1,37 @@
+﻿<script type="text/javascript">
+    function antitrialClick() {
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            if (row.STATE.search("审核") != -1) {
+                $.messager.confirm('提示', '确定要反审该记录?', function (r) {
+                    if (r) {
+                        $.getJSON("/Schedule/Antitrial/?scheduleno=" + row.SCHEDULE_NO, function (result) {
+                            if (result) {
+                                if (result.success) {
+                                    $.messager.show({
+                                        title: '成功',
+                                        msg: result.msg
+                                    });
+                                    $('#details').datagrid('reload');
+                                } else {
+                                    $.messager.show({
+                                        title: '错误',
+                                        msg: result.msg
+                                    });
+                                    $('#details').datagrid('reload');
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+            else {
+                $.messager.confirm('提示', '该记录还未审核无法反审！');
+            }
+        }
+        else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    }
+</script>
+

@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-<title>thok.bs.ui</title>
+<title>自动化仓储管理系统</title>
     <link href="/Content/Scripts/jquery-easyui-1.3/themes/default/easyui.css" rel="stylesheet" type="text/css" />
     <link href="/Content/Scripts/jquery-easyui-1.3/themes/icon.css" rel="stylesheet" type="text/css" />
     
@@ -28,7 +28,6 @@
     			<img src="/Content/Images/noscript.gif" alt='抱歉，请开启脚本支持！' />
 		</div>
 	</noscript>
-
 	<div region="north" title='' split="true" border="false" style="overflow: hidden; height: 78px;background:#D2E0F2 repeat-x center 50%;line-height: 20px;color: #fff; font-family: Verdana, 微软雅黑,黑体">
     @if (Request.IsAuthenticated)
     {
@@ -50,12 +49,12 @@
         <div class="footer">天海欧康科技信息（厦门）有限公司 www.skyseaok.com</div>
     </div>
     @Html.Partial("_MenuPartial") 
-    @Html.Partial("_LogonPartial") 
+    @Html.Partial("_LogonPartial2") 
  @*   @if (Request.IsAuthenticated)
     {*@
-        @Html.Partial("_ChangeCityPartial")    
+       @* @Html.Partial("_ChangeCityPartial")   *@ 
         @Html.Partial("_ChangeSystemPartial")
-        @Html.Partial("_ChangeServerPartial") 
+       @* @Html.Partial("_ChangeServerPartial") *@
         @Html.Partial("_ChangePasswordPartial")
      @*   @Html.Partial("_ProductWarningPartial") *@ 
    @* } *@ 

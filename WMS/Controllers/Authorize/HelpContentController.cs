@@ -7,9 +7,13 @@ using THOK.WebUtil;
 using THOK.Authority.DbModel;
 using THOK.Authority.Bll.Interfaces;
 using System;
+using Wms.Security;
+using THOK.Security;
 
 namespace WMS.Controllers.Authority
 {
+    [TokenAclAuthorize]
+    [SystemEventLog]
     public class HelpContentController : Controller
     {
         [Dependency]
@@ -23,7 +27,7 @@ namespace WMS.Controllers.Authority
             ViewBag.hasAdd = true;
             ViewBag.hasEdit = true;
             ViewBag.hasDelete = true;
-            ViewBag.hasPrint = true;
+            //ViewBag.hasPrint = true;
             ViewBag.hasHelp = true;
             ViewBag.ModuleID = moduleID;
             return View();
@@ -46,7 +50,7 @@ namespace WMS.Controllers.Authority
             string strResult = string.Empty;
             bool bResult = HelpContentService.Add(ID, ContentCode, ContentName, ContentPath,NodeType, FatherNodeID, ModuleID, NodeOrder, IsActive, out strResult);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //
         // GET: /HelpContent/Details/
@@ -62,7 +66,7 @@ namespace WMS.Controllers.Authority
                 Value = "";
             }
             var product = HelpContentService.GetDetails(page, rows, QueryString, Value);
-            return Json(product, "text", JsonRequestBehavior.AllowGet);
+            return Json(product, "text/html", JsonRequestBehavior.AllowGet);
         }
         // GET: /HelpContent/Details/
 
@@ -75,7 +79,7 @@ namespace WMS.Controllers.Authority
             string ModuleID = collection["ModuleID"] ?? "";
             string IsActive = collection["IsActive"] ?? "";;
             var users = HelpContentService.GetDetails2(page, rows, ContentCode, ContentName, NodeType, FatherNodeID, ModuleID, IsActive);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
         // POST: /HelpContent/Edit/
         [HttpPost]
@@ -83,8 +87,8 @@ namespace WMS.Controllers.Authority
         {
             string strResult = string.Empty;
             bool bResult = HelpContentService.Save(ID, ContentCode, ContentName, ContentPath, FatherNodeID, ModuleID, NodeOrder, IsActive, out strResult);
-            string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            string msg = bResult ? "修改成功" : "修改失败"+strResult;
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
         //
         // POST: /UnitList/Delete/
@@ -94,7 +98,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = HelpContentService.Delete(ID);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //
@@ -103,7 +107,7 @@ namespace WMS.Controllers.Authority
         public ActionResult Help(string helpId)
         {
             var help = HelpContentService.Help(helpId);
-            return Json(help, "text", JsonRequestBehavior.AllowGet);
+            return Json(help, "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

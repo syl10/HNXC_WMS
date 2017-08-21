@@ -6,5 +6,7 @@ namespace THOK.Authority.Bll.Interfaces
     {
         bool Add(string UserName, string SystemID);
         object GetDetails(int page, int rows, string SystemID, string UserID, string LoginPC, string LoginTime);
+
+        void UpdateValiateTime(string UserName);
     }
 }

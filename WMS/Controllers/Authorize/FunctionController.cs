@@ -6,9 +6,13 @@ using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using THOK.WebUtil;
 using THOK.Authority.Bll.Interfaces;
+using Wms.Security;
+using THOK.Security;
 
 namespace WMS.Controllers.Authority
 {
+    [TokenAclAuthorize]
+    [SystemEventLog]
     public class FunctionController : Controller
     {
         [Dependency]
@@ -27,7 +31,7 @@ namespace WMS.Controllers.Authority
         public ActionResult Details(string ModuleId)
         {
             var functions = FunctionService.GetDetails(ModuleId);
-            return Json(functions, "text", JsonRequestBehavior.AllowGet);
+            return Json(functions, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Module/Edit/
@@ -36,7 +40,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = FunctionService.Save(id, FunctionName, ControlName, IndicateImage);
             string msg = bResult ? "修改成功" : "修改失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Module/Delete/
@@ -45,7 +49,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = FunctionService.Delete(id);
             string msg = bResult ? "删除成功" : "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /Module/Create/
@@ -54,7 +58,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = FunctionService.Add(id, FunctionName, ControlName, IndicateImage);
             string msg = bResult ? "新增成功" : "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

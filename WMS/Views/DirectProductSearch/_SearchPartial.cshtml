@@ -1,0 +1,185 @@
+﻿<script type="text/javascript">
+    function searchClick() {
+         $('#SBILL_DATEStar').datebox({
+              hasDownArrow: true
+          });
+         $('#SBILL_DATEEND').datebox({
+              hasDownArrow: true
+          });
+
+          SGetWarehouseCode() ;//仓库编号
+          SGetCigarette();//牌号
+          $('#SSTATE').combobox('clear');
+        $('#dlg-search').dialog('open').dialog('setTitle', '查询');
+    }
+     //牌号
+    function SGetCigarette() {
+        $('#SCIGARETTE_CODE').combogrid({
+            required: false,
+            disabled: false,
+            width: 125,
+            panelWidth: 340,
+            url: '/Cigarette/Details/?page=1&rows=1000',
+            idField: 'CIGARETTE_CODE',
+            textField: 'CIGARETTE_NAME',
+            mode: 'local',
+//            editable: true,
+            fitColumns: true,
+            columns: [[
+                    { field: 'CIGARETTE_CODE', title: '牌号编码', align: 'left', width: 40 },
+                    { field: 'CIGARETTE_NAME', title: '牌号名称', align: 'left', width: 30 },
+                    { field: 'CIGARETTE_MEMO', title: '备注', align: 'left', width: 30 }
+                ]],
+            onSelect: function (index, data) {
+                SGetFormula(data.CIGARETTE_CODE);
+            }
+        });
+    }
+
+    //配方
+    function SGetFormula(CIGARETTE_CODE) {
+        $('#SFORMULA_CODE').combogrid({
+            required: false,
+            disabled: false,
+            width: 125,
+            panelWidth: 340,
+            url: '/Formula/Getuserfull/?page=1&rows=1000&cigarettecode=' + CIGARETTE_CODE,
+            idField: 'FORMULA_CODE',
+            textField: 'FORMULA_CODE',
+            value:'',
+            mode: 'local',
+//            editable: true,
+            fitColumns: true,
+            columns: [[
+                    { field: 'FORMULA_CODE', title: '配方代码', align: 'left', width: 40 },
+                    { field: 'FORMULA_NAME', title: '配方名称', align: 'left', width: 30 },
+                    { field: 'USE_COUNT', title: '次数', align: 'left', width: 30 }
+                ]]
+        });
+    }
+    //仓库编号
+    function SGetWarehouseCode() {
+        $('#SWAREHOUSE_CODE').combogrid({
+            required: true,
+            disabled: false,
+            width: 125,
+            panelWidth: 340,
+            url: '/StockInBill/GetWarehousecode/?page=1&rows=1000',
+            idField: 'WAREHOUSE_CODE',
+            textField: 'WAREHOUSE_NAME',
+            value:'',
+            mode: 'local',
+//            editable: true,
+            fitColumns: true,
+            columns: [[
+                    { field: 'WAREHOUSE_CODE', title: '仓库编号', align: 'left', width: 40 },
+                    { field: 'WAREHOUSE_NAME', title: '仓库名称', align: 'left', width: 30 },
+                    { field: 'MEMO', title: '备注', align: 'left', width: 30 }
+                ]]
+        });
+    }
+    function Sselect() {
+        var queryParams = $('#details').datagrid('options').queryParams;
+        queryParams.BILL_NO = $('#SBILL_NO').val();
+        if ($('#SWAREHOUSE_CODE').combogrid('getText') != null && $('#SWAREHOUSE_CODE').combogrid('getText') != "") {
+            queryParams.WAREHOUSE_CODE = $('#SWAREHOUSE_CODE').combogrid('getValue');
+        }
+        else
+            queryParams.WAREHOUSE_CODE = "";
+        if ($('#SCIGARETTE_CODE').combogrid('getText') != null && $('#SCIGARETTE_CODE').combogrid('getText') != "") {
+            queryParams.CIGARETTE_CODE = $('#SCIGARETTE_CODE').combogrid('getValue');
+        }
+        else
+            queryParams.CIGARETTE_CODE = "";
+        if ($('#SFORMULA_CODE').combogrid('getText') != null && $('#SFORMULA_CODE').combogrid('getText') != "") {
+            queryParams.FORMULA_CODE = $('#SFORMULA_CODE').combogrid('getValue');
+        }
+        else
+            queryParams.FORMULA_CODE = "";
+        if ($('#SSTATE').combobox('getText') != null && $('#SSTATE').combobox('getText') != "") {
+            queryParams.STATE = $('#SSTATE').combobox('getValue');
+        }
+        else
+            queryParams.STATE = "";
+        queryParams.OPERATER = $('#SOPERATER').val();
+        queryParams.CHECKER = $('#SCHECKER').val();
+        queryParams.BILL_DATEStar = $('#SBILL_DATEStar').datebox('getValue');
+        queryParams.BILL_DATEEND = $('#SBILL_DATEEND').datebox('getValue');
+        queryParams.BILLNOFROM = $('#SBILLNOFROM').val(); //单据编号区间  开始部分
+        queryParams.BILLNOTO = $('#SBILLNOTO').val();  //单据编号区间  结尾部分
+
+        $('#details').datagrid('options').queryParams = queryParams;
+        $('#details').datagrid('options').url ="/DirectProductSearch/GetDetail/";
+        $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
+        $('#details').datagrid('reload');
+        $('#dlg-search').dialog('close');
+
+        $('#SSTATE').combobox('clear');
+        $('#SBILL_DATEStar').datebox('clear');
+        $('#SBILL_DATEEND').datebox('clear');
+    }
+</script>
+
+<div id="dlg-search" class="easyui-dialog" modal="true" style="width:430px;height:270px;padding:2px 2px" closed="true" buttons="#dlg-buttons-search">
+        <div class="easyui-layout" fit="true">
+			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
+           <table width="400px">
+                      <tr>
+                        <td style="width:50px" align="right">单据编号</td>
+                        <td style="width:138px"><input id="SBILL_NO" style="width:125px"  /></td>
+                        <td style="width:50px" align="right">仓库编号</td>
+                        <td style="width:138px"><input id="SWAREHOUSE_CODE" style="width:125px" /></td>
+                      </tr>
+                      <tr>
+                          <td style="width:50px" align="right">单号区间</td>
+                          <td style="width:138px"><input id="SBILLNOFROM" style="width:125px"  /></td>
+                          <td style="width:50px" align="right">--</td>
+                          <td style="width:138px"><input id="SBILLNOTO" style="width:125px"  /></td>
+                      </tr>
+                      <tr>
+                        <td style="width:50px" align="right">起始日期</td>
+                        <td style="width:138px"><input id="SBILL_DATEStar" style="width:125px" /></td>
+                        <td style="width:50px" align="right">截止日期</td>
+                        <td style="width:138px"><input id="SBILL_DATEEND" style="width:125px"  /></td>
+                      </tr>
+                      <tr>
+                            <td width="50">牌   号</td>
+                           <td width="138"><input id="SCIGARETTE_CODE" name="SCIGARETTE_CODE" /></td>
+                           <td width="50">配方代号</td>
+                           <td width="138"><input id="SFORMULA_CODE" name="SFORMULA_CODE" class="easyui-combogrid" style="width:125px" /></td>
+                      </tr>
+                       <tr>
+                        <td style="width:50px" align="right">单据状态</td>
+                        <td style="width:138px">
+                             <select id="SSTATE"  class="easyui-combobox" style="width:125px" >		                
+                                     <option value="1">保存</option>
+		                            <option value="2">审核</option>
+	                         </select>
+                        </td>
+                        <td style="width:50px" align="right">计划单号</td>
+                        <td style="width:138px"><input id="SSCHEDULE_NO" style="width:125px" /></td>
+                      </tr>
+                      <tr>
+                        <td style="width:50px" align="right">入库单号</td>
+                        <td style="width:138px"><input id="SIN_BILLNO" style="width:125px" /></td>
+                        <td style="width:50px" align="right">出库单号</td>
+                        <td style="width:138px"><input id="SOUT_BILLNO" style="width:125px" /></td>
+                      </tr>
+                      <tr>
+                        <td style="width:50px" align="right">操作人员</td>
+                        <td style="width:138px"><input id="SOPERATER" style="width:125px" /></td>
+                        <td style="width:50px" align="right">审核人员</td>
+                        <td  style="width:138px"><input id="SCHECKER" style="width: 125px; "/></td>
+                      </tr>
+                    </table>
+            </div>
+        </div>
+</div>
+
+<div id="dlg-buttons-search">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="select()">查询</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">取消</a>*@
+      <input type="button"  onclick="Sselect()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/>
+       <input type="button"  onclick="javascript:$('#dlg-search').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+

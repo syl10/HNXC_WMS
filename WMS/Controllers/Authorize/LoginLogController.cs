@@ -6,9 +6,13 @@ using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using THOK.WebUtil;
 using THOK.Authority.Bll.Interfaces;
+using Wms.Security;
+using THOK.Security;
 
 namespace WMS.Controllers.Authority
 {
+    [TokenAclAuthorize]
+    [SystemEventLog]
     public class LoginLogController : Controller
     {
         [Dependency]
@@ -33,8 +37,17 @@ namespace WMS.Controllers.Authority
             string UserID = collection["UserID"] ?? "";
             string LoginPC = collection["LoginPC"] ?? "";
             string LoginTime = collection["LoginTime"] ?? "";
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.isbase = true;
+            }
+            else
+            {
+                THOK.Common.PrintHandle.isbase = false;
+            }
             var users = LoginLogService.GetDetails(page, rows, SystemID, UserID, LoginPC,LoginTime);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         //

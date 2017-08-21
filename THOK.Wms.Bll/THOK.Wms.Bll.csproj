@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="FastReport">
+      <HintPath>..\Libraries\FastReport.dll</HintPath>
+    </Reference>
+    <Reference Include="FastReport.Bars">
+      <HintPath>..\Libraries\FastReport.Bars.dll</HintPath>
+    </Reference>
+    <Reference Include="FastReport.Editor">
+      <HintPath>..\Libraries\FastReport.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="FastReport.Web">
+      <HintPath>..\Libraries\FastReport.Web.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Practices.Unity">
       <HintPath>..\Libraries\Microsoft.Practices.Unity.dll</HintPath>
     </Reference>
@@ -42,180 +55,88 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Xml" />
+    <Reference Include="THOK.Wms.SignalR">
+      <HintPath>..\Libraries\THOK.Wms.SignalR.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\ICMDProductService.cs" />
-    <Compile Include="Interfaces\IAreaService.cs" />
-    <Compile Include="Interfaces\IATCmdProductService.cs" />
-    <Compile Include="Interfaces\IATBillDetailService.cs" />
-    <Compile Include="Interfaces\IATBillMasterService.cs" />
-    <Compile Include="Interfaces\IBillTypeService.cs" />
-    <Compile Include="Interfaces\ICargospaceService.cs" />
-    <Compile Include="Interfaces\ICellHistoricalService.cs" />
-    <Compile Include="Interfaces\ICellPositionService.cs" />
-    <Compile Include="Interfaces\ICellService.cs" />
-    <Compile Include="Interfaces\ICheckBillDetailService.cs" />
-    <Compile Include="Interfaces\ICheckBillMasterHistoryService.cs" />
-    <Compile Include="Interfaces\ICheckBillMasterService.cs" />
-    <Compile Include="Interfaces\ICheckSearchDetailService.cs" />
-    <Compile Include="Interfaces\ICurrentStockService.cs" />
-    <Compile Include="Interfaces\ICustomerService.cs" />
-    <Compile Include="Interfaces\IDailyBalanceHistoryService.cs" />
-    <Compile Include="Interfaces\IDailyBalanceService.cs" />
-    <Compile Include="Interfaces\IBusinessSystemsDailyBalanceService.cs" />
-    <Compile Include="Interfaces\IDeliverDistService.cs" />
-    <Compile Include="Interfaces\IDeliverLineService.cs" />
-    <Compile Include="Interfaces\IDifferSearchDetailService.cs" />
-    <Compile Include="Interfaces\IDistributionService.cs" />
-    <Compile Include="Interfaces\IHistoricalDetailService.cs" />
-    <Compile Include="Interfaces\IInBillDetailService.cs" />
-    <Compile Include="Interfaces\IInBillMasterHistoryService.cs" />
-    <Compile Include="Interfaces\IInBillMasterService.cs" />
-    <Compile Include="Interfaces\IIntoSearchDetailService.cs" />
-    <Compile Include="Interfaces\IMoveBillDetailService.cs" />
-    <Compile Include="Interfaces\IMoveBillMasterHistoryService.cs" />
-    <Compile Include="Interfaces\IMoveBillMasterService.cs" />
-    <Compile Include="Interfaces\IMoveSearchDetailService.cs" />
-    <Compile Include="Interfaces\IPathNodeService.cs" />
-    <Compile Include="Interfaces\IPathService.cs" />
-    <Compile Include="Interfaces\IPositionService.cs" />
-    <Compile Include="Interfaces\IProductSizeService.cs" />
-    <Compile Include="Interfaces\IProfitLossBillMasterHistoryService.cs" />
-    <Compile Include="Interfaces\IOrderSearchDetailService.cs" />
-    <Compile Include="Interfaces\IOutBillDetailService.cs" />
-    <Compile Include="Interfaces\IOutBillMasterHistoryService.cs" />
-    <Compile Include="Interfaces\IOutBillMasterService.cs" />
-    <Compile Include="Interfaces\IOutSearchDetailService.cs" />
-    <Compile Include="Interfaces\IProductWarningService.cs" />
-    <Compile Include="Interfaces\IProfitLossBillDetailService.cs" />
-    <Compile Include="Interfaces\IProfitLossBillMasterService.cs" />
-    <Compile Include="Interfaces\IRegionService.cs" />
+    <Compile Include="Interfaces\IBillReportService.cs" />
+    <Compile Include="Interfaces\ICmdBillTypeService.cs" />
+    <Compile Include="Interfaces\ICMDCarService.cs" />
+    <Compile Include="Interfaces\ICMDPorductStyleService.cs" />
+    <Compile Include="Interfaces\ICMDProductCategoryService.cs" />
+    <Compile Include="Interfaces\ICMDProductGradeService.cs" />
+    <Compile Include="Interfaces\ICMDProductOriginalService.cs" />
+    <Compile Include="Interfaces\ICMDUnitCategoryService.cs" />
+    <Compile Include="Interfaces\ICMDUnitService.cs" />
     <Compile Include="Interfaces\IService.cs" />
+    <Compile Include="Interfaces\ISysBillTargetService.cs" />
+    <Compile Include="Interfaces\ISysTableStateService.cs" />
+    <Compile Include="Interfaces\IWMSBalanceDetailService.cs" />
+    <Compile Include="Interfaces\IWMSBalanceMasterService.cs" />
+    <Compile Include="Interfaces\IWMSBillMasterHService.cs" />
+    <Compile Include="Interfaces\IWMSBillMasterService.cs" />
+    <Compile Include="Interfaces\IWMSFormulaService.cs" />
+    <Compile Include="Interfaces\IWMSPalletMasterService.cs" />
+    <Compile Include="Interfaces\IWMSProductionMasterService.cs" />
+    <Compile Include="Interfaces\IWMSProductStateService.cs" />
+    <Compile Include="Interfaces\IWMSScheduleDetailService.cs" />
+    <Compile Include="Interfaces\IWMSScheduleMasterService.cs" />
+    <Compile Include="Interfaces\IWMSScheduleService.cs" />
+    <Compile Include="Models\BillMast.cs" />
+    <Compile Include="Models\CellInfo.cs" />
+    <Compile Include="Models\FormulaDetail.cs" />
+    <Compile Include="Models\Productinfo.cs" />
+    <Compile Include="Models\ProductLedgerInfo.cs" />
+    <Compile Include="Service\BillReportService.cs" />
+    <Compile Include="Service\CmdBillTypeService.cs" />
+    <Compile Include="Service\CMDCarService.cs" />
+    <Compile Include="Service\CMDCraneService.cs" />
+    <Compile Include="Interfaces\ICMDCigaretteService.cs" />
+    <Compile Include="Interfaces\ICMDCraneService.cs" />
+    <Compile Include="Interfaces\ICMDProductService.cs" />
     <Compile Include="Interfaces\ICMDAreaService.cs" />
-    <Compile Include="Interfaces\IBrandService.cs" />
     <Compile Include="Interfaces\ICMDCellService.cs" />
-    <Compile Include="Interfaces\ICompanyService.cs" />
-    <Compile Include="Interfaces\IDepartmentService.cs" />
-    <Compile Include="Interfaces\IEmployeeService.cs" />
-    <Compile Include="Interfaces\IJobService.cs" />
-    <Compile Include="Interfaces\IProductService.cs" />
     <Compile Include="Interfaces\ICMDShelfService.cs" />
-    <Compile Include="Interfaces\IShelfService.cs" />
-    <Compile Include="Interfaces\ISizeService.cs" />
-    <Compile Include="Interfaces\ISortingLineService.cs" />
-    <Compile Include="Interfaces\ISortingLowerlimitService.cs" />
-    <Compile Include="Interfaces\ISortOrderDetailService.cs" />
-    <Compile Include="Interfaces\ISortOrderDispatchService.cs" />
-    <Compile Include="Interfaces\ISortOrderSearchService.cs" />
-    <Compile Include="Interfaces\ISortOrderService.cs" />
-    <Compile Include="Interfaces\ISortWorkDispatchService.cs" />
-    <Compile Include="Interfaces\ISRMService.cs" />
-    <Compile Include="Interfaces\IStockCheckSearchService.cs" />
-    <Compile Include="Interfaces\IStockDifferSearchService.cs" />
-    <Compile Include="Interfaces\IStockIntoSearchService.cs" />
-    <Compile Include="Interfaces\IStockledgerService.cs" />
-    <Compile Include="Interfaces\IStockMoveSearchService.cs" />
-    <Compile Include="Interfaces\IStockOutSearchService.cs" />
-    <Compile Include="Interfaces\IStorageService.cs" />
-    <Compile Include="Interfaces\ISupplierService.cs" />
-    <Compile Include="Interfaces\ITaskService.cs" />
-    <Compile Include="Interfaces\IUnitListService.cs" />
-    <Compile Include="Interfaces\IUnitService.cs" />
     <Compile Include="Interfaces\ICMDWarehouseService.cs" />
-    <Compile Include="Interfaces\IWarehouseService.cs" />
     <Compile Include="Models\NewWareTree.cs" />
     <Compile Include="Models\Tree.cs" />
     <Compile Include="Models\WareTree.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\AreaService.cs" />
-    <Compile Include="Service\ATBillDetailService.cs" />
-    <Compile Include="Service\ATBillMasterService.cs" />
-    <Compile Include="Service\ATCmdProductService.cs" />
-    <Compile Include="Service\BillTypeService.cs" />
-    <Compile Include="Service\CargospaceService.cs" />
-    <Compile Include="Service\CellHistoricalService.cs" />
-    <Compile Include="Service\CellPositionService.cs" />
-    <Compile Include="Service\CellService.cs" />
-    <Compile Include="Service\CheckBillDetailService.cs" />
-    <Compile Include="Service\CheckBillMasterHistoryService.cs" />
-    <Compile Include="Service\CheckBillMasterService.cs" />
-    <Compile Include="Service\CheckSearchDetailService.cs" />
     <Compile Include="Service\CMDAreaService.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Service\CMDCellService.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Service\CMDCigaretteService.cs" />
+    <Compile Include="Service\CMDProductCategoryService.cs" />
+    <Compile Include="Service\CMDProductGradeService.cs" />
+    <Compile Include="Service\CMDProductOriginalService.cs" />
+    <Compile Include="Service\CMDProductStyleService.cs" />
     <Compile Include="Service\CMDShelfService.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Service\CMDUnitCategoryService.cs" />
+    <Compile Include="Service\CMDUnitService.cs" />
     <Compile Include="Service\CMDWarehouseService.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Service\CMDProductService.cs" />
-    <Compile Include="Service\CurrentStockService.cs" />
-    <Compile Include="Service\CustomerService.cs" />
-    <Compile Include="Service\DailyBalanceHistoryService.cs" />
-    <Compile Include="Service\DailyBalanceService.cs" />
-    <Compile Include="Service\BusinessSystemsDailyBalanceService.cs" />
-    <Compile Include="Service\DeliverDistService.cs" />
-    <Compile Include="Service\DeliverLineService.cs" />
-    <Compile Include="Service\DifferSearchDetailService.cs" />
-    <Compile Include="Service\DistributionService.cs" />
-    <Compile Include="Service\HistoricalDetailService.cs" />
-    <Compile Include="Service\InBillDetailService.cs" />
-    <Compile Include="Service\InBillMasterHistoryService .cs" />
-    <Compile Include="Service\InBillMasterService.cs" />
-    <Compile Include="Service\IntoSearchDetailService.cs" />
-    <Compile Include="Service\MoveBillDetailService.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Service\MoveBillMasterHistoryService.cs" />
-    <Compile Include="Service\MoveBillMasterService.cs" />
-    <Compile Include="Service\MoveSearchDetailService.cs" />
-    <Compile Include="Service\OrderSearchDetailService.cs" />
-    <Compile Include="Service\OutBillDetailService.cs" />
-    <Compile Include="Service\OutBillMasterHistoryService.cs" />
-    <Compile Include="Service\OutBillMasterService.cs" />
-    <Compile Include="Service\OutSearchDetailService.cs" />
-    <Compile Include="Service\PathNodeService.cs" />
-    <Compile Include="Service\PathService.cs" />
-    <Compile Include="Service\PositionService.cs" />
-    <Compile Include="Service\ProductSizeService.cs" />
-    <Compile Include="Service\ProductWarningService.cs" />
-    <Compile Include="Service\ProfitLossBillDetailService.cs" />
-    <Compile Include="Service\ProfitLossBillMasterHistoryService.cs" />
-    <Compile Include="Service\ProfitLossBillMasterService.cs" />
-    <Compile Include="Service\RegionService.cs" />
     <Compile Include="Service\ServiceBase.cs" />
-    <Compile Include="Service\BrandService.cs" />
-    <Compile Include="Service\CompanyService.cs" />
-    <Compile Include="Service\DepartmentService.cs" />
-    <Compile Include="Service\EmployeeService.cs" />
-    <Compile Include="Service\JobService.cs" />
-    <Compile Include="Service\ProductService.cs" />
-    <Compile Include="Service\ShelfService.cs" />
-    <Compile Include="Service\SizeService.cs" />
-    <Compile Include="Service\SortingLineService.cs" />
-    <Compile Include="Service\SortingLowerlimitService.cs" />
-    <Compile Include="Service\SortOrder.cs" />
-    <Compile Include="Service\SortOrderDetail.cs" />
-    <Compile Include="Service\SortOrderDispatchService.cs" />
-    <Compile Include="Service\SortOrderSearchService.cs" />
-    <Compile Include="Service\SortWorkDispatchService.cs" />
-    <Compile Include="Service\SRMService.cs" />
-    <Compile Include="Service\StockCheckSearchService.cs" />
-    <Compile Include="Service\StockDifferSearchService.cs" />
-    <Compile Include="Service\StockIntoSearchService.cs" />
-    <Compile Include="Service\StockledgerService.cs" />
-    <Compile Include="Service\StockMoveSearchService.cs" />
-    <Compile Include="Service\StockOutSearchService.cs" />
-    <Compile Include="Service\StorageService.cs" />
-    <Compile Include="Service\SupplierService.cs" />
-    <Compile Include="Service\TaskService.cs" />
-    <Compile Include="Service\UnitListService.cs" />
-    <Compile Include="Service\UnitService.cs" />
-    <Compile Include="Service\WarehouseService.cs" />
+    <Compile Include="Service\SysBillTargetService.cs" />
+    <Compile Include="Service\SysTableStateService.cs" />
+    <Compile Include="Service\WMSBalanceDetailService.cs" />
+    <Compile Include="Service\WMSBalanceMasterService.cs" />
+    <Compile Include="Service\WMSBillMasterHService.cs" />
+    <Compile Include="Service\WMSBillMasterService.cs" />
+    <Compile Include="Service\WMSFormulaService.cs" />
+    <Compile Include="Service\WMSPalletMasterService.cs" />
+    <Compile Include="Service\WMSProductionMasterService.cs" />
+    <Compile Include="Service\WMSProductStateService.cs" />
+    <Compile Include="Service\WMSScheduleDetailService.cs" />
+    <Compile Include="Service\WMSScheduleMasterService.cs" />
+    <Compile Include="Service\WMSScheduleService.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -254,10 +175,6 @@
     <ProjectReference Include="..\THOK.Wms.Download\THOK.Wms.Download.csproj">
       <Project>{9495DAFA-C32B-445C-B760-341CBE9288C6}</Project>
       <Name>THOK.Wms.Download</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\THOK.Wms.SignalR\THOK.Wms.SignalR.csproj">
-      <Project>{04A2C9B1-0F35-42CF-A6A7-4319D7C6E95F}</Project>
-      <Name>THOK.Wms.SignalR</Name>
     </ProjectReference>
     <ProjectReference Include="..\THOK.Wms.Upload\THOK.Wms.Upload.csproj">
       <Project>{D0A12011-ED6A-4B13-A6C7-2D42D9F3ED67}</Project>

@@ -1,0 +1,103 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/29/2013 09:52:47" ReportInfo.Modified="01/21/2014 09:25:48" ReportInfo.CreatorVersion="1.9.9.0">
+  <Dictionary>
+    <ViewDataSource Name="palletstockin" ReferenceName="palletstockin" DataType="System.Int32" Enabled="true">
+      <Column Name="BILL_NO" DataType="System.String"/>
+      <Column Name="BILL_DATE" DataType="System.DateTime"/>
+      <Column Name="BTYPE_CODE" DataType="System.String"/>
+      <Column Name="BTYPE_NAME" DataType="System.String"/>
+      <Column Name="WAREHOUSE_CODE" DataType="System.String"/>
+      <Column Name="WAREHOUSE_NAME" DataType="System.String"/>
+      <Column Name="TARGET" DataType="System.String"/>
+      <Column Name="TARGET_NAME" DataType="System.String"/>
+      <Column Name="STATUS" DataType="System.String"/>
+      <Column Name="STATUSNAME" DataType="System.String"/>
+      <Column Name="STATE" DataType="System.String"/>
+      <Column Name="STATENAME" DataType="System.String"/>
+      <Column Name="OPERATER" DataType="System.String"/>
+      <Column Name="OPERATE_DATE" DataType="System.DateTime"/>
+      <Column Name="TASKER" DataType="System.String"/>
+      <Column Name="TASK_DATE" DataType="System.DateTime"/>
+      <Column Name="ITEM_NO" DataType="System.Decimal"/>
+      <Column Name="PRODUCT_CODE" DataType="System.String"/>
+      <Column Name="QUANTITY" DataType="System.Decimal"/>
+      <Column Name="PACKAGES" DataType="System.Decimal"/>
+    </ViewDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="185.25" StartNewPage="true" Condition="[palletstockin.BILL_NO]">
+      <TableObject Name="Table1" Left="34.49" Top="47.01" Width="605.26" Height="75.6">
+        <TableColumn Name="Column1" Width="64.08"/>
+        <TableColumn Name="Column2" Width="145.13"/>
+        <TableColumn Name="Column3" Width="64.08"/>
+        <TableColumn Name="Column4" Width="125.98"/>
+        <TableColumn Name="Column5" Width="64.08"/>
+        <TableColumn Name="Column6" Width="141.91"/>
+        <TableRow Name="Row1">
+          <TableCell Name="Cell1" Text="单据编号:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell2" Text="[palletstockin.BILL_NO]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell3" Text="单据日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell4" Text="[palletstockin.BILL_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell5" Text="单据类型:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell26" Text="[palletstockin.BTYPE_NAME]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row2">
+          <TableCell Name="Cell6" Text="仓库:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell7" Text="[palletstockin.WAREHOUSE_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell8" Text="目标位置:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell9" Text="[palletstockin.TARGET_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell10" Text="单据来源:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell27" Text="[palletstockin.STATUSNAME]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row3">
+          <TableCell Name="Cell11" Text="单据状态:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell12" Text="[palletstockin.STATENAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell13" Text="操作人:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell14" Text="[palletstockin.OPERATER]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell15" Text="操作日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell28" Text="[palletstockin.OPERATE_DATE]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row4">
+          <TableCell Name="Cell16" Text="作业人:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell17" Text="[palletstockin.TASKER]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell18" Text="作业日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell19" Text="[palletstockin.TASK_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell20" Font="宋体, 9pt"/>
+          <TableCell Name="Cell29" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <TableObject Name="Table2" Left="27.23" Top="164.7" Width="633.08" Height="18.9">
+        <TableColumn Name="Column7" Width="158.27"/>
+        <TableColumn Name="Column8" Width="158.27"/>
+        <TableColumn Name="Column9" Width="158.27"/>
+        <TableColumn Name="Column10" Width="158.27"/>
+        <TableRow Name="Row5">
+          <TableCell Name="Cell30" Text="序号" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell31" Text="产品代码" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell32" Text="数量" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell33" Text="垛数" HorzAlign="Center" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <LineObject Name="Line1" Left="-0.9" Top="146.66" Width="749.86"/>
+      <TextObject Name="Text1" Left="38.19" Top="11.91" Width="600.64" Height="18.9" Text="托盘组出库单" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="189.25" Width="718.2" Height="26.62" DataSource="palletstockin">
+        <TableObject Name="Table3" Left="27.05" Top="0.26" Width="633.08" Height="18.9">
+          <TableColumn Name="Column11" Width="158.27"/>
+          <TableColumn Name="Column12" Width="158.27"/>
+          <TableColumn Name="Column13" Width="158.27"/>
+          <TableColumn Name="Column14" Width="158.27"/>
+          <TableRow Name="Row6">
+            <TableCell Name="Cell34" Text="[palletstockin.ITEM_NO]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell35" Text="[palletstockin.PRODUCT_CODE]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell36" Text="[palletstockin.QUANTITY]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell37" Text="[palletstockin.PACKAGES]" HorzAlign="Center" Font="宋体, 9pt"/>
+          </TableRow>
+        </TableObject>
+        <Sort>
+          <Sort Expression="[palletstockin.ITEM_NO]"/>
+        </Sort>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="219.87" Width="718.2"/>
+    </GroupHeaderBand>
+  </ReportPage>
+</Report>

@@ -1,0 +1,95 @@
+﻿<script type="text/javascript">
+    function printClick() {
+        $('#dlg-print').dialog('open').dialog('setTitle', '打印');
+          loadmonths();
+       $('#PSTATE').combobox('clear');
+    }
+      var PrintCount=0;
+      function loadpdf(BEGINMONTH, ENDMONTH, STATE, BALANCENO) {
+        PrintCount = PrintCount + 1;
+        $.getJSON("/ProductMonthly/Print/?BALANCENO=" + BALANCENO +
+        "&BEGINMONTH=" + BEGINMONTH + "&ENDMONTH=" + ENDMONTH + "&STATE=" + STATE , 
+        function (json) {
+            if (json) {
+                //                document.getElementById("dlgPrint").innerHTML = "<div id='divPrint1'><embed width='800' height='600' src='" + src1 + "'></embed></div>";
+                $('#dlgPrint').dialog('open').dialog('setTitle', '打印');
+                $('#divPrint1').empty();
+                $('#divPrint1').append("<iframe id='billreportframe'   scrolling='no'  width='100%'  height='100%'   style='   padding:0px;' frameborder='0' src='../BillPrint/?frxname=balance.frx&dataname=balance'></iframe>");
+            }
+        });
+    }
+    //加载开始年月和结束年月
+    function loadmonths() {
+        $.getJSON("/ProductLedger/GetBalanceNo/", function (json) {
+            if (json) {
+                if (json.rows.length>0) {
+                    $('#BEGINMONTH').combobox({
+                        data: json.rows,
+                        valueField: 'BALANCE_NO',
+                        textField: 'BALANCE_NO',
+                        value: json.rows[0].BALANCE_NO
+                    });
+                    $('#ENDMONTH').combobox({
+                        data: json.rows,
+                        valueField: 'BALANCE_NO',
+                        textField: 'BALANCE_NO',
+                        value: json.rows[0].BALANCE_NO
+                    });
+                }
+            }
+        });
+    }
+    //
+    function BillQueryClick() {
+    }
+    function Print() { 
+        var BEGINMONTH = $('#BEGINMONTH').combobox('getValue');
+        var ENDMONTH = $('#ENDMONTH').combobox('getValue');
+        var STATE ="";
+        if($('#PSTATE').combobox('getText')!=null&&$('#PSTATE').combobox('getText')!=""){
+           STATE = $('#PSTATE').combobox('getValue');}
+       var BALANCENO = $('#PBALANCE_NO').val();
+       loadpdf(BEGINMONTH, ENDMONTH, STATE, BALANCENO);
+        $('#PSTATE').combobox('clear');
+        $('#dlg-print').dialog('close');
+    }
+</script>
+
+<div id="dlgPrint" class="easyui-dialog" modal="true" style="width:970px;height:450px;padding:0px 0px" closed="true" >
+<div id="divPrint1" style="width:950px;height:410px;padding:0px 0px" >
+@*<iframe id='reportframe' scrolling="no"  height='100%'   style=' width:100%;  padding:0px;' frameborder='0' src='../../WebForm1.aspx'></iframe>*@
+</div>
+</div>
+<div id="dlg-print" class="easyui-dialog" modal="true" style="width:440px;height:160px;padding:2px 2px"
+		closed="true" buttons="#dlg-buttons-print">
+        <div class="easyui-layout" fit="true">
+			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
+           <table width="400px">
+                      <tr>
+                        <td style="width:50px" align="right">月结编号</td>
+                        <td style="width:138px"><input id="PBALANCE_NO" style="width:125px"  /></td>
+                        <td style="width:50px" align="right">状态</td>
+                        <td style="width:138px">
+                             <select id="PSTATE"  class="easyui-combobox" style="width:125px" >		                
+                                     <option value="0">未审核</option>
+		                            <option value="1">审核</option>
+	                         </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="width:50px" align="right">开始年月</td>
+                        <td style="width:138px"><input id="BEGINMONTH" class="easyui-combobox"  style="width:125px"  /></td>
+                        <td style="width:50px" align="right">结束年月</td>
+                        <td style="width:138px"><input id="ENDMONTH" class="easyui-combobox" style="width:125px"/></td>
+                      </tr>
+                    </table>
+            </div>
+        </div>
+</div>
+
+<div id="dlg-buttons-print">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="select()">查询</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">取消</a>*@
+      <input type="button"  onclick="Print()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btprint" value="打印"/>
+      <input type="button"  onclick="javascript:$('#dlg-print').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>

@@ -7,6 +7,9 @@
 .icon-edit{
 	background:url('icons/pencil.png') no-repeat;
 }
+.icon-copy2{
+  background:url('icons/copy2.png') no-repeat;
+}
 .icon-remove{
 	background:url('icons/edit_remove.png') no-repeat;
 }
@@ -81,6 +84,12 @@
 
 .x-tabs-close{
 	background:url('images/tabs_close.gif') no-repeat 2px 2px;
+}
+.icon-up{
+   background:url('images/up.png') no-repeat 2px 2px;
+}
+.icon-down{
+    background:url('images/down.png') no-repeat 2px 2px;
 }
 
 /*background: url('icons/tabicons.png') no-repeat;*/
@@ -539,3 +548,51 @@
 .icon-delete{background-position:-140px -120px;}
 .icon-magic{background-position:0px -500px;}
 .icon-database{background-position:-20px -140px;}
+.icon-menu_producgrade{
+  background:url('icons/productgrade.png') no-repeat;
+}
+.icon-menu_productinfo{
+  background:url('icons/productinfo.gif') no-repeat;
+}
+.icon-menu_productstyle{
+  background:url('icons/preductstyle.gif') no-repeat;
+}
+.icon-menu_SamplingSearch{
+   background:url('icons/SamplingSearch.gif') no-repeat;
+}
+.icon-menu_car{
+   background:url('icons/car.png') no-repeat;
+}
+.icon-menu_BillType{
+   background:url('icons/BillType.png') no-repeat;
+}
+.icon-menu_ProductOriginal{
+   background:url('icons/ProductOriginal.gif') no-repeat;
+}
+.icon-menu_Schedule{
+  background:url('icons/Schedule.gif') no-repeat;
+}
+.icon-menu_DirectProduct{
+  background:url('icons/DirectProduct.gif') no-repeat;
+}
+.icon-menu_WorkSearch{
+ background:url('icons/WorkSearch.gif') no-repeat;
+}
+.icon-menu-warehouse{
+  background:url('icons/warehouse.png') no-repeat;
+}
+.icon-menu_crane{
+background:url('icons/Crane.png') no-repeat;
+}
+.icon-menu_CellStateSearch{
+  background:url('icons/CellStateSearch.png') no-repeat;
+}
+.icon-menu_Formula{
+  background:url('icons/Formula.gif') no-repeat;
+}
+.icon-menu_MoveStock{
+  background:url('icons/MoveStock.gif') no-repeat;
+}
+.icon-menu_allsearch{
+  background:url('icons/allsearch.png') no-repeat;
+}

@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/26/2013 10:59:33" ReportInfo.Modified="01/21/2014 09:14:22" ReportInfo.CreatorVersion="1.9.9.0">
+  <Dictionary>
+    <ViewDataSource Name="formulaprint" ReferenceName="formulaprint" DataType="System.Int32" Enabled="true">
+      <Column Name="FORMULA_CODE" DataType="System.String"/>
+      <Column Name="FORMULA_NAME" DataType="System.String"/>
+      <Column Name="FORMULA_DATE" DataType="System.DateTime"/>
+      <Column Name="CIGARETTE_CODE" DataType="System.String"/>
+      <Column Name="CIGARETTE_NAME" DataType="System.String"/>
+      <Column Name="OPERATER" DataType="System.String"/>
+      <Column Name="USER_NAME" DataType="System.String"/>
+      <Column Name="OPERATEDATE" DataType="System.DateTime"/>
+      <Column Name="USE_COUNT" DataType="System.Decimal"/>
+      <Column Name="FORMULANO" DataType="System.Decimal"/>
+      <Column Name="IS_ACTIVE" DataType="System.String"/>
+      <Column Name="BATCH_WEIGHT" DataType="System.Decimal"/>
+      <Column Name="PRODUCT_CODE" DataType="System.String"/>
+      <Column Name="FORDER" DataType="System.Decimal"/>
+      <Column Name="WEIGHT" DataType="System.Decimal"/>
+      <Column Name="MODULES" DataType="System.String"/>
+      <Column Name="OTHER" DataType="System.String"/>
+      <Column Name="PRODUCT_NAME" DataType="System.String"/>
+      <Column Name="YEARS" DataType="System.String"/>
+      <Column Name="GRADE_NAME" DataType="System.String"/>
+      <Column Name="ORIGINAL_NAME" DataType="System.String"/>
+      <Column Name="CATEGORY_NAME" DataType="System.String"/>
+      <Column Name="STYLE_NAME" DataType="System.String"/>
+    </ViewDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="162.31" StartNewPage="true" Condition="[formulaprint.FORMULA_CODE]">
+      <TableObject Name="Table1" Left="38.15" Top="55.12" Width="591.26" Height="56.7">
+        <TableColumn Name="Column1" Width="67"/>
+        <TableColumn Name="Column2" Width="142.04"/>
+        <TableColumn Name="Column3" Width="68.14"/>
+        <TableColumn Name="Column4" Width="114.06"/>
+        <TableColumn Name="Column5" Width="64.17"/>
+        <TableColumn Name="Column6" Width="135.85"/>
+        <TableRow Name="Row1">
+          <TableCell Name="Cell1" Text="配方代码:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell2" Text="[formulaprint.FORMULA_CODE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell3" Text="配方名称:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell4" Text="[formulaprint.FORMULA_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell5" Text="配方日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell26" Text="[formulaprint.FORMULA_DATE]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row2">
+          <TableCell Name="Cell6" Text="牌号名称:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell7" Text="[formulaprint.CIGARETTE_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell8" Text="状态:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell9" Text="[formulaprint.IS_ACTIVE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell10" Text="次数:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell27" Text="[formulaprint.USE_COUNT]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row3">
+          <TableCell Name="Cell11" Text="批次重量:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell12" Text="[formulaprint.BATCH_WEIGHT]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell13" Text="操作人员:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell14" Text="[formulaprint.USER_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell15" Text="操作日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell28" Text="[formulaprint.OPERATEDATE]" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <LineObject Name="Line1" Left="2.1" Top="124.95" Width="713.67"/>
+      <TableObject Name="Table3" Left="2.11" Top="141" Width="697.35" Height="18.9">
+        <TableColumn Name="Column12" Width="136.54"/>
+        <TableColumn Name="Column13" Width="72.4"/>
+        <TableColumn Name="Column14" Width="58.26"/>
+        <TableColumn Name="Column15" Width="34.26"/>
+        <TableColumn Name="Column16" Width="50.51"/>
+        <TableColumn Name="Column17" Width="50.3"/>
+        <TableColumn Name="Column18"/>
+        <TableColumn Name="Column19"/>
+        <TableColumn Name="Column20" Width="49.35"/>
+        <TableColumn Name="Column21" Width="47.28"/>
+        <TableColumn Name="Column22"/>
+        <TableRow Name="Row5">
+          <TableCell Name="Cell34" Text="产品编码:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell35" Text="产品名称" Font="宋体, 9pt"/>
+          <TableCell Name="Cell36" Text="投料顺序" Font="宋体, 9pt"/>
+          <TableCell Name="Cell37" Text="年份" Font="宋体, 9pt"/>
+          <TableCell Name="Cell38" Text="等级" Font="宋体, 9pt"/>
+          <TableCell Name="Cell39" Text="形态" Font="宋体, 9pt"/>
+          <TableCell Name="Cell40" Text="原产地" Font="宋体, 9pt"/>
+          <TableCell Name="Cell41" Text="类别" Font="宋体, 9pt"/>
+          <TableCell Name="Cell42" Text="重量" Font="宋体, 9pt"/>
+          <TableCell Name="Cell43" Text="模块号" Font="宋体, 9pt"/>
+          <TableCell Name="Cell44" Text="其他" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <TextObject Name="Text1" Left="40.21" Top="12.11" Width="588.29" Height="18.9" Text="配方单" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="166.31" Width="718.2" Height="24.69" DataSource="formulaprint">
+        <TableObject Name="Table4" Left="2.17" Top="0.9" Width="696.22" Height="18.9">
+          <TableColumn Name="Column23" Width="135.41"/>
+          <TableColumn Name="Column24" Width="72.4"/>
+          <TableColumn Name="Column25" Width="58.26"/>
+          <TableColumn Name="Column26" Width="34.26"/>
+          <TableColumn Name="Column27" Width="50.51"/>
+          <TableColumn Name="Column28" Width="50.3"/>
+          <TableColumn Name="Column29"/>
+          <TableColumn Name="Column30"/>
+          <TableColumn Name="Column31" Width="49.35"/>
+          <TableColumn Name="Column32" Width="47.28"/>
+          <TableColumn Name="Column33"/>
+          <TableRow Name="Row6">
+            <TableCell Name="Cell45" Text="[formulaprint.PRODUCT_CODE]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell46" Text="[formulaprint.PRODUCT_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell47" Text="[formulaprint.FORDER]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell48" Text="[formulaprint.YEARS]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell49" Text="[formulaprint.GRADE_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell50" Text="[formulaprint.STYLE_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell51" Text="[formulaprint.ORIGINAL_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell52" Text="[formulaprint.CATEGORY_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell53" Text="[formulaprint.WEIGHT]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell54" Text="[formulaprint.MODULES]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell55" Text="[formulaprint.OTHER]" Font="宋体, 9pt"/>
+          </TableRow>
+        </TableObject>
+        <Sort>
+          <Sort Expression="[formulaprint.FORDER]"/>
+        </Sort>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="195" Width="718.2"/>
+    </GroupHeaderBand>
+  </ReportPage>
+</Report>

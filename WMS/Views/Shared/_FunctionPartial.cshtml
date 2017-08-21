@@ -56,3 +56,13 @@
 {    @Html.Partial("_TaskPartial")}
 @if (ViewBag.hasMigration != null && ViewBag.hasMigration)
 {    @Html.Partial("_MigrationPartial")}
+@if (ViewBag.hasOutstore != null && ViewBag.hasOutstore)
+{     @Html.Partial("_OutstorePartial")}
+@if (ViewBag.hasMix != null && ViewBag.hasMix)
+{     @Html.Partial("_MixPartial")}       
+@if (ViewBag.hasBarcode != null && ViewBag.hasBarcode)
+{     @Html.Partial("_BarcodePartial")}            
+@if (ViewBag.hasExit != null && ViewBag.hasExit)
+{     @Html.Partial("_ExitPartial")} 
+@if (ViewBag.hasCopy != null && ViewBag.hasCopy)
+{     @Html.Partial("_CopyPartial")} 

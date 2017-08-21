@@ -1,0 +1,94 @@
+﻿<script type="text/javascript">
+    function editClick() {
+
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            $('#dlg').dialog('open').dialog('setTitle', '编辑');
+            $('#fm').form('load', row);
+            $('#fm .easyui-validatebox').validatebox({
+                required: true
+            });
+            if (row.IS_ACTIVE == '启用') {
+                $('#cc').combo('setValue', true).combo('setText', row.IS_ACTIVE);
+            } else {
+                $('#cc').combo('setValue', false).combo('setText', row.IS_ACTIVE);
+            }
+            $('form input').removeAttr("disabled");
+            $('form textarea').removeAttr("disabled");
+            $('#cc').combo({
+                hasDownArrow: true
+            });
+            url = '/Car/Edit/?CAR_NO=' + row.CAR_NO;
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    }
+    var url;
+    $(function () {
+        $('#cc').combo({
+            required: true,
+            editable: false,
+            panelHeight: 45
+        });
+    });
+    function save() {
+        $('#fm').form('submit', {
+            url: url,
+            onSubmit: function () {
+                return $(this).form('validate');
+            },
+            success: function (result) {
+                var result = eval('(' + result + ')');
+                if (result.success) {
+                    $.messager.show({
+                        title: '成功',
+                        msg: result.msg
+                    });
+                    $('#dlg').dialog('close');
+                    $('#details').datagrid('reload');
+                } else {
+                    $.messager.show({
+                        title: '错误',
+                        msg: result.msg
+                    });
+                    $('#details').datagrid('reload');
+                }
+            }
+        });
+    }
+</script>
+  <div id="dlg" class="easyui-dialog" modal="true" 
+        style="width:300px;height:210px;padding:2px 2px"
+        closed="true" buttons="#dlg-buttons">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
+	            <form id="fm" method="post" novalidate>
+                    <table width="250">
+                      <tr>
+                        <td width="60">穿梭车名称</td>
+                        <td width="168"><input name="CAR_NAME" class="easyui-validatebox" required="true"></td>
+                      </tr>
+                      <tr>
+                        <td>备注</td>
+                        <td><textarea name="CAR_MEMO" style="width: 180px; height: 50px"></textarea></td>
+                      </tr>
+                      <tr>
+                        <td>状态</td>
+                        <td><select id="cc" name="IS_ACTIVE" class="easyui-combobox" style="width: 70px">
+		                        <option value="1">启用</option>
+		                        <option value="0">禁用</option>
+	                        </select>
+	                    </td>
+                      </tr>
+                    </table>
+	            </form>
+            </div>
+        </div>
+    </div>
+<div id="dlg-buttons">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>*@
+      <input type="button"  onclick="save()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#dlg').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+   

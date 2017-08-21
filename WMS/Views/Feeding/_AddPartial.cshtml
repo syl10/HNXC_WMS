@@ -1,0 +1,334 @@
+﻿<script type="text/javascript">
+    var clickbt;
+    function addClick() {
+        clickbt = "add";
+        serial = 0;
+        isresetvalue = false;
+        $('#dlg').dialog('open').dialog('setTitle', '新增');
+        $('#fm').form('clear');
+        $('#fm-inBillDetail .easyui-validatebox').validatebox({
+            required: true
+        });
+        $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+        $('#BILL_DATE').datebox({
+            width: 135,
+            hasDownArrow: true,
+            required: true
+        });
+        $('#OPERATE_DATE').datebox({
+            width: 135,
+            hasDownArrow: true,
+            required: true,
+            disabled: true
+        });
+        //        $('#SOURCE_BILLNO').attr('readonly', false);
+        GetBillNo(getDate()); //单据编号
+        GetBillType(); //单据类型
+        GetWarehouseCode();  //仓库编号
+        $('#BILL_DATE').datebox('setValue', getDate());
+        $('#OPERATE_DATE').datebox('setValue', getDate());
+        setbtdisable();
+        loaddetail('');
+    }
+    //获取时间字符串
+    function getDate() {
+        var dt = new Date();
+        var year = dt.getFullYear();
+        var month = dt.getMonth() + 1;
+        var day = dt.getDate();
+        var dtstr = year + "-" + (month < 10 ? "0" + month : month) + "-" + (day < 10 ? "0" + day : day);
+        return dtstr;
+    }
+    //单据编号
+    function GetBillNo(date) {
+        $.getJSON("/Feeding/GetBillNo/?dtime=" + date + '&prefix=FD', function (json) {
+            if (json) {
+                $('#BILL_NO').val(json.BillNo);
+                $('#OPERATER').val(json.userName);
+            }
+        });
+    }
+    //单据类型
+    function GetBillType() {
+        $('#BTYPE_CODE').combogrid({
+            required: true,
+            disabled: true,
+            width: 135,
+            panelWidth: 340,
+            value: '005',
+            url: '/BillType/Details/?page=1&rows=1000',
+            idField: 'BTYPE_CODE',
+            textField: 'BTYPE_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            queryParams: {
+                BILL_TYPE: '2'
+            },
+            columns: [[
+                    { field: 'BTYPE_CODE', title: '类型代码', align: 'left', width: 40 },
+                    { field: 'BTYPE_NAME', title: '类型名称', align: 'left', width: 30 },
+                    { field: 'TASK_LEVEL', title: '任务等级', align: 'left', width: 30 },
+                    { field: 'TARGET_CODE', title: '目标口', align: 'left', hidden: true, width: 30 },
+                     { field: 'TARGETNAME', title: '目标口', align: 'left', hidden: true, width: 30 }
+                ]]
+        });
+    }
+    //仓库编号
+    function GetWarehouseCode() {
+        $('#WAREHOUSE_CODE').combogrid({
+            required: true,
+            disabled: false,
+            width: 135,
+            panelWidth: 340,
+            value: '001',
+            url: '/StockInBill/GetWarehousecode/?page=1&rows=1000',
+            idField: 'WAREHOUSE_CODE',
+            textField: 'WAREHOUSE_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+                    { field: 'WAREHOUSE_CODE', title: '仓库编号', align: 'left', width: 40 },
+                    { field: 'WAREHOUSE_NAME', title: '仓库名称', align: 'left', width: 30 },
+                    { field: 'MEMO', title: '备注', align: 'left', width: 30 }
+                ]]
+        });
+    }
+    //明细中的添加按钮的事件
+    function addBillDetailClick() {
+        var Rows = $('#inBillDetail').datagrid('getData');
+        billselect();
+    }
+    //删除明细
+    function deleteBillDetailClick() {
+        var detailRow = $('#inBillDetail').datagrid('getSelected');
+        if (detailRow) {
+            $('#inBillDetail').datagrid('deleteRow', $('#inBillDetail').datagrid('getRowIndex', detailRow));
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    }
+    //入库批次查询按钮点击触发的函数
+    function billselect() {
+        var outstock = $('#SCHEDULE_NO').val();
+        if (outstock == null || outstock == "" || outstock == "null") {
+            alert("请先选择出库批次");
+        }
+        else {
+            $('#BillData').dialog('open').dialog('setTitle', '选择来源单据');
+            $('#BarcodeDetail').datagrid('loadData', { total: 0, rows: [] });
+            $('#BillDetail').datagrid({ url: '/FillBill/billselect/?page=1&rows=30&billmethod=3&billno=::' + $('#FORMULA_CODE').val() });
+        }
+    }
+    //选择出库批次
+    function outstockbill() {
+        $('#OutstockBillData').dialog('open').dialog('setTitle', '选择来源单据');
+        $('#OutstockBillDetail').datagrid('loadData', { total: 0, rows: [] });
+        $('#OutstockBillDetail').datagrid({ url: '/Feeding/GetOutstockBill/?page=1&rows=30' });
+    }
+    //明细加载
+    function loaddetail(url) {
+        $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+        $('#inBillDetail').datagrid({
+            border: false,
+            width: 550,
+            fit: true,
+            fitcolumns: false,
+            rownumbers: true,
+            pagination: false,
+            singleSelect: true,
+            url: url,
+            columns: [[
+                               { field: 'ITEM_NO', width: 60, title: '序号', hidden: true },
+                               { field: 'PRODUCT_CODE', width: 130, title: '产品代码' },
+                               { field: 'PRODUCT_NAME', width: 100, title: '产品名称' },
+                               { field: 'WEIGHT', width: 50, title: '重量' },
+                               { field: 'REAL_WEIGHT', width: 60, title: '实际重量' },
+                               { field: 'PACKAGE_COUNT', width: 50, title: '包数',
+                                   formatter: function (value, row, index) {
+                                       if (clickbt != "delete")
+                                           return "<input  id='packagecount" + index + "'  class='easyui-numberbox'   max='"+value+"'   style='height:20px; width:120px;'  value='" + value + "'/>";
+                                       else
+                                           return value;
+                                   }
+                               },
+                               { field: 'IS_MIXDESC', width: 50, title: '是否混装' },
+                               { field: 'IS_MIX', width: 50, title: '是否混装', hidden: true },
+                               { field: 'FPRODUCT_CODE', width: 120, title: '第一笔混合产品的代码' }
+                    ]],
+            onLoadSuccess: function (data) {
+                for (var n = 0; n < data.total; n++) {
+                    $('#packagecount' + n).numberbox({
+                        
+                    });
+                }
+            }
+        });
+    }
+    function save() {
+        var changesRows = {
+            inserted: []
+        };
+        var iscoderepeat = false;
+        var Rows = $('#inBillDetail').datagrid('getData');
+        if (clickbt != "delete" && Rows.total > 99) { alert("明细总记录数不可超出99,请分批."); return; }
+        if (Rows.total == 0 && clickbt != "delete") { alert("明细不能为空"); return; }
+        for (var i = 0; i < Rows.total; i++) {
+            changesRows.inserted.push(Rows.rows[i]);
+            if (clickbt != "delete") {
+                if ($('#packagecount' + i).val() > 0) {
+                    changesRows.inserted[i].PACKAGE_COUNT = $('#packagecount' + i).val();
+                }
+                else {
+                    alert("包数必须大于0");
+                    iscoderepeat = true;
+                } 
+            }
+        }
+        if (iscoderepeat) { return; }
+        if (clickbt == "add") {
+            url = '/Feeding/Add/?prefix=FD&detail=' + JSON.stringify(changesRows.inserted);
+        }
+        if (clickbt == "edit") {
+            url = '/Feeding/Edit/?detail=' + JSON.stringify(changesRows.inserted);
+        }
+        if (clickbt == "delete") {
+            url = '/Feeding/Delete/?Billno=' + $('#BILL_NO').val();
+        }
+        $('#fm').form('submit', {
+            url: url,
+            onSubmit: function () {
+                return $(this).form('validate');
+            },
+            success: function (result) {
+                var result = eval('(' + result + ')');
+                if (result.success) {
+                    $.messager.show({
+                        title: '成功',
+                        msg: result.msg
+                    });
+                    $('#dlg').dialog('close');
+                    $('#details').datagrid('reload');
+                    $('#SubDetails').datagrid('reload');
+                } else {
+                    $.messager.show({
+                        title: '错误',
+                        msg: result.msg
+                    });
+                    $('#details').datagrid('reload');
+                }
+            }
+        });
+    }
+
+    //设置按钮的可用属性
+    function setbtdisable() {
+        if (clickbt == "delete") {
+            //禁用明细按钮
+            $('#btnAddBillDetail').linkbutton('disable');
+            $('#btnDeleteBillDetail').linkbutton('disable');
+            //            $('#btnEditBillDetail').linkbutton('disable');
+            $('#out_btsearch').linkbutton('disable');
+            $('#int_btsearch').linkbutton('disable');
+        } else {
+            //启用明细按钮
+            $('#btnAddBillDetail').linkbutton('enable');
+            $('#btnDeleteBillDetail').linkbutton('enable');
+            //            $('#btnEditBillDetail').linkbutton('enable');
+            $('#out_btsearch').linkbutton('enable');
+            $('#int_btsearch').linkbutton('enable');
+        }
+
+    }
+
+</script>
+
+<div id="dlg" class="easyui-dialog" modal="true"
+        style="width:900px;height:450px;padding:0px 0px"
+        closed="true" buttons="#dlg-buttons">
+	<div class="easyui-layout" fit="true">
+        <div region="center" border="false">
+            <table class="easyui-datagrid" border="false" toolbar="#dlg-detailButtons" width="790" id="inBillDetail"
+                fit="true" fitColumns="true" singleSelect="true" rownumbers="true" pagination="false" url="" striped="true">
+@*                <thead>
+                    <tr>
+                <th field="ITEM_NO" width="80"  hidden="true">序号</th>
+                <th field="PRODUCT_CODE" width="80">产品代码</th>
+                <th field="WEIGHT" width="80">重量</th>
+                <th field="REAL_WEIGHT" width="80">实际重量</th>
+                <th field="PACKAGE_COUNT" width="80">包数</th>
+                <th field="IS_MIXDESC" width="60" hidden="true">是否混装</th>
+                <th field="IS_MIX" width="60" hidden="true">是否混装</th>
+                    </tr>
+                </thead>*@
+            </table>
+        </div>
+    </div>
+</div>
+
+<div id="dlg-detailButtons" style="width: auto; height: auto; background-color: #FFFFFF;">
+	<div border="false" style="padding:4px 4px;" >     
+	    <form id="fm" method="post" novalidate>
+            <table height="80px">
+            <tr>@*出库方式  默认都为批次*@
+                     <td>
+                        <input name="BILL_METHOD" id="BILL_METHOD"  value="0" style="display :none " />
+                        <input name="CIGARETTE_CODE" id="CIGARETTE_CODE" style="display:none" />
+                        <input name="FORMULA_CODE" id="FORMULA_CODE" style="display:none"/>
+                     </td>
+                </tr>
+                <tr>
+                <td width="110">单据编号</td>
+                <td width="133"><input name="BILL_NO" id="BILL_NO" readonly="true"></td>
+                <td width="110">单据日期</td>
+                <td width="168"><input name="BILL_DATE" id="BILL_DATE"  ></td>
+                <td width="110">操作人员</td>
+                <td width="210"><input  name="OPERATER" id="OPERATER"  readonly="true"/></td>
+                <td width="110">操作日期</td>
+                <td width="210"><input id="OPERATE_DATE" name="OPERATE_DATE"  readonly="true" disabled="true"></td>
+                 </tr>
+                <tr>
+                <td width="110">单据类型</td>
+                <td width="168"><input name="BTYPE_CODE"  id="BTYPE_CODE" class="easyui-combogrid"/></td>
+                <td width="110">仓库编号</td>
+                <td width="168"><input name="WAREHOUSE_CODE"  id="WAREHOUSE_CODE" class="easyui-combogrid"/></td>
+                <td width="110">出库批次</td>
+                <td width="210"> 
+                      <input  name="SCHEDULE_NO"  id="SCHEDULE_NO"/>
+                     <a href="#" onclick="outstockbill()" id="out_btsearch" class="easyui-linkbutton" iconcls="icon-search" plain="true"></a>
+                @*<input type="button"  onclick="billselect()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/>*@
+                </td>
+                <td width="110">入库批次</td>
+                <td width="210">
+                     <input  name="SOURCE_BILLNO"  id="SOURCE_BILLNO"/>
+                     <a href="#" onclick="billselect()" id="int_btsearch" class="easyui-linkbutton" iconcls="icon-search" plain="true"></a>
+                </td>
+                 </tr>
+            </table>
+	    </form>
+    </div>
+    <div border="false" class="formula_editbg"> 
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="addBillDetailClick()" id="btnAddBillDetail">添加明细</a>
+	    <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="deleteBillDetailClick()" id="btnDeleteBillDetail">删除明细</a>
+@*        <a href="#" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editBillDetailClick()" id="btnEditBillDetail">修改明细</a>*@
+        
+    </div>
+</div>
+
+<div id="dlg-buttons">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>*@
+      <input type="button"  onclick="save()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#dlg').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+
+
+<div id="dlg-AddBillDetailbuttons">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="DetailSave()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-AddBillDetail').dialog('close')">取消</a>*@
+      <input type="button"  onclick="DetailSave()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#dlg-AddBillDetail').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+@Html.Partial("_BillPartial");  
+@Html.Partial("_OutstockbillPartial");

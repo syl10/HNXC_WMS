@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="10/17/2013 16:25:46" ReportInfo.Modified="11/20/2013 09:10:25" ReportInfo.CreatorVersion="1.9.9.0" PrintSettings.Copies="2">
+  <Dictionary>
+    <ViewDataSource Name="printreport" ReferenceName="printreport" DataType="System.Int32" Enabled="true">
+      <Column Name="PRODUCT_BARCODE" DataType="System.String"/>
+      <Column Name="BILL_NO" DataType="System.String"/>
+      <Column Name="FORMULA_NAME" DataType="System.String"/>
+      <Column Name="CIGARETTE_NAME" DataType="System.String"/>
+      <Column Name="PRODUCT_CODE" DataType="System.String"/>
+      <Column Name="REAL_WEIGHT" DataType="System.Decimal"/>
+      <Column Name="PRODUCT_NAME" DataType="System.String"/>
+      <Column Name="YEARS" DataType="System.String"/>
+      <Column Name="ORIGINAL_NAME" DataType="System.String"/>
+      <Column Name="CATEGORY_NAME" DataType="System.String"/>
+      <Column Name="GRADE_NAME" DataType="System.String"/>
+      <Column Name="STYLE_NAME" DataType="System.String"/>
+      <Column Name="BILL_DATE" DataType="System.DateTime"/>
+      <Column Name="MODULES" DataType="System.String"/>
+      <Column Name="PACKAGECOUNT" DataType="System.Decimal"/>
+      <Column Name="IS_MIX" DataType="System.String"/>
+    </ViewDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1" PaperWidth="105" PaperHeight="75" LeftMargin="3" TopMargin="3" RightMargin="2" BottomMargin="2" Fill.Color="White">
+    <DataBand Name="Data1" Width="378" Height="264.6" DataSource="printreport">
+      <TableObject Name="Table1" Left="2.06" Top="28.35" Width="370.31" Height="54.63">
+        <TableColumn Name="Column1" Width="43.2"/>
+        <TableColumn Name="Column2" Width="71.36"/>
+        <TableColumn Name="Column3" Width="43.38"/>
+        <TableColumn Name="Column4" Width="91.78"/>
+        <TableColumn Name="Column5" Width="43.18"/>
+        <TableColumn Name="Column6" Width="77.41"/>
+        <TableRow Name="Row1" Height="18.27">
+          <TableCell Name="Cell1" Text="牌号:" Font="宋体, 10pt"/>
+          <TableCell Name="Cell2" Text="[printreport.CIGARETTE_NAME]" Font="宋体, 10pt"/>
+          <TableCell Name="Cell3" Text="配方:" Font="宋体, 10pt"/>
+          <TableCell Name="Cell4" Text="[printreport.FORMULA_NAME]" Font="宋体, 10pt"/>
+          <TableCell Name="Cell5" Text="包数:" Font="宋体, 10pt"/>
+          <TableCell Name="Cell16" Text="[printreport.PACKAGECOUNT]" Font="宋体, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row2" Height="18.27">
+          <TableCell Name="Cell6" Text="产地:" Font="宋体, 10pt"/>
+          <TableCell Name="Cell7" Text="[printreport.ORIGINAL_NAME]" Font="宋体, 10pt"/>
+          <TableCell Name="Cell8" Text="等级:" Font="宋体, 10pt"/>
+          <TableCell Name="Cell9" Text="[printreport.GRADE_NAME]" Font="宋体, 10pt"/>
+          <TableCell Name="Cell10" Text="年份:" Font="宋体, 10pt"/>
+          <TableCell Name="Cell17" Text="[printreport.YEARS]" Font="宋体, 10pt"/>
+        </TableRow>
+        <TableRow Name="Row3" Height="18.09">
+          <TableCell Name="Cell11" Text="形态:" Font="宋体, 10pt"/>
+          <TableCell Name="Cell12" Text="[printreport.STYLE_NAME]" Font="宋体, 10pt"/>
+          <TableCell Name="Cell13" Text="重量:" Font="宋体, 10pt"/>
+          <TableCell Name="Cell14" Text="[printreport.REAL_WEIGHT] 公斤" Font="宋体, 10pt"/>
+          <TableCell Name="Cell15" Text="日期:" Font="宋体, 10pt"/>
+          <TableCell Name="Cell18" Text="[printreport.BILL_DATE]" Font="宋体, 10pt"/>
+        </TableRow>
+      </TableObject>
+      <BarcodeObject Name="Barcode1" Left="10.41" Top="88.7" Width="354.01" Height="158.07" AutoSize="false" DataColumn="printreport.PRODUCT_BARCODE" Barcode="Code128" Barcode.AutoEncode="true"/>
+      <TextObject Name="Text1" Left="4.51" Top="5.66" Width="71.07" Height="19.46" Text="入库批次:" Padding="0, 0, 0, 0" Font="宋体, 10pt"/>
+      <TextObject Name="Text2" Left="68.59" Top="5.09" Width="119.14" Height="18.31" Text="[printreport.BILL_NO]" Padding="0, 0, 0, 0" Font="宋体, 10pt"/>
+      <TextObject Name="Text3" Left="183.57" Top="4.59" Width="43.67" Height="18.9" Text="模块:" Font="宋体, 10pt"/>
+      <TextObject Name="Text4" Left="221.1" Top="4.41" Width="27.09" Height="18.9" Text="[printreport.MODULES]" Font="宋体, 10pt"/>
+      <TextObject Name="Text5" Left="249.82" Top="3.57" Width="44.45" Height="18.9" Text="混装:" Font="宋体, 10pt"/>
+      <TextObject Name="Text6" Left="292.36" Top="3.99" Width="19.9" Height="18.9" Text="[printreport.IS_MIX]" Font="宋体, 10pt"/>
+    </DataBand>
+  </ReportPage>
+</Report>

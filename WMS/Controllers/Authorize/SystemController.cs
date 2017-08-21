@@ -4,9 +4,13 @@ using System.Web.Routing;
 using Microsoft.Practices.Unity;
 using THOK.WebUtil;
 using THOK.Authority.Bll.Interfaces;
+using Wms.Security;
+using THOK.Security;
 
 namespace WMS.Controllers.Authority
 {
+    [TokenAclAuthorize]
+    [SystemEventLog]
     public class SystemController : Controller
     {
         [Dependency]
@@ -15,12 +19,12 @@ namespace WMS.Controllers.Authority
         // GET: /System/
         public ActionResult Index(string moduleID)
         {
-            ViewBag.hasSearch = true;
-            ViewBag.hasAdd = true;
-            ViewBag.hasEdit = true;
-            ViewBag.hasDelete = true;
-            ViewBag.hasPrint = true;
-            ViewBag.hasHelp = true;
+            //ViewBag.hasSearch = true;
+            //ViewBag.hasAdd = true;
+            //ViewBag.hasEdit = true;
+            //ViewBag.hasDelete = true;
+            //ViewBag.hasPrint = true;
+            //ViewBag.hasHelp = true;
             ViewBag.ModuleID = moduleID;
             return View();
         }
@@ -32,7 +36,7 @@ namespace WMS.Controllers.Authority
             string DESCRIPTION = collection["DESCRIPTION"] ?? "";
             string STATUS = collection["STATUS"] ?? "";
             var systems = SystemService.GetDetails(page, rows, SYSTEM_NAME, DESCRIPTION, STATUS);
-            return Json(systems,"text",JsonRequestBehavior.AllowGet);
+            return Json(systems, "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /System/Create/
@@ -41,7 +45,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = SystemService.Add(SYSTEM_NAME, DESCRIPTION, STATUS);
             string msg = bResult ? "新增成功": "新增失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult,msg,null),"text",JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /System/Edit/
@@ -50,7 +54,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = SystemService.Save(SYSTEM_ID, SYSTEM_NAME, DESCRIPTION, STATUS);
             string msg = bResult ? "修改成功" : "修改失败" ;
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // POST: /System/Delete/
@@ -59,7 +63,7 @@ namespace WMS.Controllers.Authority
         {
             bool bResult = SystemService.Delete(SYSTEM_ID);
             string msg = bResult ? "删除成功": "删除失败";
-            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text", JsonRequestBehavior.AllowGet);
+            return Json(JsonMessageHelper.getJsonMessage(bResult, msg, null), "text/html", JsonRequestBehavior.AllowGet);
         }
 
         // GET: /System/GetDetailsSystem/
@@ -69,7 +73,7 @@ namespace WMS.Controllers.Authority
             string userName = this.User.Identity.Name;
             string systemId = this.GetCookieValue("systemid");
             var systems = SystemService.GetDetails(userName, systemId, cityId);
-            return Json(systems, "text", JsonRequestBehavior.AllowGet);
+            return Json(systems, "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -1,0 +1,94 @@
+﻿<script type="text/javascript">
+    function searchClick() {
+             $('#SSCHEDULE_DATE').datebox({
+              hasDownArrow: true
+          });
+          $('#SOPERATE_DATE').datebox({
+              hasDownArrow: true
+          });
+         $('#SCHECK_DATE').datebox({
+              hasDownArrow: true
+          });
+
+        $('#dlg-search').dialog('open').dialog('setTitle', '查询');
+         $('#SSTATE').combobox('clear');
+
+    }
+    //查询
+    function Sselect() {
+        var queryParams = $('#details').datagrid('options').queryParams;
+        queryParams.SCHEDULE_NO = $('#SSCHEDULE_NO').val();
+        queryParams.SCHEDULE_DATE = $('#SSCHEDULE_DATE').datebox('getValue');
+        if($('#SSTATE').combobox('getText')!=null&&$('#SSTATE').combobox('getText')!=""){
+        queryParams.STATE = $('#SSTATE').combobox('getValue');}
+        else
+        queryParams.STATE ="";
+        queryParams.OPERATER = $('#SOPERATER').val();
+        queryParams.OPERATE_DATE = $('#SOPERATE_DATE').datebox('getValue');
+        queryParams.CHECKER = $('#SCHECKER').val();
+        queryParams.CHECK_DATE = $('#SCHECK_DATE').datebox('getValue');
+        queryParams.BILLNOFROM = $('#SBILLNOFROM').val(); //单据编号区间  开始部分
+        queryParams.BILLNOTO = $('#SBILLNOTO').val();  //单据编号区间  结尾部分
+        $('#details').datagrid('options').queryParams = queryParams;
+        $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
+        $('#details').datagrid('reload');
+        $('#SSTATE').combobox('clear');
+        $('#SSCHEDULE_DATE').datebox('clear');
+        $('#SOPERATE_DATE').datebox('clear');
+        $('#SCHECK_DATE').datebox('clear');
+        $('#dlg-search').dialog('close');
+    }
+</script>
+
+<div id="dlg-search" class="easyui-dialog" modal="true" style="width:430px;height:260px;padding:2px 2px"
+		closed="true" buttons="#dlg-buttons-search">
+        <div class="easyui-layout" fit="true">
+			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
+           <table width="400px">
+                      <tr>
+                        <td style="width:50px" align="right">计划单号</td>
+                        <td style="width:138px"><input id="SSCHEDULE_NO" style="width:125px"  /></td>
+                        <td style="width:50px" align="right">计划日期</td>
+                        <td style="width:138px"><input id="SSCHEDULE_DATE" style="width:125px" ></td>
+                      </tr>
+                     <tr>
+                          <td style="width:50px" align="right">单号区间</td>
+                          <td style="width:138px"><input id="SBILLNOFROM" style="width:125px"  /></td>
+                          <td style="width:50px" align="right">--</td>
+                          <td style="width:138px"><input id="SBILLNOTO" style="width:125px"  /></td>
+                      </tr>
+                       <tr>
+                        <td style="width:50px" align="right">单据状态</td>
+                        <td style="width:138px">
+                             <select id="SSTATE"  class="easyui-combobox" style="width:125px" >		                
+                                     <option value="1">保存</option>
+		                            <option value="2">审核</option>
+                                    <option value="3">出库</option>
+	                         </select>
+                        </td>
+                      </tr>
+                       <tr>
+                        <td style="width:50px" align="right">操作人员</td>
+                        <td style="width:138px"><input id="SOPERATER" style="width:125px" ></td>
+						 <td style="width:50px">操作日期</td>
+                        <td style="width:138px"><input id="SOPERATE_DATE" style="width:125px" ></td>
+                      </tr>
+                      <tr>
+                        <td style="width:50px" align="right">审核人员</td>
+                        <td  style="width:138px"><input id="SCHECKER" style="width: 125px; "></td>
+                        <td style="width:50px" align="right">审核日期</td>
+                        <td style="width:138px"><input id="SCHECK_DATE" style="width: 125px; "/></td>
+                      </tr>
+                    </table>
+            </div>
+        </div>
+</div>
+
+<div id="dlg-buttons-search">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="select()">查询</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">取消</a>*@
+      <input type="button"  onclick="Sselect()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/>
+      <input type="button"  onclick="javascript:$('#dlg-search').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+
+

@@ -41,7 +41,7 @@ namespace THOK.Authority.DbModel.Mapping
                 .HasMaxLength(6);
 
             // Table & Column Mappings
-            this.ToTable("AUTH_MODULE", "THOK");
+            this.ToTable("AUTH_MODULE","HNXC");
             this.Property(t => t.MODULE_ID).HasColumnName("MODULE_ID");
             this.Property(t => t.MODULE_NAME).HasColumnName("MODULE_NAME");
             this.Property(t => t.SHOW_ORDER).HasColumnName("SHOW_ORDER");

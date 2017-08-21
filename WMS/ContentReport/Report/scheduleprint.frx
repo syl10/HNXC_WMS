@@ -1,0 +1,111 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/26/2013 15:18:06" ReportInfo.Modified="01/21/2014 09:31:52" ReportInfo.CreatorVersion="1.9.9.0">
+  <Dictionary>
+    <ViewDataSource Name="scheduleprint" ReferenceName="scheduleprint" DataType="System.Int32" Enabled="true">
+      <Column Name="SCHEDULE_NO" DataType="System.String"/>
+      <Column Name="SCHEDULE_DATE" DataType="System.DateTime"/>
+      <Column Name="SOURCE_BILLNO" DataType="System.String"/>
+      <Column Name="STATUS" DataType="System.String"/>
+      <Column Name="STATUNAME" DataType="System.String"/>
+      <Column Name="STATE" DataType="System.String"/>
+      <Column Name="STATENAME" DataType="System.String"/>
+      <Column Name="OPERATER" DataType="System.String"/>
+      <Column Name="OPERATE_DATE" DataType="System.DateTime"/>
+      <Column Name="CHECKER" DataType="System.String"/>
+      <Column Name="CHECK_DATE" DataType="System.DateTime"/>
+      <Column Name="ITEM_NO" DataType="System.Decimal"/>
+      <Column Name="CIGARETTE_CODE" DataType="System.String"/>
+      <Column Name="CIGARETTE_NAME" DataType="System.String"/>
+      <Column Name="FORMULA_CODE" DataType="System.String"/>
+      <Column Name="FORMULA_NAME" DataType="System.String"/>
+      <Column Name="BILL_NO" DataType="System.String"/>
+      <Column Name="QUANTITY" DataType="System.Decimal"/>
+      <Column Name="LINE_NO" DataType="System.String"/>
+      <Column Name="LINE_NAME" DataType="System.String"/>
+    </ViewDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="165.8" StartNewPage="true" Condition="[scheduleprint.SCHEDULE_NO]">
+      <TableObject Name="Table1" Left="33.9" Top="48.97" Width="535.83" Height="56.7">
+        <TableColumn Name="Column1" Width="64.51"/>
+        <TableColumn Name="Column2" Width="133.25"/>
+        <TableColumn Name="Column3" Width="68.28"/>
+        <TableColumn Name="Column4" Width="86.42"/>
+        <TableColumn Name="Column5" Width="67.54"/>
+        <TableColumn Name="Column6" Width="115.83"/>
+        <TableRow Name="Row1">
+          <TableCell Name="Cell1" Text="计划单号:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell2" Text="[scheduleprint.SCHEDULE_NO]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell33" Text="单据来源:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell34" Text="[scheduleprint.STATUNAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell35" Text="计划日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell36" Text="[scheduleprint.SCHEDULE_DATE]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row2">
+          <TableCell Name="Cell6" Text="单据状态:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell7" Text="[scheduleprint.STATENAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell8" Text="操作人员:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell9" Text="[scheduleprint.OPERATER]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell10" Text="操作日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell27" Text="[scheduleprint.OPERATE_DATE]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row3">
+          <TableCell Name="Cell11" Text="审核人员:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell12" Text="[scheduleprint.CHECKER]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell13" Text="审核日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell14" Text="[scheduleprint.CHECK_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell15" Font="宋体, 9pt"/>
+          <TableCell Name="Cell28" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <TableObject Name="Table2" Left="4.01" Top="146.61" Width="690.17" Height="18.9">
+        <TableColumn Name="Column7" Width="57.4"/>
+        <TableColumn Name="Column8" Width="55.32"/>
+        <TableColumn Name="Column9" Width="86.27"/>
+        <TableColumn Name="Column10" Width="117.03"/>
+        <TableColumn Name="Column11" Width="101.37"/>
+        <TableColumn Name="Column12" Width="100.24"/>
+        <TableColumn Name="Column13" Width="86.27"/>
+        <TableColumn Name="Column14" Width="86.27"/>
+        <TableRow Name="Row4">
+          <TableCell Name="Cell37" Text="序号" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell38" Text="牌号" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell39" Text="牌号名称" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell40" Text="配方代码" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell41" Text="配方名称" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell42" Text="出库单号" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell43" Text="重量" HorzAlign="Center" Font="宋体, 9pt"/>
+          <TableCell Name="Cell44" Text="制丝线" HorzAlign="Center" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <LineObject Name="Line1" Left="-3.78" Top="127.57" Width="719.72"/>
+      <TextObject Name="Text1" Left="36.1" Top="15.15" Width="532.36" Height="18.9" Text="计划单" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="169.8" Width="718.2" Height="22.69" DataSource="scheduleprint">
+        <TableObject Name="Table3" Left="3.62" Top="2.7" Width="691.81" Height="18.9">
+          <TableColumn Name="Column15" Width="57.48"/>
+          <TableColumn Name="Column16" Width="55.4"/>
+          <TableColumn Name="Column17" Width="86.35"/>
+          <TableColumn Name="Column18" Width="118.11"/>
+          <TableColumn Name="Column19" Width="101.45"/>
+          <TableColumn Name="Column20" Width="100.32"/>
+          <TableColumn Name="Column21" Width="86.35"/>
+          <TableColumn Name="Column22" Width="86.35"/>
+          <TableRow Name="Row5">
+            <TableCell Name="Cell45" Text="[scheduleprint.ITEM_NO]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell46" Text="[scheduleprint.CIGARETTE_CODE]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell47" Text="[scheduleprint.CIGARETTE_NAME]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell48" Text="[scheduleprint.FORMULA_CODE]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell49" Text="[scheduleprint.FORMULA_NAME]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell50" Text="[scheduleprint.BILL_NO]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell51" Text="[scheduleprint.QUANTITY]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell52" Text="[scheduleprint.LINE_NAME]" HorzAlign="Center" Font="宋体, 9pt"/>
+          </TableRow>
+        </TableObject>
+        <Sort>
+          <Sort Expression="[scheduleprint.ITEM_NO]"/>
+        </Sort>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="196.49" Width="718.2"/>
+    </GroupHeaderBand>
+  </ReportPage>
+</Report>

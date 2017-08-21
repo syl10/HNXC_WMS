@@ -128,7 +128,7 @@ namespace THOK.Wms.Bll.Service
         {
             IQueryable<CMD_SHELF> shelfQuery = ShelfRepository.GetQueryable();
             var shelf = shelfQuery.Where(s=>s.SHELF_CODE==shelfCode).OrderBy(b => b.SHELF_CODE).AsEnumerable()
-                                  .Select(b => new { b.SHELF_CODE, b.SHELF_NAME, b.ROW_COUNT, b.COLUMN_COUNT, b.WAREHOUSE_CODE, b.AREA_CODE, b.CRANE_NO, b.MEMO, b.STATION_NO });
+                                  .Select(b => new { b.SHELF_CODE, b.SHELF_NAME, b.ROW_COUNT, b.COLUMN_COUNT, b.WAREHOUSE_CODE,b.CMD_WAREHOUSE.WAREHOUSE_NAME, b.AREA_CODE,b.CMD_AREA.AREA_NAME, b.CRANE_NO,b.CMD_CRANE.CRANE_NAME, b.MEMO });
             return shelf.First(s => s.SHELF_CODE == shelfCode);
         }
 

@@ -1,0 +1,25 @@
+﻿<script type="text/javascript">
+//    function printClick() {
+//        $('#details').datagrid('reload');
+//        $('#dlgPrint').dialog('open').dialog('setTitle', '打印');
+//        $('#divPrint1').empty();
+//        $('#divPrint1').append("<iframe id='billreportframe'   scrolling='no'  width='100%'  height='100%'   style='   padding:0px;' frameborder='0' src='../BillPrint/?frxname=productledger.frx&dataname=productledger'></iframe>");
+//    }
+    function printClick() {
+        var isprint = true;
+        $('#details').datagrid('reload');
+        $('#details').datagrid('options').onLoadSuccess = function () {
+            if (isprint) {
+                $('#dlgPrint').dialog('open').dialog('setTitle', '打印');
+                $('#divPrint1').empty();
+                $('#divPrint1').append("<iframe id='billreportframe'   scrolling='no'  width='100%'  height='100%'   style='   padding:0px;' frameborder='0' src='../BillPrint/?frxname=productledger.frx&dataname=productledger'></iframe>");
+            }
+            isprint = false;
+        }
+    }
+    </script>
+    <div id="dlgPrint" class="easyui-dialog" modal="true" style="width:970px;height:450px;padding:0px 0px" closed="true" >
+<div id="divPrint1" style="width:950px;height:410px;padding:0px 0px" >
+@*<iframe id='reportframe' scrolling="no"  height='100%'   style=' width:100%;  padding:0px;' frameborder='0' src='../../WebForm1.aspx'></iframe>*@
+</div>
+</div>

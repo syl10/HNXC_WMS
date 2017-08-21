@@ -330,12 +330,13 @@
 	height:25px;
 }
 .datagrid-header td{
-	border-right:1px dotted #ccc;
+	border-right:1px solid #ccc;
 	font-size:12px;
 	font-weight:normal;
 	background:#fafafa url('images/datagrid_header_bg.gif') repeat-x left bottom;
-	border-bottom:1px dotted #ccc;
-	border-top:1px dotted #fff;
+	border-bottom:1px solid #ccc;
+	border-top:1px solid #fff;
+
 }
 .datagrid-header td.datagrid-header-over{
 	background:#EBF3FD;
@@ -394,8 +395,8 @@
 }
 .datagrid-body td,.datagrid-footer td{
 	font-size:12px;
-	border-right:1px dotted #ccc;
-	border-bottom:1px dotted #ccc;
+	border-right:1px solid #CCC;
+	border-bottom:1px solid #CCC;
 	overflow:hidden;
 	padding:0;
 	margin:0;

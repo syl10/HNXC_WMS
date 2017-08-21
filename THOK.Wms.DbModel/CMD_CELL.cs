@@ -13,6 +13,7 @@ namespace THOK.Wms.DbModel
         public decimal CELL_ROW { get; set; }
         public string IS_ACTIVE { get; set; }
         public string PRODUCT_CODE { get; set; }
+        public string PRODUCT_BARCODE { get; set; }
         public Nullable<decimal> REAL_WEIGHT { get; set; }
         public string SCHEDULE_NO { get; set; }
         public string IS_LOCK { get; set; }
@@ -22,6 +23,7 @@ namespace THOK.Wms.DbModel
         public string MEMO { get; set; }
         public Nullable<decimal> PRIORITY_LEVEL { get; set; }
         public string ERROR_FLAG { get; set; }
+        public string NEW_PALLET_CODE { get; set; }
         public string WAREHOUSE_CODE { get; set; }
         public virtual CMD_AREA CMD_AREA { get; set; }
         public virtual CMD_PRODUCT CMD_PRODUCT { get; set; }

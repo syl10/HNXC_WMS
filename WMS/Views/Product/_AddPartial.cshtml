@@ -1,0 +1,192 @@
+﻿<script type="text/javascript">
+    var loaded=0;
+    function addClick() {
+        $('#dlg').dialog('open').dialog('setTitle', '新增');
+        $('#fm').form('clear');
+        $('#fm .easyui-validatebox').validatebox({
+            required: true
+        });
+        setgradecomb();
+        setoriginalcomb();
+        setcategorycomb();
+        setstyle();
+        SetYear();
+
+        $('#STYLE_NO').combogrid('clear');
+        $('#ORIGINAL_CODE').combogrid('clear');
+        $('#GRADE_CODE').combogrid('clear');
+        $('#CC').combogrid('clear');
+
+        $('form input').removeAttr("disabled");
+        $('form textarea').removeAttr("disabled");
+        url = '/Product/Create/';
+        isloaded = true;
+    };
+    //获取类别名称
+    function setcategorycomb() {
+        $('#CC').combogrid({
+            required: true,
+            width: 126,
+            panelWidth: 300,
+            url: '/ProductCategory/Details/?page=1&rows=1000',
+            idField: 'CATEGORY_CODE',
+            textField: 'CATEGORY_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+					{ field: 'CATEGORY_CODE', title: '类别编码', hidden: true, width: 30 },
+					{ field: 'CATEGORY_NAME', title: '类别名称', align: 'left', width: 40 },
+					{ field: 'MEMO', title: '备注', align: 'left', width: 30 }
+
+				]],
+            onLoadSuccess: function () { loaded++; }
+        });
+    }
+    //获取形态
+    function setstyle() {
+        $('#STYLE_NO').combogrid({
+            required: true,
+            width: 126,
+            panelWidth: 300,
+            url: '/Product/Getstylelist/?page=1&rows=1000',
+            idField: 'STYLE_NO',
+            textField: 'STYLE_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+					{ field: 'STYLE_NO', title: '形态编号', hidden: true, width: 30 },
+					{ field: 'STYLE_NAME', title: '形态名称', align: 'left', width: 40 }
+
+				]],
+            onLoadSuccess: function () { loaded++; }
+        });
+    }
+    //获取原产地
+    function setoriginalcomb() {
+        $('#ORIGINAL_CODE').combogrid({
+            required: true,
+            width: 125,
+            panelWidth: 300,
+            url: '/ProductOriginal/Details/?page=1&rows=1000',
+            idField: 'ORIGINAL_CODE',
+            textField: 'ORIGINAL_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+					{ field: 'ORIGINAL_CODE', title: '产地代码', hidden: true, width: 30 },
+					{ field: 'ORIGINAL_NAME', title: '产地名称', align: 'left', width: 40 },
+                    { field: 'DISTRICT_CODE', title: '地区编号', align: 'left', width: 40 },
+					{ field: 'MEMO', title: '备注', align: 'left', width: 30 }
+				]],
+            onLoadSuccess: function () { loaded++; }
+        });
+    }
+    //获取产品等级
+    function setgradecomb() {
+        $('#GRADE_CODE').combogrid({
+            required: true,
+            width: 125,
+            panelWidth: 300,
+            url: '/ProductGrade/Details/?page=1&rows=1000',
+            idField: 'GRADE_CODE',
+            textField: 'GRADE_NAME',
+            mode: 'local',
+            editable: false,
+            fitColumns: true,
+            columns: [[
+					{ field: 'GRADE_CODE', title: '等级代码', hidden: true, width: 30 },
+					{ field: 'ENGLISH_CODE', title: '英文代号', align: 'left', width: 40 },
+                    { field: 'USER_CODE', title: '自定代号', align: 'left', width: 40 },
+                    { field: 'GRADE_NAME', title: '等级名称', align: 'left', width: 40 },
+					{ field: 'MEMO', title: '备注', align: 'left', width: 30 }
+				]],
+            onLoadSuccess: function () { loaded++; }
+        });
+    }
+    //设置年份  2000--3000
+    function SetYear() {
+        var years = [];
+        for (var i = 2000; i <= 3000; i++) {
+            years.push({id:i,text:i});
+        }
+//        $('#comb_year').combobox('reload', years);
+        $('#comb_year').combobox({
+           data: years,
+           valueField: 'id',
+           textField: 'text'
+       });
+    }
+    function save() {
+        $('#fm').form('submit', {
+            url: url,
+            onSubmit: function () {
+                return $(this).form('validate');
+            },
+            success: function (result) {
+                var result = eval('(' + result + ')');
+                if (result.success) {
+                    $.messager.show({
+                        title: '成功',
+                        msg: result.msg
+                    });
+                    $('#dlg').dialog('close');
+                    $('#details').datagrid('reload');
+                } else {
+                    $.messager.show({
+                        title: '错误',
+                        msg: result.msg
+                    });
+                    $('#details').datagrid('reload');
+                }
+            }
+        });
+    }
+</script>
+
+<div id="dlg" class="easyui-dialog" modal="true" style="width:430px;height:260px;padding:2px 2px" closed="true" buttons="#dlg-buttons">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
+	            <form id="fm" method="post" novalidate>
+                     <table width="400px">
+                      <tr>
+                        <td style="width:50px" align="right">产品名称</td>
+                        <td style="width:138px"><input name="PRODUCT_NAME" class="easyui-validatebox" required="true" style="width:125px"  /></td>
+                        <td style="width:50px" align="right">类别名称</td>
+                        <td style="width:138px"><input name="CATEGORY_CODE" id="CC" ></td>
+                      </tr>
+                       <tr>
+                        <td style="width:50px" align="right">原产地</td>
+                        <td style="width:138px"><input name="ORIGINAL_CODE"  id="ORIGINAL_CODE"  ></td>
+						<td style="width:50px" align="right">年份</td>
+                        <td style="width:138px"><input  name="YEARS"  id="comb_year" style="width:125px"></td>
+                      </tr>
+                       <tr>
+                        <td style="width:50px" align="right">等级</td>
+                        <td style="width:138px" ><input name="GRADE_CODE"  id="GRADE_CODE"   style="width:125px"></td>
+                        <td style="width:50px" align="right">形态</td>
+                        <td style="width:138px"><input name="STYLE_NO"  id="STYLE_NO" style="width:125px" ></td>
+                      </tr>
+                       <tr>
+                        <td style="width:50px" align="right">重量</td>
+                        <td style="width:138px"><input name="WEIGHT" class="easyui-numberbox" style="width:125px" ></td>
+						 <td style="width:50px"></td>
+                        <td style="width:138px"></td>
+                      </tr>
+                      <tr>
+                        <td style="width:50px" align="right">备注</td>
+                        <td colspan="3"><textarea name="MEMO" style="width: 320px; height: 50px"></textarea></td>
+                      </tr>
+                    </table>
+	            </form>
+            </div>
+        </div>
+</div>
+<div id="dlg-buttons">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>*@
+      <input type="button"  onclick="save()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#dlg').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>

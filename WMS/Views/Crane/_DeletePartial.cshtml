@@ -1,0 +1,25 @@
+﻿<script type="text/javascript">
+    function deleteClick() {
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            $('#dlg').dialog('open').dialog('setTitle', '删除');
+            $('#fm .easyui-validatebox').validatebox({
+                required: false
+            });
+            $('form input').attr("disabled", "disabled");
+            $('form textarea').attr("disabled", "disabled");
+            $('#cc').combo({
+                hasDownArrow: false
+            });
+            $('#fm').form('load', row);
+            if (row.IS_ACTIVE == '启用') {
+                $('#cc').combo('setValue', true).combo('setText', row.IS_ACTIVE);
+            } else {
+                $('#cc').combo('setValue', false).combo('setText', row.IS_ACTIVE);
+            }
+            url = '/Crane/Delete/?CRANE_NO=' + row.CRANE_NO;
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    };
+</script>

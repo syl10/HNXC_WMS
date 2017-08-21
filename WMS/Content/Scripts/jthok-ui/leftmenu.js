@@ -3,11 +3,11 @@
 (function ($) {
     var menus_root = {};
     $(function () {
-//        window.onbeforeunload = onunload_handler;
-//        window.onunload = onunload_handler;
-//        function onunload_handler() {
-//            return 'alert("是关闭而非刷新")';
-//        }
+        //        window.onbeforeunload = onunload_handler;
+        //        window.onunload = onunload_handler;
+        //        function onunload_handler() {
+        //            return 'alert("是关闭而非刷新")';
+        //        }
         LogOn();
     });
 
@@ -157,9 +157,12 @@
         });
 
         //选中第一个
-        var panels = $('#leftmenu').accordion('panels');
-        var t = panels[0].panel('options').title;
-        $('#leftmenu').accordion('select', t);
+        try {
+            var panels = $('#leftmenu').accordion('panels');
+            var t = panels[0].panel('options').title;
+            $('#leftmenu').accordion('select', t);
+        }
+        catch (e) { }
     }
 
     //获取左侧导航的图标
@@ -213,7 +216,6 @@
                     }
                 }]
             });
-
             $('#tabs').tabs('select', subtitle);
             var currTab = $('#tabs').tabs('getSelected');
             currTab.data("src", url);

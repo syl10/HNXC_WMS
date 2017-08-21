@@ -1,0 +1,63 @@
+﻿<script type="text/javascript">
+    function searchClick() {
+//         $('#BEGINMONTH').datebox({
+//              hasDownArrow: true,
+//          });
+//         $('#ENDMONTH').datebox({
+//              hasDownArrow: true,
+//          });
+
+        $('#dlg-search').dialog('open').dialog('setTitle', '查询');
+        loadmonths();
+    }
+    //加载开始年月和结束年月
+    function loadmonths() {
+        $.getJSON("/ProductLedger/GetBalanceNo/", function (json) {
+            if (json&&json.rows.length>0) {
+                $('#BEGINMONTH').combobox({
+                    data: json.rows,
+                    valueField: 'BALANCE_NO',
+                    textField: 'BALANCE_NO',
+                    value: json.rows[0].BALANCE_NO
+                });
+                $('#ENDMONTH').combobox({
+                    data: json.rows,
+                    valueField: 'BALANCE_NO',
+                    textField: 'BALANCE_NO',
+                    value: json.rows[0].BALANCE_NO
+                });
+            }
+        });
+    }
+    //查询 按钮点击事件
+    function Sselect() {
+      var begin = $('#BEGINMONTH').combobox('getValue');
+      var end = $('#ENDMONTH').combobox('getValue');
+      $('#details').datagrid('loadData', { total: 0, rows: [] });
+      $('#details').datagrid({ url: '/ProductLedger/Ledger/?begin=' + begin + '&end=' + end });
+      $('#dlg-search').dialog('close');
+    }
+</script>
+<div id="dlg-search" class="easyui-dialog" modal="true" style="width:440px;height:200px;padding:2px 2px"
+		closed="true" buttons="#dlg-buttons-search">
+        <div class="easyui-layout" fit="true">
+			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
+           <table width="400px">
+                      <tr>
+                        <td style="width:50px" align="right">开始年月</td>
+                        <td style="width:138px"><input id="BEGINMONTH" style="width:125px"  /></td>
+                        <td style="width:50px" align="right">结束年月</td>
+                        <td style="width:138px"><input id="ENDMONTH" style="width:125px"/></td>
+                      </tr>
+                    </table>
+            </div>
+        </div>
+</div>
+
+<div id="dlg-buttons-search">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="select()">查询</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">取消</a>*@
+      <input type="button"  onclick="Sselect()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/>
+      <input type="button"  onclick="javascript:$('#dlg-search').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+

@@ -26,7 +26,7 @@ namespace THOK.Authority.Bll.Service
             LoginLog.LOGIN_PC = System.Net.Dns.Resolve(System.Net.Dns.GetHostName()).AddressList[0].ToString();
             LoginLog.LOGIN_TIME = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
             LoginLog.SYSTEM_SYSTEM_ID = SystemID;
-            LoginLog.USER_USER_ID = UserRepository.GetSingle(i => i.USER_NAME == UserName).USER_ID;
+            LoginLog.USER_USER_ID = UserRepository.GetSingle(i => i.USER_NAME.ToLower() == UserName.ToLower()).USER_ID;
 
             LoginLogRepository.Add(LoginLog);
             LoginLogRepository.SaveChanges();
@@ -40,8 +40,8 @@ namespace THOK.Authority.Bll.Service
                                                           c.USER_USER_ID.Contains(UserID) &&
                                                           c.LOGIN_PC.Contains(LoginPC) &&
                                                           c.LOGIN_TIME.Contains(LoginTime));
-        
-            HelpContent = HelpContent.OrderBy(h => h.LOG_ID);
+
+            HelpContent = HelpContent.OrderByDescending(h => h.LOG_ID);
             int total = HelpContent.Count();
             HelpContent = HelpContent.Skip((page - 1) * rows).Take(rows);
 
@@ -57,7 +57,19 @@ namespace THOK.Authority.Bll.Service
                CHINESE_NAME= c.AUTH_USER.CHINESE_NAME,
                USER_NAME= c.AUTH_USER.USER_NAME
             });
+            if (THOK.Common.PrintHandle.isbase)
+            {
+                THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(HelpContent);
+            }
             return new { total, rows = temp.ToArray() };
+        }
+        public void UpdateValiateTime(string UserName)
+        {
+            var LogID = LoginLogRepository.GetQueryable().Where(i => i.AUTH_USER.USER_NAME.ToLower() == UserName.ToLower()).Select(i => i.LOG_ID).Max();
+            var LoginLog = LoginLogRepository.GetQueryable().Where(i => i.LOG_ID == LogID).FirstOrDefault();
+            LoginLog.LOGOUT_TIME = DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss");
+            LoginLogRepository.SaveChanges();
+ 
         }
     }
 }

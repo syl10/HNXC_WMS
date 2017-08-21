@@ -1,0 +1,34 @@
+﻿<script type="text/javascript">
+    function editClick() {
+        iseditordelet = true;
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            if (row.STATE.search("审核") == -1) {
+                $('#dlg').dialog('open').dialog('setTitle', '编辑');
+                $('#fm_SD').form('clear');
+                GetCigarette(); //获取牌号
+                $('#fm_SD').form('load', row);
+
+                $('#fm_SD .easyui-validatebox').validatebox({
+                    required: true
+                });
+        $('#scheduledt').datebox({
+              hasDownArrow: true,
+              required: true
+          });
+          $('#OPERATE_DATE').datebox({
+              hasDownArrow: true,
+              required: true
+          });
+                $('#SCHEDULE_NO').attr('readonly', true);
+            }
+            else {
+                $.messager.confirm('提示', '该记录已审核无法编辑！');
+            }
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+        url = "/Schedule/Edit/";
+    }
+</script>
+

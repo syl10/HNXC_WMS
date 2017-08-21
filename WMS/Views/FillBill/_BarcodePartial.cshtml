@@ -1,0 +1,80 @@
+﻿<script type="text/javascript">
+    //查询按钮事件
+    function barcodeQueryClick() {
+        var billno = $('#BillInfo2').val();
+        $('#BarcodeDetail2').datagrid({ url: '/FillBill/billselect/?page=1&rows=30&billmethod=' + $('#BILL_METHOD').combobox('getValue') + '&billno=' + billno });
+        $("#BarcodeDetail2").datagrid('reload');
+    }
+    function barcodeselected() {
+        var barcodeRow = $('#BarcodeDetail2').datagrid('getSelected');
+        if (barcodeRow) {
+            $('#PRODUCT_BARCODE').val(barcodeRow.PRODUCT_BARCODE);
+            $('#PRODUCT_CODE').val(barcodeRow.PRODUCT_CODE);
+            $('#PRODUCT_NAME').val(barcodeRow.PRODUCT_NAME);
+            $('#SCHEDULE_NO').val(barcodeRow.SCHEDULE_NO);
+            $('#WEIGHT').val(barcodeRow.WEIGHT);
+            $('#REAL_WEIGHT').val(barcodeRow.REAL_WEIGHT);
+            $('#PACKAGE_COUNT').val('1');
+            $('#OUT_BILLNO').val(barcodeRow.OUT_BILLNO);
+            $('#IS_MIX').val(barcodeRow.IS_MIX);
+            $('#IS_MIXDESC').val(barcodeRow.IS_MIXDESC);
+            $('#BarcodeData2').dialog('close');
+        }
+    }
+
+    $(function () {
+        $('#BarcodeDetail2').datagrid({
+            onDblClickRow: function () {
+                barcodeselected();
+            }
+        })
+    });
+</script>
+<div id="BarcodeData2" class="easyui-dialog" modal="true" style="width: 683px; height: 500px;
+    padding: 0px 0px" closed="true" buttons="#dlgbarcode-buttons2">
+    <div split="true" border="false" style="width: 666px; height: 430px">
+        <table id="BarcodeDetail2" class="easyui-datagrid" border="false" toolbar="#btn-barquery2"
+            singleselect="true" fit="true" fitcolumns="false" pagination="true" rownumbers="true">
+            <thead>
+                <tr>
+                    <th field="PRODUCT_BARCODE" width="100">
+                        产品条码
+                    </th>
+                    <th field="PRODUCT_CODE" width="150">
+                        产品代码
+                    </th>
+                    <th field="PRODUCT_NAME" width="100">
+                        产品名称
+                    </th>
+                    <th field="SCHEDULE_NO" width="80" hidden="true">
+                        计划单号
+                    </th>
+                      <th field="WEIGHT" width="80">
+                        重量
+                    </th>
+                      <th field="REAL_WEIGHT" width="80">
+                        实际重量
+                    </th>
+                      <th field="OUT_BILLNO" width="80" hidden="true">
+                        出库单号
+                    </th>
+                      <th field="IS_MIX" width="80" hidden="true">
+                        混装代码
+                    </th>
+                    <th field="IS_MIXDESC" width="80">是否混装</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div id="dlgbarcode-buttons2">
+      <input type="button"  onclick="barcodeselected()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#BarcodeData2').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+<div id="btn-barquery2">
+<select id="barcodequeryType2" name="QueryString" class="easyui-combobox" style="width: 100px;" readonly="true">
+		                <option value="billno">产品条码</option>
+	                </select>
+                    <input id="BillInfo2">
+ <a href="#" class="easyui-linkbutton" iconcls="icon-search" plain="true" onclick="barcodeQueryClick()" id="barcodeQuery2">查询</a>
+</div>

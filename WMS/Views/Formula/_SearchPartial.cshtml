@@ -1,0 +1,93 @@
+﻿<script type="text/javascript">
+    function searchClick() {
+         $('#SFORMULADATE').datebox({
+              hasDownArrow: true
+          });
+          SGetCigarette();//牌号
+          $('#SISACTIVE').combobox('clear');
+        $('#dlg-search').dialog('open').dialog('setTitle', '查询');
+    }
+    //牌号
+    function SGetCigarette() {
+        $('#SCIGARETTE_CODE').combogrid({
+            required: false,
+            disabled: false,
+            width: 125,
+            panelWidth: 340,
+            url: '/Cigarette/Details/?page=1&rows=1000',
+            idField: 'CIGARETTE_CODE',
+            textField: 'CIGARETTE_CODE',
+            mode: 'local',
+//            editable: true,
+            fitColumns: true,
+            columns: [[
+                    { field: 'CIGARETTE_CODE', title: '牌号编码', align: 'left', width: 40 },
+                    { field: 'CIGARETTE_NAME', title: '牌号名称', align: 'left', width: 30 },
+                    { field: 'CIGARETTE_MEMO', title: '备注', align: 'left', width: 30 }
+                ]]
+        });
+    }
+    function Sselect() {
+        var queryParams = $('#details').datagrid('options').queryParams;
+        queryParams.FORMULA_CODE = $('#SFORMULA_CODE').val();
+        queryParams.FORMULA_NAME=$('#SFORMULA_NAME').val();
+        if ($('#SCIGARETTE_CODE').combogrid('getText') != null && $('#SCIGARETTE_CODE').combogrid('getText') != "") {
+            queryParams.CIGARETTE_CODE = $('#SCIGARETTE_CODE').combogrid('getValue');
+        }
+        else
+            queryParams.CIGARETTE_CODE = "";
+        if ($('#SISACTIVE').combobox('getText') != null && $('#SISACTIVE').combobox('getText') != "") {
+            queryParams.ISACTIVE = $('#SISACTIVE').combobox('getValue');
+        }
+        else
+            queryParams.ISACTIVE = "";
+        queryParams.FORMULADATE = $('#SFORMULADATE').val();
+        queryParams.OPERATER = $('#SOPERATER').val();
+
+        $('#details').datagrid('options').queryParams = queryParams;
+        $('#SubDetails').datagrid('loadData', { total: 0, rows: [] });
+        $('#details').datagrid('reload');
+        $('#dlg-search').dialog('close');
+    }
+</script>
+
+<div id="dlg-search" class="easyui-dialog" modal="true" style="width:440px;height:200px;padding:2px 2px"
+		closed="true" buttons="#dlg-buttons-search" >
+        <div class="easyui-layout" fit="true">
+			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
+           <table width="400px">
+                      <tr>
+                        <td style="width:50px" align="right">配方代码</td>
+                        <td style="width:138px"><input id="SFORMULA_CODE" style="width:125px"  /></td>
+                        <td style="width:50px" align="right">配方名称</td>
+                        <td style="width:138px"><input id="SFORMULA_NAME" style="width:125px" ></td>
+                      </tr>
+                      <tr>
+                            <td width="50">牌   号</td>
+                           <td width="138"><input id="SCIGARETTE_CODE" name="SCIGARETTE_CODE" ></td>
+                        <td style="width:50px" align="right">状态</td>
+                        <td style="width:138px">
+                             <select id="SISACTIVE"  class="easyui-combobox" style="width:125px" >		                
+                                     <option value="1">启用</option>
+		                            <option value="0">禁用</option>
+	                         </select>
+                        </td>
+                      </tr>
+                       <tr>
+                        <td style="width:50px" align="right">配方日期</td>
+                        <td style="width:138px"><input id="SFORMULADATE" style="width:125px" ></td>
+                        <td style="width:50px" align="right">操作人员</td>
+                        <td style="width:138px"><input id="SOPERATER" style="width:125px" ></td>
+                      </tr>
+                    </table>
+            </div>
+        </div>
+</div>
+
+<div id="dlg-buttons-search">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="select()">查询</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-search').dialog('close')">取消</a>*@
+      <input type="button"  onclick="Sselect()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="查询"/>
+       <input type="button"  onclick="javascript:$('#dlg-search').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+

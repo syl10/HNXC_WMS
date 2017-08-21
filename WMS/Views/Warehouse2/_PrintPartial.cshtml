@@ -2,9 +2,9 @@
     function printClick() {
         var treeObj = $.fn.zTree.getZTreeObj("warehouseTree");
         var row = treeObj.getSelectedNodes();
-        if (row) {
+        if (row.length>0) {
             var rowAttr = null, rowId = null;
-
+//            alert(row.length);
             if (row[0].type == null) { rowAttr = ""; } else { rowAttr = row[0].type; }
             if (row[0].id == null) { rowId = ""; } else { rowId = row[0].id; }
 

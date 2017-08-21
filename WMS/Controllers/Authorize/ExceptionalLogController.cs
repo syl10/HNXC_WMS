@@ -6,10 +6,14 @@ using System.Web.Mvc;
 using Microsoft.Practices.Unity;
 using THOK.WebUtil;
 using THOK.Authority.Bll.Interfaces;
+using Wms.Security;
+using THOK.Security;
 
 
 namespace WMS.Controllers.Authorize
 {
+    [TokenAclAuthorize]
+    [SystemEventLog]
     public class ExceptionalLogController : Controller
     {
         [Dependency]
@@ -34,8 +38,17 @@ namespace WMS.Controllers.Authorize
             string ModuleName = collection["ModuleName"] ?? "";
             string FunctionName = collection["FunctionName"] ?? "";
             string ExceptionalType = collection["ExceptionalType"] ?? "";
+            string print = collection["PRINT"] ?? "";
+            if (print == "1")
+            {
+                THOK.Common.PrintHandle.isbase = true;
+            }
+            else
+            {
+                THOK.Common.PrintHandle.isbase = false;
+            }
             var users = ExceptionalLogService.GetDetails(page, rows, CatchTime, ModuleName, FunctionName, ExceptionalType);
-            return Json(users, "text", JsonRequestBehavior.AllowGet);
+            return Json(users, "text/html", JsonRequestBehavior.AllowGet);
         }
     }
 }

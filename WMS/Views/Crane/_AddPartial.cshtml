@@ -1,0 +1,21 @@
+﻿<script type="text/javascript">
+
+
+    function addClick() {
+        $('#dlg').dialog('open').dialog('setTitle', '新增');
+        $('#fm').form('clear');
+        $('#fm .easyui-validatebox').validatebox({
+            required: true
+        });
+        $('form input').removeAttr("disabled");
+        $('form textarea').removeAttr("disabled");
+        $('#cc').combo({
+            hasDownArrow: true
+        });
+        $('#cc').combobox('setValue', '1');
+        url = '/Crane/Create/';
+    };
+
+</script>
+
+  

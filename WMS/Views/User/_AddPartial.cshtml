@@ -48,6 +48,11 @@
         $('#c2').combo({
             hasDownArrow: true
         });
+        $('#c1').combobox('setValues', '0');
+        $('#c2').combobox('setValues', '0');
+
+
+
         url = '/User/Create/';
     };
 
@@ -104,19 +109,20 @@
 					            <td align="left">
                                     <select id="c2" name="IS_ADMIN" class="easyui-combobox" style="width: 80px">
                                         <option value="1">是</option>
-                                        <option value="0">否</option>
-                                    </select>                                </td>
+                                        <option value="0" selected="selected">否</option>
+                                    </select>                                
+                                </td>
 				            </tr>
                               <tr>
                                 <td align="left">是否锁定</td>
 					            <td align="left">
                                     <select id="c1" name="IS_LOCK" class="easyui-combobox" style="width: 80px">
                                         <option value="1">是</option>
-                                        <option value="0">否</option>
+                                        <option value="0" selected="selected">否</option>
                                     </select>                                </td>
 				            </tr>
 							  <tr>
-                                <td style="vertical-align: top; text-align: left">描述</td>
+                                <td style="vertical-align: top; text-align: left">备注</td>
 					            <td colspan="3"  align="left"><textarea name="MEMO" style="width: 160px; height: 60px"></textarea>                                </td>
 						    </tr>                         
 		              </table>
@@ -125,6 +131,8 @@
         </div>
 </div>
 <div id="dlg-buttons">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">确定</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="save()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')">取消</a>*@
+      <input type="button"  onclick="save()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#dlg').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>

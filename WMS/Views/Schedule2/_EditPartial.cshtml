@@ -1,0 +1,42 @@
+﻿<script type="text/javascript">
+    function editClick() {
+        clickbt = "edit";
+        serial = 1;
+        var row = $('#details').datagrid('getSelected');
+        index = $('#details').datagrid('getRowIndex', row);
+        if (row) {
+            if (row.STATECODE == "1") {
+                $('#dlg').dialog('open').dialog('setTitle', '编辑');
+                $('#fm').form('clear');
+                $('#fm').form('load', row);
+                loaddata(row.SCHEDULE_NO);
+                $('#SCHEDULE_DATE').datebox({
+                    width: 135,
+                    hasDownArrow: true,
+                    required: true
+                });
+                $('#OPERATE_DATE').datebox({
+                    width: 135,
+                    hasDownArrow: true,
+                    editable: false,
+                    required: true
+
+                });
+            }
+            else {
+                alert("改记录已审核不能修改");
+            }
+        }
+        else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+        setbtdisable();
+    }
+    //加载该计划单的明细.
+    function loaddata(SCHEDULE_NO) {
+        $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+        $('#inBillDetail').datagrid({ url: '/Schedule2/GetSubDetail/?page=1&rows=1000&SCHEDULE_NO=' + SCHEDULE_NO });
+//        $('#inBillDetail').datagrid('reload');
+    }
+</script>
+

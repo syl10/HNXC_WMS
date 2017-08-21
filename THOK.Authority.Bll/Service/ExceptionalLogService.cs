@@ -58,6 +58,10 @@ namespace THOK.Authority.Bll.Service
                                                           c.EXCEPTIONAL_TYPE.Contains(ExceptionalType));
 
             HelpContent = HelpContent.OrderBy(h => h.EXCEPTIONAL_LOG_ID);
+            if (THOK.Common.PrintHandle.isbase)
+            {
+                THOK.Common.PrintHandle.baseinfoprint = THOK.Common.ConvertData.LinqQueryToDataTable(HelpContent);
+            }
             int total = HelpContent.Count();
             HelpContent = HelpContent.Skip((page - 1) * rows).Take(rows);
 

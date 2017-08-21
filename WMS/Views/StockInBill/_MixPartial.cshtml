@@ -1,0 +1,253 @@
+﻿<script type="text/javascript">
+    //混装
+    var mixchange;
+    var change;
+    var oldrowindex; //保存前一次选中的行下标.
+    var oldrow;
+    var hasclick = false; //判断有没有点击复选框.
+    var mixrow; //保存当前选中的 单据.
+    function mixClick() {
+        oldrow = null;
+        oldrowindex = null;
+        mixrow = $('#details').datagrid('getSelected');
+        if (mixrow) {
+            if (mixrow.STATE == "1") {
+                $('#mixdlg').dialog('open').dialog('setTitle', '混装操作');
+                mixloaddata(mixrow.BILL_NO);
+            } else {
+                alert("该记录已" + mixrow.STATENAME + "不能设置混装");
+            }
+        }
+        else {
+            alert('没有选择行！');
+        }
+
+    }
+
+    //加载该计划单的明细.
+    function mixloaddata(Bill_NO) {
+        $('#mixinBillDetail').datagrid('loadData', { total: 0, rows: [] });
+
+        $('#mixinBillDetail').datagrid({
+            border: false,
+            width: 650,
+            fit: true,
+            rownumbers: false,
+            pagination: false,
+            singleSelect: true,
+            url: '/StockInBill/GetSubDetail/?page=1&rows=1000&BillNo=' + Bill_NO,
+            columns: [[
+            { field: 'ITEM_NO', width: 60, title: '序号' },
+            { field: 'PRODUCT_CODE', width: 120, title: '产品代码' },
+            { field: 'PRODUCT_NAME', width: 120, title: '产品名称' },
+            { field: 'WEIGHT', width: 80, title: '标准重量' },
+            { field: 'REAL_WEIGHT', width: 80, title: '实际重量' },
+            { field: 'PACKAGE_COUNT', width: 80, title: '包数' },
+            { field: 'TOTAL_WEIGHT', width: 80, title: '总重量' },
+            { field: 'NC_COUNT', width: 60, title: 'NC包数'},
+		    { field: 'IS_MIX', width: 40, title: '混装', align: 'center', formatter: function (value, row, index) {
+		        if (row.WEIGHT != row.REAL_WEIGHT) {
+		            if (value == "0")
+		                return "<input id='" + index + "'   type='checkbox' style=' height:15px; width:15px' onchange='checkmix(this)'/>";
+		            else
+		                return "<input id='" + index + "'   type='checkbox'  checked='true' style=' height:15px; width:15px' onchange='checkmix(this)'/>";
+		        } else {
+		            return "";
+		        }
+		    }
+		    },
+              { field: 'FPRODUCT_CODE', width: 120, title: '混装第一笔产品编号', formatter: function (value, row, index) {
+                  if (row.IS_MIX == "1") {
+                      //                      return "<select id='pro" + index + "' class='easyui-combogrid' style='height:20px; width:110px;'   data-options=' panelWidth:450,   value:\"006\",   idField:\"PRODUCT_CODE\",   textField:\"PRODUCT_CODE\",    url:\"/StockInBill/GetMIXproduct/?page=1&rows=1000&BillNo=' +" + row.BILL_NO + "\",    columns:[[ {field: \"PRODUCT_CODE\", title: \"产品代号\", align: \"left\", width: 40 },   {field: \"PRODUCT_NAME\", title: \"产品名称\", align: \"left\", width: 30}]]  '></select>   "
+
+                      return "<input  id='pro" + index + "'  class='easyui-combogrid' style='height:20px; width:110px;'  value='" + value + "'/>";
+                  }
+                  else {
+                      return value;
+                  }
+              }
+              }
+
+        ]],
+            onSelect: function (rowIndex, rowData) {
+                change = rowData;
+                setvalue(rowIndex);
+            },
+            onLoadSuccess: function (data) {
+                for (var i = 0; i < data.total; i++) {
+                    if (data.rows[i].IS_MIX == "1") {
+                        proddataload(i);
+                    }
+                }
+            }
+        });
+//		  $('#mixinBillDetail').datagrid('reload');
+    }
+//重新设置混装列的值
+    function setvalue(rowIndex) {
+        if (hasclick) {
+            if (mixchange == "1") {
+                $('#mixinBillDetail').datagrid('beginEdit', rowIndex);
+                $('#mixinBillDetail').datagrid('updateRow', {
+                    index: rowIndex,
+                    row: {
+                        ITEM_NO: change.ITEM_NO,
+                        PRODUCT_CODE: change.PRODUCT_CODE,
+                        PRODUCT_NAME: change.PRODUCT_NAME,
+                        WEIGHT: change.WEIGHT,
+                        PACKAGE_COUNT: change.PACKAGE_COUNT,
+                        TOTAL_WEIGHT: change.TOTAL_WEIGHT,
+                        IS_MIX: mixchange,
+                        FPRODUCT_CODE: change.FPRODUCT_CODE,
+                        REAL_WEIGHT: change.REAL_WEIGHT,
+                        NC_COUNT: change.NC_COUNT
+                    }
+                });
+                $('#mixinBillDetail').datagrid('endEdit', rowIndex);
+                $('#mixinBillDetail').datagrid('refreshRow', rowIndex);
+                proddataload(rowIndex);
+            }
+            else {
+                $('#mixinBillDetail').datagrid('beginEdit', rowIndex);    
+                $('#mixinBillDetail').datagrid('updateRow', {
+                    index: rowIndex,
+                    row: {
+                        ITEM_NO: change.ITEM_NO,
+                        PRODUCT_CODE: change.PRODUCT_CODE,
+                        PRODUCT_NAME: change.PRODUCT_NAME,
+                        WEIGHT: change.WEIGHT,
+                        PACKAGE_COUNT: change.PACKAGE_COUNT,
+                        TOTAL_WEIGHT: change.TOTAL_WEIGHT,
+                        IS_MIX: mixchange,
+                        FPRODUCT_CODE: "",
+                        REAL_WEIGHT: change.REAL_WEIGHT,
+                        NC_COUNT: change.NC_COUNT
+                    }
+                });
+                $('#mixinBillDetail').datagrid('endEdit', rowIndex);
+                $('#mixinBillDetail').datagrid('refreshRow', rowIndex);
+            }
+            oldrowindex = rowIndex;
+            oldrow = change;
+            hasclick = false;
+        } 
+}
+function checkmix(obj) {
+//    alert(obj.id);
+    if (obj.checked) {
+        mixchange = "1";
+    }
+    else {
+        mixchange = "0";
+    }
+    hasclick = true;
+}
+//混合第一产品数据加载
+function proddataload(id) {
+    $('#pro' + id).combogrid({
+        required: false,
+        disabled: false,
+        width: 110,
+        panelWidth: 150,
+        url: '/StockInBill/GetMIXproduct/?page=1&rows=1000&BillNo=' + mixrow.BILL_NO,
+        idField: 'PRODUCT_CODE',
+        textField: 'PRODUCT_CODE',
+        mode: 'local',
+        editable: false,
+        fitColumns: true,
+        columns: [[
+                    { field: 'PRODUCT_CODE', title: '产品代号', align: 'left', width: 40 },
+                    { field: 'PRODUCT_NAME', title: '产品名称', align: 'left', width: 30 }
+                ]]
+    });
+}
+
+function mixsave() {
+    var changesRows = {
+        inserted: []
+    };
+    var fprocweight = [];
+    var isexist = false;
+    var issubmit = false;
+    var codestr = "";
+    var isvalidate = true;
+    var Rows = $('#mixinBillDetail').datagrid('getData');
+    for (var i = 0; i < Rows.total; i++) {
+        changesRows.inserted.push(Rows.rows[i]);
+        if (Rows.rows[i].IS_MIX == "1") {
+            if ($('#pro' + i).combogrid('getValue') == "null" || $('#pro' + i).combogrid('getValue') == "" || $('#pro' + i).combogrid('getValue') == null) {
+                alert("请选择混装产品代码"); isvalidate = false; break; 
+             }
+            changesRows.inserted[i].FPRODUCT_CODE = $('#pro' + i).combogrid('getValue');
+            for (var n = 0; n < fprocweight.length; n++) {
+                if (fprocweight[n].code == changesRows.inserted[i].FPRODUCT_CODE) {
+                    fprocweight[n].weight += changesRows.inserted[i].REAL_WEIGHT;
+                    isexist = true;
+                    break;
+                }
+            }
+            if (isexist == false) {
+                fprocweight.push({ code: $('#pro' + i).combogrid('getValue'), pweight: changesRows.inserted[i].WEIGHT, weight: changesRows.inserted[i].REAL_WEIGHT });
+            }
+            isexist = false;
+        }
+        else {
+            changesRows.inserted[i].FPRODUCT_CODE = "";
+        }
+    }
+    if (!isvalidate) return;
+    for (var item = 0; item < fprocweight.length; item++) {
+        if (fprocweight[item].pweight < fprocweight[item].weight) {
+            codestr +=fprocweight[item].code+",";
+        }
+    }
+    if (codestr != "") {
+        $.messager.confirm('提示', '混装产品代码为:' + codestr + '超出标准重量,是否继续?', function (r) {
+            if (r) {
+                $.getJSON("/StockInBill/SetMIX/?BillNo=" + mixrow.BILL_NO + '&detail=' + JSON.stringify(changesRows.inserted), function (json) {
+                    if (json) {
+                        $.messager.show({
+                            title: '提示',
+                            msg: json.success
+                        });
+                    }
+                });
+                $('#mixdlg').dialog('close');
+                $('#SubDetails').datagrid('reload');
+            }
+        });
+    }
+    else {
+        $.getJSON("/StockInBill/SetMIX/?BillNo=" + mixrow.BILL_NO + "&detail='" + JSON.stringify(changesRows.inserted)+"'", function (json) {
+            if (json) {
+                $.messager.show({
+                    title: '提示',
+                    msg: json.success
+                });
+            }
+        });
+        $('#mixdlg').dialog('close');
+        $('#SubDetails').datagrid('reload');
+    }
+}
+</script>
+
+
+<div id="mixdlg" class="easyui-dialog" modal="true"
+        style="width:930px;height:450px;padding:0px 0px"
+        closed="true" buttons="#dlg-buttons">
+	<div class="easyui-layout" fit="true">
+        <div region="center" border="false">
+        <table id="mixinBillDetail" class="easyui-datagrid"></table>
+        </div>
+    </div>
+</div>
+<div id="dlg-buttons">
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="mixsave()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#mixdlg').dialog('close')">取消</a>*@
+      <input type="button"  onclick="mixsave()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#mixdlg').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+@*<input  type="checkbox" checked="true" onchange />*@
+@*<input  type="text"/>*@
+

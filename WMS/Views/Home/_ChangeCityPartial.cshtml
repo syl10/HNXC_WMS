@@ -64,7 +64,7 @@
             columns: [[
 					{ field: 'CITY_ID', title: '地市ID', hidden: true, width: 30 },
 					{ field: 'CITY_NAME', title: '地市名称', align: 'left', width: 40 },
-					{ field: 'DESCRIPTION', title: '描述', align: 'left', width: 30 },
+					{ field: 'DESCRIPTION', title: '备注', align: 'left', width: 30 },
 					{ field: 'IS_ACTIVE', title: '状态', align: 'left', width: 30 }
 				]]
         });
@@ -112,6 +112,8 @@
     </div>
 </div>
 <div id="dlg-buttons-changecity">
-	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="changeToCity()">确定</a>
-	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-changecity').dialog('close')">取消</a>
+@*	<a href="#" class="easyui-linkbutton" iconCls="icon-ok" onclick="changeToCity()">确定</a>
+	<a href="#" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg-changecity').dialog('close')">取消</a>*@
+      <input type="button"  onclick="changeToCity()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#fm-logon').form('clear')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
 </div>

@@ -9,6 +9,8 @@ using THOK.Wms.Bll.Models;
 using Entities.Extensions;
 using THOK.WMS.Upload.Bll;
 using System.Data;
+using THOK.Authority.Dal.Interfaces;
+using THOK.Authority.DbModel;
 namespace THOK.Wms.Bll.Service
 {
     public class CMDCellService : ServiceBase<CMD_CELL>, ICMDCellService
@@ -28,7 +30,19 @@ namespace THOK.Wms.Bll.Service
 
         [Dependency]
         public ICMDProuductRepository CMDProductRepository { get; set; }
+        [Dependency]
+        public IWMSBillMasterRepository BillMasterRepository { get; set; }
+        [Dependency]
+        public IWMSTaskrecordRepository TaskrecordRepository { get; set; }
+        [Dependency]
+        public IWCSTaskHRepository TaskHRepository { get; set; }
+        [Dependency]
+        public IUserRepository UserRepository { get; set; }
+        [Dependency]
+        public ISysTableStateRepository SysTableStateRepository { get; set; }
+        
 
+        
 
         //[Dependency]
         //public IStorageRepository StorageRepository { get; set; }
@@ -176,6 +190,114 @@ namespace THOK.Wms.Bll.Service
             int total = set.Count();
             var sets = set.Skip((page - 1) * rows).Take(rows);
             return new { total, rows = sets.ToArray() };
+        }
+
+        public object GetSingleDetail(string type, string id)
+        {
+            var warehouses = CMDWarehouseRepository.GetQueryable();
+            var areas = CMDAreaRepository.GetQueryable();
+            var shelfs = CMDShelfRepository.GetQueryable();
+            var cells = CMDCellRepository.GetQueryable();
+            
+            HashSet<NewWareTree> wareSet = new HashSet<NewWareTree>();
+            HashSet<NewWareTree> areaSet = new HashSet<NewWareTree>();
+            HashSet<NewWareTree> shelfSet = new HashSet<NewWareTree>();
+            HashSet<NewWareTree> cellSet = new HashSet<NewWareTree>();
+            var set = wareSet;
+            if (type == "area")
+            {
+                areas = areas.Where(a => a.AREA_CODE == id).OrderBy(a => a.AREA_CODE).Select(a => a);
+                foreach (var area in areas)//库区
+                {
+                    NewWareTree areaTree = new NewWareTree();
+                    areaTree.CODE = area.AREA_CODE;
+                    areaTree.NAME = "库区：" + area.AREA_NAME;
+                    areaTree.AREA_CODE = area.AREA_CODE;
+                    areaTree.AREA_NAME = area.AREA_NAME;
+                    areaTree.WAREHOUSE_CODE = area.WAREHOUSE_CODE;
+                    areaTree.WAREHOUSE_NAME = area.CMD_WAREHOUSE.WAREHOUSE_NAME;
+                    areaTree.MEMO = area.MEMO;
+
+                    areaTree.ATTRIBUTES = "area";
+                    areaSet.Add(areaTree);
+                }
+                set = areaSet;
+            }
+            else if (type == "shelf")
+            {
+                shelfs = shelfs.Where(a => a.SHELF_CODE == id).OrderBy(a => a.SHELF_CODE).Select(a => a);
+                foreach (var shelf in shelfs)//货架
+                {
+                    NewWareTree shelfTree = new NewWareTree();
+                    shelfTree.CODE = shelf.SHELF_CODE;
+                    shelfTree.NAME = "库区：" + shelf.SHELF_NAME;
+                    shelfTree.AREA_CODE = shelf.AREA_CODE;
+                    shelfTree.AREA_NAME = shelf.CMD_AREA.AREA_NAME;
+                    shelfTree.WAREHOUSE_CODE = shelf.WAREHOUSE_CODE;
+                    shelfTree.WAREHOUSE_NAME = shelf.CMD_WAREHOUSE.WAREHOUSE_NAME;
+                    shelfTree.ROW_COUNT = shelf.ROW_COUNT.ToString();
+                    shelfTree.COLUMN_COUNT = shelf.COLUMN_COUNT.ToString();
+                    shelfTree.SHELF_NAME = shelf.SHELF_NAME;
+                    shelfTree.CRANE_NO = shelf.CMD_CRANE.CRANE_NAME;
+                    shelfTree.MEMO = shelf.MEMO;
+                    shelfTree.ATTRIBUTES = "shelf";
+                   
+                    shelfSet.Add(shelfTree);
+                }
+                set = shelfSet;
+            }
+            else if (type == "cell")
+            {
+                cells = cells.Where(a => a.CELL_CODE == id).OrderBy(a => a.CELL_CODE).Select(a => a);
+                foreach (var cell in cells)//货位
+                {
+                    NewWareTree cellTree = new NewWareTree();
+                    cellTree.CODE = cell.CELL_CODE;
+                    cellTree.NAME = "货位：" + cell.CELL_NAME;
+                    cellTree.CELL_CODE = cell.CELL_CODE;
+                    cellTree.CELL_NAME = cell.CELL_NAME;
+                    cellTree.WAREHOUSE_CODE = cell.CMD_WAREHOUSE.WAREHOUSE_CODE;
+                    cellTree.WAREHOUSE_NAME = cell.CMD_WAREHOUSE.WAREHOUSE_NAME;
+                    cellTree.AREA_CODE = cell.CMD_AREA.AREA_CODE;
+                    cellTree.AREA_NAME = cell.CMD_AREA.AREA_NAME;
+                    cellTree.SHELF_CODE = cell.CMD_SHELF.SHELF_CODE;
+                    cellTree.SHELF_NAME = cell.CMD_SHELF.SHELF_NAME;
+                    cellTree.ROW_COUNT = cell.CELL_ROW.ToString();
+                    cellTree.COLUMN_COUNT = cell.CELL_COLUMN.ToString();
+                    cellTree.MEMO = cell.MEMO;
+                    cellTree.IS_ACTIVE = cell.IS_ACTIVE == "1" ? "可用" : "不可用";
+                    //cellTree.UpdateTime = cell.UpdateTime.ToString("yyyy-MM-dd hh:mm:ss");
+                    //cellTree.ShortName = cell.ShortName;
+                    //cellTree.Layer = cell.Layer;
+                    //cellTree.MaxQuantity = cell.MaxQuantity;
+                    //cellTree.PRODUCT_NAME = cell.CMD_PRODUCT == null ? string.Empty : cell.CMD_PRODUCT.ProductName;
+                    cellTree.ATTRIBUTES = "cell";
+                    cellSet.Add(cellTree);
+                }
+                set = cellSet;
+            }
+            else if (type == "ware")
+            {
+                warehouses = warehouses.Where(w => w.WAREHOUSE_CODE == id).OrderBy(w => w.WAREHOUSE_CODE).Select(w => w);
+                foreach (var warehouse in warehouses)//仓库
+                {
+                    NewWareTree NewWareTree = new NewWareTree();
+                    NewWareTree.CODE = warehouse.WAREHOUSE_CODE;
+                    NewWareTree.NAME = "仓库：" + warehouse.WAREHOUSE_NAME;
+                    NewWareTree.WAREHOUSE_CODE = warehouse.WAREHOUSE_NAME;
+                    NewWareTree.WAREHOUSE_NAME = warehouse.WAREHOUSE_NAME;
+                    //NewWareTree.Type = warehouse.WarehouseType;
+                    NewWareTree.MEMO = warehouse.MEMO;
+                    //NewWareTree.IS_ACTIVE = warehouse.IsActive == "1" ? "可用" : "不可用";
+                    //NewWareTree.UpdateTime = warehouse.UpdateTime.ToString("yyyy-MM-dd hh:mm:ss");
+                    //NewWareTree.ShortName = warehouse.ShortName;
+                    NewWareTree.ATTRIBUTES = "ware";
+                    warehouses = warehouses.Where(w => w.WAREHOUSE_CODE == id);
+                    wareSet.Add(NewWareTree);
+                }
+                set = wareSet;
+            }
+            return set.ToArray();
         }
         public bool Add(CMD_CELL cell, out string errorInfo)
         {
@@ -527,7 +649,8 @@ namespace THOK.Wms.Bll.Service
                                                                                      open = false,
                                                                                      children = ""
                                                                                  })
-                                                                 })
+                                                                                 .OrderBy(c=>c.id)
+                                                                 }).OrderBy (t=>t.id )
                                                  })
                                  }).ToArray();
             return tmp;
@@ -609,7 +732,7 @@ namespace THOK.Wms.Bll.Service
         {
             IQueryable<CMD_CELL> cellQuery = CMDCellRepository.GetQueryable();
             var cell = cellQuery.Where(c => c.CELL_CODE == cellCode).OrderBy(b => b.CELL_CODE).AsEnumerable()
-                                .Select(b => new { b.CELL_CODE, b.CELL_NAME, b.MEMO, b.CMD_WAREHOUSE.WAREHOUSE_NAME, b.CMD_WAREHOUSE.WAREHOUSE_CODE, b.CMD_AREA.AREA_CODE, b.CMD_AREA.AREA_NAME, b.CMD_SHELF.SHELF_CODE, b.CMD_SHELF.SHELF_NAME, DefaultProductCode = b.CMD_PRODUCT == null ? string.Empty : b.CMD_PRODUCT.PRODUCT_CODE , ProductName = b.CMD_PRODUCT == null ? string.Empty : b.CMD_PRODUCT.PRODUCT_NAME, IsActive = b.IS_ACTIVE == "1" ? "可用" : "不可用" });
+                                .Select(b => new { b.CELL_CODE, b.CELL_NAME, b.MEMO, b.CMD_WAREHOUSE.WAREHOUSE_NAME, b.CMD_WAREHOUSE.WAREHOUSE_CODE, b.CMD_AREA.AREA_CODE, b.CMD_AREA.AREA_NAME, b.CMD_SHELF.SHELF_CODE, b.CMD_SHELF.SHELF_NAME,b.CELL_ROW,b.CELL_COLUMN, DefaultProductCode = b.CMD_PRODUCT == null ? string.Empty : b.CMD_PRODUCT.PRODUCT_CODE , ProductName = b.CMD_PRODUCT == null ? string.Empty : b.CMD_PRODUCT.PRODUCT_NAME, IsActive = b.IS_ACTIVE == "1" ? "可用" : "不可用" });
             return cell.First(c => c.CELL_CODE == cellCode);
         }
 
@@ -966,24 +1089,11 @@ namespace THOK.Wms.Bll.Service
             var cellCode = cellQuery.Where(c => c.SHELF_CODE == shelfCode).Max(c => c.CELL_CODE);
             if (cellCode == string.Empty || cellCode == null)
             {
-                cellCodeStr = shelfCode + "-01";
+                cellCodeStr = CMDCellRepository.GetNewID("CMD_CELL", "CELL_CODE");
             }
             else
             {
-                int i = Convert.ToInt32(cellCode.ToString().Substring(shelfCode.Length + 1, 2));
-                if (cellCode.ToString().Substring(cellCode.Length - 1, 1) == "3")
-                {
-                    i++;
-                }
-                string newcode = i.ToString();
-                if (newcode.Length <= 2)
-                {
-                    for (int j = 0; j < 2 - i.ToString().Length; j++)
-                    {
-                        newcode = "0" + newcode;
-                    }
-                    cellCodeStr = shelfCode + "-" + newcode;
-                }
+              
             }
             return cellCodeStr;
         }
@@ -998,36 +1108,50 @@ namespace THOK.Wms.Bll.Service
             HashSet<NewWareTree> areaSet = new HashSet<NewWareTree>();
             HashSet<NewWareTree> shelfSet = new HashSet<NewWareTree>();
             HashSet<NewWareTree> cellSet = new HashSet<NewWareTree>();
+            System.Data.DataTable dt = new System.Data.DataTable();
             var set = wareSet;
             if (type == "area")
             {
                 areas = areas.Where(a => a.AREA_CODE == id).OrderBy(a => a.AREA_CODE).Select(a => a);
+
+                dt.Columns.Add("区域名称", typeof(string));
+                dt.Columns.Add("仓库名称", typeof(string));
+                dt.Columns.Add("备注", typeof(string));
                 foreach (var area in areas)//库区
                 {
-                    NewWareTree areaTree = new NewWareTree();
-                    areaTree.CODE = area.AREA_CODE;
-                    areaTree.NAME = "库区：" + area.AREA_NAME;
-                    areaTree.AREA_CODE = area.AREA_CODE;
-                    areaTree.AREA_NAME = area.AREA_NAME;
-                    areaTree.WAREHOUSE_CODE = area.CMD_WAREHOUSE.WAREHOUSE_CODE;
-                    areaTree.WAREHOUSE_NAME = area.CMD_WAREHOUSE.WAREHOUSE_NAME;
-                    //areaTree.Type = area.AreaType;
-                    areaTree.MEMO = area.MEMO;
-                    //areaTree.IsActive = area.IsActive == "1" ? "可用" : "不可用";
-                    //areaTree.UpdateTime = area.UpdateTime.ToString("yyyy-MM-dd hh:mm:ss");
-                    //areaTree.ShortName = area.ShortName;
-                    //areaTree.AllotInOrder = area.AllotInOrder;
-                    //areaTree.AllotOutOrder = area.AllotOutOrder;
-                    areaTree.ATTRIBUTES = "area";
-                    areaSet.Add(areaTree);
+                    //NewWareTree areaTree = new NewWareTree();
+                    //areaTree.CODE = area.AREA_CODE;
+                    ////areaTree.NAME = "库区：" + area.AREA_NAME;
+                    //areaTree.NAME = area.AREA_NAME;
+                    //areaTree.AREA_CODE = area.AREA_CODE;
+                    //areaTree.AREA_NAME = area.AREA_NAME;
+                    //areaTree.WAREHOUSE_CODE = area.CMD_WAREHOUSE.WAREHOUSE_CODE;
+                    //areaTree.WAREHOUSE_NAME = area.CMD_WAREHOUSE.WAREHOUSE_NAME;
+                    ////areaTree.Type = area.AreaType;
+                    //areaTree.MEMO = area.MEMO;
+                    ////areaTree.IsActive = area.IsActive == "1" ? "可用" : "不可用";
+                    ////areaTree.UpdateTime = area.UpdateTime.ToString("yyyy-MM-dd hh:mm:ss");
+                    ////areaTree.ShortName = area.ShortName;
+                    ////areaTree.AllotInOrder = area.AllotInOrder;
+                    ////areaTree.AllotOutOrder = area.AllotOutOrder;
+                    //areaTree.ATTRIBUTES = "area";
+                    //areaSet.Add(areaTree);
+                    dt.Rows.Add(area .AREA_NAME ,area .CMD_WAREHOUSE .WAREHOUSE_NAME ,area .MEMO);
                 }
-                set = areaSet;
+                //set = areaSet;
             }
             else if (type == "shelf")
             {
                 shelfs = shelfs.Where(a => a.SHELF_CODE == id).OrderBy(a => a.SHELF_CODE).Select(a => a);
                 cells = CMDCellRepository.GetQueryable().Where(c => c.CMD_SHELF.SHELF_CODE == id)
                                                     .OrderBy(c => c.CELL_CODE).Select(c => c);
+                dt.Columns.Add("货位名称", typeof(string));
+                dt.Columns.Add("所在列", typeof(string));
+                dt.Columns.Add("所在层", typeof(string));
+                dt.Columns.Add("库区名称", typeof(string));
+                dt.Columns.Add("货架名称", typeof(string));
+                dt.Columns.Add("状        态", typeof(string));
+                dt.Columns.Add("备注", typeof(string));
                 foreach (var shelf in shelfs)//货架
                 {
                     NewWareTree shelfTree = new NewWareTree();
@@ -1048,59 +1172,69 @@ namespace THOK.Wms.Bll.Service
                     foreach (var cell in cells)//货位
                     {
                         NewWareTree cellTree = new NewWareTree();
-                        cellTree.CODE = cell.CELL_CODE;
-                        cellTree.NAME = "货位：" + cell.CELL_NAME;
-                        cellTree.CELL_CODE = cell.CELL_CODE;
-                        cellTree.CELL_NAME = cell.CELL_NAME;
-                        cellTree.WAREHOUSE_CODE = cell.CMD_WAREHOUSE.WAREHOUSE_CODE;
-                        cellTree.WAREHOUSE_NAME = cell.CMD_WAREHOUSE.WAREHOUSE_NAME;
-                        cellTree.AREA_CODE = cell.CMD_AREA.AREA_CODE;
-                        cellTree.AREA_NAME = cell.CMD_AREA.AREA_NAME;
-                        cellTree.SHELF_CODE = cell.CMD_SHELF.SHELF_CODE;
-                        cellTree.SHELF_NAME = cell.CMD_SHELF.SHELF_NAME;
-                        //cellTree.Type = cell.CellType;
-                        cellTree.MEMO = cell.MEMO;
+                        //cellTree.CODE = cell.CELL_CODE;
+                        //cellTree.NAME = "货位：" + cell.CELL_NAME;
+                        //cellTree.CELL_CODE = cell.CELL_CODE;
+                        //cellTree.CELL_NAME = cell.CELL_NAME;
+                        //cellTree.WAREHOUSE_CODE = cell.CMD_WAREHOUSE.WAREHOUSE_CODE;
+                        //cellTree.WAREHOUSE_NAME = cell.CMD_WAREHOUSE.WAREHOUSE_NAME;
+                        //cellTree.AREA_CODE = cell.CMD_AREA.AREA_CODE;
+                        //cellTree.AREA_NAME = cell.CMD_AREA.AREA_NAME;
+                        //cellTree.SHELF_CODE = cell.CMD_SHELF.SHELF_CODE;
+                        //cellTree.SHELF_NAME = cell.CMD_SHELF.SHELF_NAME;
+                        ////cellTree.Type = cell.CellType;
+                        //cellTree.MEMO = cell.MEMO;
                         cellTree.IS_ACTIVE = cell.IS_ACTIVE == "1" ? "可用" : "不可用";
-                        //cellTree.UpdateTime = cell.UpdateTime.ToString("yyyy-MM-dd hh:mm:ss");
-                        //cellTree.ShortName = cell.ShortName;
-                        //cellTree.Layer = cell.Layer;
-                        //cellTree.MaxQuantity = cell.MaxQuantity;
-                        //cellTree.PRODUCT_NAME = cell.CMD_PRODUCT == null ? string.Empty : cell.CMD_PRODUCT.ProductName;
-                        cellTree.ATTRIBUTES = "cell";
-                        cellSet.Add(cellTree);
+                        ////cellTree.UpdateTime = cell.UpdateTime.ToString("yyyy-MM-dd hh:mm:ss");
+                        ////cellTree.ShortName = cell.ShortName;
+                        ////cellTree.Layer = cell.Layer;
+                        ////cellTree.MaxQuantity = cell.MaxQuantity;
+                        ////cellTree.PRODUCT_NAME = cell.CMD_PRODUCT == null ? string.Empty : cell.CMD_PRODUCT.ProductName;
+                        //cellTree.ATTRIBUTES = "cell";
+                        //cellSet.Add(cellTree);
+                        dt.Rows.Add(cell.CELL_NAME,cell .CELL_COLUMN,cell.CELL_ROW ,cell .CMD_AREA .AREA_NAME ,cell .CMD_SHELF .SHELF_NAME ,cellTree .IS_ACTIVE,cell .MEMO);
                     }
-                    shelfSet.Add(shelfTree);
+                    //shelfSet.Add(shelfTree);
                 }
-                set = cellSet;
+                //set = cellSet;
             }
             else if (type == "cell")
             {
                 cells = cells.Where(a => a.CELL_CODE == id).OrderBy(a => a.CELL_CODE).Select(a => a);
+                dt.Columns.Add("货位名称", typeof(string));
+                dt.Columns.Add("所在列", typeof(string));
+                dt.Columns.Add("所在层", typeof(string));
+                dt.Columns.Add("库区名称", typeof(string));
+                dt.Columns.Add("货架名称", typeof(string));
+                dt.Columns.Add("状        态", typeof(string));
+                dt.Columns.Add("备注", typeof(string));
                 foreach (var cell in cells)//货位
                 {
                     NewWareTree cellTree = new NewWareTree();
-                    cellTree.CODE = cell.CELL_CODE;
-                    cellTree.NAME = "货位：" + cell.CELL_NAME;
-                    cellTree.CELL_CODE = cell.CELL_CODE;
-                    cellTree.CELL_NAME = cell.CELL_NAME;
-                    cellTree.WAREHOUSE_CODE = cell.CMD_WAREHOUSE.WAREHOUSE_CODE;
-                    cellTree.WAREHOUSE_NAME = cell.CMD_WAREHOUSE.WAREHOUSE_NAME;
-                    cellTree.AREA_CODE = cell.CMD_AREA.AREA_CODE;
-                    cellTree.AREA_NAME = cell.CMD_AREA.AREA_NAME;
-                    cellTree.SHELF_CODE = cell.CMD_SHELF.SHELF_CODE;
-                    cellTree.SHELF_NAME = cell.CMD_SHELF.SHELF_NAME;
-                    //cellTree.Type = cell.CellType;
-                    cellTree.MEMO = cell.MEMO;
+                    //cellTree.CODE = cell.CELL_CODE;
+                    //cellTree.NAME = "货位：" + cell.CELL_NAME;
+                    //cellTree.CELL_CODE = cell.CELL_CODE;
+                    //cellTree.CELL_NAME = cell.CELL_NAME;
+                    //cellTree.WAREHOUSE_CODE = cell.CMD_WAREHOUSE.WAREHOUSE_CODE;
+                    //cellTree.WAREHOUSE_NAME = cell.CMD_WAREHOUSE.WAREHOUSE_NAME;
+                    //cellTree.AREA_CODE = cell.CMD_AREA.AREA_CODE;
+                    //cellTree.AREA_NAME = cell.CMD_AREA.AREA_NAME;
+                    //cellTree.SHELF_CODE = cell.CMD_SHELF.SHELF_CODE;
+                    //cellTree.SHELF_NAME = cell.CMD_SHELF.SHELF_NAME;
+                    ////cellTree.Type = cell.CellType;
+                    //cellTree.MEMO = cell.MEMO;
                     cellTree.IS_ACTIVE = cell.IS_ACTIVE == "1" ? "可用" : "不可用";
-                    //cellTree.UpdateTime = cell.UpdateTime.ToString("yyyy-MM-dd hh:mm:ss");
-                    //cellTree.ShortName = cell.ShortName;
-                    //cellTree.Layer = cell.Layer;
-                    //cellTree.MaxQuantity = cell.MaxQuantity;
-                    //cellTree.PRODUCT_NAME = cell.CMD_PRODUCT == null ? string.Empty : cell.CMD_PRODUCT.ProductName;
-                    cellTree.ATTRIBUTES = "cell";
-                    cellSet.Add(cellTree);
+                    ////cellTree.UpdateTime = cell.UpdateTime.ToString("yyyy-MM-dd hh:mm:ss");
+                    ////cellTree.ShortName = cell.ShortName;
+                    ////cellTree.Layer = cell.Layer;
+                    ////cellTree.MaxQuantity = cell.MaxQuantity;
+                    ////cellTree.PRODUCT_NAME = cell.CMD_PRODUCT == null ? string.Empty : cell.CMD_PRODUCT.ProductName;
+                    //cellTree.ATTRIBUTES = "cell";
+                    //cellSet.Add(cellTree);
+                    dt.Rows.Add(cell.CELL_NAME, cell.CELL_COLUMN, cell.CELL_ROW, cell.CMD_AREA.AREA_NAME, cell.CMD_SHELF.SHELF_NAME, cellTree.IS_ACTIVE, cell.MEMO);
+
                 }
-                set = cellSet;
+                //set = cellSet;
             }
             else
             {
@@ -1112,53 +1246,55 @@ namespace THOK.Wms.Bll.Service
                 {
                     warehouses = warehouses.Where(w => w.WAREHOUSE_CODE == id).OrderBy(w => w.WAREHOUSE_CODE).Select(w => w);
                 }
+                dt.Columns.Add("仓库名称", typeof(string));
+                dt.Columns.Add("备注", typeof(string));
                 foreach (var warehouse in warehouses)//仓库
                 {
-                    NewWareTree NewWareTree = new NewWareTree();
-                    NewWareTree.CODE = warehouse.WAREHOUSE_CODE;
-                    NewWareTree.NAME = "仓库：" + warehouse.WAREHOUSE_NAME;
-                    NewWareTree.WAREHOUSE_CODE = warehouse.WAREHOUSE_CODE;
-                    NewWareTree.WAREHOUSE_NAME = warehouse.WAREHOUSE_NAME;
-                    //NewWareTree.Type = warehouse.WarehouseType;
-                    NewWareTree.MEMO = warehouse.MEMO;
-                    //NewWareTree.IsActive = warehouse.IsActive == "1" ? "可用" : "不可用";
-                    //NewWareTree.UpdateTime = warehouse.UpdateTime.ToString("yyyy-MM-dd hh:mm:ss");
-                    //NewWareTree.ShortName = warehouse.ShortName;
-                    NewWareTree.ATTRIBUTES = "ware";
-                    warehouses = warehouses.Where(w => w.WAREHOUSE_CODE == id);
-                    wareSet.Add(NewWareTree);
+                    //NewWareTree NewWareTree = new NewWareTree();
+                    //NewWareTree.CODE = warehouse.WAREHOUSE_CODE;
+                    //NewWareTree.NAME = "仓库：" + warehouse.WAREHOUSE_NAME;
+                    //NewWareTree.WAREHOUSE_CODE = warehouse.WAREHOUSE_CODE;
+                    //NewWareTree.WAREHOUSE_NAME = warehouse.WAREHOUSE_NAME;
+                    ////NewWareTree.Type = warehouse.WarehouseType;
+                    //NewWareTree.MEMO = warehouse.MEMO;
+                    ////NewWareTree.IsActive = warehouse.IsActive == "1" ? "可用" : "不可用";
+                    ////NewWareTree.UpdateTime = warehouse.UpdateTime.ToString("yyyy-MM-dd hh:mm:ss");
+                    ////NewWareTree.ShortName = warehouse.ShortName;
+                    //NewWareTree.ATTRIBUTES = "ware";
+                    //warehouses = warehouses.Where(w => w.WAREHOUSE_CODE == id);
+                    //wareSet.Add(NewWareTree);
+                    dt.Rows.Add(warehouse .WAREHOUSE_NAME ,warehouse .MEMO);
                 }
-                set = wareSet;
+                //set = wareSet;
             }
-            System.Data.DataTable dt = new System.Data.DataTable();
-            dt.Columns.Add("名称", typeof(string));
-            //dt.Columns.Add("简称", typeof(string));
-            //dt.Columns.Add("类型", typeof(string));
-            dt.Columns.Add("描述", typeof(string));
-            dt.Columns.Add("是否可用", typeof(string));
+            //dt.Columns.Add("名称", typeof(string));
+            ////dt.Columns.Add("简称", typeof(string));
+            ////dt.Columns.Add("类型", typeof(string));
+            //dt.Columns.Add("描述", typeof(string));
+            //dt.Columns.Add("是否可用", typeof(string));
             //dt.Columns.Add("预设卷烟名称", typeof(string));
             //dt.Columns.Add("货位层号", typeof(string));
             //dt.Columns.Add("货位最大量", typeof(string));
             //dt.Columns.Add("时间", typeof(string));
             //dt.Columns.Add("入库顺序", typeof(string));
             //dt.Columns.Add("出库顺序", typeof(string));
-            foreach (var item in set)
-            {
-                dt.Rows.Add
-                    (
-                        item.NAME,
-                        //item.ShortName,
-                        //item.Type,
-                        item.MEMO,
-                        item.IS_ACTIVE
-                        //item.ProductName,
-                        //item.Layer,
-                        //item.MaxQuantity,
-                        //item.UpdateTime,
-                        //item.AllotInOrder,
-                        //item.AllotOutOrder
-                    );
-            }
+            //foreach (var item in set)
+            //{
+            //    dt.Rows.Add
+            //        (
+            //            item.NAME,
+            //            //item.ShortName,
+            //            //item.Type,
+            //            item.MEMO,
+            //            item.IS_ACTIVE
+            //            //item.ProductName,
+            //            //item.Layer,
+            //            //item.MaxQuantity,
+            //            //item.UpdateTime,
+            //            //item.AllotInOrder,
+            //            //item.AllotOutOrder
+            //        );
+            //}
             return dt;
         }
 
@@ -1255,5 +1391,227 @@ namespace THOK.Wms.Bll.Service
         //    return ds;
         //}
         //#endregion
+
+        //按排 获取货位
+        public object GetCellByshell(string shelfcode)
+        {
+            IQueryable<CMD_CELL> cellQuery = CMDCellRepository.GetQueryable();
+            var temp = cellQuery.Where(i => i.SHELF_CODE == shelfcode).Select(i => new { 
+                i.CELL_CODE ,
+                i.IS_ACTIVE,
+                i.IS_LOCK,
+                i.ERROR_FLAG,
+                i.PRODUCT_CODE 
+            });
+            temp = temp.OrderBy(i => i.CELL_CODE);
+            int total = temp.Count();
+            //temp = temp.Skip((page - 1) * rows).Take(rows);
+            return new { total, rows = temp.ToArray() };
+        }
+
+        //根据货位代码  获取对应的货物信息
+        public object Getproductbycellcode(string cellcode)
+        {
+            IQueryable<CMD_CELL> cellquery = CMDCellRepository.GetQueryable();
+            List<CellInfo> list = new List<CellInfo>();
+            var cellitem= cellquery.Where(i => i.CELL_CODE == cellcode);
+            if (cellitem.Count() > 0)//有存在该货位
+            {
+                foreach (CMD_CELL cell in cellitem)
+                {
+                    CellInfo info = new CellInfo();
+                    if (cell.PRODUCT_CODE  != null)
+                    {
+                        info.Barcode = cell.PRODUCT_BARCODE;
+                        info.BILLNO = cell.BILL_NO;
+                        info.GRADE = cell.CMD_PRODUCT.CMD_PRODUCT_GRADE.GRADE_NAME;
+                        info.INDATE = cell.IN_DATE.ToString();
+                        info.ORIGINAL = cell.CMD_PRODUCT.CMD_PRODUCT_ORIGINAL.ORIGINAL_NAME;
+                        info.REALWEIGHT = cell.REAL_WEIGHT.ToString();
+                        info.STYLENO = cell.CMD_PRODUCT.CMD_PRODUCT_STYLE.STYLE_NAME;
+                        info.YEARS = cell.CMD_PRODUCT.YEARS;
+                        var bill = BillMasterRepository.GetQueryable().FirstOrDefault(i => i.BILL_NO == cell.BILL_NO);
+                        if (bill != null)
+                        {
+                            info.FORMULA = bill.WMS_FORMULA_MASTER.FORMULA_NAME;
+                            info.CIGARETTE = bill.CMD_CIGARETTE.CIGARETTE_NAME;
+                        }
+                        else
+                        {
+                            info.FORMULA = "";
+                            info.CIGARETTE = "";
+                        }
+                        list.Add(info);
+                    }
+                }
+            }
+                var temp = list.AsEnumerable();
+                int total = temp.Count();
+                return new { total, rows = temp.ToArray() };
+        }
+
+        //获取对应的带有错误标记的货位号
+        public object GeterrorCell(string BillNo, string productcode)
+        {
+            IQueryable<CMD_CELL> cellquery = CMDCellRepository.GetQueryable();
+            var errorcell = cellquery.Where(i => i.BILL_NO == BillNo && i.PRODUCT_CODE == productcode&&i.IS_ACTIVE=="1"&&i.ERROR_FLAG =="1").Select(i => new { 
+                 i.CELL_CODE ,
+                 i.PRODUCT_BARCODE ,
+                 i.PALLET_CODE ,
+                 i.IN_DATE
+            });
+            var temp = errorcell.ToArray().Select(i => new {
+                i.CELL_CODE,
+                i.PRODUCT_BARCODE,
+                i.PALLET_CODE,
+                IN_DATE = ((DateTime)i.IN_DATE).ToString("yyyy-MM-dd HH:mm:ss") ,
+                OTHER="有异常货位"
+            });
+            temp = temp.OrderBy(i => i.CELL_CODE);
+            int total = temp.Count();
+            return new { rows=temp};
+        }
+
+        //清空有异常货位上的产品信息
+        public bool ClearerrorCell(string BillNo,string cellcode, string inBillNo, string productcode,string tasker, ref string errorinfo)
+        {
+            IQueryable<CMD_CELL> cellquery = CMDCellRepository.GetQueryable();
+            var errorcell = cellquery.FirstOrDefault(i => i.CELL_CODE == cellcode&&i.BILL_NO ==inBillNo &&i.PRODUCT_CODE ==productcode&&i.ERROR_FLAG =="1");
+            if (errorcell != null)
+            {
+                //记录到wmstaskrecord表
+                WMS_TASKRECORD taskrecord = new WMS_TASKRECORD();
+                var taskquery = TaskHRepository.GetQueryable().FirstOrDefault(i => i.PRODUCT_BARCODE == errorcell.PRODUCT_BARCODE&&i.BILL_NO==inBillNo);
+                taskrecord.BILL_NO = BillNo;//单据编号
+                taskrecord.CELL_CODE = cellcode;//
+                taskrecord.ACTION = "0"; //清空操作
+                taskrecord.ITEM_NO = TaskrecordRepository.GetQueryable().Where(i => i.BILL_NO == BillNo).Count()+1;//序号
+                taskrecord.PRODUCT_CODE = productcode;
+                taskrecord.PRODUCT_BARCODE = errorcell.PRODUCT_BARCODE;
+                taskrecord.REAL_WEIGHT = (decimal)errorcell.REAL_WEIGHT;//实际重量
+                taskrecord.PRODUCT_TYPE = taskquery.PRODUCT_TYPE;//货物类型
+                taskrecord.PALLET_CODE = errorcell.PALLET_CODE; //托盘RFID
+                taskrecord.TASK_DATE = DateTime.Now;//任务时间
+                taskrecord.TASKER = tasker;//操作人员
+                taskrecord.IS_MIX = taskquery.IS_MIX;//是否混转
+                taskrecord.INBILL_NO = inBillNo;//入库批次
+                TaskrecordRepository.Add(taskrecord);
+
+                errorcell.PRODUCT_CODE = "";
+                errorcell.PRODUCT_BARCODE = "";
+                errorcell.REAL_WEIGHT = 0;
+                errorcell.SCHEDULE_NO = "";
+                errorcell.PALLET_CODE = "";
+                errorcell.BILL_NO = "";
+                errorcell.IN_DATE = null;
+                errorcell.MEMO = "";
+                errorcell.ERROR_FLAG = "0";
+                errorcell.NEW_PALLET_CODE = "";
+                errorcell.IS_LOCK = "0";
+
+                int result = CMDCellRepository.SaveChanges();
+                if (result == -1) return false;
+            }
+            else
+            {
+                errorinfo = "在该批次下的该产品所占用的货位中找不到该货位,或者该货位不是异常货位";
+                return false;
+            }
+            return true;
+
+        }
+
+        //补录数据
+        public bool Completedata(WMS_TASKRECORD taskrecord, string tasker, DateTime indate,ref string errorinfo)
+        {
+            var completecell = CMDCellRepository.GetQueryable().FirstOrDefault(i => i.CELL_CODE == taskrecord.CELL_CODE&&i.ERROR_FLAG!="1"&&i.IS_LOCK =="0"&&i.IS_ACTIVE =="1"&&string.IsNullOrEmpty (i.PRODUCT_CODE ));
+            if (completecell != null)
+            {
+                taskrecord.ITEM_NO = TaskrecordRepository.GetQueryable().Where(i => i.BILL_NO == taskrecord .BILL_NO).Count() + 1;//序号
+                taskrecord.TASKER = tasker;
+                taskrecord.TASK_DATE = DateTime.Now;
+                TaskrecordRepository.Add(taskrecord);
+
+                completecell.PRODUCT_CODE = taskrecord.PRODUCT_CODE;
+                completecell.PRODUCT_BARCODE = taskrecord.PRODUCT_BARCODE;
+                completecell.PALLET_CODE = taskrecord.PALLET_CODE;
+                completecell.REAL_WEIGHT = taskrecord.REAL_WEIGHT;
+                completecell.BILL_NO = taskrecord.INBILL_NO;
+                completecell.ERROR_FLAG = "0";
+                completecell.IN_DATE = indate;
+
+                int result = CMDCellRepository.SaveChanges();
+                if (result == -1) return false;
+            }
+            else {
+                errorinfo = "在该批次下的该产品所占用的货位中找不到该货位,或者该货位不是异常货位";
+                return false;
+            }
+            return true;
+        }
+
+        //获取某损益单下的作业明细
+        public object GetTaskrecordDetail(int page, int rows, string billno, string productcode)
+        {
+            IQueryable<WMS_TASKRECORD> taskrecordquery = TaskrecordRepository.GetQueryable();
+            IQueryable<AUTH_USER> userquery = UserRepository.GetQueryable();
+            IQueryable<CMD_PRODUCT> productquery = CMDProductRepository.GetQueryable();
+            IQueryable<SYS_TABLE_STATE> statequery = SysTableStateRepository.GetQueryable();
+            var taskrecord = from a in taskrecordquery
+                             join b in userquery on a.TASKER equals b.USER_ID
+                             join c in productquery on a.PRODUCT_CODE equals c.PRODUCT_CODE
+                             join d in statequery on a.IS_MIX equals d.STATE
+                             where d.TABLE_NAME == "WMS_PRODUCT_STATE" && d.FIELD_NAME == "IS_MIX"
+                             select new { 
+                                 a.BILL_NO ,
+                                 a.ITEM_NO ,
+                                 a.PRODUCT_CODE ,
+                                 c.PRODUCT_NAME ,
+                                 c.WEIGHT ,
+                                 a.REAL_WEIGHT ,
+                                 a.PRODUCT_BARCODE ,
+                                 a.PALLET_CODE ,
+                                 a.PRODUCT_TYPE,
+                                 a.CELL_CODE ,
+                                 a.ACTION ,
+                                 a.TASK_DATE ,
+                                 a.TASKER,
+                                 b.USER_NAME ,
+                                 a.IS_MIX ,
+                                IS_MIXDESC= d.STATE_DESC ,
+                                 a.INBILL_NO 
+                             };
+            if (!string.IsNullOrEmpty(billno)) {
+                taskrecord = taskrecord.Where(i => i.BILL_NO == billno);
+            }
+            if (!string.IsNullOrEmpty(productcode)) {
+                taskrecord = taskrecord.Where(i => i.PRODUCT_CODE == productcode);
+            }
+           taskrecord = taskrecord.OrderBy(i => i.ITEM_NO);
+           int total = taskrecord.Count();
+           taskrecord = taskrecord.Skip((page - 1) * rows).Take(rows);
+           var temp = taskrecord.ToArray().Select(a=> new {
+               a.BILL_NO,
+               a.ITEM_NO,
+               a.PRODUCT_CODE,
+               a.PRODUCT_NAME,
+               a.WEIGHT,
+               a.REAL_WEIGHT,
+               a.PRODUCT_BARCODE,
+               a.PALLET_CODE,
+               a.PRODUCT_TYPE,
+               PRODUCT_TYPEDESC = a.PRODUCT_TYPE == "1" ? "烟包托盘" : "空托盘组",
+               a.CELL_CODE,
+               a.ACTION ,
+               ACTIONDESC=a.ACTION=="0"?"清空":"补录",
+               TASK_DATE = a.TASK_DATE == null ? "" : ((DateTime)a.TASK_DATE).ToString("yyyy-MM-dd HH:mm:ss"),
+               a.TASKER,
+               a.USER_NAME ,
+               a.IS_MIX,
+               a.IS_MIXDESC ,
+               a.INBILL_NO 
+           });
+           return new { total, rows = temp };
+        }
     }
 }

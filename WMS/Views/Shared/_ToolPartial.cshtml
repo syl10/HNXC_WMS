@@ -11,6 +11,8 @@
     {<a id="delete" href="#" class="easyui-linkbutton" plain="true" fun="true">删除</a>}
     @if (ViewBag.hasSave != null && ViewBag.hasSave)
     {<a id="save" href="#" class="easyui-linkbutton" plain="true" fun="true">保存</a>}
+    @if (ViewBag.hasCopy != null && ViewBag.hasCopy)
+    {<a id="copy" href="#" class="easyui-linkbutton" plain="true" fun="true">复制</a>}
     @if (ViewBag.hasFunctionAdmin != null && ViewBag.hasFunctionAdmin)
     {<a id="functionadmin" href="#" class="easyui-linkbutton" plain="true" fun="true">功能</a>}
     @if (ViewBag.hasPermissionAdmin != null && ViewBag.hasPermissionAdmin)
@@ -39,16 +41,23 @@
     {<a id="anticonfirm" href="#" class="easyui-linkbutton"  plain="true" fun="true">反确认</a>}
     @if (ViewBag.hasTask != null && ViewBag.hasTask)
     {<a id="task" href="#" class="easyui-linkbutton"  plain="true" fun="true">作业</a>}
+    @if (ViewBag.hasBarcode != null && ViewBag.hasBarcode)
+    {<a id="barcode" href="#" class="easyui-linkbutton"  plain="true" fun="true">条码</a>}
     @if (ViewBag.hasSettle != null && ViewBag.hasSettle)
     {<a id="settle" href="#" class="easyui-linkbutton"  plain="true" fun="true">结单</a>} 
     @if (ViewBag.hasMigration != null && ViewBag.hasMigration)
-    {<a id="migration" href="#" class="easyui-linkbutton" plain="true" fun="true">迁移</a>}                                                                                                       
+    {<a id="migration" href="#" class="easyui-linkbutton" plain="true" fun="true">迁移</a>}    
+    @if (ViewBag.hasOutstore != null && ViewBag.hasOutstore)
+    {<a id="outstore" href="#" class="easyui-linkbutton" plain="true" fun="true">生成出库单</a>}  
+  @if (ViewBag.hasMix != null && ViewBag.hasMix)
+    {<a id="mix" href="#" class="easyui-linkbutton" plain="true" fun="true">混装</a>}                                                                                         
     @if (ViewBag.hasPrint != null && ViewBag.hasPrint)
     {<a id="print" href="#" class="easyui-linkbutton"  plain="true" fun="true">打印</a>}
     @if (ViewBag.hasHelp != null && ViewBag.hasHelp)
     {<a id="help" href="#" class="easyui-linkbutton"  plain="true" fun="true">帮助</a>}
+    @if (ViewBag.hasExit != null && ViewBag.hasExit)
+    {<a id="exit" href="#" class="easyui-linkbutton"  plain="true" fun="true">退出</a>} 
     @if (ViewBag.hasUpload != null && ViewBag.hasUpload)
-        
     {<a id="upload" href="#" class="easyui-linkbutton"  plain="true" fun="true">上报</a>}
     @if (ViewBag.hasApply != null && ViewBag.hasApply)
     {<a id="apply" href="#" class="easyui-linkbutton" plain="true" fun="true">申请</a>}
@@ -58,6 +67,5 @@
     {<a id="finish" href="#" class="easyui-linkbutton" plain="true" fun="true">完成</a>}
     @if (ViewBag.hasBatch != null && ViewBag.hasBatch)
     {<a id="batch" href="#" class="easyui-linkbutton" plain="true" fun="true">批量</a>}
-    
 
 </div>

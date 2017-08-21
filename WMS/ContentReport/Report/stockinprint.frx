@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report ScriptLanguage="CSharp" ReportInfo.Created="11/15/2013 16:47:18" ReportInfo.Modified="01/21/2014 09:40:48" ReportInfo.CreatorVersion="1.9.9.0">
+  <Dictionary>
+    <ViewDataSource Name="billreportprint" ReferenceName="billreportprint" DataType="System.Int32" Enabled="true">
+      <Column Name="MBILL_NO" DataType="System.String"/>
+      <Column Name="BILL_DATE" DataType="System.DateTime"/>
+      <Column Name="BTYPE_CODE" DataType="System.String"/>
+      <Column Name="BTYPE_NAME" DataType="System.String"/>
+      <Column Name="SCHEDULE_NO" DataType="System.String"/>
+      <Column Name="WAREHOUSE_CODE" DataType="System.String"/>
+      <Column Name="WAREHOUSE_NAME" DataType="System.String"/>
+      <Column Name="TARGET_CODE" DataType="System.String"/>
+      <Column Name="TARGET_NAME" DataType="System.String"/>
+      <Column Name="STATUS" DataType="System.String"/>
+      <Column Name="STATE" DataType="System.String"/>
+      <Column Name="SOURCE_BILLNO" DataType="System.String"/>
+      <Column Name="OPERATER" DataType="System.String"/>
+      <Column Name="OPERATE_DATE" DataType="System.DateTime"/>
+      <Column Name="CHECKER" DataType="System.String"/>
+      <Column Name="CHECK_DATE" DataType="System.DateTime"/>
+      <Column Name="TASKER" DataType="System.String"/>
+      <Column Name="TASK_DATE" DataType="System.DateTime"/>
+      <Column Name="BILL_METHOD" DataType="System.String"/>
+      <Column Name="SCHEDULE_ITEMNO" DataType="System.Decimal"/>
+      <Column Name="LINE_NO" DataType="System.String"/>
+      <Column Name="LINE_NAME" DataType="System.String"/>
+      <Column Name="CIGARETTE_CODE" DataType="System.String"/>
+      <Column Name="CIGARETTE_NAME" DataType="System.String"/>
+      <Column Name="FORMULA_CODE" DataType="System.String"/>
+      <Column Name="FORMULA_NAME" DataType="System.String"/>
+      <Column Name="BATCH_WEIGHT" DataType="System.Decimal"/>
+      <Column Name="DBILL_NO" DataType="System.String"/>
+      <Column Name="ITEM_NO" DataType="System.Decimal"/>
+      <Column Name="PRODUCT_CODE" DataType="System.String"/>
+      <Column Name="PRODUCT_NAME" DataType="System.String"/>
+      <Column Name="WEIGHT" DataType="System.Decimal"/>
+      <Column Name="REAL_WEIGHT" DataType="System.Decimal"/>
+      <Column Name="PACKAGE_COUNT" DataType="System.Decimal"/>
+      <Column Name="NC_COUNT" DataType="System.Decimal"/>
+      <Column Name="IS_MIX" DataType="System.String"/>
+      <Column Name="ISMIX" DataType="System.String"/>
+      <Column Name="FPRODUCT_CODE" DataType="System.String"/>
+      <Column Name="YEARS" DataType="System.String"/>
+      <Column Name="ORIGINAL_NAME" DataType="System.String"/>
+      <Column Name="GRADE_NAME" DataType="System.String"/>
+      <Column Name="CATEGORY_NAME" DataType="System.String"/>
+      <Column Name="STYLE_NAME" DataType="System.String"/>
+      <Column Name="BILLMETHODCODE" DataType="System.String"/>
+    </ViewDataSource>
+  </Dictionary>
+  <ReportPage Name="Page1">
+    <GroupHeaderBand Name="GroupHeader1" Width="718.2" Height="204.96" StartNewPage="true" Condition="[billreportprint.MBILL_NO]">
+      <TableObject Name="Table2" Left="0.36" Top="53.75" Width="743.82" Height="90.72">
+        <TableColumn Name="Column6" Width="65.04"/>
+        <TableColumn Name="Column7" Width="139.27"/>
+        <TableColumn Name="Column8" Width="65.03"/>
+        <TableColumn Name="Column9" Width="92.21"/>
+        <TableColumn Name="Column10"/>
+        <TableColumn Name="Column11" Width="132.53"/>
+        <TableColumn Name="Column12" Width="65.06"/>
+        <TableColumn Name="Column13" Width="118.53"/>
+        <TableRow Name="Row2" Height="15.12">
+          <TableCell Name="Cell6" Text="单据编号:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell7" Text="[billreportprint.MBILL_NO]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell8" Text="单据日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell9" Text="[billreportprint.BILL_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell10" Text="单据类型:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell11" Text="[billreportprint.BTYPE_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell12" Text="单据方式:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell13" Text="[billreportprint.BILL_METHOD]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row3">
+          <TableCell Name="Cell14" Text="仓库名称:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell15" Text="[billreportprint.WAREHOUSE_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell16" Text="单据来源:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell17" Text="[billreportprint.STATUS]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell18" Text="单据状态:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell19" Text="[billreportprint.STATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell20" Text="来源单号:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell21" Text="[billreportprint.SOURCE_BILLNO]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row4">
+          <TableCell Name="Cell22" Text="牌号:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell23" Text="[billreportprint.CIGARETTE_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell24" Text="配方:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell25" Text="[billreportprint.FORMULA_NAME]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell26" Text="批次重量:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell27" Text="[billreportprint.BATCH_WEIGHT] 公斤" Font="宋体, 9pt"/>
+          <TableCell Name="Cell28" Text="操作人:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell29" Text="[billreportprint.OPERATER]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row5">
+          <TableCell Name="Cell30" Text="操作日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell31" Text="[billreportprint.OPERATE_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell32" Text="审核人:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell33" Text="[billreportprint.CHECKER]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell34" Text="审核日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell35" Text="[billreportprint.CHECK_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell36" Text="作业人:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell37" Text="[billreportprint.TASKER]" Font="宋体, 9pt"/>
+        </TableRow>
+        <TableRow Name="Row6">
+          <TableCell Name="Cell38" Text="作业日期:" Font="宋体, 9pt"/>
+          <TableCell Name="Cell39" Text="[billreportprint.TASK_DATE]" Font="宋体, 9pt"/>
+          <TableCell Name="Cell40" Font="宋体, 9pt"/>
+          <TableCell Name="Cell41" Font="宋体, 9pt"/>
+          <TableCell Name="Cell42" Font="宋体, 9pt"/>
+          <TableCell Name="Cell43" Font="宋体, 9pt"/>
+          <TableCell Name="Cell44" Font="宋体, 9pt"/>
+          <TableCell Name="Cell45" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <TableObject Name="Table4" Left="3.04" Top="184.98" Width="740.07" Height="18.9">
+        <TableColumn Name="Column24" Width="33.1"/>
+        <TableColumn Name="Column30" Width="59.17"/>
+        <TableColumn Name="Column32" Width="48.79"/>
+        <TableColumn Name="Column33" Width="62.19"/>
+        <TableColumn Name="Column34"/>
+        <TableColumn Name="Column35"/>
+        <TableColumn Name="Column40"/>
+        <TableColumn Name="Column25" Width="71.82"/>
+        <TableColumn Name="Column26" Width="33.29"/>
+        <TableColumn Name="Column27" Width="47.87"/>
+        <TableColumn Name="Column28" Width="34.19"/>
+        <TableColumn Name="Column29" Width="151.2"/>
+        <TableRow Name="Row10">
+          <TableCell Name="Cell70" Text="序号" Font="宋体, 9pt"/>
+          <TableCell Name="Cell76" Text="产品名称" Font="宋体, 9pt"/>
+          <TableCell Name="Cell78" Text="年份" Font="宋体, 9pt"/>
+          <TableCell Name="Cell79" Text="等级" Font="宋体, 9pt"/>
+          <TableCell Name="Cell80" Text="形态" Font="宋体, 9pt"/>
+          <TableCell Name="Cell81" Text="原产地" Font="宋体, 9pt"/>
+          <TableCell Name="Cell86" Text="类别" Font="宋体, 9pt"/>
+          <TableCell Name="Cell71" Text="实际重量" Font="宋体, 9pt"/>
+          <TableCell Name="Cell72" Text="包数" Font="宋体, 9pt"/>
+          <TableCell Name="Cell73" Text="NC包数" Font="宋体, 9pt"/>
+          <TableCell Name="Cell74" Text="混装" Font="宋体, 9pt"/>
+          <TableCell Name="Cell75" Text="混装第一笔产品代码" Font="宋体, 9pt"/>
+        </TableRow>
+      </TableObject>
+      <LineObject Name="Line1" Left="0.21" Top="163.95" Width="729.61"/>
+      <TextObject Name="Text1" Left="1.91" Top="16.08" Width="723.42" Height="18.9" Text="入库单" HorzAlign="Center" Font="宋体, 14pt, style=Bold"/>
+      <DataBand Name="Data1" Top="208.96" Width="718.2" Height="19.89" DataSource="billreportprint">
+        <TableObject Name="Table1" Left="3.38" Top="2.1" Width="737.63" Height="16.66">
+          <TableColumn Name="Column2" Width="34.97"/>
+          <TableColumn Name="Column31" Width="58.22"/>
+          <TableColumn Name="Column36" Width="46.15"/>
+          <TableColumn Name="Column37" Width="63.32"/>
+          <TableColumn Name="Column38"/>
+          <TableColumn Name="Column39"/>
+          <TableColumn Name="Column41"/>
+          <TableColumn Name="Column3" Width="71.82"/>
+          <TableColumn Name="Column4" Width="33.47"/>
+          <TableColumn Name="Column5" Width="45.79"/>
+          <TableColumn Name="Column14" Width="34.24"/>
+          <TableColumn Name="Column15" Width="151.2"/>
+          <TableRow Name="Row1" Height="16.66">
+            <TableCell Name="Cell2" Text="[billreportprint.ITEM_NO]" HorzAlign="Center" Font="宋体, 9pt"/>
+            <TableCell Name="Cell77" Text="[billreportprint.PRODUCT_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell82" Text="[billreportprint.YEARS]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell83" Text="[billreportprint.GRADE_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell84" Text="[billreportprint.STYLE_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell85" Text="[billreportprint.ORIGINAL_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell87" Text="[billreportprint.CATEGORY_NAME]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell3" Text="[billreportprint.REAL_WEIGHT]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell4" Text="[billreportprint.PACKAGE_COUNT]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell5" Text="[billreportprint.NC_COUNT]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell46" Text="[billreportprint.ISMIX]" Font="宋体, 9pt"/>
+            <TableCell Name="Cell47" Text="[billreportprint.FPRODUCT_CODE]" Font="宋体, 9pt"/>
+          </TableRow>
+        </TableObject>
+        <Sort>
+          <Sort Expression="[billreportprint.ITEM_NO]"/>
+        </Sort>
+      </DataBand>
+      <GroupFooterBand Name="GroupFooter1" Top="232.85" Width="718.2"/>
+    </GroupHeaderBand>
+  </ReportPage>
+</Report>

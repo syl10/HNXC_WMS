@@ -1,0 +1,27 @@
+﻿<script type="text/javascript">
+    function deleteClick() {
+        iseditordelet = true;
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            if (row.STATE.search("审核") == -1) {
+                $('#dlg').dialog('open').dialog('setTitle', '删除');
+                $('#fm_SD').form('clear');
+                GetCigarette(); //获取牌号
+                $('#fm_SD').form('load', row);
+                $('#fm_SD .easyui-validatebox').validatebox({
+                    required: true
+                });
+                $('#SCHEDULE_NO').attr('readonly', true);
+            }
+            else {
+                $.messager.confirm('提示', '该记录已审核无法删除！');
+            }
+        } else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+        url = "/Schedule/Delet/";
+     }
+  
+</script>
+
+

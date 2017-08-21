@@ -32,7 +32,7 @@
                         系统名称
                     </th>
                     <th field="Description" width="200px">
-                        系统描述
+                        备注
                     </th>
                     <th field="Status" width="80px">
                         是否可用
@@ -42,8 +42,10 @@
         </table>
     </div>
     <div id="dlg-system-buttons" style="float: right; margin-top: 10px; margin-right: 10px;">
-        <a href="#" class="easyui-linkbutton" iconcls="icon-ok" onclick="systemNameSave()">确定</a>
+@*        <a href="#" class="easyui-linkbutton" iconcls="icon-ok" onclick="systemNameSave()">确定</a>
         <a href="#" class="easyui-linkbutton" iconcls="icon-cancel" onclick="javascript:$('#dlg-system').dialog('close')">
-            取消 </a>
+            取消 </a>*@
+      <input type="button"  onclick="systemNameSave()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#dlg-system').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
     </div>
 </div>

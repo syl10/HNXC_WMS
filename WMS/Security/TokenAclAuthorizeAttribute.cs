@@ -31,7 +31,7 @@ namespace THOK.Security
             if (!AuthorizeCore(filterContext.HttpContext))
             {
                 FormsAuthentication.SignOut();
-                throw new UnauthorizedAccessException("该账户在别的地方已登录，您可以尝试重新登陆或退出！");
+                filterContext.HttpContext.Response.Redirect("/Account/LogRegOff");
             }
         }
     }

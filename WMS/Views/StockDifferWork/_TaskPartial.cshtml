@@ -1,0 +1,311 @@
+﻿<script type="text/javascript">
+    //作业功能
+    function taskClick() {
+        var row = $('#details').datagrid('getSelected');
+        if (row) {
+            if (row.STATE == "2") { //已审核状态下
+                $('#dlg').dialog('open').dialog('setTitle', '作业');
+                loaddetail('/StockInBill/GetSubdetail/?page=1&rows=20000&BillNo=' + row.BILL_NO)
+            }
+            else {
+                $.messager.confirm('提示', '该记录已' + row.STATENAME + '不可重复作业！');
+            }
+        }
+        else {
+            $.messager.confirm('错误', '没有选择行！');
+        }
+    }
+    //分解该条单据下的明细,即拆包.
+    function loaddetail(url) {
+        $('#inBillDetail').datagrid('loadData', { total: 0, rows: [] });
+        $('#inBillDetail').datagrid({
+            border: false,
+            width: 800,
+            fit: true,
+            fitcolumns: false,
+            rownumbers: true,
+            pagination: false,
+            singleSelect: true,
+            url: url,
+            columns: [[
+                               { field: 'ITEM_NO', width: 60, title: '序号', hidden: true },
+                               { field: 'PRODUCT_CODE', width: 130, align: 'center', title: '产品代码' },
+                               { field: 'PRODUCT_NAME', width: 100, align: 'center', title: '产品名称' },
+            //                               { field: 'WEIGHT', width: 50, title: '重量' },
+                               {field: 'REAL_WEIGHT', width: 60, align: 'center', title: '实际重量' },
+                               { field: 'PACKAGE_COUNT', width: 50, align: 'center', title: '包数' },
+                               { field: 'CELL_CODE', width: 120, align: 'center', title: '货位号',
+                                   formatter: function (value, row, index) {
+                                       return "<input  id='cell" + index + "' name='CELL_CODE'  class='easyui-combogrid' style='height:20px; width:100%;' />";
+                                   }
+                               },
+                               { field: 'PRODUCT_BARCODE', width: 150, align: 'center', title: '产品条码',
+                                   formatter: function (value, row, index) {
+                                       return "<input id='barcode" + index + "' name='PRODUCT_BARCODE'  style='height:20px; width:100%; border:none'/>";
+                                   }
+                               },
+            //                               { field: 'BILL_NO', width: 130, title: '入库批次' },
+                               {field: 'PALLET_CODE', width: 150, align: 'center', title: '托盘RFID',
+                               formatter: function (value, row, index) {
+                                   return "<input id='palletcode" + index + "' name='PALLET_CODE'   style='height:20px; width:100%; border:none'/>";
+                               }
+                           },
+                               { field: 'IN_DATE', width: 130, align: 'center', title: '入库日期',
+                                   formatter: function (value, row, index) {
+                                       return "<input id='indate" + index + "' type='text'   style='height:20px; width:100%; border:none'/>";
+                                   }
+                               },
+                               { field: 'operate', width: 130, align: 'center', title: '操作',
+                                   formatter: function (value, row, index) {
+                                       if (row.PACKAGE_COUNT > 0) {
+                                           return "<input type='button'  onclick='Completedata(" + index + ")'  onmouseover='btmouseup(this)' onmouseout='btmouseout(this)'  class='btclearoradd' value='补录'/>";
+                                       }
+                                       else {
+                                           return "<input type='button'  onclick='Cleardata(" + index + ")'  onmouseover='btmouseup(this)' onmouseout='btmouseout(this)'  class='btclearoradd' value='清空'/>";
+                                       }
+                                   }
+                               }
+                    ]],
+            onLoadSuccess: function (data) {
+                for (var i = 0; i < data.total; i++) {
+                    loadcell(i, data.rows[i].PRODUCT_CODE);
+                }
+            },
+            onClickRow: function (rowIndex, rowData) {
+                var row = $('#details').datagrid('getSelected');
+                $('#TaskRecord').datagrid({ url: '/StockDifferWork/TaskrecordDetail/?productcode=' + rowData.PRODUCT_CODE + '&Billno=' + row.BILL_NO });
+            }
+        });
+    }
+    //加载对应的带有错误标记的货位号
+    function loadcell(index,productcode) {
+        var row = $('#details').datagrid('getSelected');
+        $('#cell' + index).combogrid({
+            required: false,
+            disabled: false,
+            width: 100,
+            panelWidth: 400,
+            url: '/StockDifferWork/geterrorcell/?BillNo=' + row.SOURCE_BILLNO + '&productcode=' + productcode,
+            idField: 'CELL_CODE',
+            textField: 'CELL_CODE',
+            mode: 'local',
+            editable: true,
+            fitColumns: true,
+            columns: [[
+                    { field: 'CELL_CODE', title: '货位号', align: 'left', width: 60 },
+                    { field: 'PRODUCT_BARCODE', title: '条码', align: 'left', width: 120 },
+                     { field: 'PALLET_CODE', title: '托盘RFID', align: 'left', width: 100 },
+                     { field: 'IN_DATE', title: '入库日期', align: 'left', width: 100 },
+                     { field: 'OTHER', title: '错误标记', align: 'left', width: 100 }
+                ]],
+            filter: function (q, row) {
+                var opts = $(this).combogrid('options');
+                return row[opts.textField].indexOf(q) == 0;
+            },
+            onSelect: function (rowIndex, rowData) {
+                var billrow = $('#inBillDetail').datagrid('getSelected');
+                var billselectindex = $('#inBillDetail').datagrid('getRowIndex', billrow);
+                $('#barcode' + billselectindex).val(rowData.PRODUCT_BARCODE);
+                $('#palletcode' + billselectindex).val(rowData.PALLET_CODE);
+                $('#indate' + billselectindex).val(rowData.IN_DATE);
+            }
+        });
+    }
+    //清空数据函数
+    function Cleardata(index) {
+        var cellcode = $('#cell' + index).combogrid('getText');
+        if (cellcode != "") {
+            $.messager.confirm('提示', '确定清空货位号为:' + cellcode + '上的产品信息?', function (r) {
+                if (r) {  //清空数据
+                    var billrow = $('#inBillDetail').datagrid('getSelected');
+                    var row = $('#details').datagrid('getSelected');
+                    $.getJSON("/StockDifferWork/Clearerrorcell/?Cellcode=" + cellcode + "&inBillNo=" + row.SOURCE_BILLNO + "&productcode=" + billrow.PRODUCT_CODE + "&BillNo=" + row.BILL_NO, function (json) {
+                        if (json) {
+                            if (json.success) {
+                                loadcell(index, billrow.PRODUCT_CODE);
+                                $('#cell' + index).combogrid('setText', '');
+                                $('#barcode' + index).val('');
+                                $('#palletcode' + index).val('');
+                                $('#indate' + index).val('');
+                            }
+                            $.messager.show({
+                                title: '提示',
+                                msg: json.msg
+                            });
+                        }
+                    });
+                }
+            });
+        }
+        else {
+            $.messager.confirm('提示', '请选择货位！');
+        }
+    }
+    var completeindex;
+    //弹出补录数据确认对话框函数
+    function Completedata(index) {
+        completeindex = index;
+        var cellcode = $('#cell' + index).combogrid('getText');
+        if (cellcode != "") {
+            var row = $('#inBillDetail').datagrid('getSelected');
+            var billrow = $('#details').datagrid('getSelected');
+            $('#comfirmdlg').dialog('open').dialog('setTitle', '补录信息确认');
+            $('#fm').form('clear'); 
+            $('#fm').form('load', row); 
+            $('#CELL_CODE').val($('#cell'+index).combogrid('getText'));
+            $('#INBILL_NO').val(billrow.SOURCE_BILLNO);
+//            $('#PRODUCT_CODE').val(row.PRODUCT_CODE);
+            $('#PRODUCT_BARCODE').val($('#barcode'+index).val());
+            $('#PALLET_CODE').val($('#palletcode' + index).val());
+        }
+        else {
+            $.messager.confirm('提示', '请选择货位！');
+        }
+    }
+    //确认补录函数
+    function Comfirmcomplete() {
+        var row = $('#details').datagrid('getSelected');
+        $('#fm').form('submit', {
+            url: "/StockDifferWork/Completerecoder/?BillNo=" + row.BILL_NO + "&indate=" + $('#indate' + completeindex).val(),
+               onSubmit: function () {
+                   return $(this).form('validate');
+               },
+               success: function (result) {
+                   var result = eval('(' + result + ')');
+                   if (result.success) {
+                       $.messager.show({
+                           title: '成功',
+                           msg: result.msg
+                       });
+                       $('#dlg').dialog('close');
+                       $('#TaskRecord').datagrid('reload');
+                   } else {
+                       $.messager.show({
+                           title: '错误',
+                           msg: result.msg
+                       });
+                       $('#TaskRecord').datagrid('reload');
+                   }
+               }
+           });
+       }
+       function Save() {
+           $.messager.confirm('提示', '确认完成作业?', function (r) {
+               if (r) { //修改单据状态为作业
+                   var row = $('#details').datagrid('getSelected');
+                   $.getJSON("/StockDifferWork/Taskover/?BillNo=" + row.BILL_NO, function (json) {
+                       if (json) {
+                           $.messager.show({
+                               title: '提示',
+                               msg: json.msg
+                           });
+                       }
+                   });
+               }
+           });
+       }
+</script>
+
+<div id="dlg" class="easyui-dialog" modal="true" resizable="true"
+        style="width:900px;height:450px;padding:0px 0px"
+        closed="true" buttons="#dlg-buttons">
+	<div class="easyui-layout" fit="true">
+        <div region="center" border="false">
+            <table class="easyui-datagrid" border="false" toolbar="#dlg-detailButtons" width="790" id="inBillDetail"
+                fit="true" fitColumns="true" singleSelect="true" rownumbers="true" pagination="false" url="" striped="true">
+               
+            </table>
+        </div>
+        <div region="south" split="true" border="false" style="height: 220px;  border-top-width: 1px;  border-top-style: solid; border-top-width: 1px; border-top-color: 99BBE8;">
+<table id="TaskRecord" class="easyui-datagrid" border="false"  striped="true" url=""
+            singleselect="true" fit="true" fitcolumns="true" pagination="true" rownumbers="true">
+            <thead>
+                <tr>
+                <th field="ITEM_NO" width="50"  >序号</th>
+                <th field="BILL_NO" width="80" hidden="true">损益单号</th>
+                <th field="INBILL_NO" width="80">入库批次</th>
+                <th field="PRODUCT_CODE" width="130">产品代码</th>
+                <th field="PRODUCT_NAME" width="100">产品名称</th>
+                <th field="WEIGHT" width="50">重量</th>
+                <th field="REAL_WEIGHT" width="60">实际重量</th>
+                <th field="PRODUCT_BARCODE" width="160">产品条码</th>
+                <th field="PALLET_CODE" width="60" >托盘RFID</th>
+               <th field="PRODUCT_TYPE" width="60" hidden="true">货物类型代码</th>
+               <th field="PRODUCT_TYPEDESC" width="70" >货物类型</th>
+               <th field="CELL_CODE" width="60">货位号</th>
+               <th field="ACTION" width="60"  hidden="true">执行动作代码</th>
+               <th field="ACTIONDESC" width="60">执行动作</th>
+               <th field="TASK_DATE" width="80">执行时间</th>
+               <th field="TASKER" width="80" hidden="true">操作人id</th>
+               <th field="USER_NAME" width="60">操作人</th>
+                <th field="IS_MIX" width="60" hidden="true">是否混装代码</th>
+                <th field="IS_MIXDESC" width="60" >混装</th>
+                </tr>
+            </thead>
+        </table>
+</div>
+    </div>
+</div>
+<div id="dlg-buttons">
+      <input type="button"  onclick="Save()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="保存"/>
+       <input type="button"  onclick="javascript:$('#dlg').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+
+    <div id="comfirmdlg" class="easyui-dialog" modal="true" Style="width:310px;height:350px;padding:2px 2px" closed="true" buttons="#comfirmdlg-buttons">
+		<div class="easyui-layout" fit="true">
+			<div region="center" border="false" style="padding:10px 10px;background:#fff;border:1px solid #ccc; " >     
+	            <form id="fm" method="post" novalidate>
+                    <table width="250">
+                      <tr>
+                        <td width="60">货位</td>
+                        <td  width="168"><input  id="CELL_CODE" name="CELL_CODE" class="easyui-validatebox"  required="true"  readonly="true" style="width: 130px;"/></td>
+                      </tr>
+                      <tr>
+                        <td width="60">入库批次</td>
+                        <td width="168"><input id="INBILL_NO" name="INBILL_NO" class="easyui-validatebox"   readonly="true" required="true" style="width: 130px"/></td>
+                      </tr>
+                       <tr>
+                        <td width="60">产品编号</td>
+                        <td width="168"><input id="PRODUCT_CODE"  name="PRODUCT_CODE" class="easyui-validatebox"  required="true" readonly="true" style="width: 130px"/></td>
+                      </tr>
+                       <tr>
+                        <td width="60">实际重量</td>
+                        <td width="168">
+                                 <input   name="REAL_WEIGHT" class="easyui-validatebox"  required="true" readonly="true" style="width: 130px"/></td>
+                        </tr>
+                        <tr >
+                        <td width="60">产品条码</td>
+                        <td width="168"><input id="PRODUCT_BARCODE" class="easyui-validatebox"   required="true" name="PRODUCT_BARCODE" readonly="true" style="width: 130px"/></td>
+                      </tr>
+                      <tr >
+                        <td width="60">托盘RFID</td>
+                        <td><input id="PALLET_CODE"  name="PALLET_CODE" class="easyui-validatebox"  required="true" readonly="true"  style="width: 130px;"/></td>
+                      </tr>
+                      <tr>
+                        <td width="60">货物类型</td>
+                        <td>
+                               <select name="PRODUCT_TYPE" class="easyui-combobox" required="true"  style="width: 70px">
+                                        <option value="1">烟包托盘</option>
+                                        <option value="2">空托盘组</option>
+                               </select>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>混装</td>
+                        <td>
+                               <select name="IS_MIX" class="easyui-combobox"  disabled="true"  style="width: 70px">
+                                        <option value="1">是</option>
+                                        <option value="0">否</option>
+                               </select>
+                        </td>
+                      </tr>
+                    </table>
+	            </form>
+            </div>
+        </div>
+    </div>
+    <div id="comfirmdlg-buttons">
+      <input type="button"  onclick="Comfirmcomplete()"  onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btok" value="确定"/>
+       <input type="button"  onclick="javascript:$('#comfirmdlg').dialog('close')" onmouseover="btmouseup(this)" onmouseout="btmouseout(this)"  class="btcance" value="取消"/>
+</div>
+
